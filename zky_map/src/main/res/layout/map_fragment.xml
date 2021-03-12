@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+
+        <variable
+            name="mapViewModle"
+            type="com.zky.zky_map.mvvm.viewmodle.MapViewModle" />
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/cl_touch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.esri.arcgisruntime.mapping.view.MapView
+            android:id="@+id/map_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_top"
+            android:layout_width="224dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/shap_map_dxm"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_dian"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:onClick="@{mapViewModle::startClick}"
+                android:visibility="@{mapViewModle.mapViewBean.dianShow?View.VISIBLE:View.GONE}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/aiv_dian"
+                    android:layout_width="15dp"
+                    android:layout_height="21dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@{mapViewModle.mapViewBean.lineTYpe==0?@drawable/select_dw:@drawable/dian_no}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text="点数据"
+                    android:textColor="@color/color_4a4a4a"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/aiv_dian"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="SmallSp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/v1"
+                android:layout_width="1dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="11dp"
+                android:background="@color/color_D1D1D1"
+                android:visibility="@{mapViewModle.mapViewBean.dianShow?View.VISIBLE:View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/cl_dian"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_xian"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:visibility="@{mapViewModle.mapViewBean.lineShow?View.VISIBLE:View.GONE}"
+                android:onClick="@{mapViewModle::startClick}"
+                app:layout_constraintLeft_toRightOf="@+id/v1"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/aiv_xian"
+                    android:layout_width="22dp"
+                    android:layout_height="17dp"
+                    android:layout_marginStart="12dp"
+                    android:src="@{mapViewModle.mapViewBean.lineTYpe==1?@drawable/xianed:@drawable/select_xian}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text="线数据"
+                    android:textColor="@color/color_4a4a4a"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/aiv_xian"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="SmallSp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/v2"
+                android:layout_width="1dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="11dp"
+                android:background="@color/color_D1D1D1"
+                android:visibility="@{mapViewModle.mapViewBean.lineShow?View.VISIBLE:View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/cl_xian"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_mian"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:onClick="@{mapViewModle::startClick}"
+                android:visibility="@{mapViewModle.mapViewBean.mianShow?View.VISIBLE:View.GONE}"
+                app:layout_constraintLeft_toRightOf="@+id/v2"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/aiv_mian"
+                    android:layout_width="21dp"
+                    android:layout_height="19dp"
+                    android:layout_marginStart="12dp"
+                    android:src="@{mapViewModle.mapViewBean.lineTYpe==2?@drawable/mianed:@drawable/select_mian}"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text="面数据"
+                    android:textColor="@color/color_4a4a4a"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/aiv_mian"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="SmallSp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="224dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="20dp"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/shap_map_dxm"
+            android:gravity="center"
+            android:text="@{mapViewModle.mapViewBean.tipText}"
+            android:textColor="@color/color_4a4a4a"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="@{safeUnbox(mapViewModle.mapViewBean.showTip)? View.VISIBLE: View.GONE}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_top" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_xm_v"
+            android:layout_width="224dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="20dp"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/shap_map_dxm"
+            android:visibility="@{safeUnbox(mapViewModle.mapViewBean.showSureModify)? View.VISIBLE : View.GONE}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_top">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/atv_cancle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{mapViewModle::startClick}"
+                android:text="取消"
+                android:textColor="@color/color_4a4a4a"
+                android:textSize="16sp"
+                android:textStyle="bold"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/atv_sure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:onClick="@{mapViewModle::startClick}"
+                android:text="确定"
+                android:textColor="@color/color_4a4a4a"
+                android:textSize="16sp"
+                android:textStyle="bold"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/atv_repal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="26dp"
+                android:onClick="@{mapViewModle::startClick}"
+                android:text="撤销"
+                android:textColor="@color/color_4a4a4a"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/aiv_dw"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="63dp"
+            android:onClick="@{mapViewModle::startClick}"
+            android:src="@drawable/dingwei"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="134dp"
+            android:layout_height="90dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/shape_fff_3"
+            android:visibility="@{safeUnbox(mapViewModle.mapViewBean.dianShowWT)? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toTopOf="@+id/aiv_center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/atv_wt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="拖动地图进行微调"
+                android:textColor="@color/color_4a4a4a"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/atv_latitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#ff999999"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/atv_wt" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/atv_longitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#ff999999"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/atv_latitude" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_dfdfdf"
+                app:layout_constraintTop_toBottomOf="@+id/atv_longitude" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/atv_dian_sure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="4dp"
+                android:onClick="@{mapViewModle::startClick}"
+                android:text="确定"
+                android:textColor="@color/color_4a90e2"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/atv_dian_cancle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="4dp"
+                android:onClick="@{mapViewModle::startClick}"
+                android:text="取消"
+                android:textColor="@color/color_9b9b9b"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/aiv_center"
+            android:layout_width="21dp"
+            android:layout_height="33dp"
+            android:src="@drawable/move_poiat"
+            android:visibility="@{mapViewModle.mapViewBean.dianShowWT? View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/abt_modify"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/button_4a90e2_selector"
+            android:gravity="center"
+            android:onClick="@{mapViewModle::startClick}"
+            android:text="@{mapViewModle.mapViewBean.lineOrSurfaceTipText}"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="@{mapViewModle.mapViewBean.showLineOrSurfaceModify? View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

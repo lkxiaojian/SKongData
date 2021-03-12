@@ -1,0 +1,96 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/color_126FB7</item>
+        <item name="colorPrimaryDark">@color/color_126FB7</item>
+        <item name="colorAccent">@color/color_126FB7</item>
+    </style>
+    <style name="Launcher" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="AppThemeBlack" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/color_666666</item>
+        <item name="colorPrimaryDark">@color/color_666666</item>
+        <item name="colorAccent">@color/color_ededed</item>
+    </style>
+
+
+    <!-- ToolBar菜单样式 -->
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="actionMenuTextColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+
+    <style name="Theme.Toolbar" parent="ThemeOverlay.AppCompat.ActionBar"></style>
+    <!--Toolbar 副标题的字体和颜色-->
+    <style name="Theme.Toolbar.SubTitle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+
+    <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="android:textSize">14sp</item>
+        <item name="android:radius">20dp</item>
+        <item name="overlapAnchor">true</item>  <!--把该属性改为false即可使menu位置位于toolbar之下-->
+    </style>
+
+    <style name="Theme.Toolbar.Title">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+
+
+
+    <style name="Theme.Toolbar.BlueSubTitle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_4a90e2</item>
+    </style>
+    <style name="Theme.Toolbar.BlueTitle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/color_4a90e2</item>
+    </style>
+
+
+
+    <style name="CustomDialog" parent="android:style/Theme.Dialog">
+        <!--背景颜色及和透明程度-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--是否去除标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!--是否去除边框-->
+        <item name="android:windowFrame">@null</item>
+        <!--是否浮现在activity之上-->
+        <item name="android:windowIsFloating">true</item>
+        <!--是否模糊-->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+
+
+    <style name="bottom_menu_animation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/scale_menu_enter</item>
+        <item name="android:windowExitAnimation">@anim/scale_menu_exit</item>
+    </style>
+
+    <style name="TabLayoutTextStyleC" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="TabLayoutTextStyleB" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+
+    <style name="white_3388EF_CheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/color_B3B3B3</item>
+        <item name="colorControlActivated">@color/color_3388EF</item>
+    </style>
+</resources>

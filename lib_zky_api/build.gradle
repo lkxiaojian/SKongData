@@ -1,0 +1,139 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-allopen'
+apply plugin: 'kotlin-noarg'
+//apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-kapt'
+
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+
+
+    }
+    kapt {
+//        generateStubs = true
+        arguments {
+            arg("AROUTER_MODULE_NAME", project.getName())
+            arg("AROUTER_GENERATE_DOC", "enable")
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+            if (isModule.toBoolean()) {
+            } else {
+                resources {
+                    //正式版本时，排除debug文件夹下所有调试文件
+                    exclude 'src/debug/*'
+                }
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures{
+        dataBinding true
+    }
+//    dataBinding {
+//        enabled true
+//    }
+
+    noArg{
+        annotation("com.zky.basics.annotation.AllowNoArg")
+    }
+
+    allOpen{
+        annotation("com.zky.basics.annotation.AllowNoArg")
+    }
+
+}
+//kotlin {
+//    experimental {
+//        coroutines 'enable'
+//    }
+//}
+
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    api (rootProject.ext.support["appcompatv7"]){
+        exclude group: 'androidx.fragment'
+        exclude group: 'androidx.activity'
+        exclude group: 'androidx.arch.core:core-common'
+        exclude group: 'androidx.core'
+        exclude group: 'androidx.arch.core'
+    }
+
+    //network
+    api (rootProject.ext.dependencies.okhttp)
+    api (rootProject.ext.dependencies.retrofit)
+
+    api (rootProject.ext.dependencies["converter-gson"])
+    api (rootProject.ext.dependencies["adapter-rxjava"])
+
+    api (rootProject.ext.dependencies["logging-interceptor"])
+    api (rootProject.ext.dependencies["arouter-api"])
+    kapt (rootProject.ext.dependencies["arouter-compiler"])
+
+//    api (rootProject.ext.support["kotlin-coroutines-core"])
+//    api (rootProject.ext.support["kotlin-coroutines-android"])
+
+    api (rootProject.ext.dependencies["room-runtime"]) {
+        exclude group: 'androidx.arch.core'
+    }
+    kapt (rootProject.ext.dependencies["room-compiler"])
+
+    api (rootProject.ext.dependencies["room-ktx"])
+
+
+    debugImplementation (rootProject.ext.dependencies["debug-db"])
+//    api(rootProject.ext.dependencies["room-rxjava2"]){
+//        exclude group: 'androidx.arch.core'
+//        exclude group: 'androidx.lifecycle'
+//        exclude group: 'androidx.core'
+//        exclude group: 'io.reactivex'
+//    }
+
+    testImplementation (rootProject.ext.dependencies["room-testing"]){
+        exclude group: 'androidx.arch.core'
+        exclude group: 'androidx.lifecycle'
+        exclude group: 'androidx.core'
+    }
+
+    //json解析
+    api (rootProject.ext.dependencies.gson)
+    //rx管理View的生命周期
+    api(rootProject.ext.dependencies.rxlifecycle) {
+        exclude group: 'com.android.support'
+    }
+    api(rootProject.ext.dependencies["rxlifecycle-components"]) {
+        exclude group: 'com.android.support'
+        exclude group: 'androidx.fragment'
+        exclude group: 'androidx.activity'
+        exclude group: 'androidx.core'
+        exclude group: 'androidx.arch.core'
+    }
+}

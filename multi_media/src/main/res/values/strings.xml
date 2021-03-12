@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">multi_media</string>
+    <string name="uploaded" translatable="false">已上传</string>
+    <string name="cached" translatable="false">已缓存</string>
+    <string name="uploader" translatable="false">上传者：%s </string>
+    <string name="upload_time" translatable="false">上传时间：%s </string>
+
+</resources>

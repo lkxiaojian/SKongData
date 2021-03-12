@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">lib_zky_mine</string>
+    <string name="info_phone" translatable="false">电话：%s </string>
+
+</resources>

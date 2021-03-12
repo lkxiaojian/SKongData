@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="mediaListViewModel"
+            type="com.zky.multi_media.mvvm.viewmodle.MediaImageListViewModle" />
+    </data>
+
+    <com.refresh.lib.DaisyRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/drl_media"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:enableLoadMore="@{safeUnbox(mediaListViewModel.enableLoadMore)}"
+        app:enableRefresh="@{safeUnbox(mediaListViewModel.enableRefresh)}"
+        app:onAutoRefreshCommand="@{mediaListViewModel.onAutoRefreshCommand}"
+        app:onLoadMoreCommand="@{mediaListViewModel.onLoadMoreCommand}"
+        app:onRefreshCommand="@{mediaListViewModel.onRefreshCommand}">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_f5f5f5"
+            app:linearLayoutManager="false" />
+    </com.refresh.lib.DaisyRefreshLayout>
+</layout>

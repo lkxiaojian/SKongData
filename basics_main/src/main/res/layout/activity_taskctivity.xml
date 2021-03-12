@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="taskViewModel"
+            type="com.zky.basics.main.mvvm.viewmodel.TaskViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_f5f5f5">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_task_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_3388EF"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:layout_width="257dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/shape_fff_3"
+                android:drawableStart="@drawable/task_search"
+                android:drawablePadding="7dp"
+                android:hint="按名称搜索"
+                android:textColor="#ff9b9b9b"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acb_search"
+                android:layout_width="55dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/shape_fff_3"
+                android:onClick="@{taskViewModel::startClick}"
+                android:text="搜索"
+                android:textColor="@color/color_3388EF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_task_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="10dp"
+            android:text="当前共有3条数据"
+            android:textColor="#ff666666"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_task_top" />
+
+
+        <com.refresh.lib.DaisyRefreshLayout
+            android:id="@+id/drl_task"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:enableLoadMore="@{safeUnbox(taskViewModel.enableLoadMore)}"
+            app:enableRefresh="@{safeUnbox(taskViewModel.enableRefresh)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@id/atv_task_count"
+            app:onAutoRefreshCommand="@{taskViewModel.onAutoRefreshCommand}"
+            app:onLoadMoreCommand="@{taskViewModel.onLoadMoreCommand}"
+            app:onRefreshCommand="@{taskViewModel.onRefreshCommand}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:linearLayoutManager="@{safeUnbox(taskViewModel.orientation)}" />
+
+        </com.refresh.lib.DaisyRefreshLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/aiv_add_task"
+            android:layout_width="94dp"
+            android:layout_height="94dp"
+            android:onClick="@{taskViewModel::startClick}"
+            android:scaleType="centerCrop"
+            android:src="@drawable/add_task"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

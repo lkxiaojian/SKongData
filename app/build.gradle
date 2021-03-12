@@ -1,0 +1,66 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.zky.sk.basics_module"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a" , "x86", "x86_64"
+//            abiFilters "armeabi", "armeabi-v7a"
+        }
+
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            multiDexEnabled true
+            //移除无用的资源文件
+            shrinkResources true
+            zipAlignEnabled true
+            debuggable false
+            jniDebuggable false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+//    dataBinding {
+//        enabled true
+//    }
+    buildFeatures{
+        dataBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':lib_common')
+
+    if (!isModule.toBoolean()) {
+        implementation project(':basics_main')
+        implementation project(':zky_map')
+        implementation project(':zky_mine')
+        implementation project(':multi_media')
+    }
+
+
+}
+repositories {
+    mavenCentral()
+}

@@ -1,0 +1,21 @@
+package com.zky.zky_mine.activity
+
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.zky.basics.common.mvvm.BaseActivity
+import com.zky.zky_mine.R
+import com.zky.zky_mine.fragment.MainMineFragment
+
+@Route(path = ARouterPath.MINE_MAIN, group = ARouterPath.GROUP_MINE)
+class ZkyJybMainActivity : BaseActivity() {
+
+    override fun onBindLayout() = R.layout.activity_zky_jyb_main
+    override fun initView() {
+        supportFragmentManager.beginTransaction().add(R.id.fl, MainMineFragment()).commit()
+    }
+
+    override fun initData() {
+    }
+
+    override val tootBarTitle = "我的"
+    override val isFullScreen = true
+}

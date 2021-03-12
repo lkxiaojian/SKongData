@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="videoViewModel"
+            type="com.zky.multi_media.mvvm.viewmodle.MediaVideoListViewModle" />
+    </data>
+
+    <com.refresh.lib.DaisyRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/drl_media"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:enableLoadMore="@{safeUnbox(videoViewModel.enableLoadMore)}"
+        app:enableRefresh="@{safeUnbox(videoViewModel.enableRefresh)}"
+        app:onAutoRefreshCommand="@{videoViewModel.onAutoRefreshCommand}"
+        app:onLoadMoreCommand="@{videoViewModel.onLoadMoreCommand}"
+        app:onRefreshCommand="@{videoViewModel.onRefreshCommand}">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_f5f5f5"
+            app:linearLayoutManager="false" />
+    </com.refresh.lib.DaisyRefreshLayout>
+</layout>

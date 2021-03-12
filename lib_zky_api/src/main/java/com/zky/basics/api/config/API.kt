@@ -1,0 +1,23 @@
+package com.zky.basics.api.config
+
+object API {
+
+
+    const val IP = "http://47.104.136.79:8080/";
+
+    //    const val IP = "https://www.qsdsj.net/"
+    const val URL_HOST = IP + "zkydls_shikong/"
+
+    //ali image
+    const val ImageFolderPath = "https://zkydls-test.oss-cn-beijing.aliyuncs.com/"
+
+    //ali upload file
+    const val ImageAliFolderPath = "oss-cn-beijing.aliyuncs.com"
+
+    //uploadUserHeadImg
+    const val uploadProjectFile = "uploadProjectFile.do"
+    const val URL_APP_UPDATE = "http://47.104.93.173:8080/edu_zxzjjg/getAppInfo.do"
+    const val PAGE_SIZE = 10
+    const val URL_UPLOAD_NEW = URL_HOST + "uploadProjectFile.do"
+    const val URL_UPLOAD_HEARD = URL_HOST + "uploadUserHeadImg.do"
+}

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.zky.basics.api.room.bean.MediaBean" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_click"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/aiv_media_v"
+            android:layout_width="104dp"
+            android:layout_height="66dp"
+            android:background="@color/color_E6E6E6"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.lastTime}"
+            android:textColor="@color/color_999999"
+            android:textSize="20sp"
+            android:layout_marginTop="23dp"
+            android:visibility="@{data.startIng==2?View.VISIBLE:View.GONE}"
+            app:layout_constraintLeft_toLeftOf="@id/aiv_media_v"
+            app:layout_constraintRight_toRightOf="@id/aiv_media_v"
+            app:layout_constraintTop_toTopOf="@id/aiv_media_v" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/aiv_start"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="4dp"
+            android:src="@mipmap/voice"
+            android:visibility="@{data.startIng ==1?View.VISIBLE:View.GONE}"
+            app:layout_constraintLeft_toLeftOf="@id/aiv_media_v"
+            app:layout_constraintRight_toRightOf="@id/aiv_media_v"
+            app:layout_constraintTop_toTopOf="@id/atv_time" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="4dp"
+            android:ellipsize="start"
+            android:maxEms="10"
+            android:singleLine="true"
+            android:text="@{data.file_name}"
+            android:textColor="@color/color_999999"
+            android:textSize="8sp"
+            app:layout_constraintBottom_toBottomOf="@+id/aiv_media_v"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/aiv_start"
+            tools:ignore="SmallSp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_hc_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@{data.isupload? @string/uploaded:@string/cached}"
+            android:textColor="@{data.isupload?@color/color_009688:@color/color_FA6400}"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="@id/aiv_media_v"
+            app:layout_constraintRight_toRightOf="@id/aiv_media_v"
+            app:layout_constraintTop_toBottomOf="@id/aiv_media_v" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,10 @@
+/.gradle/
+/.idea/
+/local.properties
+/app/release/
+/build/
+/lib_common/build/
+/lib_zky_api/build/
+/zky_map/build/
+/zky_mine/build/
+*.iml

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+      <import type="android.view.View"/>
+        <variable name="modifyViewModel" type="com.zky.zky_mine.mvvm.viewmodle.MineViewModle"/>
+
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/oldPassword"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/white_round_bg_shape"
+                android:drawablePadding="6dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:textColorHint="@color/color_b0b0b0"
+                android:textColor="@color/color_4a4a4a"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:hint="原密码"
+                android:maxLength="20"
+                android:text="@={modifyViewModel.oldPaw}"
+                android:inputType="textPassword"
+        />
+        <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/newPassword"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/oldPassword"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/white_round_bg_shape"
+                android:drawablePadding="6dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:textColorHint="@color/color_b0b0b0"
+                android:textColor="@color/color_4a4a4a"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:hint="新密码"
+                android:maxLength="20"
+                android:text="@={modifyViewModel.modifyPaw}"
+
+                android:inputType="textPassword"
+        />
+        <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/confirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/newPassword"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/white_round_bg_shape"
+                android:drawablePadding="6dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:textColorHint="@color/color_b0b0b0"
+                android:textColor="@color/color_4a4a4a"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:hint="确认新密码"
+                android:maxLength="20"
+                android:text="@={modifyViewModel.modifyQrPaw}"
+                android:inputType="textPassword"
+        />
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/modify_paw"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/confirmPassword"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:text="确     定"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/button_4a90e2_selector"
+                android:onClick="@{(view)->modifyViewModel.startClick(view)}"
+
+        />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

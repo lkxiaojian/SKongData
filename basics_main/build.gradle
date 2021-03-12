@@ -1,0 +1,36 @@
+apply from: "../module.build.gradle"
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-allopen'
+apply plugin: 'kotlin-noarg'
+
+android {
+    defaultConfig {
+        //如果是独立模块，则使用当前组件的包名
+        if (isModule.toBoolean()) {
+            applicationId "com.zky.basics.main"
+        }
+        multiDexEnabled true
+
+    }
+    kapt {
+        arguments {
+            arg("AROUTER_MODULE_NAME", project.getName())
+            arg("AROUTER_GENERATE_DOC", "enable")
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api project(':lib_common')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation ("androidx.constraintlayout:constraintlayout:$clayout_version")
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    kapt rootProject.ext.dependencies["arouter-compiler"]
+    kapt rootProject.ext.dependencies["dagger-compiler"]
+}

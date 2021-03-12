@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+                name="mapListViewModel"
+                type="com.zky.zky_map.mvvm.viewmodle.MapListViewModle"/>
+    </data>
+
+    <com.refresh.lib.DaisyRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/drl_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:onRefreshCommand="@{mapListViewModel.onRefreshCommand}"
+            app:onLoadMoreCommand="@{mapListViewModel.onLoadMoreCommand}"
+            app:onAutoRefreshCommand="@{mapListViewModel.onAutoRefreshCommand}"
+            app:enableRefresh="@{safeUnbox(mapListViewModel.enableRefresh)}"
+            app:enableLoadMore="@{safeUnbox(mapListViewModel.enableLoadMore)}"
+            >
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:linearLayoutManager="@{safeUnbox(mapListViewModel.orientation)}"
+                android:background="@color/color_f5f5f5"
+                />
+    </com.refresh.lib.DaisyRefreshLayout>
+</layout>

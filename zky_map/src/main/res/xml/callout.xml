@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    <calloutStyle-->
+<!--        backgroundColor="#ffffff"-->
+<!--        borderColor="#ffffff"-->
+<!--        borderWidth="0"-->
+<!--        cornerRadius="0"-->
+<!--        leaderLength="0"-->
+<!--        leaderPosition="AUTOMATIC"-->
+<!--        leaderWidth="0"-->
+<!--        maxHeight="0"-->
+<!--        maxWidth="0"-->
+<!--        minHeight="0" UPPER_MIDDLE  AUTOMATIC LOWER_MIDDLE-->
+<!--        minWidth="0" />-->
+
+
+    <calloutStyle
+        backgroundColor="#ffffff"
+        borderColor="#FF979797"
+        borderWidth="1"
+        cornerRadius="3"
+        leaderLength="15"
+        leaderPosition="LOWER_MIDDLE"
+        leaderWidth="15"
+        maxHeight="500"
+        maxWidth="500"
+        minHeight="35"
+        minWidth="100" />
+</resources>

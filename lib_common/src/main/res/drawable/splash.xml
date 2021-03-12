@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/sp_b"/>
+    <item android:gravity="top|center_horizontal"
+         android:top="86dp"
+        android:width="267dp"
+        android:height="52dp"
+        >
+        <bitmap android:src="@drawable/sp_top"/>
+    </item>
+<!--    <item android:id="@+id/splash_center"-->
+<!--          android:width="284dp"-->
+<!--          android:height="234dp"-->
+<!--          android:gravity="center">-->
+
+<!--        <bitmap android:src="@drawable/wel"/>-->
+<!--    </item>-->
+<!--    <item android:id="@+id/splash_bottom"-->
+<!--        android:bottom="20dp"-->
+<!--        android:width="270dp"-->
+<!--        android:height="24dp"-->
+<!--        android:gravity="bottom|center_horizontal">-->
+<!--    <bitmap android:src="@drawable/bom_tip"/>-->
+<!--    </item>-->
+
+</layer-list>

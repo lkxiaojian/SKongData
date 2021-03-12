@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.zky.basics.api.room.bean.MediaBean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.zky.basics.common.view.ZoomImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:loadimage="@{item.videoImagePath}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_upload_create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:text="@{@string/uploader(item.uploader)}"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/atv_create_time"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_create_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="@{@string/upload_time(item.create_data)}"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
