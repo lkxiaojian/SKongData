@@ -91,7 +91,7 @@ class MediaVoiceFragment :
             }
 
             override fun noPermission(denied: MutableList<String>?, never: Boolean) {
-//test
+//test1
                 PermissionToSetting(activity!!, denied!!, never, "获取存储权限失败")
             }
 
