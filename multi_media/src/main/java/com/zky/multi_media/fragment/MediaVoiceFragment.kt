@@ -5,6 +5,7 @@ import AudioUtlis
 import android.Manifest
 import android.content.Intent
 import android.media.MediaPlayer
+import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -78,12 +79,13 @@ class MediaVoiceFragment :
             override fun hasPermission(granted: MutableList<String>?, all: Boolean) {
                 if (all) {
                     if (bean.create_data.isNullOrEmpty()) {
+
                         ARouter.getInstance().build(ARouterPath.MEDIA_SELECT_VOICE).navigation(
                             mActivity,
                             0
                         )
                     } else {
-                            AudioUtlis().setAudioClick(mediaClick()).startAudio(bean.file_path)
+                        AudioUtlis().setAudioClick(mediaClick()).startAudio(bean.file_path)
                     }
                 }
             }
@@ -102,6 +104,7 @@ class MediaVoiceFragment :
         super.onActivityResult(requestCode, resultCode, data)
 
         if (data != null) {
+            mViewModel?.mList?.clear()
             val parcelableArrayListExtra = data.getParcelableArrayListExtra<MediaBean>("data")
             mViewModel?.mList?.addAll(0, parcelableArrayListExtra)
         }
@@ -110,13 +113,13 @@ class MediaVoiceFragment :
     }
 
 
-    inner class mediaClick: AudioUtlis.AudioClick{
+    inner class mediaClick : AudioUtlis.AudioClick {
         override fun completionListener(path: String) {
 
         }
 
         override fun startListener(path: String, length: Int) {
-            mViewModel?.setTime(path,length)
+            mViewModel?.setTime(path, length)
         }
 
         override fun pauseListener(path: String, length: Int) {
@@ -125,10 +128,9 @@ class MediaVoiceFragment :
     }
 
 
-
-
     companion object {
         private var fileType: Int = 1
+
         @JvmStatic
         fun mediaInstance(): Fragment {
             return MediaVoiceFragment()
