@@ -6,6 +6,7 @@ import android.Manifest
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -85,7 +86,8 @@ class MediaVoiceFragment :
                             0
                         )
                     } else {
-                        AudioUtlis().setAudioClick(mediaClick()).startAudio(bean.file_path)
+                        AudioUtlis.getAudioUtlis().setAudioClick(mediaClick())
+                            .startAudio(bean.file_path)
                     }
                 }
             }
@@ -101,13 +103,18 @@ class MediaVoiceFragment :
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
         super.onActivityResult(requestCode, resultCode, data)
-
+        val tmpList = arrayListOf<MediaBean>()
         if (data != null) {
-            mViewModel?.mList?.clear()
+            mViewModel?.mList?.let { tmpList.addAll(it) }
             val parcelableArrayListExtra = data.getParcelableArrayListExtra<MediaBean>("data")
-            mViewModel?.mList?.addAll(0, parcelableArrayListExtra)
+            parcelableArrayListExtra.forEach {
+                it.startIng = 1
+            }
+            tmpList.addAll(0, parcelableArrayListExtra)
+            val distinct = tmpList.distinctBy { it.file_path }
+            mViewModel?.mList?.clear()
+            mViewModel?.mList?.addAll(distinct)
         }
 
 
@@ -116,7 +123,7 @@ class MediaVoiceFragment :
 
     inner class mediaClick : AudioUtlis.AudioClick {
         override fun completionListener(path: String) {
-
+            mViewModel?.setTime(path, 0)
         }
 
         override fun startListener(path: String, length: Int) {
@@ -124,8 +131,15 @@ class MediaVoiceFragment :
         }
 
         override fun pauseListener(path: String, length: Int) {
+            mViewModel?.setTime(path, length)
+            mViewModel?.vioceStop()
         }
 
+    }
+
+    override fun onStop() {
+        super.onStop()
+        AudioUtlis.getAudioUtlis().stop("")
     }
 
 

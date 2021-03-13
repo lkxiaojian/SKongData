@@ -24,9 +24,12 @@ class MediaVoiceListViewModle(application: Application, mediaModel: MediaModel) 
 
     override fun enableLoadMore() = false
     override fun enableRefresh() = false
-    private val timer = Timer()
+    private var timer: Timer? = null
+    private var task: tTask? = null
+    private var length = 0
 
-    fun setTime(path: String, length: Int) {
+    fun setTime(path: String, _length: Int) {
+        length = _length
         var position = -1
         for ((index, bean) in mList.withIndex()) {
             if (bean.create_data.isNullOrEmpty()) {
@@ -39,23 +42,56 @@ class MediaVoiceListViewModle(application: Application, mediaModel: MediaModel) 
                 mList[index].startIng = 1
             }
         }
-//        timer.cancel()
-        timer.schedule(tTask(position, length), 0, 1000)
+
+        if (timer != null) {
+            task?.cancel()
+            task = null
+            timer?.cancel()
+            timer = null
+        }
+        if (_length == 0) {
+            mList[position].startIng = 1
+            return
+        }
+
+        timer = Timer()
+        task = tTask(position)
+        timer?.schedule(task, 0, 1000)
 
     }
 
+    fun vioceStop() {
+        if (timer != null) {
+            task?.cancel()
+            task = null
+            timer?.cancel()
+            timer = null
+        }
+    }
 
-    inner class tTask(index: Int, length: Int) : TimerTask() {
+
+    override fun onStop() {
+        super.onStop()
+        vioceStop()
+    }
+
+
+    inner class tTask(index: Int) : TimerTask() {
         private val position = index
-        private val length = length
         override fun run() {
             if (position != -1) {
-                mList[position].lastTime = "$length 秒"
+                mList[position].lastTime = "${--length} 秒"
             }
 
 
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        timer?.cancel()
+        timer = null
     }
 
 

@@ -25,6 +25,7 @@ class SearchVoiceActivity :
     override fun onBindViewModelFactory() = MediaViewModelFactory.getInstance(application)
 
     override fun initViewObservable() {
+        showInitLoadView(true)
         voiceSearchListAdapter = VoiceSearchListAdapter(this, mViewModel?.mList)
         mViewModel?.mList?.addOnListChangedCallback(
             ObservableListUtil.getListChangedCallback(
@@ -44,6 +45,8 @@ class SearchVoiceActivity :
                     intent.putParcelableArrayListExtra("data", list as ArrayList<out Parcelable>)
                     setResult(0, intent)
                     finish()
+                }else if(it=="dismiss"){
+                    showInitLoadView(false)
                 }
             }
         )

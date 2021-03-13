@@ -30,7 +30,7 @@ class MediaVideoListAdapter(context: Context, items: ObservableArrayList<MediaBe
         }
         if (position == items!!.size - 1) {
             binding?.aivMediaV?.let {
-                Glide.with(context).load(R.mipmap.add_media).into(it)
+                Glide.with(context).load(R.drawable.add_media).into(it)
             }
             binding?.atvHcState?.visibility = View.GONE
             binding?.aivStart?.visibility=View.GONE

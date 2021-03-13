@@ -6,10 +6,17 @@ import android.media.MediaPlayer
  *author: lk
  *description： AudioUtlis
  */
-class AudioUtlis {
+class AudioUtlis private constructor() {
 
-    private val mapList = hashMapOf<String, MediaPlayer>()
-    private var click:AudioClick?=null
+    companion object {
+        private val mapList = hashMapOf<String, MediaPlayer>()
+        fun getAudioUtlis(): AudioUtlis {
+            return AudioUtlis()
+        }
+    }
+
+
+    private var click: AudioClick? = null
     fun startAudio(path: String) {
         try {
             var player = mapList[path]
@@ -18,24 +25,32 @@ class AudioUtlis {
             }
             if (player.isPlaying) {
                 player.pause()
-                click?.pauseListener(path,((player.currentPosition- player.currentPosition)/1000).toInt())
+                click?.pauseListener(
+                    path,
+                    ((player.duration - player.currentPosition) / 1000).toInt()
+                )
                 return
+            }
+            mapList.forEach {
+//                click?.pauseListener(path,((player.duration- player.currentPosition)/1000).toInt())
+                it.value.pause()
             }
             val contains = mapList.contains(path)
             if (contains) {
                 player.start()
-                click?.startListener(path,((player.currentPosition- player.currentPosition)/1000).toInt())
+                click?.startListener(
+                    path,
+                    ((player.duration - player.currentPosition) / 1000).toInt()
+                )
                 return
             }
-            mapList.forEach {
-                click?.pauseListener(path,((player.currentPosition- player.currentPosition)/1000).toInt())
-                it.value.pause()
-            }
+
+            mapList[path] = player
             player.setDataSource(path)
             player.prepare()
             player.start()
-            click?.startListener(path,(player.currentPosition/1000).toInt())
-            mapList[path] = player
+            click?.startListener(path, (player.duration / 1000).toInt())
+
             player.setOnCompletionListener {
                 click?.completionListener(path)
             }
@@ -45,20 +60,27 @@ class AudioUtlis {
     }
 
 
-    fun setAudioClick(c:AudioClick):AudioUtlis{
-        click=c
+    fun setAudioClick(c: AudioClick): AudioUtlis {
+        click = c
         return this
     }
 
-    interface AudioClick{
+    interface AudioClick {
         fun completionListener(path: String)
-        fun startListener(path:String,length:Int)
-        fun pauseListener(path:String,length:Int)
+        fun startListener(path: String, length: Int)
+        fun pauseListener(path: String, length: Int)
     }
 
 
-    fun stop(path: String) {
-        mapList[path]?.stop()
+    fun stop(path: String?) {
+        if (path.isNullOrEmpty()) {
+            mapList.forEach {
+                it.value.pause()
+            }
+        } else {
+            mapList[path]?.stop()
+        }
+
     }
 
 

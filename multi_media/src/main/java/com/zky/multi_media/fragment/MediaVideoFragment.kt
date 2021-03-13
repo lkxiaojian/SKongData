@@ -85,7 +85,7 @@ class MediaVideoFragment :
 
         } else {
             val params = Bundle()
-            params.putSerializable("file", mViewModel?.mList?.get(position))
+            params.putParcelable("file", mViewModel?.mList?.get(position))
             ARouter.getInstance().build(ARouterPath.MEDIA_SHOW_VIDEO).with(params).navigation()
         }
     }

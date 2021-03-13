@@ -16,10 +16,9 @@ import java.io.Serializable
  *description： MediaBean
  *   @ColumnInfo(name = "user_name")
  */
-@Entity(tableName = "media")
+
 @AllowNoArg
 data class MediaBean(
-    @PrimaryKey
     var u_id: Long,
     var file_type: Int, //0图片 1视频 2 音频
     var file_path: String,
@@ -29,7 +28,7 @@ data class MediaBean(
     var videoImagePath: String?,
     var user_code: String?,
     var uploader: String? = ""
-) : Serializable, Parcelable, BaseObservable() {
+) :  Parcelable, BaseObservable() {
     @get:Bindable
     @set:Bindable
     var check: Boolean = false
@@ -79,7 +78,6 @@ data class MediaBean(
         parcel.writeString(videoImagePath)
         parcel.writeString(user_code)
         parcel.writeString(uploader)
-        parcel.writeValue(startIng)
     }
 
     override fun describeContents(): Int {

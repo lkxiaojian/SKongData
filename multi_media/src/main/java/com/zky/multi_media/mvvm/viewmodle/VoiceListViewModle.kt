@@ -14,6 +14,7 @@ import com.zky.basics.common.mvvm.viewmodel.BaseRefreshViewModel
 import com.zky.basics.common.util.DateUtil
 import com.zky.basics.common.util.FileUtil
 import com.zky.basics.common.util.PermissionToSetting
+import com.zky.basics.common.util.onShowDialogLoading
 import com.zky.basics.common.util.reflec.instanceOf
 import com.zky.multi_media.R
 import com.zky.multi_media.mvvm.model.MediaModel
@@ -32,7 +33,7 @@ class VoiceListViewModle(application: Application, mediaModel: MediaModel) :
     var searchMessage = ObservableField<String>()
     private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
 
-     val list = arrayListOf<MediaBean>()
+    val list = arrayListOf<MediaBean>()
     override fun refreshData() {
     }
 
@@ -49,7 +50,7 @@ class VoiceListViewModle(application: Application, mediaModel: MediaModel) :
             }
             R.id.abt_sure == id -> {
 
-                getmVoidSingleLiveEvent().value="sure"
+                getmVoidSingleLiveEvent().value = "sure"
             }
         }
 
@@ -82,34 +83,37 @@ class VoiceListViewModle(application: Application, mediaModel: MediaModel) :
 
 
     private fun getVoice() {
-        val tmpList = arrayListOf<MediaBean>()
-        if (list.isEmpty()) {
-            val path = "${File.separator}mnt${File.separator}sdcard${File.separator}"
-            val files = FileUtil.getFiles(path, "voice")
-            files.forEach {
-                val song = instanceOf<MediaBean>()
-                song.file_name = it.name
-                song.file_path = it.path
-                song.startIng=1
-                song.create_data= DateUtil.getCurrentTime(DateUtil.FormatType.yyyyMMddHHmm)
-                list.add(song)
-            }
-        }
-        val seMessage = searchMessage.get()
-        if (seMessage.isNullOrEmpty()) {
-            tmpList.addAll(list)
-        } else {
-            list.forEach {
-                if (it.file_name.contains(seMessage, true)) {
-                    tmpList.add(it)
+        launchUI({
+
+            val tmpList = arrayListOf<MediaBean>()
+            if (list.isEmpty()) {
+                val path = "${File.separator}mnt${File.separator}sdcard${File.separator}"
+                val files = FileUtil.getFiles(path, "voice")
+                files.forEach {
+                    val song = instanceOf<MediaBean>()
+                    song.file_name = it.name
+                    song.file_path = it.path
+                    song.startIng = 1
+                    song.create_data = DateUtil.getCurrentTime(DateUtil.FormatType.yyyyMMddHHmm)
+                    list.add(song)
                 }
             }
-        }
-        mList.clear()
-        if (tmpList.isNotEmpty()) {
-            mList.addAll(tmpList)
-        }
-
+            val seMessage = searchMessage.get()
+            if (seMessage.isNullOrEmpty()) {
+                tmpList.addAll(list)
+            } else {
+                list.forEach {
+                    if (it.file_name.contains(seMessage, true)) {
+                        tmpList.add(it)
+                    }
+                }
+            }
+            mList.clear()
+            if (tmpList.isNotEmpty()) {
+                mList.addAll(tmpList)
+            }
+            getmVoidSingleLiveEvent().value = "dismiss"
+        })
     }
 
     fun getmVoidSingleLiveEvent(): SingleLiveEvent<String> {
