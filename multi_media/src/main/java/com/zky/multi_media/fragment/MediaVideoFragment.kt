@@ -13,11 +13,12 @@ import com.zky.basics.api.room.bean.MediaBean
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.mvvm.BaseMvvmRefreshFragment
 import com.zky.basics.common.util.*
+import com.zky.basics.common.util.FileUtil.isVideoFile
 import com.zky.basics.common.util.reflec.instanceOf
 import com.zky.multi_media.BR
 import com.zky.multi_media.R
 import com.zky.multi_media.adapter.MediaVideoListAdapter
-import com.zky.multi_media.databinding.MediaFragmentBinding
+import com.zky.multi_media.databinding.MediaVideoFragmentBinding
 import com.zky.multi_media.databinding.MediaVoiceFragmentBinding
 import com.zky.multi_media.mvvm.factory.MediaViewModelFactory
 import com.zky.multi_media.mvvm.viewmodle.MediaImageListViewModle
@@ -29,7 +30,7 @@ import me.bzcoder.mediapicker.config.MediaPickerEnum
  *description： Media
  */
 class MediaVideoFragment :
-    BaseMvvmRefreshFragment<MediaBean, MediaVoiceFragmentBinding, MediaImageListViewModle>(),
+    BaseMvvmRefreshFragment<MediaBean, MediaVideoFragmentBinding, MediaImageListViewModle>(),
     BaseBindAdapter.OnItemClickListener<Any> {
 
     private lateinit var mediaListAdapter: MediaVideoListAdapter
@@ -118,8 +119,14 @@ class MediaVideoFragment :
             SmartMediaPickerComsur.getResultData(activity, requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
         if (resultData != null && resultData.size > 0) {
-            var tmpList = arrayListOf<MediaBean>()
 
+
+            val videoFile = isVideoFile(resultData[0])
+            if (!videoFile) {
+                return
+            }
+
+            var tmpList = arrayListOf<MediaBean>()
             for (item in resultData) {
                 var bean = instanceOf<MediaBean>()
                 bean.create_data = DateUtil.getCurrentTime(DateUtil.FormatType.yyyyMMddHHmm)
@@ -143,7 +150,7 @@ class MediaVideoFragment :
         private var fileType: Int = 1
 
         @JvmStatic
-        fun mediaInstance(): Fragment {
+        fun mediaVoiceInstance(): Fragment {
             return MediaVideoFragment()
         }
     }

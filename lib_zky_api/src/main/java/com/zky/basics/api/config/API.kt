@@ -3,7 +3,7 @@ package com.zky.basics.api.config
 object API {
 
 
-    const val IP = "http://47.104.136.79:8080/";
+    const val IP = "http://47.104.136.79:2021/";
 
     //    const val IP = "https://www.qsdsj.net/"
     const val URL_HOST = IP + "zkydls_shikong/"

@@ -30,6 +30,10 @@ object ARouterPath {
     const val MEDIA_SHOW_VIDEO= "/multi_media/video"
 
     const val MEDIA_SELECT_VOICE= "/multi_media/selectVoice"
+    const val MEDIA_SELECT_VIDEO= "/multi_media/selectVideo"
+
+    const val MEDIA_SELECT_SHOW_VOICE= "/multi_media/selectShowVoice"
+    const val MAP_SHOW = "/map/showMap"
 
 
 }

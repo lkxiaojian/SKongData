@@ -10,6 +10,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment
 import com.esri.arcgisruntime.geometry.*
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer
@@ -393,5 +394,11 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     override fun onResume() {
         super.onResume()
         map_view?.resume()
+    }
+
+    companion object{
+        fun newInstace() :Fragment{
+           return MapFragment()
+        }
     }
 }

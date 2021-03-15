@@ -2,17 +2,15 @@ package com.zky.zky_map.mvvm.viewmodle
 
 import android.app.Application
 import android.view.View
-import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.zky.basics.common.event.SingleLiveEvent
 import com.zky.basics.common.mvvm.viewmodel.BaseViewModel
 import com.zky.basics.common.util.showCustomDialog
 import com.zky.basics.common.util.view.CustomDialog
-import com.zky.zky_map.MapViewBean
+import com.zky.zky_map.bean.MapViewBean
 import com.zky.zky_map.R
 import com.zky.zky_map.mvvm.model.MapModel
-import kotlinx.android.synthetic.main.map_fragment.view.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

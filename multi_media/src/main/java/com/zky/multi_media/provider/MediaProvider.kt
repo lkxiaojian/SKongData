@@ -6,7 +6,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.zky.basics.common.provider.IMediaProvider
 import com.zky.multi_media.fragment.MediaImageFragment.Companion.mediaImageInstance
 
-@Route(path = ARouterPath.MEDIA, name = "多媒体")
+@Route(path = ARouterPath.MEDIA)
 class MediaProvider : IMediaProvider {
     override val mediaFragment: Fragment?
         get() = mediaImageInstance()
@@ -14,6 +14,4 @@ class MediaProvider : IMediaProvider {
     override fun init(context: Context) {
 
     }
-
-
 }

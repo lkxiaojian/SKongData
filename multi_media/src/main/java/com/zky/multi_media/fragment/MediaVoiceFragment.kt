@@ -108,13 +108,16 @@ class MediaVoiceFragment :
         if (data != null) {
             mViewModel?.mList?.let { tmpList.addAll(it) }
             val parcelableArrayListExtra = data.getParcelableArrayListExtra<MediaBean>("data")
-            parcelableArrayListExtra.forEach {
-                it.startIng = 1
+            if(parcelableArrayListExtra!=null){
+                parcelableArrayListExtra.forEach {
+                    it.startIng = 1
+                }
+                tmpList.addAll(0, parcelableArrayListExtra)
+                val distinct = tmpList.distinctBy { it.file_path }
+                mViewModel?.mList?.clear()
+                mViewModel?.mList?.addAll(distinct)
             }
-            tmpList.addAll(0, parcelableArrayListExtra)
-            val distinct = tmpList.distinctBy { it.file_path }
-            mViewModel?.mList?.clear()
-            mViewModel?.mList?.addAll(distinct)
+
         }
 
 
@@ -144,10 +147,8 @@ class MediaVoiceFragment :
 
 
     companion object {
-        private var fileType: Int = 1
-
         @JvmStatic
-        fun mediaInstance(): Fragment {
+        fun mediaSelctVoiceInstance(): Fragment {
             return MediaVoiceFragment()
         }
     }

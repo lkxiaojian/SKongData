@@ -1235,7 +1235,7 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
     /**
      * Adapter
      */
-    public class OnPullRefreshListenerAdapter implements OnPullRefreshListener {
+    public  class OnPullRefreshListenerAdapter implements OnPullRefreshListener {
 
         @Override
         public void onRefresh() {

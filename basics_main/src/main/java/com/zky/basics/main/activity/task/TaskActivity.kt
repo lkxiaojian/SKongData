@@ -1,6 +1,7 @@
 package com.zky.basics.main.activity.task
 
 
+import android.content.Intent
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
 import com.zky.basics.common.util.ObservableListUtil
@@ -40,7 +41,7 @@ class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskVie
         get() = "任务"
 
     override fun onItemClick(e: Any, position: Int) {
-        e.toString().showToast()
+        startActivity(Intent(this,TaskMessageActivity::class.java))
     }
 
 }

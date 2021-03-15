@@ -129,6 +129,12 @@ class MediaImageFragment :
             SmartMediaPickerComsur.getResultData(activity, requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
         if (resultData != null && resultData.size > 0) {
+
+            val imaFile = FileUtil.isImageFile(resultData[0])
+            if (!imaFile) {
+                return
+            }
+
             var tmpList = arrayListOf<MediaBean>()
 
             for (item in resultData) {
