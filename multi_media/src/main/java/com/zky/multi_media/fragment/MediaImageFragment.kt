@@ -14,6 +14,7 @@ import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.mvvm.BaseMvvmRefreshFragment
 import com.zky.basics.common.util.*
 import com.zky.basics.common.util.reflec.instanceOf
+import com.zky.basics.common.util.view.CustomDialog
 import com.zky.multi_media.BR
 import com.zky.multi_media.R
 import com.zky.multi_media.adapter.MediaImageListAdapter
@@ -29,7 +30,7 @@ import me.bzcoder.mediapicker.config.MediaPickerEnum
  */
 class MediaImageFragment :
     BaseMvvmRefreshFragment<MediaBean, MediaFragmentBinding, MediaImageListViewModle>(),
-    BaseBindAdapter.OnItemClickListener<Any> {
+    BaseBindAdapter.OnItemClickListener<Any>, BaseBindAdapter.OnItemLongClickListener<Any> {
 
     private lateinit var mediaListAdapter: MediaImageListAdapter
     override fun refreshLayout() = mBinding?.drlMedia
@@ -47,6 +48,7 @@ class MediaImageFragment :
         )
         mBinding?.recview?.layoutManager = GridLayoutManager(activity, 3)
         mediaListAdapter.setItemClickListener(this)
+        mediaListAdapter.setOnItemLongClickListener(this)
         mBinding?.recview?.adapter = mediaListAdapter
         mViewModel?.mList?.add(instanceOf<MediaBean>())
     }
@@ -143,7 +145,7 @@ class MediaImageFragment :
                 bean.file_path = item
                 bean.file_type = fileType
                 bean.videoImagePath = item
-                bean.uploader="test"
+                bean.uploader = "test"
                 bean.file_name = FileUtil.getNameByPath(item)
                 bean.isupload = false
                 tmpList.add(bean)
@@ -164,5 +166,31 @@ class MediaImageFragment :
             return MediaImageFragment()
         }
 
+    }
+
+    override fun onItemLongClick(e: Any, postion: Int): Boolean {
+        if (postion + 1 != mViewModel?.mList?.size) {
+
+            showCustomDialog(
+                mActivity,
+                "删除",
+                "是否删除",
+                "",
+                "取消",
+                "确定"
+            ).setOnItemClickListener(object :
+                CustomDialog.OnItemClickListener {
+                override fun onSure() {
+                    mViewModel?.mList?.removeAt(postion)
+                }
+
+                override fun onDismiss() {
+                }
+
+            })
+
+        }
+
+        return true
     }
 }

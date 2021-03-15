@@ -19,6 +19,8 @@ import com.zky.basics.common.mvvm.BaseMvvmRefreshFragment
 import com.zky.basics.common.util.ObservableListUtil
 import com.zky.basics.common.util.PermissionToSetting
 import com.zky.basics.common.util.reflec.instanceOf
+import com.zky.basics.common.util.showCustomDialog
+import com.zky.basics.common.util.view.CustomDialog
 import com.zky.multi_media.BR
 import com.zky.multi_media.R
 import com.zky.multi_media.adapter.MediaVoiceListAdapter
@@ -34,11 +36,9 @@ import com.zky.multi_media.mvvm.viewmodle.MediaVoiceListViewModle
  */
 class MediaVoiceFragment :
     BaseMvvmRefreshFragment<MediaBean, MediaVoiceFragmentBinding, MediaVoiceListViewModle>(),
-    BaseBindAdapter.OnItemClickListener<Any> {
+    BaseBindAdapter.OnItemClickListener<Any>, BaseBindAdapter.OnItemLongClickListener<Any> {
 
     private lateinit var adapter: MediaVoiceListAdapter
-    var player: MediaPlayer? = null
-    var indexFlage = -1
     override fun refreshLayout() = mBinding?.drlMedia
     override fun onBindViewModel() = MediaVoiceListViewModle::class.java
     override fun onBindViewModelFactory() =
@@ -53,6 +53,7 @@ class MediaVoiceFragment :
         )
         mBinding?.recview?.layoutManager = GridLayoutManager(activity, 3)
         adapter.setItemClickListener(this)
+        adapter.setOnItemLongClickListener(this)
         mBinding?.recview?.adapter = adapter
         mViewModel?.mList?.add(instanceOf<MediaBean>())
     }
@@ -108,7 +109,7 @@ class MediaVoiceFragment :
         if (data != null) {
             mViewModel?.mList?.let { tmpList.addAll(it) }
             val parcelableArrayListExtra = data.getParcelableArrayListExtra<MediaBean>("data")
-            if(parcelableArrayListExtra!=null){
+            if (parcelableArrayListExtra != null) {
                 parcelableArrayListExtra.forEach {
                     it.startIng = 1
                 }
@@ -151,5 +152,34 @@ class MediaVoiceFragment :
         fun mediaSelctVoiceInstance(): Fragment {
             return MediaVoiceFragment()
         }
+    }
+
+    override fun onItemLongClick(e: Any, postion: Int): Boolean {
+
+        if (postion + 1 != mViewModel?.mList?.size) {
+
+            showCustomDialog(
+                mActivity,
+                "删除",
+                "是否删除",
+                "",
+                "取消",
+                "确定"
+            ).setOnItemClickListener(object :
+                CustomDialog.OnItemClickListener {
+                override fun onSure() {
+                    mViewModel?.mList?.removeAt(postion)
+                }
+
+                override fun onDismiss() {
+                }
+
+            })
+
+        }
+
+
+        return true
+
     }
 }

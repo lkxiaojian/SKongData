@@ -41,6 +41,27 @@ object ImageUtlils {
             .into(imageView)
     }
 
+    @JvmStatic
+    @SuppressLint("CheckResult")
+    @BindingAdapter(value = ["imageMediaUrl", "placeMediaDrawableId"], requireAll = false)
+    fun loadMediaimage(
+        imageView: ImageView,
+        imageUrl: String?,
+        placeMediaDrawableId: Int
+    ) {
+        if (imageUrl.isNullOrEmpty()) {
+            Glide.with(imageView.context)
+                .load(placeMediaDrawableId)
+                .into(imageView)
+        } else {
+            Glide.with(imageView.context)
+                .load(imageUrl)
+                .into(imageView)
+        }
+
+    }
+
+
     /**
      * 加载Bitmap 显示加载中和加载失败的占位图
      *

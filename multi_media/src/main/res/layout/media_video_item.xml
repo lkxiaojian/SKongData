@@ -7,6 +7,8 @@
         <variable
             name="data"
             type="com.zky.basics.api.room.bean.MediaBean" />
+        <import type="android.view.View"/>
+        <import type="com.zky.multi_media.R"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,6 +22,8 @@
             android:layout_width="104dp"
             android:layout_height="66dp"
             android:scaleType="centerCrop"
+            app:imageMediaUrl="@{data.videoImagePath}"
+            app:placeMediaDrawableId="@{R.drawable.add_media}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -29,6 +33,7 @@
             android:id="@+id/aiv_start"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:visibility="@{data.videoImagePath==null?View.GONE:View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/aiv_media_v"
             app:layout_constraintLeft_toLeftOf="@id/aiv_media_v"
             app:layout_constraintRight_toRightOf="@id/aiv_media_v"
@@ -44,6 +49,7 @@
             android:text="@{data.isupload? @string/uploaded:@string/cached}"
             android:textColor="@{data.isupload?@color/color_009688:@color/color_FA6400}"
             android:textSize="12sp"
+            android:visibility="@{data.videoImagePath==null?View.GONE:View.VISIBLE}"
             app:layout_constraintLeft_toLeftOf="@id/aiv_media_v"
             app:layout_constraintRight_toRightOf="@id/aiv_media_v"
             app:layout_constraintTop_toBottomOf="@id/aiv_media_v" />

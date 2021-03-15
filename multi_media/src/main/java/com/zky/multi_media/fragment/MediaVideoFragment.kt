@@ -15,6 +15,7 @@ import com.zky.basics.common.mvvm.BaseMvvmRefreshFragment
 import com.zky.basics.common.util.*
 import com.zky.basics.common.util.FileUtil.isVideoFile
 import com.zky.basics.common.util.reflec.instanceOf
+import com.zky.basics.common.util.view.CustomDialog
 import com.zky.multi_media.BR
 import com.zky.multi_media.R
 import com.zky.multi_media.adapter.MediaVideoListAdapter
@@ -31,7 +32,7 @@ import me.bzcoder.mediapicker.config.MediaPickerEnum
  */
 class MediaVideoFragment :
     BaseMvvmRefreshFragment<MediaBean, MediaVideoFragmentBinding, MediaImageListViewModle>(),
-    BaseBindAdapter.OnItemClickListener<Any> {
+    BaseBindAdapter.OnItemClickListener<Any>, BaseBindAdapter.OnItemLongClickListener<Any> {
 
     private lateinit var mediaListAdapter: MediaVideoListAdapter
     override fun refreshLayout() = mBinding?.drlMedia
@@ -49,6 +50,7 @@ class MediaVideoFragment :
         )
         mBinding?.recview?.layoutManager = GridLayoutManager(activity, 3)
         mediaListAdapter.setItemClickListener(this)
+        mediaListAdapter?.setOnItemLongClickListener(this)
         mBinding?.recview?.adapter = mediaListAdapter
         mViewModel?.mList?.add(instanceOf<MediaBean>())
     }
@@ -153,5 +155,25 @@ class MediaVideoFragment :
         fun mediaVoiceInstance(): Fragment {
             return MediaVideoFragment()
         }
+    }
+
+    override fun onItemLongClick(e: Any, postion: Int): Boolean {
+        if (postion+1 != mViewModel?.mList?.size) {
+
+            showCustomDialog(mActivity, "删除", "是否删除", "", "取消", "确定").setOnItemClickListener(object :
+                CustomDialog.OnItemClickListener{
+                override fun onSure() {
+                    mViewModel?.mList?.removeAt(postion)
+                }
+
+                override fun onDismiss() {
+                }
+
+            })
+
+        }
+
+
+        return true
     }
 }

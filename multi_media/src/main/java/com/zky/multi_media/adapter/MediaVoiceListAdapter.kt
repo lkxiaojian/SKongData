@@ -22,18 +22,13 @@ class MediaVoiceListAdapter(context: Context, items: ObservableArrayList<MediaBe
 
     override fun onBindItem(binding: MediaVoiceItemBinding?, item: MediaBean, position: Int) {
         binding?.data = item
-//        if (position == items!!.size - 1) {
-//            binding?.aivMediaV?.let {
-//                Glide.with(context).load(R.mipmap.add_media).into(it)
-//            }
-//            binding?.atvHcState?.visibility = View.GONE
-//            binding?.aivStart?.visibility = View.GONE
-//        } else {
-//            binding?.atvHcState?.visibility = View.VISIBLE
-//            binding?.aivStart?.visibility = View.VISIBLE
-//        }
+
         binding?.clClick?.setOnClickListener {
             mItemClickListener?.onItemClick(item, position)
+        }
+
+        binding?.clClick?.setOnLongClickListener {
+            mOnItemLongClickListener?.onItemLongClick(item,position)!!
         }
 
     }

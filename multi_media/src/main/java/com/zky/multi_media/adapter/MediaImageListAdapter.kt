@@ -20,41 +20,14 @@ class MediaImageListAdapter(context: Context, items: ObservableArrayList<MediaBe
     override fun getLayoutItemId(viewType: Int) = R.layout.media_item
 
     override fun onBindItem(binding: MediaItemBinding?, item: MediaBean, position: Int) {
-        if (items == null) {
-            return
-        }
         binding?.data = item
-        if (type == 0 || type == 1) {
-            binding?.cl?.visibility = View.GONE
-            binding?.aivMediaV?.visibility = View.VISIBLE
-            binding?.aivMediaV?.let {
-                Glide.with(context).load(item.videoImagePath)
-                    .into(it)
-            }
-        } else {
-            binding?.cl?.visibility = View.VISIBLE
-            binding?.aivMediaV?.visibility = View.GONE
-            binding?.aivMedia?.let {
-                Glide.with(context).load(item.videoImagePath)
-                    .into(it)
-            }
-        }
 
-
-        if (position == items!!.size - 1) {
-            binding?.aivMedia?.let {
-                Glide.with(context).load(R.drawable.add_media).into(it)
-            }
-            binding?.aivMediaV?.let {
-                Glide.with(context).load(R.drawable.add_media).into(it)
-            }
-            binding?.atvHcState?.visibility = View.GONE
-        }else{
-            binding?.atvHcState?.visibility = View.VISIBLE
-        }
 
         binding?.clClick?.setOnClickListener {
             mItemClickListener?.onItemClick(item, position)
+        }
+        binding?.clClick?.setOnLongClickListener {
+            mOnItemLongClickListener?.onItemLongClick(item, position)!!
         }
 
     }

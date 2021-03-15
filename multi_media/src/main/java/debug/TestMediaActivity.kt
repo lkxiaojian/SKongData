@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity
 import com.zky.multi_media.R
+import com.zky.multi_media.fragment.MediaImageFragment
 import com.zky.multi_media.fragment.MediaVideoFragment
 import com.zky.multi_media.fragment.MediaVoiceFragment
 
@@ -13,7 +14,7 @@ class TestMediaActivity : RxAppCompatActivity() {
         setContentView(R.layout.activity_test_media)
 //        MediaFragment()  MediaVoiceFragment()
         val mediaVideoFragment = MediaVideoFragment()
-        supportFragmentManager.beginTransaction().add(R.id.fl, mediaVideoFragment).commit()
+        supportFragmentManager.beginTransaction().add(R.id.fl,  MediaVoiceFragment() ).commit()
 
     }
 

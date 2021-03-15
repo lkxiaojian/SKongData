@@ -32,8 +32,10 @@ object ObservableListUtil {
                 }
             }
 
-            override fun onItemRangeRemoved(observableList: ObservableList<*>?, i: Int, i1: Int) {
+            override fun onItemRangeRemoved(observableList: ObservableList<*>, i: Int, i1: Int) {
                 adapter.notifyItemRangeRemoved(i, i1)
+                adapter.notifyItemRangeChanged(0, observableList.size)
+
             }
         }
     }
