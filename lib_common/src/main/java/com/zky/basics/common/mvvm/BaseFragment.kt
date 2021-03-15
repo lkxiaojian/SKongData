@@ -44,11 +44,14 @@ abstract class BaseFragment : Fragment(), IBaseView {
     private var isViewCreated = false
     private var isViewVisable = false
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         mActivity = activity as RxAppCompatActivity
         ARouter.getInstance().inject(this)
         EventBus.getDefault().register(this)
+
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,6 +61,7 @@ abstract class BaseFragment : Fragment(), IBaseView {
         initCommonView(mView)
         initView(mView)
         initListener()
+        initSaveView(savedInstanceState)
         return mView
     }
 
@@ -141,7 +145,11 @@ abstract class BaseFragment : Fragment(), IBaseView {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun <T> onEvent(@Suppress("UNUSED_PARAMETER")event: BaseFragmentEvent<T>?) {
+    fun <T> onEvent(@Suppress("UNUSED_PARAMETER") event: BaseFragmentEvent<T>?) {
+
+    }
+
+   open fun initSaveView(savedInstanceState: Bundle?) {
 
     }
 
@@ -164,7 +172,7 @@ abstract class BaseFragment : Fragment(), IBaseView {
         return false
     }
 
-    fun onBindToolbarLayout()=R.layout.common_toolbar
+    fun onBindToolbarLayout() = R.layout.common_toolbar
 
     override fun showInitLoadView(show: Boolean) {
         if (mLoadingInitView == null) {

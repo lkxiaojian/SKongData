@@ -11,29 +11,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".activity.task.TaskMessageActivity"
+        <activity android:name=".activity.task.TaskAddActivity"
             android:theme="@style/AppThemeBlack">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
-        <activity android:name=".activity.task.TaskActivity">
 
         </activity>
-        <activity android:name=".OneMainActivity"></activity>
+        <activity
+            android:name=".activity.task.TaskMessageActivity"
+            android:theme="@style/AppThemeBlack">
+
+        </activity>
+        <activity android:name=".activity.task.TaskActivity"></activity>
+        <activity android:name=".OneMainActivity" />
         <activity
             android:name=".activity.SplashActivity"
             android:launchMode="singleTask"
             android:resizeableActivity="true"
             android:screenOrientation="portrait"
             android:theme="@style/Launcher">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activity.LoginActivity"

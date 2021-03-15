@@ -4,13 +4,14 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
-import android.view.Gravity
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.amap.api.location.AMapLocationClient
+import com.amap.api.location.AMapLocationClientOption
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment
 import com.esri.arcgisruntime.geometry.*
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer
@@ -44,7 +45,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     private var meCampsiteSymbol: PictureMarkerSymbol? = null
     private var dianCampsiteSymbol: PictureMarkerSymbol? = null
     private var farmerSymbol: PictureMarkerSymbol? = null
-    private  var callout: Callout?=null
+    private var callout: Callout? = null
     private val graphicList = arrayListOf<Graphic>()
     private var pointCollection: PointCollection = PointCollection(SpatialReferences.getWgs84())
     val polygonPoints = PointCollection(SpatialReferences.getWgs84())
@@ -66,6 +67,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     private lateinit var farmerOverlays: GraphicsOverlay
     override fun onBindViewModel() = MapViewModle::class.java
     override fun onBindViewModelFactory() = MapViewModelFactory.getInstance(activity!!.application)
+
 
     override fun initViewObservable() {
         mViewModel?.getmVoidSingleLiveEvent()
@@ -114,11 +116,69 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     override fun onBindLayout() = R.layout.map_fragment
     override fun initView(view: View?) {
 
+
+    }
+
+    override fun initSaveView(savedInstanceState: Bundle?) {
+        mBinding?.gdMV?.onCreate(savedInstanceState)
     }
 
     override fun initData() {
         initArgis()
+        initGD()
         listener()
+    }
+
+    private fun initGD() {
+//        val myLocationStyle: MyLocationStyle
+//        myLocationStyle =
+//            MyLocationStyle() //初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
+//
+//        myLocationStyle.interval(2000) //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
+//        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）默认执行此种模式。
+//
+//        mBinding?.gdMV?.map?.myLocationStyle = myLocationStyle //设置定位蓝点的Style
+////设置默认定位按钮是否显示，非必需设置。
+////        mBinding?.gdMV?.map?.uiSettings?.isMyLocationButtonEnabled = true
+//        mBinding?.gdMV?.map?.isMyLocationEnabled =
+//            true // 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
+//缩放按钮是否显示
+        mBinding?.gdMV?.map?.uiSettings?.isZoomControlsEnabled = false
+
+
+        var mLocationOption: AMapLocationClientOption? = null
+        var mlocationClient = AMapLocationClient(activity)
+//初始化定位参数
+//初始化定位参数
+        mLocationOption = AMapLocationClientOption()
+//设置返回地址信息，默认为true
+//设置返回地址信息，默认为true
+        mLocationOption.setNeedAddress(true)
+//设置定位监听
+//设置定位监听
+//        mlocationClient.setLocationListener(this)
+//设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+//设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy)
+//设置定位间隔,单位毫秒,默认为2000ms
+//设置定位间隔,单位毫秒,默认为2000ms
+        mLocationOption.setInterval(2000)
+//设置定位参数
+//设置定位参数
+        mlocationClient.setLocationOption(mLocationOption)
+// 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+// 注意设置合适的定位时间的间隔（最小间隔支持为1000ms），并且在合适时间调用stopLocation()方法来取消定位请求
+// 在定位结束后，在合适的生命周期调用onDestroy()方法
+// 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+//启动定位
+// 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+// 注意设置合适的定位时间的间隔（最小间隔支持为1000ms），并且在合适时间调用stopLocation()方法来取消定位请求
+// 在定位结束后，在合适的生命周期调用onDestroy()方法
+// 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+//启动定位
+        mlocationClient.startLocation()
+
+
     }
 
     private fun listener() {
@@ -134,9 +194,9 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                         }
                     }
                 }
-                if (bean?.lineTYpe == 0 && bean.dianData == null && callout!=null&&!callout!!.isShowing) {
+                if (bean?.lineTYpe == 0 && bean.dianData == null && callout != null && !callout!!.isShowing) {
 
-                    mViewModel?.mapViewBean?.get()?.dianShowWT=true
+                    mViewModel?.mapViewBean?.get()?.dianShowWT = true
                 }
                 return super.onTouch(view, event)
             }
@@ -337,16 +397,21 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 
 
     private fun initCallout() {
-        farmerOverlays.graphics.clear()
-        val graphic = Graphic(mapCenterPoint, farmerSymbol)
-        farmerOverlays.graphics.add(graphic)
-        val inflater = LayoutInflater.from(mActivity)
-        val ly = inflater.inflate(R.layout.callout, null, false)
-        callout = map_view.callout
-        callout?.content = ly
-        callout?.style = Callout.Style(mActivity, R.xml.callout)
-        callout?.location = mapCenterPoint
-        callout?.show()
+        try {
+            farmerOverlays.graphics.clear()
+            val graphic = Graphic(mapCenterPoint, farmerSymbol)
+            farmerOverlays.graphics.add(graphic)
+            val inflater = LayoutInflater.from(mActivity)
+            val ly = inflater.inflate(R.layout.callout, null, false)
+            callout = map_view.callout
+            callout?.content = ly
+            callout?.style = Callout.Style(mActivity, R.xml.callout)
+            callout?.location = mapCenterPoint
+            callout?.show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
     }
 
     private fun dingwei() {
@@ -396,9 +461,9 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
         map_view?.resume()
     }
 
-    companion object{
-        fun newInstace() :Fragment{
-           return MapFragment()
+    companion object {
+        fun newInstace(): Fragment {
+            return MapFragment()
         }
     }
 }

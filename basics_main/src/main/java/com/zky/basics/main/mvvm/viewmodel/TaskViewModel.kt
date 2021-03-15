@@ -9,6 +9,7 @@ import com.zky.basics.common.event.SingleLiveEvent
 import com.zky.basics.common.mvvm.viewmodel.BaseRefreshViewModel
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.R
+import com.zky.basics.main.fragment.CustomDialogFragment
 import com.zky.basics.main.mvvm.model.MainModel
 import kotlinx.android.synthetic.main.activity_one_main.view.*
 
@@ -16,7 +17,6 @@ import kotlinx.android.synthetic.main.activity_one_main.view.*
 class TaskViewModel(application: Application, model: MainModel) :
     BaseRefreshViewModel<String, MainModel>(application, model) {
     private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
-
 
     override fun refreshData() {
         mHandler.sendEmptyMessageDelayed(1, 1000)
@@ -45,7 +45,10 @@ class TaskViewModel(application: Application, model: MainModel) :
 
             }
             R.id.aiv_add_task -> {
-                "add task".showToast()
+                ARouter.getInstance().build(ARouterPath.ADDTASK).navigation()
+            }
+            R.id.atv_se_ad -> {
+                getmVoidSingleLiveEvent().value="dialogShow"
             }
         }
 
@@ -62,5 +65,9 @@ class TaskViewModel(application: Application, model: MainModel) :
         }
     }
 
-
+    fun getmVoidSingleLiveEvent(): SingleLiveEvent<String> {
+        return createLiveData(mVoidSingleLiveEvent).also {
+            mVoidSingleLiveEvent = it
+        }
+    }
 }

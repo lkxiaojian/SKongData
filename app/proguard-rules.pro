@@ -1,25 +1,3 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
-
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
-
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
-
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
-
 -ignorewarnings
 -optimizationpasses 5 # 指定代码的压缩级别
 -dontusemixedcaseclassnames # 是否使用大小写混合
@@ -33,7 +11,7 @@
 -keep public class * extends android.content.ContentProvider # 保持哪些类不被混淆
 -keep public class * extends android.app.backup.BackupAgentHelper # 保持哪些类不被混淆
 -keep public class * extends android.preference.Preference # 保持哪些类不被混淆
--keep public class com.android.vending.licensing.ILicensingService # 保持哪些类不被混淆
+-keep public class com.android.vending.licensing.* # 保持哪些类不被混淆
 -keepclasseswithmembernames class * { # 保持 native 方法不被混淆
    native <methods>;
 }
@@ -74,18 +52,18 @@
 }
 
 #阿里oss
--keep class com.alibaba.sdk.android.oss.** { *; }
+-keep class com.alibaba.sdk.android.oss.*
 -dontwarn okio.**
 -dontwarn org.apache.commons.codec.binary.**
 
 #视频
--keep class com.shuyu.gsyvideoplayer.video.** { *; }
+-keep class com.shuyu.gsyvideoplayer.video.*
 -dontwarn com.shuyu.gsyvideoplayer.video.**
--keep class com.shuyu.gsyvideoplayer.video.base.** { *; }
+-keep class com.shuyu.gsyvideoplayer.video.base.*
 -dontwarn com.shuyu.gsyvideoplayer.video.base.**
--keep class com.shuyu.gsyvideoplayer.utils.** { *; }
+-keep class com.shuyu.gsyvideoplayer.utils.*
 -dontwarn com.shuyu.gsyvideoplayer.utils.**
--keep class tv.danmaku.ijk.** { *; }
+-keep class tv.danmaku.ijk.*
 -dontwarn tv.danmaku.ijk.**
 
 -keep public class * extends android.view.View{
@@ -97,41 +75,41 @@
 }
 
 #这里com.xiaomi.mipushdemo.DemoMessageRreceiver改成app中定义的完整类名
--keep class com.zhongkeyuan.queshan.push.MessageReceiver {*;}
+-keep class com.zhongkeyuan.queshan.push.MessageReceiver.*
 #可以防止一个误报的 warning 导致无法成功编译，如果编译使用的 Android 版本是 23。
 -dontwarn com.xiaomi.push.**
 
--keep class com.zhongkeyuan.beans.** {*;}
+-keep class com.zhongkeyuan.beans.*
 
--keep class com.esri.arcgisruntime.internal.** {*;}
+-keep class com.esri.arcgisruntime.internal.*
 
 
 -keepattributes Signature
 # Gson specific classes
--keep class sun.misc.Unsafe { *; }
--keep class com.google.gson.stream.** { *; }
+-keep class sun.misc.Unsafe.*
+-keep class com.google.gson.stream.*
 # Application classes that will be serialized/deserialized over Gson
--keep class com.google.gson.examples.android.model.** { *; }
--keep class com.google.gson.** { *;}
+-keep class com.google.gson.examples.android.model.*
+-keep class com.google.gson.*
 
 #3D 地图 V5.0.0之后：
--keep   class com.amap.api.maps.**{*;}
--keep   class com.autonavi.**{*;}
--keep   class com.amap.api.trace.**{*;}
+-keep   class com.amap.api.maps.*
+-keep   class com.autonavi.*
+-keep   class com.amap.api.trace.*
 
 #定位
--keep class com.amap.api.location.**{*;}
--keep class com.amap.api.fence.**{*;}
--keep class com.autonavi.aps.amapapi.model.**{*;}
+-keep class com.amap.api.location.*
+-keep class com.amap.api.fence.*
+-keep class com.autonavi.aps.amapapi.model.*
 
 #搜索
--keep   class com.amap.api.services.**{*;}
+-keep   class com.amap.api.services.*
 #腾讯直播sdk
--keep class com.tencent.** { *; }
+-keep class com.tencent.*
 
 #EventBus
 -keepattributes *Annotation*
--keepclassmembers class ** {
+-keepclassmembers class * {
     @org.greenrobot.eventbus.Subscribe <methods>;
 }
 -keep enum org.greenrobot.eventbus.ThreadMode { *; }
@@ -146,14 +124,14 @@
 
 # rxpermissions
 -dontwarn  com.flyco.tablayout.**
--keep class com.flyco.tablayout.** { *;}
+-keep class com.flyco.tablayout.*
 
 #fastjson
 -dontwarn com.alibaba.fastjson.**
--keep class com.alibaba.fastjson.** { *; }
+-keep class com.alibaba.fastjson.*
 
 #websocket
--keep class com.zhangke.websocket.** { *; }
+-keep class com.zhangke.websocket.*
 
 
 
@@ -167,10 +145,10 @@
 
 #-------------- okhttp3 -------------
 -dontwarn com.squareup.okhttp.**
--keep class com.squareup.okhttp.{*;}
+-keep class com.squareup.okhttp.*
 
 -dontwarn com.squareup.okhttp3.**
--keep class com.squareup.okhttp3.** { *;}
+-keep class com.squareup.okhttp3.*
 -dontwarn okio.**
 
 #----------retrofit--------------
@@ -180,7 +158,7 @@
 #-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 #
 
--keep class retrofit2.** { *; }
+-keep class retrofit2.*
 -dontwarn retrofit2.**
 -keepattributes Signature
 -keepattributes Exceptions
@@ -188,15 +166,15 @@
 -dontwarn javax.annotation.**
 
 #----------- gson ----------------
--keep class com.google.gson.** {*;}
--keep class com.google.**{*;}
--keep class sun.misc.Unsafe { *; }
--keep class com.google.gson.stream.** { *; }
--keep class com.google.gson.examples.android.model.** { *; }
--keep class com.qiancheng.carsmangersystem.**{*;}
+-keep class com.google.gson.*
+-keep class com.google.*
+-keep class sun.misc.Unsafe.*
+-keep class com.google.gson.stream.*
+-keep class com.google.gson.examples.android.model.*
+-keep class com.qiancheng.carsmangersystem.*
 
 #databinding
--keep class android.databinding.** { *; }
+-keep class android.databinding.*
 
 
 #RxJava RxAndroid
@@ -205,31 +183,31 @@
    long producerIndex;
    long consumerIndex;
 }
--keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
-    rx.internal.util.atomic.LinkedQueueNode producerNode;
-}
--keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
-    rx.internal.util.atomic.LinkedQueueNode consumerNode;
-}
+#-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+#    rx.internal.util.atomic.LinkedQueueNode producerNode;
+#}
+#-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
+#    rx.internal.util.atomic.LinkedQueueNode consumerNode;
+#}
 
 # 不混淆
 #rxlifecycle
 -dontwarn com.trello.rxlifecycle.**
--keep class com.trello.rxlifecycle.** { *; }
--keep interface com.trello.rxlifecycle.** { *; }
+-keep class com.trello.rxlifecycle.*
+-keep interface com.trello.rxlifecycle.*
 
 
 -dontwarn androidx.lifecycle
--keep class androidx.lifecycle.** { *; }
--keep interface androidx.lifecycle.** { *; }
+-keep class androidx.lifecycle.*
+-keep interface androidx.lifecycle.*
 
 ##Arouter
 -keep  class * implements com.alibaba.*
 -keep class * implements com.alibaba.android.arouter.facade.template.IProvider{*;}
 -keep class * implements com.alibaba.android.arouter.facade.template.IInterceptor{*;}
 
--keep public class com.alibaba.android.arouter.routes.**{*;}
--keep public class com.alibaba.android.arouter.facade.**{*;}
+-keep public class com.alibaba.android.arouter.routes.*
+-keep public class com.alibaba.android.arouter.facade.*
 -keep class * implements com.alibaba.android.arouter.facade.template.ISyringe{*;}
 
 # 如果使用了 byType 的方式获取 Service，需添加下面规则，保护接口
@@ -241,31 +219,30 @@
 ##autosize
 -dontwarn me.jessyan.*
 -keep  class * implements me.jessyan.*
--keep class me.jessyan.** { *; }
+-keep class me.jessyan.*
 
 
 ##xxpermission
 -dontwarn com.hjq.permissions.*
 -keep  class * implements com.hjq.permissions.*
--keep com.hjq.permissions.** { *; }
+-keep class com.hjq.permissions.*
 
 
 ###PickerView
 -dontwarn com.bigkoo.*
 -keep  class * implements com.bigkoo.*
--keep class com.bigkoo.** { *; }
 
 ##Luban
 -dontwarn top.zibin.*
 -keep  class * implements top.zibin.*
--keep class top.zibin.** { *; }
-
+-keep  class  top.zibin.*
 
 
 ##arcgis
 -dontwarn com.esri.arcgisruntime.*
 -keep  class * implements com.esri.arcgisruntime.*
--keep class com.esri.arcgisruntime.** { *; }
+#-keep class com.esri.arcgisruntime.** { *; }
+-keep class com.esri.arcgisruntime.*
 
 
 ##SmartMediaPicker
@@ -276,27 +253,27 @@
 ##SmartMediaPicker
 -dontwarn me.bzcoder.mediapicker.*
 -keep  class * implements me.bzcoder.mediapicker.*
--keep class me.bzcoder.mediapicker.** { *; }
+-keep class me.bzcoder.mediapicker.*
 
 
 ## Mp4Composer
 -dontwarn com.shuyu.*
 -keep  class * implements com.shuyu.*
--keep class com.shuyu.** { *; }
+-keep class com.shuyu.*
 
 #$# updateApp
 -dontwarn com.xuexiang.xupdate.*
 -keep  class * implements com.xuexiang.xupdate.*
--keep class com.xuexiang.xupdate.** { *; }
+-keep class com.xuexiang.xupdate.*
 
 -dontwarn com.zhy.*
 -keep  class * implements com.zhy.*
--keep class  com.zhy.** { *; }
+-keep class  com.zhy.*
 
 ##友盟
--keep class com.umeng.** {*;}
+-keep class com.umeng.*
 
--keep class com.uc.** {*;}
+-keep class com.uc.*
 
 -keepclassmembers class * {
    public <init> (org.json.JSONObject);
@@ -313,22 +290,22 @@
 #####项目####
 
 -keep class com.zky.zky_map.entity.*
--keep class com.zky.zky_map.entity.**{*;}
+
 -keep class com.zky.zky_map.utils.*
--keep class  com.zky.jyb.api.map.entity.** { *; }
+-keep class  com.zky.jyb.api.map.entity.*
 
 
 -keep class com.zky.jyb.api.*
--keep class  com.zky.jyb.api.** { *; }
+-keep class  com.zky.jyb.api.*
 
 -keep class com.refresh.lib.*
--keep class  com.refresh.lib.** { *; }
+-keep class  com.refresh.lib.*
 
 -keep class com.zky.jyb.common.view.*
--keep class  com.zky.jyb.common.** { *; }
+-keep class  com.zky.jyb.common.*
 
 -keep class com.zky.jyb.main.entity.*
--keep class  com.zky.jyb.main.entity.** { *; }
+-keep class  com.zky.jyb.main.entity.*
 
 -keep public class com.zky.jyb.R$*{
 public static final int *;

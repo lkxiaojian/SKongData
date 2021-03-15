@@ -1,4 +1,4 @@
-package com.zky.sk.basics_module;
+package com.zky.sk.data;
 
 import androidx.multidex.MultiDex;
 

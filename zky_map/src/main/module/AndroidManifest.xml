@@ -19,5 +19,7 @@
         <meta-data
             android:name="design_width_in_dp"
             android:value="360" />
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="9f6c9dfd06afeb529285faa1c33aa89d">
+        </meta-data>
     </application>
 </manifest>
