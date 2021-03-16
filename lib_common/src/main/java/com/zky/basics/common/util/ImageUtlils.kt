@@ -83,6 +83,25 @@ object ImageUtlils {
             .into(imageView)
     }
 
+
+    /**
+     * TODO 加载drawableId
+     *
+     * @param imageView
+     * @param drawableId
+     */
+    @JvmStatic
+    @SuppressLint("CheckResult")
+    @BindingAdapter(value = ["drawableId"], requireAll = false)
+    fun DrawableId(imageView: ImageView, drawableId: Int) {
+        Glide.with(imageView.context)
+            .load(drawableId)
+            .into(imageView)
+    }
+
+
+
+
     /**
      * 如果是本地或者不是完整的url 就去加载oss 上的照片
      * @param imageView

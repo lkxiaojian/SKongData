@@ -12,6 +12,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
+import com.amap.api.maps.model.LatLng
+import com.amap.api.maps.model.Marker
+import com.amap.api.maps.model.MarkerOptions
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment
 import com.esri.arcgisruntime.geometry.*
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer
@@ -149,34 +152,50 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
         var mLocationOption: AMapLocationClientOption? = null
         var mlocationClient = AMapLocationClient(activity)
 //初始化定位参数
-//初始化定位参数
         mLocationOption = AMapLocationClientOption()
 //设置返回地址信息，默认为true
-//设置返回地址信息，默认为true
-        mLocationOption.setNeedAddress(true)
-//设置定位监听
+        mLocationOption.isNeedAddress = true
 //设置定位监听
 //        mlocationClient.setLocationListener(this)
 //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
-//设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy)
 //设置定位间隔,单位毫秒,默认为2000ms
-//设置定位间隔,单位毫秒,默认为2000ms
-        mLocationOption.setInterval(2000)
-//设置定位参数
+        mLocationOption.interval = 2000
 //设置定位参数
         mlocationClient.setLocationOption(mLocationOption)
-// 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
-// 注意设置合适的定位时间的间隔（最小间隔支持为1000ms），并且在合适时间调用stopLocation()方法来取消定位请求
-// 在定位结束后，在合适的生命周期调用onDestroy()方法
-// 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
-//启动定位
+
 // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
 // 注意设置合适的定位时间的间隔（最小间隔支持为1000ms），并且在合适时间调用stopLocation()方法来取消定位请求
 // 在定位结束后，在合适的生命周期调用onDestroy()方法
 // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
 //启动定位
         mlocationClient.startLocation()
+
+        val latLng = LatLng(39.906901, 116.397972)
+        val marker: Marker =
+            mBinding?.gdMV?.map?.addMarker(MarkerOptions().position(latLng).title("北京").snippet("DefaultMarker"))!!
+
+
+//        mlocationClient.setLocationListener {
+//            if (it != null && it.errorCode == 0) {
+//                val latitude = it.latitude
+//                val longitude = it.longitude
+//                val marker: Marker =  mBinding?.gdMV?.map!!.addMarker(
+//                    MarkerOptions()
+//                        .title("好好学习")
+//                        .icon(
+//                            BitmapDescriptorFactory
+//                                .fromBitmap( BitmapFactory.decodeResource(resources, R.drawable.dian))
+//                        )
+//                        .draggable(true)
+//                )
+//                marker.rotateAngle = 90f // 设置marker旋转90度
+//
+//                marker.setPositionByPixels(400, 400)
+//                marker.showInfoWindow() // 设置默认显示一个infowinfow
+//            }
+//
+//        }
 
 
     }

@@ -17,7 +17,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.zky.sk.fileprovider"
+            android:authorities="com.zky.sk.data.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -25,8 +25,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <meta-data android:name="com.amap.api.v2.apikey" android:value="9f6c9dfd06afeb529285faa1c33aa89d">
-        </meta-data>
+
 
         <meta-data
             android:name="design_width_in_dp"

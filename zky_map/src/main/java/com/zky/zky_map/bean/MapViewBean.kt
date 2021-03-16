@@ -153,5 +153,34 @@ class MapViewBean() : BaseObservable() {
         return type
     }
 
+    /**
+     *  0 卫星上 1 卫星下  2 路线上  3 路线下
+     */
+    @get:Bindable
+    @set:Bindable
+    var mapSelect: Int = 0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.mapSelect)
+        }
 
+
+    @get:Bindable
+    @set:Bindable
+    var mapSelectShow: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.mapSelectShow)
+        }
+
+    /**
+     *  true 卫星 false 路线
+     */
+    @get:Bindable
+    @set:Bindable
+    var wxOrLx: Boolean = true
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.wxOrLx)
+        }
 }

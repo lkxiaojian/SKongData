@@ -34,11 +34,50 @@ class MapViewModle(application: Application, model: MapModel) :
         data.showTip = true
         data.dianShowWT = true
         data.lineOrSurfaceTipText = "修改点位"
+        data.mapSelect = R.drawable.wx_xia
         mapViewBean.set(data)
     }
 
     fun startClick(view: View) {
         when (view.id) {
+            R.id.aiv_s_t -> {
+                //点击选择地图
+                val data = mapViewBean.get()
+                data?.let {
+                    mapViewBean.get()?.mapSelectShow = !it.mapSelectShow
+                    if (it.mapSelectShow) {
+                        if (it.wxOrLx) {
+                            mapViewBean.get()?.mapSelect = R.drawable.wx_shang
+                        }else{
+                            mapViewBean.get()?.mapSelect = R.drawable.lx_shang
+                        }
+                    }
+                }
+            }
+
+
+            R.id.aiv_map_w -> {
+                if (mapViewBean.get()?.wxOrLx == true) {
+                    mapViewBean.get()?.mapSelectShow = false
+                    return
+                }
+
+                mapViewBean.get()?.mapSelectShow = false
+                mapViewBean.get()?.wxOrLx = true
+                mapViewBean.get()?.mapSelect = R.drawable.wx_xia
+            }
+
+            R.id.aiv_map_lx -> {
+                if (mapViewBean.get()?.wxOrLx == false) {
+                    mapViewBean.get()?.mapSelectShow = false
+                    return
+                }
+                mapViewBean.get()?.mapSelectShow = false
+                mapViewBean.get()?.wxOrLx = false
+                mapViewBean.get()?.mapSelect = R.drawable.lx_xia
+            }
+
+
             R.id.cl_dian -> {
                 mapViewBean.get()?.tipText = tipList[0]
                 mapViewBean.get()?.lineTYpe = 0
@@ -85,20 +124,20 @@ class MapViewModle(application: Application, model: MapModel) :
             R.id.atv_dian_sure -> {
                 //微调 确定
                 getmVoidSingleLiveEvent().value = "atv_dian_sure"
-                mapViewBean.get()?.dianShowWT=false
+                mapViewBean.get()?.dianShowWT = false
                 mapViewBean.get()?.showLineOrSurfaceModify = true
             }
 
             R.id.atv_dian_cancle -> {
                 //微调 取消
                 getmVoidSingleLiveEvent().value = "atv_dian_cancle"
-                mapViewBean.get()?.dianShowWT=false
+                mapViewBean.get()?.dianShowWT = false
 
             }
             R.id.atv_cancle -> {
                 // 线面 取消
                 getmVoidSingleLiveEvent().value = "atv_cancle"
-                mapViewBean.get()?.dianShowWT=false
+                mapViewBean.get()?.dianShowWT = false
             }
 
             R.id.atv_sure -> {
