@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="java.lang.String" />
+            type="com.zky.basics.api.common.entity.task.TaskBean" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -48,6 +48,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/atv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

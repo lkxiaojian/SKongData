@@ -2,6 +2,7 @@ package com.zky.basics.main.activity.task
 
 
 import android.content.Intent
+import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
 import com.zky.basics.common.util.ObservableListUtil
@@ -12,6 +13,7 @@ import com.zky.basics.main.adapter.TaskListAdapter
 import com.zky.basics.main.databinding.ActivityTaskctivityBinding
 import com.zky.basics.main.mvvm.factory.MainViewModelFactory
 import com.zky.basics.main.mvvm.viewmodel.TaskViewModel
+import kotlin.system.exitProcess
 
 class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskViewModel>(),
     BaseBindAdapter.OnItemClickListener<Any> {
@@ -26,14 +28,21 @@ class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskVie
     override fun onBindViewModelFactory() = MainViewModelFactory.getInstance(application)
 
     override fun initViewObservable() {
-        val adapter = TaskListAdapter(this, mViewModel?.mList)
-        mViewModel?.mList?.addOnListChangedCallback(
-            ObservableListUtil.getListChangedCallback(
-                adapter
+        try {
+            val bean = intent.extras["data"] as TaskBean
+            val adapter = TaskListAdapter(this, mViewModel?.mList)
+            mViewModel?.mList?.addOnListChangedCallback(
+                ObservableListUtil.getListChangedCallback(
+                    adapter
+                )
             )
-        )
-        adapter.setItemClickListener(this)
-        mBinding?.recview?.adapter = adapter
+            adapter.setItemClickListener(this)
+            mBinding?.recview?.adapter = adapter
+            mViewModel?.taskBean = bean
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
     }
 
     override fun onBindVariableId() = BR.taskViewModel
@@ -41,7 +50,7 @@ class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskVie
         get() = "任务"
 
     override fun onItemClick(e: Any, position: Int) {
-        startActivity(Intent(this,TaskMessageActivity::class.java))
+        startActivity(Intent(this, TaskMessageActivity::class.java))
     }
 
 }

@@ -31,6 +31,7 @@
                 android:drawableStart="@drawable/task_search"
                 android:drawablePadding="7dp"
                 android:hint="按名称搜索"
+                android:text="@={taskViewModel.searchMessage}"
                 android:textColor="#ff9b9b9b"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"

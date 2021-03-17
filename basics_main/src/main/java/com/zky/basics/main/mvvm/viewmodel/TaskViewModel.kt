@@ -1,37 +1,43 @@
 package com.zky.basics.main.mvvm.viewmodel
 
 import android.app.Application
-import android.os.Message
 import android.view.View
 import androidx.databinding.ObservableField
 import com.alibaba.android.arouter.launcher.ARouter
+import com.zky.basics.api.common.entity.task.TaskBean
+import com.zky.basics.api.common.entity.task.TaskItem
 import com.zky.basics.common.event.SingleLiveEvent
 import com.zky.basics.common.mvvm.viewmodel.BaseRefreshViewModel
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.R
-import com.zky.basics.main.fragment.CustomDialogFragment
 import com.zky.basics.main.mvvm.model.MainModel
-import kotlinx.android.synthetic.main.activity_one_main.view.*
 
 
 class TaskViewModel(application: Application, model: MainModel) :
-    BaseRefreshViewModel<String, MainModel>(application, model) {
+    BaseRefreshViewModel<TaskItem, MainModel>(application, model) {
+    var taskBean: TaskBean? = null
     private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
+    var searchMessage = ObservableField<String>()
 
     override fun refreshData() {
-        mHandler.sendEmptyMessageDelayed(1, 1000)
 
     }
 
     override fun loadMore() {
-        postStopLoadMoreEvent()
-//        mHandler.sendEmptyMessageDelayed(2, 2000)
+
     }
 
-    private fun setData() {
-        for (i in 1..5) {
-            mList.add("$i")
-        }
+    fun setData() {
+        launchUI({
+            val itemList = mModel.getItemList(taskBean?.taskCode, searchMessage.get())
+            itemList?.let { it ->
+                itemList.forEach {
+                    it.fData = taskBean
+                }
+                mList.addAll(it)
+            }
+
+        })
 
     }
 
@@ -41,28 +47,17 @@ class TaskViewModel(application: Application, model: MainModel) :
                 ARouter.getInstance().build(ARouterPath.MINE_MAIN).navigation()
             }
             R.id.acb_search -> {
-                "search".showToast()
-
+                mList.clear()
+                setData()
             }
             R.id.aiv_add_task -> {
                 ARouter.getInstance().build(ARouterPath.ADDTASK).navigation()
             }
             R.id.atv_se_ad -> {
-                getmVoidSingleLiveEvent().value="dialogShow"
+                getmVoidSingleLiveEvent().value = "dialogShow"
             }
         }
 
-    }
-
-    // 创建一个Handler
-    private val mHandler: android.os.Handler = object : android.os.Handler() {
-        override fun handleMessage(msg: Message?) {
-            super.handleMessage(msg)
-
-            setData()
-            postStopRefreshEvent()
-            postStopLoadMoreEvent()
-        }
     }
 
     fun getmVoidSingleLiveEvent(): SingleLiveEvent<String> {

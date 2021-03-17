@@ -8,5 +8,5 @@ import com.alibaba.android.arouter.facade.template.IProvider
  *
  */
 interface IMediaSelectVoiceProvider : IProvider {
-    val mediaVoiceFragment: Fragment?
+    fun mediaVoiceFragment(type:String): Fragment?
 }

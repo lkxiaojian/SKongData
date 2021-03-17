@@ -20,6 +20,7 @@ import com.zky.basics.common.util.ObservableListUtil
 import com.zky.basics.common.util.PermissionToSetting
 import com.zky.basics.common.util.reflec.instanceOf
 import com.zky.basics.common.util.showCustomDialog
+import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.common.util.view.CustomDialog
 import com.zky.multi_media.BR
 import com.zky.multi_media.R
@@ -148,8 +149,12 @@ class MediaVoiceFragment :
 
 
     companion object {
+        var type = ""
+
         @JvmStatic
-        fun mediaSelctVoiceInstance(): Fragment {
+        fun mediaSelctVoiceInstance(_type: String): Fragment {
+            type = _type
+            type.showToast()
             return MediaVoiceFragment()
         }
     }

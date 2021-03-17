@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import com.zky.basics.api.apiservice.CommonService
 import com.zky.basics.api.apiservice.MineService
+import com.zky.basics.api.common.entity.task.TaskService
 import com.zky.basics.api.config.API
 import com.zky.basics.api.splash.service.SplashService
 import com.zky.basics.api.util.SSLContextUtil
@@ -28,6 +29,10 @@ class RetrofitManager  {
 
     val mineService: MineService
         get() = mRetrofit.create(MineService::class.java)
+    val taskService: TaskService
+        get() = mRetrofit.create(TaskService::class.java)
+
+
 
     /**
      * 创建登入 注册服务

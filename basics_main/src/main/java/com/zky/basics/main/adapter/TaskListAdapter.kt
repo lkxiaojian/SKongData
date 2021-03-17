@@ -7,6 +7,8 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.StyleSpan
 import androidx.databinding.ObservableArrayList
+import com.zky.basics.api.common.entity.task.TaskBean
+import com.zky.basics.api.common.entity.task.TaskItem
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.main.R
 import com.zky.basics.main.databinding.MainListBinding
@@ -18,12 +20,12 @@ import com.zky.basics.main.databinding.TaskListBinding
  *author: lk
  *description： MainListAdapter
  */
-class TaskListAdapter(context: Context, items: ObservableArrayList<String>?) :
-    BaseBindAdapter<String, TaskListBinding>(context, items) {
+class TaskListAdapter(context: Context, items: ObservableArrayList<TaskItem>?) :
+    BaseBindAdapter<TaskItem, TaskListBinding>(context, items) {
     override fun getLayoutItemId(viewType: Int) = R.layout.task_list
 
     @SuppressLint("SetTextI18n")
-    override fun onBindItem(binding: TaskListBinding?, item: String, position: Int) {
+    override fun onBindItem(binding: TaskListBinding?, item: TaskItem, position: Int) {
         binding?.data = item
         binding?.cvClick?.setOnClickListener {
             mItemClickListener?.onItemClick(item, position)

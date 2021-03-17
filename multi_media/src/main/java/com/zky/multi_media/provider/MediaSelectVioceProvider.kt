@@ -12,8 +12,10 @@ import com.zky.multi_media.fragment.MediaVoiceFragment.Companion.mediaSelctVoice
  */
 @Route(path = ARouterPath.MEDIA_SELECT_SHOW_VOICE)
 class MediaSelectVioceProvider : IMediaSelectVoiceProvider {
-    override val mediaVoiceFragment: Fragment?
-        get() = mediaSelctVoiceInstance()
+    override fun mediaVoiceFragment(type: String): Fragment? {
+      return  mediaSelctVoiceInstance(type)
+    }
+
 
     override fun init(context: Context) {
 

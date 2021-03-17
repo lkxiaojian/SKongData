@@ -56,7 +56,7 @@ class TaskMessageActivity : BaseActivity() {
         mListFragments.add(Fragment())
         mListFragments.add(mMineProvider?.mediaFragment!!)
         mListFragments.add(iMediaSelectVideoProvider?.mediaVideoFragment!!)
-        mListFragments.add(iMediaSelectVoiceProvider?.mediaVoiceFragment!!)
+        mListFragments.add(iMediaSelectVoiceProvider?.mediaVoiceFragment("test")!!)
         val fragmentPager2Adapter = FragmentPager2Adapter(this, mListFragments)
 
         pager_tour_task?.adapter = fragmentPager2Adapter

@@ -7,4 +7,10 @@
     <string name="acountorpaw">账号密码错误</string>
     <string name="net_error">网络未连接，请检查网络</string>
 
+    <string name="address" translatable="false">地址：%s </string>
+    <string name="hzxm" translatable="false">户主名称：%s </string>
+    <string name="idcard" translatable="false">身份证号码：%s </string>
+    <string name="wscwj" translatable="false">未上传问卷信息</string>
+    <string name="yscwj" translatable="false">已上传问卷信息</string>
+
 </resources>

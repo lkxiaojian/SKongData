@@ -12,15 +12,21 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
         <activity android:name=".activity.task.TaskAddActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppThemeBlack">
 
         </activity>
         <activity
             android:name=".activity.task.TaskMessageActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppThemeBlack">
 
+
+
         </activity>
-        <activity android:name=".activity.task.TaskActivity"></activity>
+        <activity android:name=".activity.task.TaskActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            ></activity>
         <activity android:name=".OneMainActivity" />
         <activity
             android:name=".activity.SplashActivity"
@@ -30,7 +36,6 @@
             android:theme="@style/Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

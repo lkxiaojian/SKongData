@@ -2,6 +2,7 @@ package com.zky.basics.main
 
 
 import android.content.Intent
+import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
 import com.zky.basics.common.util.ObservableListUtil
@@ -11,7 +12,8 @@ import com.zky.basics.main.databinding.ActivityOneMainBinding
 import com.zky.basics.main.mvvm.factory.MainViewModelFactory
 import com.zky.basics.main.mvvm.viewmodel.MainViewModel
 
-class OneMainActivity : BaseMvvmRefreshActivity<ActivityOneMainBinding, MainViewModel>(),BaseBindAdapter.OnItemClickListener<Any>{
+class OneMainActivity : BaseMvvmRefreshActivity<ActivityOneMainBinding, MainViewModel>(),
+    BaseBindAdapter.OnItemClickListener<Any> {
     override fun refreshLayout() = mBinding?.drlMain
     override fun onBindViewModel() = MainViewModel::class.java
     override fun onBindViewModelFactory() = MainViewModelFactory.getInstance(application)
@@ -25,8 +27,7 @@ class OneMainActivity : BaseMvvmRefreshActivity<ActivityOneMainBinding, MainView
         )
         adapter.setItemClickListener(this)
         mBinding?.recview?.adapter = adapter
-
-        mViewModel?.mList?.add("212")
+        mViewModel?.getData()
     }
 
     override fun onBindVariableId() = BR.mainListViewModel
@@ -36,7 +37,10 @@ class OneMainActivity : BaseMvvmRefreshActivity<ActivityOneMainBinding, MainView
     override fun enableToolbar() = false
     override val isFullScreen = false
     override fun onItemClick(e: Any, position: Int) {
-        startActivity(Intent(this, TaskActivity::class.java))
+        val intent = Intent(this, TaskActivity::class.java)
+        val taskBean = e as TaskBean
+        intent.putExtra("data", taskBean)
+        startActivity(intent)
     }
 
 

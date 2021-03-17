@@ -5,6 +5,8 @@ import android.os.Message
 import android.view.View
 import androidx.databinding.ObservableField
 import com.alibaba.android.arouter.launcher.ARouter
+import com.zky.basics.api.common.entity.task.TaskBean
+import com.zky.basics.common.constant.Constants.appCode
 import com.zky.basics.common.event.SingleLiveEvent
 import com.zky.basics.common.mvvm.viewmodel.BaseRefreshViewModel
 import com.zky.basics.main.R
@@ -12,7 +14,7 @@ import com.zky.basics.main.mvvm.model.MainModel
 
 
 class MainViewModel(application: Application, model: MainModel) :
-    BaseRefreshViewModel<String, MainModel>(application, model) {
+    BaseRefreshViewModel<TaskBean, MainModel>(application, model) {
     private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
     var nameTop = ObservableField<String>()
     var nameBom = ObservableField<String>()
@@ -23,19 +25,22 @@ class MainViewModel(application: Application, model: MainModel) :
     }
 
     override fun refreshData() {
-        mHandler.sendEmptyMessageDelayed(1, 1000)
 
     }
 
     override fun loadMore() {
-        mHandler.sendEmptyMessageDelayed(2, 2000)
     }
 
-    private fun setData() {
-        for (i in 1..5) {
-            mList.add("$i")
-        }
+    override fun enableLoadMore() = false
+    override fun enableRefresh() = false
+    fun getData() {
+        launchUI({
+            val taskList = mModel.getTaskList(appCode)
+            taskList?.let {
+                mList.addAll(it)
+            }
 
+        })
     }
 
     fun startClick(v: View) {
@@ -45,16 +50,6 @@ class MainViewModel(application: Application, model: MainModel) :
             }
         }
 
-    }
-
-    // 创建一个Handler
-    private val mHandler: android.os.Handler = object : android.os.Handler() {
-        override fun handleMessage(msg: Message?) {
-            super.handleMessage(msg)
-            setData()
-            postStopRefreshEvent()
-            postStopLoadMoreEvent()
-        }
     }
 
 

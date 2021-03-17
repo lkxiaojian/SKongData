@@ -7,6 +7,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.StyleSpan
 import androidx.databinding.ObservableArrayList
+import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.main.R
 import com.zky.basics.main.databinding.MainListBinding
@@ -17,17 +18,18 @@ import com.zky.basics.main.databinding.MainListBinding
  *author: lk
  *description： MainListAdapter
  */
-class MainListAdapter(context: Context, items: ObservableArrayList<String>?) :
-    BaseBindAdapter<String, MainListBinding>(context, items) {
+class MainListAdapter(context: Context, items: ObservableArrayList<TaskBean>?) :
+    BaseBindAdapter<TaskBean, MainListBinding>(context, items) {
     override fun getLayoutItemId(viewType: Int) = R.layout.main_list
 
     @SuppressLint("SetTextI18n")
-    override fun onBindItem(binding: MainListBinding?, item: String, position: Int) {
+    override fun onBindItem(binding: MainListBinding?, item: TaskBean, position: Int) {
         binding?.data = item
-        val string: Spannable = SpannableString("任务名称: 都是阿卡丽肯定骄傲了空间里的静安寺到了就算了")
+        val string: Spannable = SpannableString("任务名称: ${item.taskName}")
         string.setSpan(StyleSpan(Typeface.BOLD), 0, 5, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         binding?.atvTaskName?.text = string
-        binding?.atvTaskNum?.text="任务${position+1}"
+        binding?.atvTaskNum?.text = "任务${position + 1}"
+        binding?.atvTime?.text = "时间：${item.startDate} - ${item.endDate}"
 
         binding?.cvClick?.setOnClickListener {
             mItemClickListener?.onItemClick(item, position)
