@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomShowMoreRadio">
+        <attr name="listContent1" format="string" />
+    </declare-styleable>
+</resources>

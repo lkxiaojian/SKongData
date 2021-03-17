@@ -93,4 +93,24 @@
         <item name="colorControlNormal">@color/color_B3B3B3</item>
         <item name="colorControlActivated">@color/color_3388EF</item>
     </style>
+
+
+
+    <style name="qnTitle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <style name="qnMessage">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_666666</item>
+        <item name="android:layout_marginTop">14dp</item>
+    </style>
+    <style name="qnTop">
+        <item name="android:layout_marginStart">12dp</item>
+
+        <item name="android:layout_marginEnd">12dp</item>
+    </style>
 </resources>
