@@ -57,6 +57,7 @@ dependencies {
         implementation project(':zky_map')
         implementation project(':zky_mine')
         implementation project(':multi_media')
+        implementation project(':zky_questionnaire')
     }
 
 
