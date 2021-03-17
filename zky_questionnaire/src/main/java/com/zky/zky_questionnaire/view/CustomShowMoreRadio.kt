@@ -2,6 +2,7 @@ package com.zky.zky_questionnaire.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,19 +24,23 @@ class CustomShowMoreRadio : ViewGroup {
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet) {
         var listContent = "111,2,33"
         val split = listContent.split(",")
-        var a=true
         split.forEach {
             val v: View = LayoutInflater.from(context).inflate(R.layout.radio_cus, null)
             if (v !is RadioButton) return@forEach
-//            val layoutParams = RelativeLayout.LayoutParams(
-//                RelativeLayout.LayoutParams.WRAP_CONTENT,
-//                RelativeLayout.LayoutParams.WRAP_CONTENT
-//            )
+            val layoutParams = RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+            )
 //            layoutParams.height=200
 //            layoutParams.width=1000
 //            layoutParams.topMargin=1000
-//            v.layoutParams = layoutParams
+            v.layoutParams = layoutParams
             v.text = it
+            v.setOnClickListener {
+                val radioButton = it as RadioButton
+                val text = radioButton.text
+                Log.e("","")
+            }
             addView(v)
 
         }
@@ -55,9 +60,11 @@ class CustomShowMoreRadio : ViewGroup {
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         if (childCount > 0) {
+            var heig=0
             for (i: Int in 0 until childCount) {
                 val v = getChildAt(i);
-                v.layout(0, 0, v.measuredWidth, v.measuredHeight)
+                heig+=v.measuredHeight+100
+                v.layout(0, 0, v.measuredWidth,heig)
             }
         }
     }
@@ -71,7 +78,7 @@ class CustomShowMoreRadio : ViewGroup {
 
         for (i in 0 until childCount) {
             val childAt = getChildAt(i)
-            height += (96)
+            height += (150)
             measureChild(childAt, widthMeasureSpec, heightMeasureSpec);
 
         }
