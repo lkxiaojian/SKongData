@@ -35,7 +35,7 @@ class MapViewBean() : BaseObservable() {
 
     @get:Bindable
     @set:Bindable
-    var lineShow: Boolean = false
+    var lineShow: Boolean = true
         set(value) {
             field = value
             notifyPropertyChanged(BR.lineShow)

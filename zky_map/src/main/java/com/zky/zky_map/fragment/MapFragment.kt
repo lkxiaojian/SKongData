@@ -2,6 +2,7 @@ package com.zky.zky_map.fragment
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
@@ -12,11 +13,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
-import com.amap.api.maps.model.LatLng
-import com.amap.api.maps.model.Marker
-import com.amap.api.maps.model.MarkerOptions
+import com.amap.api.maps.AMap
+import com.amap.api.maps.CameraUpdateFactory
+import com.amap.api.maps.CoordinateConverter
+import com.amap.api.maps.model.*
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment
 import com.esri.arcgisruntime.geometry.*
+import com.esri.arcgisruntime.geometry.Polygon
+import com.esri.arcgisruntime.geometry.Polyline
 import com.esri.arcgisruntime.layers.ArcGISTiledLayer
 import com.esri.arcgisruntime.layers.Layer
 import com.esri.arcgisruntime.mapping.ArcGISMap
@@ -34,6 +38,10 @@ import com.zky.zky_map.R
 import com.zky.zky_map.databinding.MapFragmentBinding
 import com.zky.zky_map.mvvm.factory.MapViewModelFactory
 import com.zky.zky_map.mvvm.viewmodle.MapViewModle
+import com.zky.zky_map.utils.LocationUtils
+import com.zky.zky_map.utils.MapUtlis
+import com.zky.zky_map.utils.MapUtlis.TransfromGCJ
+import com.zky.zky_map.utils.MapUtlis.TransfromGps
 import kotlinx.android.synthetic.main.map_fragment.*
 import java.text.DecimalFormat
 
@@ -52,12 +60,9 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     private val graphicList = arrayListOf<Graphic>()
     private var pointCollection: PointCollection = PointCollection(SpatialReferences.getWgs84())
     val polygonPoints = PointCollection(SpatialReferences.getWgs84())
-
-    //    val blueOutlineSymbol = SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, -0xff9c01, 2f)
     private val lineSymbol =
         SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.parseColor("#FF6C0F"), 5f)
     private var mapCenterPoint: Point? = null
-
 
     //    # -0x7f00a8cd
     private val polygonFillSymbol =
@@ -68,6 +73,15 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     private lateinit var lineGraphicsOverlay: GraphicsOverlay
     private lateinit var polygonGraphicsOverlay: GraphicsOverlay
     private lateinit var farmerOverlays: GraphicsOverlay
+    private var dianMarker: Marker? = null
+    private var gdPointLineMaker = arrayListOf<Marker>()
+    private var gdPointLineLatLng = arrayListOf<LatLng>()
+
+    private var gdPointSurfaceMaker = arrayListOf<Marker>()
+    private var gdPointSurfaceLatLng = arrayListOf<LatLng>()
+    private var addPolyline: com.amap.api.maps.model.Polyline? = null
+    private var addPolygon: com.amap.api.maps.model.Polygon? = null
+
     override fun onBindViewModel() = MapViewModle::class.java
     override fun onBindViewModelFactory() = MapViewModelFactory.getInstance(activity!!.application)
 
@@ -81,8 +95,20 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                             dingwei()
                             return@observe
                         }
-                        map_view.setViewpointCenterAsync(mePoint)
-                        mViewModel?.delayTwo("movePoint", 500)
+                        if (mViewModel?.mapViewBean?.get()?.wxOrLx == true) {
+                            map_view.setViewpointCenterAsync(mePoint)
+                            mViewModel?.delayTwo("movePoint", 500)
+                        } else if (mViewModel?.mapViewBean?.get()?.wxOrLx == false) {
+
+                            val latLng = LatLng(mePoint!!.y, mePoint!!.x)
+                            val transfromGCJ = MapUtlis.TransfromGCJ(latLng, mActivity)
+                            mBinding?.gdMV?.map?.moveCamera(
+                                CameraUpdateFactory
+                                    .newLatLngZoom(transfromGCJ, 15f)
+                            )
+
+                        }
+
                     }
                     "movePoint" -> {
                         setLngAndLong()
@@ -109,10 +135,27 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     }
 
     private fun dianSure() {
-        mapCenterPoint = getMapCenterPoint()
-        mViewModel?.mapViewBean?.get()?.dianData = mapCenterPoint
-        //设置最大的长宽
-        initCallout()
+        try {
+            val wxOrLx = mViewModel?.mapViewBean?.get()?.wxOrLx
+            wxOrLx?.let {
+                if (it) {
+                    mapCenterPoint = getMapCenterPoint()
+                    mViewModel?.mapViewBean?.get()?.dianData = mapCenterPoint
+                    initCallout()
+                    drawGDPoint(LatLng(mapCenterPoint!!.y, mapCenterPoint!!.x))
+                } else {
+                    val target = mBinding?.gdMV?.map?.cameraPosition?.target
+                    val toGPSPoint = LocationUtils.toGPSPoint(target!!.latitude, target.longitude)
+                    mapCenterPoint = Point(toGPSPoint.longitude, toGPSPoint.latitude, wgs)
+                    mViewModel?.mapViewBean?.get()?.dianData = mapCenterPoint
+                    initCallout()
+                    drawGDPoint(LatLng(target.latitude, target.longitude))
+                }
+
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun onBindVariableId() = BR.mapViewModle
@@ -127,25 +170,15 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     }
 
     override fun initData() {
+        showInitLoadView(true)
         initArgis()
         initGD()
         listener()
+        showInitLoadView(false)
     }
 
     private fun initGD() {
-//        val myLocationStyle: MyLocationStyle
-//        myLocationStyle =
-//            MyLocationStyle() //初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
-//
-//        myLocationStyle.interval(2000) //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
-//        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）默认执行此种模式。
-//
-//        mBinding?.gdMV?.map?.myLocationStyle = myLocationStyle //设置定位蓝点的Style
-////设置默认定位按钮是否显示，非必需设置。
-////        mBinding?.gdMV?.map?.uiSettings?.isMyLocationButtonEnabled = true
-//        mBinding?.gdMV?.map?.isMyLocationEnabled =
-//            true // 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
-//缩放按钮是否显示
+        //缩放按钮是否显示
         mBinding?.gdMV?.map?.uiSettings?.isZoomControlsEnabled = false
 
 
@@ -158,47 +191,106 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 //设置定位监听
 //        mlocationClient.setLocationListener(this)
 //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
-        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy)
+        mLocationOption.locationMode = AMapLocationClientOption.AMapLocationMode.Battery_Saving
 //设置定位间隔,单位毫秒,默认为2000ms
         mLocationOption.interval = 2000
 //设置定位参数
         mlocationClient.setLocationOption(mLocationOption)
 
-// 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
-// 注意设置合适的定位时间的间隔（最小间隔支持为1000ms），并且在合适时间调用stopLocation()方法来取消定位请求
-// 在定位结束后，在合适的生命周期调用onDestroy()方法
-// 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
 //启动定位
         mlocationClient.startLocation()
+        var firstLocation = true
+        mlocationClient.setLocationListener {
+            if (it != null && it.errorCode == 0 && firstLocation || mePoint == null) {
+                val latitude = it.latitude
+                val longitude = it.longitude
+                if (longitude > 0) {
+                    firstLocation = false
+                }
 
-        val latLng = LatLng(39.906901, 116.397972)
-        val marker: Marker =
-            mBinding?.gdMV?.map?.addMarker(MarkerOptions().position(latLng).title("北京").snippet("DefaultMarker"))!!
 
+                val markerOption = MarkerOptions()
+                val latLng = LatLng(latitude, longitude)
 
-//        mlocationClient.setLocationListener {
-//            if (it != null && it.errorCode == 0) {
-//                val latitude = it.latitude
-//                val longitude = it.longitude
-//                val marker: Marker =  mBinding?.gdMV?.map!!.addMarker(
-//                    MarkerOptions()
-//                        .title("好好学习")
-//                        .icon(
-//                            BitmapDescriptorFactory
-//                                .fromBitmap( BitmapFactory.decodeResource(resources, R.drawable.dian))
-//                        )
-//                        .draggable(true)
-//                )
-//                marker.rotateAngle = 90f // 设置marker旋转90度
-//
-//                marker.setPositionByPixels(400, 400)
-//                marker.showInfoWindow() // 设置默认显示一个infowinfow
-//            }
-//
-//        }
+                mePoint = MapUtlis.TransfromGps(latLng)
+
+                markerOption.position(latLng)
+                markerOption.draggable(true) //设置Marker可拖动
+                markerOption.icon(
+                    BitmapDescriptorFactory.fromBitmap(
+                        BitmapFactory
+                            .decodeResource(resources, R.drawable.my_location)
+                    )
+                )
+
+                //  将Marker设置为贴地显示，可以双指下拉地图查看效果
+                markerOption.isFlat = true //设置marker平贴地图效果
+                mBinding?.gdMV?.map?.addMarker(markerOption)
+                mBinding?.gdMV?.map?.moveCamera(
+                    CameraUpdateFactory
+                        .newLatLngZoom(latLng, 15f)
+                )
+
+            }
+
+        }
+// gd 地图移动监听
+        mBinding?.gdMV?.map?.setOnCameraChangeListener(object : AMap.OnCameraChangeListener {
+            override fun onCameraChange(p0: CameraPosition) {
+                mapCenterPoint = MapUtlis.TransfromGps(p0.target)
+                setLngAndLong()
+            }
+
+            override fun onCameraChangeFinish(p0: CameraPosition) {
+                mapCenterPoint = MapUtlis.TransfromGps(p0.target)
+                setLngAndLong()
+                val bean = mViewModel?.mapViewBean?.get()
+                if (bean?.lineTYpe == 0 && bean.dianData == null) {
+                    mViewModel?.mapViewBean?.get()?.dianShowWT = true
+                }
+
+            }
+
+        })
+
+        mBinding?.gdMV?.map?.setOnMapClickListener {
+            drawLineOrPolygon(null, it)
+        }
 
 
     }
+
+
+    private fun drawGDPoint(latLng: LatLng) {
+        var la = latLng
+        if (mViewModel?.mapViewBean?.get()?.wxOrLx == true) {
+            val converter = CoordinateConverter(mActivity)
+            // CoordType.GPS 待转换坐标类型 WGS-84坐标系
+            converter.from(CoordinateConverter.CoordType.GPS)
+            // sourceLatLng待转换坐标点 LatLng类型
+            converter.coord(latLng)
+            // 执行转换操作
+            la = converter.convert()
+        }
+        val markerOption = MarkerOptions()
+        markerOption.position(la)
+        markerOption.title("test")
+        markerOption.draggable(true) //设置Marker可拖动
+        markerOption.icon(
+            BitmapDescriptorFactory.fromBitmap(
+                BitmapFactory
+                    .decodeResource(resources, R.drawable.move_poiat)
+            )
+        )
+        //  将Marker设置为贴地显示，可以双指下拉地图查看效果
+        markerOption.isFlat = false //设置marker平贴地图效果
+        if (dianMarker != null) {
+            dianMarker?.remove()
+        }
+        dianMarker = mBinding?.gdMV?.map?.addMarker(markerOption)
+        dianMarker?.`object` = "dian"
+    }
+
 
     private fun listener() {
         map_view?.onTouchListener = object : DefaultMapViewOnTouchListener(activity, map_view) {
@@ -214,7 +306,6 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                     }
                 }
                 if (bean?.lineTYpe == 0 && bean.dianData == null && callout != null && !callout!!.isShowing) {
-
                     mViewModel?.mapViewBean?.get()?.dianShowWT = true
                 }
                 return super.onTouch(view, event)
@@ -227,7 +318,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                         return super.onSingleTapConfirmed(e)
                     }
                 }
-                drawLineOrPolygon(e)
+                drawLineOrPolygon(e, null)
                 return super.onSingleTapConfirmed(e)
             }
         }
@@ -258,16 +349,32 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                 mViewModel?.mapViewBean?.get()?.dianData = null
                 farmerOverlays.graphics.clear()
                 callout?.dismiss()
+                dianMarker?.remove()
             }
             1 -> {
                 pointCollection.clear()
                 lineGraphicsOverlay.graphics.clear()
                 mViewModel?.mapViewBean?.get()?.lineData = null
+
+                addPolyline?.remove()
+                gdPointLineMaker.forEach {
+                    it.remove()
+                }
+                gdPointLineMaker.clear()
+                gdPointLineLatLng.clear()
+
             }
             2 -> {
                 polygonPoints.clear()
                 polygonGraphicsOverlay.graphics.clear()
                 mViewModel?.mapViewBean?.get()?.surfaceData = null
+
+                addPolygon?.remove()
+                gdPointSurfaceMaker.forEach {
+                    it.remove()
+                }
+                gdPointSurfaceMaker.clear()
+                gdPointSurfaceLatLng.clear()
             }
         }
     }
@@ -291,6 +398,11 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                     val polylineGraphic = Graphic(polyline, lineSymbol)
                     lineGraphicsOverlay.graphics.add(polylineGraphic)
                 }
+                val ma = gdPointLineMaker.last()
+                ma.remove()
+                gdPointLineMaker.remove(ma)
+                gdPointLineLatLng.removeAt(gdPointLineLatLng.lastIndex)
+                drawGdLine()
             } else if (lineTYpe == 2) {
                 polygonPoints.removeAt(polygonPoints.size - 1)
                 polygonGraphicsOverlay.graphics.clear()
@@ -299,6 +411,14 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                     val polygonGraphic = Graphic(polygon, polygonFillSymbol)
                     polygonGraphicsOverlay.graphics.add(polygonGraphic)
                 }
+
+
+                val ma = gdPointSurfaceMaker.last()
+                ma.remove()
+                gdPointSurfaceMaker.remove(ma)
+                gdPointSurfaceLatLng.removeAt(gdPointSurfaceLatLng.lastIndex)
+                drawGdPylone()
+
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -310,18 +430,35 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
      *
      * @param e
      */
-    private fun drawLineOrPolygon(e: MotionEvent) {
-        mViewModel?.mapViewBean?.get()?.showSureModify = true
+    private fun drawLineOrPolygon(e: MotionEvent?, latLng: LatLng?) {
+        try {
 
-        val mapPoint = android.graphics.Point(e.x.toInt(), e.y.toInt())
-        val screenToLocation = map_view.screenToLocation(mapPoint)
-        val pointGraphic = Graphic(screenToLocation, dianCampsiteSymbol)
-        dianLocation.graphics.add(pointGraphic)
-        graphicList.add(pointGraphic)
-        val point = GeometryEngine.project(screenToLocation, wgs) as Point
-        val type = mViewModel?.mapViewBean?.get()?.lineTYpe
-        type?.let {
-            when (it) {
+
+            mViewModel?.mapViewBean?.get()?.showSureModify = true
+
+            val bean = mViewModel?.mapViewBean?.get() ?: return
+            val lineTYpe = bean.lineTYpe
+            var point: Point? = null
+            var tmpLat: LatLng? = null
+            if (bean.wxOrLx) {
+                val mapPoint = android.graphics.Point(e!!.x.toInt(), e.y.toInt())
+                val screenToLocation = map_view.screenToLocation(mapPoint)
+                val pointGraphic = Graphic(screenToLocation, dianCampsiteSymbol)
+                dianLocation.graphics.add(pointGraphic)
+                graphicList.add(pointGraphic)
+                point = GeometryEngine.project(screenToLocation, wgs) as Point
+                tmpLat = TransfromGCJ(LatLng(point.y, point.x), mActivity)
+
+            } else {
+                tmpLat = latLng
+                point = TransfromGps(tmpLat!!)
+                val pointGraphic = Graphic(point, dianCampsiteSymbol)
+                dianLocation.graphics.add(pointGraphic)
+                graphicList.add(pointGraphic)
+            }
+
+
+            when (lineTYpe) {
                 1 -> {
                     //线
                     pointCollection.add(point)
@@ -331,6 +468,13 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                         lineGraphicsOverlay.graphics.clear()
                         lineGraphicsOverlay.graphics.add(polylineGraphic)
                     }
+                    gdPointLineLatLng.add(tmpLat)
+                    val drawRemaker = drawRemaker(tmpLat, lineTYpe)
+                    val marker = gdMV?.map?.addMarker(drawRemaker)
+                    marker?.`object` = "line${gdPointSurfaceMaker.size}"
+                    gdPointLineMaker.add(marker!!)
+                    drawGdLine()
+
                 }
                 2 -> {
                     //面
@@ -341,16 +485,76 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                         polygonGraphicsOverlay.graphics.clear()
                         polygonGraphicsOverlay.graphics.add(polygonGraphic)
                     }
+
+                    gdPointSurfaceLatLng.add(tmpLat)
+
+                    val drawRemaker = drawRemaker(tmpLat, lineTYpe)
+                    val marker = gdMV?.map?.addMarker(drawRemaker)
+                    marker?.`object` = "polygon${gdPointSurfaceMaker.size}"
+                    gdPointSurfaceMaker.add(marker!!)
+                    drawGdPylone()
+
                 }
             }
-
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+    }
+
+
+    private fun drawGdLine() {
+        addPolyline?.remove()
+        if (gdPointLineLatLng.size > 1) {
+            addPolyline = gdMV?.map?.addPolyline(
+                PolylineOptions().addAll(gdPointLineLatLng).width(10f)
+                    .color(Color.argb(255, 108, 15, 1))
+            )
+        }
+    }
+
+    private fun drawGdPylone() {
+        addPolygon?.remove()
+        val polygonOptions = PolygonOptions()
+        polygonOptions.addAll(gdPointSurfaceLatLng)
+        polygonOptions.strokeWidth(15f) // 多边形的边框
+//            .strokeColor(Color.argb(0, 255, 108, 15)) // 边框颜色
+//            .fillColor(Color.argb(0, 250, 100, 0));   // 多边形的填充色
+            .strokeColor(Color.argb(50, 1, 1, 1)) // 边框颜色
+            .fillColor(Color.argb(1, 1, 1, 1));   // 多边形的填充色
+        addPolygon = gdMV?.map?.addPolygon(polygonOptions)
+
+    }
+
+
+    private fun drawRemaker(latLng: LatLng, lineTYpe: Int): MarkerOptions {
+
+        val markerOption = MarkerOptions()
+        markerOption.position(latLng)
+        if (lineTYpe == 1 && gdPointLineLatLng.size == 0) {
+            markerOption.title("test")
+        } else if (lineTYpe == 2 && gdPointSurfaceLatLng.size == 0) {
+            markerOption.title("test")
+        }
+
+//
+        markerOption.draggable(true) //设置Marker可拖动
+        markerOption.icon(
+            BitmapDescriptorFactory.fromBitmap(
+                BitmapFactory
+                    .decodeResource(resources, R.drawable.dian)
+            )
+        )
+        markerOption.isFlat = true //设置marker平贴地图效果
+        return markerOption
+
     }
 
     @SuppressLint("SetTextI18n")
     private fun setLngAndLong() {
         try {
-            mapCenterPoint = getMapCenterPoint()
+            if (mViewModel?.mapViewBean?.get()?.wxOrLx == true) {
+                mapCenterPoint = getMapCenterPoint()
+            }
             atv_latitude.text = "经度:${df.format(mapCenterPoint?.x)} "
             atv_longitude.text = "维度:${df.format(mapCenterPoint?.y)}"
         } catch (e: Exception) {
@@ -473,11 +677,19 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     override fun onPause() {
         super.onPause()
         map_view?.pause()
+        gdMV?.onPause()
     }
 
     override fun onResume() {
         super.onResume()
         map_view?.resume()
+        gdMV?.onResume()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        map_view?.resume()
+        gdMV?.onDestroy()
     }
 
     companion object {
