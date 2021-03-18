@@ -1,6 +1,7 @@
 package com.zky.basics.main.mvvm.viewmodel
 
 import android.app.Application
+import android.os.Bundle
 import android.view.View
 import androidx.databinding.ObservableField
 import com.alibaba.android.arouter.launcher.ARouter
@@ -18,7 +19,8 @@ class TaskViewModel(application: Application, model: MainModel) :
     var taskBean: TaskBean? = null
     private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
     var searchMessage = ObservableField<String>()
-
+    var sfMessage = ObservableField<String>()
+    var sfMessageDigits = ObservableField<String>()
     override fun refreshData() {
 
     }
@@ -26,6 +28,13 @@ class TaskViewModel(application: Application, model: MainModel) :
     override fun loadMore() {
 
     }
+    init {
+        sfMessage.set("身份证")
+        sfMessageDigits.set("0123456789xX")
+    }
+
+    override fun enableLoadMore() = false
+    override fun enableRefresh() = false
 
     fun setData() {
         launchUI({
@@ -51,7 +60,8 @@ class TaskViewModel(application: Application, model: MainModel) :
                 setData()
             }
             R.id.aiv_add_task -> {
-                ARouter.getInstance().build(ARouterPath.ADDTASK).navigation()
+                ARouter.getInstance().build(ARouterPath.ADDTASK).withParcelable("taskData", taskBean)
+                    .navigation()
             }
             R.id.atv_se_ad -> {
                 getmVoidSingleLiveEvent().value = "dialogShow"

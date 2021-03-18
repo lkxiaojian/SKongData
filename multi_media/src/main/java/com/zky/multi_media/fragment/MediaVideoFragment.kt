@@ -10,20 +10,25 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.hjq.permissions.OnPermission
 import com.hjq.permissions.XXPermissions
 import com.zky.basics.api.room.bean.MediaBean
+import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.mvvm.BaseMvvmRefreshFragment
 import com.zky.basics.common.util.*
 import com.zky.basics.common.util.FileUtil.isVideoFile
 import com.zky.basics.common.util.reflec.instanceOf
+import com.zky.basics.common.util.spread.decodeParcelable
 import com.zky.basics.common.util.view.CustomDialog
 import com.zky.multi_media.BR
 import com.zky.multi_media.R
 import com.zky.multi_media.adapter.MediaVideoListAdapter
+import com.zky.multi_media.databinding.MediaFragmentBinding
 import com.zky.multi_media.databinding.MediaVideoFragmentBinding
 import com.zky.multi_media.databinding.MediaVoiceFragmentBinding
 import com.zky.multi_media.mvvm.factory.MediaViewModelFactory
 import com.zky.multi_media.mvvm.viewmodle.MediaImageListViewModle
+import com.zky.multi_media.mvvm.viewmodle.MediaVideoListViewModle
 import me.bzcoder.mediapicker.config.MediaPickerEnum
+import java.util.*
 
 /**
  *create_time : 21-3-5 上午9:25
@@ -31,8 +36,9 @@ import me.bzcoder.mediapicker.config.MediaPickerEnum
  *description： Media
  */
 class MediaVideoFragment :
-    BaseMvvmRefreshFragment<MediaBean, MediaVideoFragmentBinding, MediaImageListViewModle>(),
+    BaseMvvmRefreshFragment<MediaBean, MediaFragmentBinding, MediaImageListViewModle>(),
     BaseBindAdapter.OnItemClickListener<Any>, BaseBindAdapter.OnItemLongClickListener<Any> {
+    private val userinfo = decodeParcelable<Userinfo>("user")
 
     private lateinit var mediaListAdapter: MediaVideoListAdapter
     override fun refreshLayout() = mBinding?.drlMedia
@@ -53,16 +59,25 @@ class MediaVideoFragment :
         mediaListAdapter?.setOnItemLongClickListener(this)
         mBinding?.recview?.adapter = mediaListAdapter
         mViewModel?.mList?.add(instanceOf<MediaBean>())
+
     }
 
-    override fun onBindVariableId() = BR.voiceListViewModel
+    override fun onBindVariableId() = BR.mediaListViewModel
 
-    override fun onBindLayout() = R.layout.media_video_fragment
+    override fun onBindLayout() = R.layout.media_fragment
 
     override fun initView(view: View?) {
     }
 
     override fun initData() {
+        mViewModel?.fileType?.set(fileType)
+        mViewModel?.getFileData()
+        mViewModel?.getAppToken()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mViewModel?.fileType?.set(fileType)
     }
 
     override fun onItemClick(e: Any, position: Int) {
@@ -131,13 +146,15 @@ class MediaVideoFragment :
             var tmpList = arrayListOf<MediaBean>()
             for (item in resultData) {
                 var bean = instanceOf<MediaBean>()
+                bean.code = UUID.randomUUID().toString().replace("-", "")
+
                 bean.create_data = DateUtil.getCurrentTime(DateUtil.FormatType.yyyyMMddHHmm)
                 bean.file_path = item
                 bean.file_type = fileType
                 bean.videoImagePath = item
-                bean.uploader = "test"
+                bean.uploader = userinfo?.username
                 bean.file_name = FileUtil.getNameByPath(item)
-                bean.isupload = false
+                bean.upload = false
                 tmpList.add(bean)
             }
             val minus = mViewModel?.mList?.size?.minus(1)
@@ -149,8 +166,7 @@ class MediaVideoFragment :
     }
 
     companion object {
-        private var fileType: Int = 1
-
+        private var fileType: String = "video"
         @JvmStatic
         fun mediaVoiceInstance(): Fragment {
             return MediaVideoFragment()
@@ -158,12 +174,23 @@ class MediaVideoFragment :
     }
 
     override fun onItemLongClick(e: Any, postion: Int): Boolean {
-        if (postion+1 != mViewModel?.mList?.size) {
-
-            showCustomDialog(mActivity, "删除", "是否删除", "", "取消", "确定").setOnItemClickListener(object :
-                CustomDialog.OnItemClickListener{
+        if (postion + 1 != mViewModel?.mList?.size) {
+            val mediaBean = e as MediaBean
+            showCustomDialog(
+                mActivity,
+                "删除",
+                "是否删除",
+                "",
+                "取消",
+                "确定"
+            ).setOnItemClickListener(object :
+                CustomDialog.OnItemClickListener {
                 override fun onSure() {
-                    mViewModel?.mList?.removeAt(postion)
+                    if (mediaBean.upload) {
+                        mViewModel?.deleFile(mediaBean.code, postion)
+                    } else {
+                        mViewModel?.mList?.removeAt(postion)
+                    }
                 }
 
                 override fun onDismiss() {

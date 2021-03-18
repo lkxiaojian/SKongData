@@ -3,6 +3,7 @@ package com.zky.basics.api.apiservice
 import com.zky.basics.api.common.entity.OssToken
 import com.zky.basics.api.common.entity.UpdataBean
 import com.zky.basics.api.dto.RespDTO
+import com.zky.basics.api.file.ShowFileBean
 import com.zky.basics.api.splash.entity.RegionOrSchoolBean
 import com.zky.basics.api.splash.entity.Userinfo
 import retrofit2.http.GET
@@ -46,10 +47,11 @@ interface CommonService {
     @GET("getSchoolDownload.do")
     suspend fun getSchoolDownload(@Query("schoolId") schoolId: String?): RespDTO<Any>
 
-    @POST("deleteProjectFile.do")
-    suspend fun deleteProjectFile(@Query("code") code: String?): RespDTO<Any>
+    @POST("deleteFileInfo.do")
+    suspend fun deleteFileInfo(@Query("fileCode") code: String?): RespDTO<Any>
 
-
+    @GET("getFileList.do")
+    suspend fun getFileList(@Query("itemCode") code: String?,@Query("mediaType") mediaType: String?): RespDTO<List<ShowFileBean>>
 
 
 

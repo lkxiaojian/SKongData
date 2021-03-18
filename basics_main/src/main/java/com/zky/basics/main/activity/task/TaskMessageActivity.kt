@@ -11,12 +11,15 @@ import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.zky.basics.api.common.entity.task.TaskBean
+import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.adapter.FragmentPager2Adapter
 import com.zky.basics.common.mvvm.BaseActivity
 import com.zky.basics.common.provider.IMapProvider
 import com.zky.basics.common.provider.IMediaProvider
 import com.zky.basics.common.provider.IMediaSelectVideoProvider
 import com.zky.basics.common.provider.IMediaSelectVoiceProvider
+import com.zky.basics.common.util.spread.decodeParcelable
 import com.zky.basics.main.R
 import kotlinx.android.synthetic.main.activity_task_message.*
 import java.util.*
@@ -40,7 +43,8 @@ class TaskMessageActivity : BaseActivity() {
     @Autowired(name = ARouterPath.MEDIA_SELECT_VIDEO)
     var iMediaSelectVideoProvider: IMediaSelectVideoProvider? = null
 
-    private val titles = arrayListOf("空间数据", "问卷信息", "照片信息", "视频信息", "音频信息")
+    //    "空间数据", "问卷信息", "照片信息", "视频信息", "音频信息"
+    private val titles = arrayListOf<String>()
 
     private val mListFragments = ArrayList<Fragment>()
     override fun onBindLayout() = R.layout.activity_task_message
@@ -48,49 +52,74 @@ class TaskMessageActivity : BaseActivity() {
     override fun initView() {
     }
 
+    override val tootBarTitle: String
+        get() = decodeParcelable<Userinfo>("user")?.username.toString()
+
     override fun initData() {
-            val mainLiveFragment = mMineProvider?.mediaFragment
-        mainLiveFragment?.let {
-        }
-        mListFragments.add(iMapProvider?.mapFragment!!)
-        mListFragments.add(Fragment())
-        mListFragments.add(mMineProvider?.mediaFragment!!)
-        mListFragments.add(iMediaSelectVideoProvider?.mediaVideoFragment!!)
-        mListFragments.add(iMediaSelectVoiceProvider?.mediaVoiceFragment("test")!!)
-        val fragmentPager2Adapter = FragmentPager2Adapter(this, mListFragments)
+        try {
+            titles.clear()
+            val taskBean = intent.extras["dataTask"] as TaskBean
+            val itemCode = intent.extras["itemCode"].toString()
 
-        pager_tour_task?.adapter = fragmentPager2Adapter
-        pager_tour_task.currentItem = 0
-        //添加动画
+            if (!taskBean.spaceDataType.isNullOrEmpty()) {
+                titles.add("空间数据")
+                mListFragments.add(iMapProvider?.mapFragment!!)
+            }
+            titles.add("问卷信息")
+            mListFragments.add(Fragment())
+            taskBean.mediaDataType?.let {
+
+                if (it.contains("照片")) {
+                    titles.add("照片信息")
+                    mListFragments.add(mMineProvider?.mediaFragment(itemCode)!!)
+                }
+
+                if (it.contains("视频")) {
+                    titles.add("视频信息")
+                    mListFragments.add(iMediaSelectVideoProvider?.mediaVideoFragment!!)
+                }
+                if (it.contains("音频")) {
+                    titles.add("音频信息")
+                    mListFragments.add(iMediaSelectVoiceProvider?.mediaVoiceFragment(itemCode)!!)
+                }
+            }
+
+            val fragmentPager2Adapter = FragmentPager2Adapter(this, mListFragments)
+
+            pager_tour_task?.adapter = fragmentPager2Adapter
+            pager_tour_task.currentItem = 0
+            //添加动画
 //        pager_tour_task.setPageTransformer(ZoomOutPageTransformer())
-        //切换tab页
-        TabLayoutMediator(
-            layout_tour, pager_tour_task
-        ) { tab, position ->
-            tab.text = titles[position]
-        }.attach()
+            //切换tab页
+            TabLayoutMediator(
+                layout_tour, pager_tour_task
+            ) { tab, position ->
+                tab.text = titles[position]
+            }.attach()
 
-        setTab(layout_tour.getTabAt(0)?.view?.tab)
+            setTab(layout_tour.getTabAt(0)?.view?.tab)
 
 
-        layout_tour.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            @RequiresApi(Build.VERSION_CODES.M)
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                setTab(tab)
-            }
+            layout_tour.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                @RequiresApi(Build.VERSION_CODES.M)
+                override fun onTabSelected(tab: TabLayout.Tab) {
+                    setTab(tab)
+                }
 
-            @RequiresApi(Build.VERSION_CODES.M)
-            override fun onTabUnselected(tab: TabLayout.Tab) {
+                @RequiresApi(Build.VERSION_CODES.M)
+                override fun onTabUnselected(tab: TabLayout.Tab) {
 
-                tab.customView = null
+                    tab.customView = null
 
-            }
+                }
 
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-            }
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                }
 
-        })
-
+            })
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun onBindToolbarLayout() = R.layout.white_common_toolbar
@@ -118,6 +147,7 @@ class TaskMessageActivity : BaseActivity() {
         textView.text = tab.text
         tab.customView = textView
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

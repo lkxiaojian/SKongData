@@ -8,8 +8,10 @@ import com.zky.multi_media.fragment.MediaImageFragment.Companion.mediaImageInsta
 
 @Route(path = ARouterPath.MEDIA)
 class MediaProvider : IMediaProvider {
-    override val mediaFragment: Fragment?
-        get() = mediaImageInstance()
+    override fun mediaFragment(code: String): Fragment? {
+       return mediaImageInstance(code)
+    }
+
 
     override fun init(context: Context) {
 

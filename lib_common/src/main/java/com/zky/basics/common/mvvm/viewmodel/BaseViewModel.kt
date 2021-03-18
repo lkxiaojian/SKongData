@@ -36,17 +36,22 @@ open class BaseViewModel<M : BaseModel>(
 
     //运行在UI线程的协程  block 请求网络的方法体  err 请求异常的对象 可以不传递
     fun launchUI(block: suspend CoroutineScope.() -> Unit, vararg err: NetError?) =
-        viewModelScope.launch {
-            try {
-                block()
-            } catch (e: Exception) {
-                if (err.isNotEmpty()) {
-                    err.let { it[0]?.getError(e) }
+        try {
+            viewModelScope.launch {
+                try {
+                    block()
+                } catch (e: Exception) {
+                    if (err.isNotEmpty()) {
+                        err.let { it[0]?.getError(e) }
+                    }
+
+                } finally {
+
                 }
 
-            } finally {
-
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
 
     //请求网络异常接口

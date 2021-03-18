@@ -12,5 +12,7 @@
     <string name="idcard" translatable="false">身份证号码：%s </string>
     <string name="wscwj" translatable="false">未上传问卷信息</string>
     <string name="yscwj" translatable="false">已上传问卷信息</string>
+    <string name="idcard_mf" translatable="false">身份证</string>
+    <string name="idcard_xz" translatable="false">0123456789xX</string>
 
 </resources>

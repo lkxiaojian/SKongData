@@ -10,10 +10,13 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.hjq.permissions.OnPermission
 import com.hjq.permissions.XXPermissions
 import com.zky.basics.api.room.bean.MediaBean
+import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.adapter.BaseBindAdapter
+import com.zky.basics.common.constant.Constants.itemCode
 import com.zky.basics.common.mvvm.BaseMvvmRefreshFragment
 import com.zky.basics.common.util.*
 import com.zky.basics.common.util.reflec.instanceOf
+import com.zky.basics.common.util.spread.decodeParcelable
 import com.zky.basics.common.util.view.CustomDialog
 import com.zky.multi_media.BR
 import com.zky.multi_media.R
@@ -22,6 +25,7 @@ import com.zky.multi_media.databinding.MediaFragmentBinding
 import com.zky.multi_media.mvvm.factory.MediaViewModelFactory
 import com.zky.multi_media.mvvm.viewmodle.MediaImageListViewModle
 import me.bzcoder.mediapicker.config.MediaPickerEnum
+import java.util.*
 
 /**
  *create_time : 21-3-5 上午9:25
@@ -33,6 +37,7 @@ class MediaImageFragment :
     BaseBindAdapter.OnItemClickListener<Any>, BaseBindAdapter.OnItemLongClickListener<Any> {
 
     private lateinit var mediaListAdapter: MediaImageListAdapter
+    private val userinfo = decodeParcelable<Userinfo>("user")
     override fun refreshLayout() = mBinding?.drlMedia
     override fun onBindViewModel() = MediaImageListViewModle::class.java
 
@@ -40,7 +45,7 @@ class MediaImageFragment :
         MediaViewModelFactory.getInstance(activity!!.application)
 
     override fun initViewObservable() {
-        mediaListAdapter = MediaImageListAdapter(activity!!, mViewModel?.mList, fileType)
+        mediaListAdapter = MediaImageListAdapter(activity!!, mViewModel?.mList)
         mViewModel?.mList?.addOnListChangedCallback(
             ObservableListUtil.getListChangedCallback(
                 mediaListAdapter
@@ -51,6 +56,7 @@ class MediaImageFragment :
         mediaListAdapter.setOnItemLongClickListener(this)
         mBinding?.recview?.adapter = mediaListAdapter
         mViewModel?.mList?.add(instanceOf<MediaBean>())
+
     }
 
     override fun onBindVariableId() = BR.mediaListViewModel
@@ -61,6 +67,14 @@ class MediaImageFragment :
     }
 
     override fun initData() {
+        mViewModel?.fileType?.set(fileType)
+        mViewModel?.getFileData()
+        mViewModel?.getAppToken()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mViewModel?.fileType?.set(fileType)
     }
 
     override fun onItemClick(e: Any, position: Int) {
@@ -90,24 +104,18 @@ class MediaImageFragment :
             mViewModel?.mList?.let { projectPhoto.addAll(it) }
             mViewModel?.mList?.size?.minus(1)?.let { projectPhoto.removeAt(it) }
             params.putSerializable("images", projectPhoto)
-            params.putInt("position", position)
-            ARouter.getInstance().build(ARouterPath.MEDIA_SHOW_IMAGE).with(params).navigation()
+//            params.putInt("position", position)
+            ARouter.getInstance().build(ARouterPath.MEDIA_SHOW_IMAGE)
+                .withInt("position", position)
+                .withSerializable("images", projectPhoto).navigation()
         }
     }
 
     private fun selectMedia(e: MediaBean, position: Int) {
         if (position == mViewModel?.mList?.size?.minus(1)) {
-            var imageCount = 0
+            var imageCount = 9
             var videoCount = 0
 
-            when (fileType) {
-                0 -> {
-                    imageCount = 9
-                }
-                1 -> {
-                    videoCount = 9
-                }
-            }
             SmartMediaPickerComsur.builder(activity) //最大图片选择数目 如果不需要图片 将数目设置为0
                 .withMaxImageSelectable(imageCount) //最大视频选择数目 如果不需要视频 将数目设置为0
                 .withMaxVideoSelectable(videoCount) //图片选择器是否显示数字
@@ -141,13 +149,14 @@ class MediaImageFragment :
 
             for (item in resultData) {
                 var bean = instanceOf<MediaBean>()
+                bean.code = UUID.randomUUID().toString().replace("-", "")
                 bean.create_data = DateUtil.getCurrentTime(DateUtil.FormatType.yyyyMMddHHmm)
                 bean.file_path = item
                 bean.file_type = fileType
                 bean.videoImagePath = item
-                bean.uploader = "test"
+                bean.uploader = userinfo?.username
                 bean.file_name = FileUtil.getNameByPath(item)
-                bean.isupload = false
+                bean.upload = false
                 tmpList.add(bean)
             }
             val minus = mViewModel?.mList?.size?.minus(1)
@@ -159,10 +168,11 @@ class MediaImageFragment :
     }
 
     companion object {
-        private var fileType: Int = 0
+        private var fileType = "photo"
 
         @JvmStatic
-        fun mediaImageInstance(): Fragment {
+        fun mediaImageInstance(code: String): Fragment {
+            itemCode = code
             return MediaImageFragment()
         }
 
@@ -170,6 +180,7 @@ class MediaImageFragment :
 
     override fun onItemLongClick(e: Any, postion: Int): Boolean {
         if (postion + 1 != mViewModel?.mList?.size) {
+            val mediaBean = e as MediaBean
 
             showCustomDialog(
                 mActivity,
@@ -181,7 +192,12 @@ class MediaImageFragment :
             ).setOnItemClickListener(object :
                 CustomDialog.OnItemClickListener {
                 override fun onSure() {
-                    mViewModel?.mList?.removeAt(postion)
+
+                    if (mediaBean.upload) {
+                        mViewModel?.deleFile(mediaBean.code, postion)
+                    } else {
+                        mViewModel?.mList?.removeAt(postion)
+                    }
                 }
 
                 override fun onDismiss() {

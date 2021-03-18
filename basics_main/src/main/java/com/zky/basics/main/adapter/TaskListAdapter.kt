@@ -24,7 +24,6 @@ class TaskListAdapter(context: Context, items: ObservableArrayList<TaskItem>?) :
     BaseBindAdapter<TaskItem, TaskListBinding>(context, items) {
     override fun getLayoutItemId(viewType: Int) = R.layout.task_list
 
-    @SuppressLint("SetTextI18n")
     override fun onBindItem(binding: TaskListBinding?, item: TaskItem, position: Int) {
         binding?.data = item
         binding?.cvClick?.setOnClickListener {

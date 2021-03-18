@@ -454,7 +454,7 @@ class OssUploadingFileUtil(
                         File(uploadingFile.tempFilePath).delete()
                     }
                     uploadingFile.servicePath = "${it.data}"
-                    uploadingFile.tmpCode=""
+                    uploadingFile.tmpCode=uploadingFile.tmpCode
                     uploadingFile.filePath = objectKey
                     uploadingFile.success = true
                     uploadingFile.tmpCode="${it.data}"

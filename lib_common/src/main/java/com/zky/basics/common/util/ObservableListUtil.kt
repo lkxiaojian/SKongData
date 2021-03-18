@@ -15,8 +15,9 @@ object ObservableListUtil {
                 adapter.notifyItemRangeChanged(i, i1)
             }
 
-            override fun onItemRangeInserted(observableList: ObservableList<*>?, i: Int, i1: Int) {
+            override fun onItemRangeInserted(observableList: ObservableList<*>, i: Int, i1: Int) {
                 adapter.notifyItemRangeInserted(i, i1)
+                adapter.notifyItemRangeChanged(0, observableList.size)
             }
 
             override fun onItemRangeMoved(

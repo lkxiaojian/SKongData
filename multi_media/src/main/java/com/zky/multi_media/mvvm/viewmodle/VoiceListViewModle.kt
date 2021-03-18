@@ -19,6 +19,7 @@ import com.zky.basics.common.util.reflec.instanceOf
 import com.zky.multi_media.R
 import com.zky.multi_media.mvvm.model.MediaModel
 import java.io.File
+import java.util.*
 
 
 /**
@@ -93,6 +94,9 @@ class VoiceListViewModle(application: Application, mediaModel: MediaModel) :
                     val song = instanceOf<MediaBean>()
                     song.file_name = it.name
                     song.file_path = it.path
+                    song.code = UUID.randomUUID().toString().replace("-", "")
+                    song.file_type = "audio"
+                    song.isupload = false
                     song.startIng = 1
                     song.create_data = DateUtil.getCurrentTime(DateUtil.FormatType.yyyyMMddHHmm)
                     list.add(song)

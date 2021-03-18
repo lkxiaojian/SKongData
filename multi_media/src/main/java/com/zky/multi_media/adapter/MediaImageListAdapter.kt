@@ -14,9 +14,8 @@ import com.zky.multi_media.databinding.MediaItemBinding
  *author: lk
  *description： MediaListAdapter
  */
-class MediaImageListAdapter(context: Context, items: ObservableArrayList<MediaBean>?, type: Int) :
+class MediaImageListAdapter(context: Context, items: ObservableArrayList<MediaBean>?) :
     BaseBindAdapter<MediaBean, MediaItemBinding>(context, items) {
-    private val type = type
     override fun getLayoutItemId(viewType: Int) = R.layout.media_item
 
     override fun onBindItem(binding: MediaItemBinding?, item: MediaBean, position: Int) {

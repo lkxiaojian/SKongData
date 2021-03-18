@@ -19,16 +19,26 @@ import java.io.Serializable
 
 @AllowNoArg
 data class MediaBean(
-    var u_id: Long,
-    var file_type: Int, //0图片 1视频 2 音频
+    var code: String,
+    var file_type: String,
     var file_path: String,
     var file_name: String,
-    var create_data: String? = "",
-    var isupload: Boolean, //true 上传 false 缓存
+    var create_data: String,
+    var isupload: Boolean,
     var videoImagePath: String?,
     var user_code: String?,
     var uploader: String? = ""
 ) :  Parcelable, BaseObservable() {
+
+    //true 上传 false 缓存
+    @get:Bindable
+    @set:Bindable
+    var upload: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.upload)
+        }
+
     @get:Bindable
     @set:Bindable
     var check: Boolean = false
@@ -56,8 +66,8 @@ data class MediaBean(
         }
 
     constructor(parcel: Parcel) : this(
-        parcel.readLong(),
-        parcel.readInt(),
+        parcel.readString(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -69,8 +79,8 @@ data class MediaBean(
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeLong(u_id)
-        parcel.writeInt(file_type)
+        parcel.writeString(code)
+        parcel.writeString(file_type)
         parcel.writeString(file_path)
         parcel.writeString(file_name)
         parcel.writeString(create_data)

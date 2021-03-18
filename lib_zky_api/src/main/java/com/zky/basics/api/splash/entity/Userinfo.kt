@@ -18,7 +18,7 @@ import android.os.Parcelable
     var villageCode: String? = null,
     var idcard: String? = null,
     var password: String? = null,
-    var username: String ?= null,
+    var username: String ?= "",
     var accountLevel: Int = 0,
     var accountStatus: Int = 0,
     var isAdmin: String? = null,

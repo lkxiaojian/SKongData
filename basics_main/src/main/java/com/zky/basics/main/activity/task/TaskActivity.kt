@@ -3,6 +3,7 @@ package com.zky.basics.main.activity.task
 
 import android.content.Intent
 import com.zky.basics.api.common.entity.task.TaskBean
+import com.zky.basics.api.common.entity.task.TaskItem
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
 import com.zky.basics.common.util.ObservableListUtil
@@ -29,6 +30,7 @@ class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskVie
 
     override fun initViewObservable() {
         try {
+
             val bean = intent.extras["data"] as TaskBean
             val adapter = TaskListAdapter(this, mViewModel?.mList)
             mViewModel?.mList?.addOnListChangedCallback(
@@ -39,6 +41,8 @@ class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskVie
             adapter.setItemClickListener(this)
             mBinding?.recview?.adapter = adapter
             mViewModel?.taskBean = bean
+
+            mViewModel?.setData()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -50,7 +54,10 @@ class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskVie
         get() = "任务"
 
     override fun onItemClick(e: Any, position: Int) {
-        startActivity(Intent(this, TaskMessageActivity::class.java))
+        val intent = Intent(this, TaskMessageActivity::class.java)
+        intent.putExtra("itemCode", (e as TaskItem).itemCode)
+        intent.putExtra("dataTask", mViewModel?.taskBean)
+        startActivity(intent)
     }
 
 }

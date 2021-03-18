@@ -8,8 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RadioButton
-import android.widget.RelativeLayout
+import android.widget.RadioGroup
 import androidx.databinding.BindingAdapter
+import com.zky.basics.common.util.DisplayUtil
 import com.zky.zky_questionnaire.R
 
 
@@ -18,32 +19,14 @@ import com.zky.zky_questionnaire.R
  *author: lk
  *description： CustomShowMoreRadio
  */
-class CustomShowMoreRadio : ViewGroup {
-
+class CustomShowMoreRadio : RadioGroup, View.OnClickListener {
+    private var marTop = DisplayUtil.dip2px(10f)
+    private var maxChildHeight = 0
+    private var minChildHeight = 0
+    private var currentView: View? = null
 
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet) {
-        var listContent = "111,2,33"
-        val split = listContent.split(",")
-        split.forEach {
-            val v: View = LayoutInflater.from(context).inflate(R.layout.radio_cus, null)
-            if (v !is RadioButton) return@forEach
-            val layoutParams = RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT
-            )
-//            layoutParams.height=200
-//            layoutParams.width=1000
-//            layoutParams.topMargin=1000
-            v.layoutParams = layoutParams
-            v.text = it
-            v.setOnClickListener {
-                val radioButton = it as RadioButton
-                val text = radioButton.text
-                Log.e("","")
-            }
-            addView(v)
 
-        }
 
     }
 
@@ -51,39 +34,52 @@ class CustomShowMoreRadio : ViewGroup {
 
     }
 
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    )
-
-
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         if (childCount > 0) {
-            var heig=0
+
+            var heig = getChildAt(0).measuredHeight
+            var top = 0
             for (i: Int in 0 until childCount) {
-                val v = getChildAt(i);
-                heig+=v.measuredHeight+100
-                v.layout(0, 0, v.measuredWidth,heig)
+                val v = getChildAt(i)
+                val height = v.measuredHeight
+
+                if (i > 0) {
+                    if (i == childCount - 1) {
+
+                        heig += (height + marTop)
+
+                    } else {
+                        heig += (height + top + marTop)
+//                        top += (getChildAt(i - 1).measuredHeight + marTop)
+                    }
+
+                    top += (getChildAt(i - 1).measuredHeight + marTop)
+                }
+
+                v.layout(0, top, v.measuredWidth, heig)
             }
         }
+
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
-        var width = MeasureSpec.getSize(widthMeasureSpec);
-        var height = 0
-
 
         for (i in 0 until childCount) {
             val childAt = getChildAt(i)
-            height += (150)
-            measureChild(childAt, widthMeasureSpec, heightMeasureSpec);
-
+            measureChild(childAt, widthMeasureSpec, heightMeasureSpec)
         }
-        setMeasuredDimension(width, height)
-
+        var height = 0
+        if (childCount > 0) {
+            for (i in 0 until childCount) {
+                val childAt = getChildAt(i)
+                childAt.setOnClickListener(this)
+                val measuredHeight = childAt.measuredHeight
+                height += measuredHeight + marTop
+            }
+            setMeasuredDimension(width, height)
+        }
     }
 
     companion object {
@@ -91,24 +87,28 @@ class CustomShowMoreRadio : ViewGroup {
 
         @BindingAdapter(value = ["listContent"], requireAll = false)
         @JvmStatic
-        fun setListContent(viewGroup: ViewGroup, listContent: String) {
-            return
+        fun setListContent(view: RadioGroup, listContent: String) {
+
+            var listContent =
+                "选择题选项每一选项项每一选项项每一选项项每一选项项每一选项项每一选项占一sdasdsadasdasdasdasdasdasdsadas行选,11择题选项每一选项项每一选项项每一选项项每一选项项每一选项项每一选项项行,选择题选项每一选项占一行"
             val split = listContent.split(",")
+
             split.forEach {
-                val v: View =
-                    LayoutInflater.from(viewGroup.context).inflate(R.layout.radio_cus, null)
-                if (v !is RadioButton) return
-                val params =
-                    LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-                params.width = 400
-                params.height = 400
-                v.setLayoutParams(params);
-//                v.text = it
-                viewList.add(v)
-                viewGroup.addView(v)
+                val v: View = LayoutInflater.from(view.context).inflate(R.layout.radio_cus, null)
+                if (v !is RadioButton) return@forEach
+                v.text = it
+                view.addView(v)
             }
-            viewGroup.invalidate()
+            view.invalidate()
         }
+    }
+
+    override fun onClick(v: View?) {
+        if (v is RadioButton) {
+
+            Log.e("", "")
+        }
+
     }
 
 

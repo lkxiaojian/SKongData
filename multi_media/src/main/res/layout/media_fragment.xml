@@ -8,22 +8,39 @@
             type="com.zky.multi_media.mvvm.viewmodle.MediaImageListViewModle" />
     </data>
 
-    <com.refresh.lib.DaisyRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/drl_media"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:enableLoadMore="@{safeUnbox(mediaListViewModel.enableLoadMore)}"
-        app:enableRefresh="@{safeUnbox(mediaListViewModel.enableRefresh)}"
-        app:onAutoRefreshCommand="@{mediaListViewModel.onAutoRefreshCommand}"
-        app:onLoadMoreCommand="@{mediaListViewModel.onLoadMoreCommand}"
-        app:onRefreshCommand="@{mediaListViewModel.onRefreshCommand}">
+        android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recview"
+        <com.refresh.lib.DaisyRefreshLayout
+            android:id="@+id/drl_media"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/color_f5f5f5"
-            app:linearLayoutManager="false" />
-    </com.refresh.lib.DaisyRefreshLayout>
+            android:layout_height="0dp"
+            app:enableLoadMore="@{safeUnbox(mediaListViewModel.enableLoadMore)}"
+            app:enableRefresh="@{safeUnbox(mediaListViewModel.enableRefresh)}"
+            app:layout_constraintBottom_toTopOf="@id/abt_up"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="10dp"
+            app:onAutoRefreshCommand="@{mediaListViewModel.onAutoRefreshCommand}"
+            app:onLoadMoreCommand="@{mediaListViewModel.onLoadMoreCommand}"
+            app:onRefreshCommand="@{mediaListViewModel.onRefreshCommand}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_f5f5f5"
+                app:linearLayoutManager="false" />
+        </com.refresh.lib.DaisyRefreshLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/abt_up"
+            style="@style/sureBt"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:onClick="@{mediaListViewModel::startClick}"
+            android:text="上 传"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

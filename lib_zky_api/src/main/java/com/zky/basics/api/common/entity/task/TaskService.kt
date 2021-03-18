@@ -13,7 +13,5 @@ interface TaskService {
     @GET("getTaskList.do")
     suspend fun getTaskList(@Query("appCode") code: String?): RespDTO<List<TaskBean>>
     @GET("getItemList.do")
-    suspend fun getItemList(@Query("taskCode") taskCode: String?,@Query("message") message: String?): RespDTO<List<TaskItem>>
-
-
+    suspend fun getItemList(@Query("taskCode") taskCode: String?,@Query("dataAttr1") message: String?): RespDTO<List<TaskItem>>
 }

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hjq.permissions.OnPermission
 import com.hjq.permissions.XXPermissions
+import com.zky.basics.api.config.API
 import com.zky.basics.api.room.bean.MediaBean
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.mvvm.BaseMvvmRefreshFragment
@@ -43,10 +44,10 @@ class MediaVoiceFragment :
     override fun refreshLayout() = mBinding?.drlMedia
     override fun onBindViewModel() = MediaVoiceListViewModle::class.java
     override fun onBindViewModelFactory() =
-        MediaViewModelFactory.getInstance(activity!!.application)
+        MediaViewModelFactory.getInstance(mActivity.application)
 
     override fun initViewObservable() {
-        adapter = MediaVoiceListAdapter(activity!!, mViewModel?.mList)
+        adapter = MediaVoiceListAdapter(mActivity, mViewModel?.mList)
         mViewModel?.mList?.addOnListChangedCallback(
             ObservableListUtil.getListChangedCallback(
                 adapter
@@ -57,9 +58,11 @@ class MediaVoiceFragment :
         adapter.setOnItemLongClickListener(this)
         mBinding?.recview?.adapter = adapter
         mViewModel?.mList?.add(instanceOf<MediaBean>())
+
+
     }
 
-    override fun onBindVariableId() = BR.voiceListViewModel
+    override fun onBindVariableId() = BR.mediaVoiceListViewModle
 
     override fun onBindLayout() = R.layout.media_voice_fragment
 
@@ -67,12 +70,18 @@ class MediaVoiceFragment :
     }
 
     override fun initData() {
+        mViewModel?.fileType?.set(fileType)
+        mViewModel?.getFileData()
+        mViewModel?.getAppToken()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mViewModel?.fileType?.set(fileType)
     }
 
     override fun onItemClick(e: Any, position: Int) {
         val bean = e as MediaBean
-
-
         XXPermissions.with(activity).permission(
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -88,14 +97,20 @@ class MediaVoiceFragment :
                             0
                         )
                     } else {
+                        var filePath = bean.file_path
+
+                        if (!filePath.startsWith("/storage/emulated/0") && !filePath.startsWith("http")
+                        ) {
+                            filePath = API.ImageFolderPath + bean.file_path
+                        }
+
                         AudioUtlis.getAudioUtlis().setAudioClick(mediaClick())
-                            .startAudio(bean.file_path)
+                            .startAudio(filePath)
                     }
                 }
             }
 
             override fun noPermission(denied: MutableList<String>?, never: Boolean) {
-//test1
                 PermissionToSetting(activity!!, denied!!, never, "获取存储权限失败")
             }
 
@@ -149,12 +164,10 @@ class MediaVoiceFragment :
 
 
     companion object {
-        var type = ""
+        private var fileType: String = "audio"
 
         @JvmStatic
         fun mediaSelctVoiceInstance(_type: String): Fragment {
-            type = _type
-            type.showToast()
             return MediaVoiceFragment()
         }
     }
@@ -162,7 +175,7 @@ class MediaVoiceFragment :
     override fun onItemLongClick(e: Any, postion: Int): Boolean {
 
         if (postion + 1 != mViewModel?.mList?.size) {
-
+            val mediaBean = e as MediaBean
             showCustomDialog(
                 mActivity,
                 "删除",
@@ -173,7 +186,12 @@ class MediaVoiceFragment :
             ).setOnItemClickListener(object :
                 CustomDialog.OnItemClickListener {
                 override fun onSure() {
-                    mViewModel?.mList?.removeAt(postion)
+//                    mViewModel?.mList?.removeAt(postion)
+                    if (mediaBean.upload) {
+                        mViewModel?.deleFile(mediaBean.code, postion)
+                    } else {
+                        mViewModel?.mList?.removeAt(postion)
+                    }
                 }
 
                 override fun onDismiss() {

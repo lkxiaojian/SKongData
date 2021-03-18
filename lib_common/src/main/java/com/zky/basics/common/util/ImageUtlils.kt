@@ -54,8 +54,12 @@ object ImageUtlils {
                 .load(placeMediaDrawableId)
                 .into(imageView)
         } else {
+            var url = imageUrl
+            if (url != null && !url.startsWith("/storage/emulated/0") && !url.startsWith("http")) {
+                url = API.ImageFolderPath + url
+            }
             Glide.with(imageView.context)
-                .load(imageUrl)
+                .load(url)
                 .into(imageView)
         }
 
