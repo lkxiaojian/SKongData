@@ -26,6 +26,7 @@ import com.esri.arcgisruntime.layers.ArcGISTiledLayer
 import com.esri.arcgisruntime.layers.Layer
 import com.esri.arcgisruntime.mapping.ArcGISMap
 import com.esri.arcgisruntime.mapping.Basemap
+import com.esri.arcgisruntime.mapping.GeoElement
 import com.esri.arcgisruntime.mapping.view.*
 import com.esri.arcgisruntime.symbology.PictureMarkerSymbol
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol
@@ -133,8 +134,15 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                     "atv_dian_sure" -> {
                         dianSure()
                     }
-                    "netPoint"->{
+                    "netPoint" -> {
                         netPoint()
+                    }
+                    "netLine" -> {
+                        drawNetLineOrPolygon("line")
+
+                    }
+                    "netPlane" -> {
+                        drawNetLineOrPolygon("plane")
                     }
                 }
             })
@@ -172,11 +180,10 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
      * 网络请求的点
      *
      */
-    private fun netPoint(){
+    private fun netPoint() {
         val netPoint = mViewModel?.netPoint?.get()
         netPoint?.let {
-
-            mapCenterPoint=Point(it.longitude, it.latitude, wgs)
+            mapCenterPoint = Point(it.latitude, it.longitude, wgs)
             mViewModel?.mapViewBean?.get()?.dianData = mapCenterPoint
             initCallout()
             drawGDPoint(LatLng(mapCenterPoint!!.y, mapCenterPoint!!.x))
@@ -312,11 +319,13 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                     .decodeResource(resources, R.drawable.move_poiat)
             )
         )
+        markerOption.anchor(0.5f,0.5f)
         //  将Marker设置为贴地显示，可以双指下拉地图查看效果
         markerOption.isFlat = false //设置marker平贴地图效果
         if (dianMarker != null) {
             dianMarker?.remove()
         }
+
         dianMarker = mBinding?.gdMV?.map?.addMarker(markerOption)
         dianMarker?.`object` = "dian"
     }
@@ -468,13 +477,72 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 
     /**
      * TODO 画线 or 画面
+     * net
+     * @param e
+     */
+    private fun drawNetLineOrPolygon(type: String) {
+        var list: List<UploadAdressBean>? = if (type == "line") {
+            mViewModel?.netLine?.get()
+        } else {
+            mViewModel?.netPlane?.get()
+        }
+        list?.let {
+            list.forEach {
+                var point: Point? = null
+                var tmpLat: LatLng? = null
+
+                point = GeometryEngine.project(Point(it.longitude, it.latitude), wgs) as Point
+                tmpLat = TransfromGCJ(LatLng(point.y, point.x), mActivity)
+                val pointGraphic = Graphic(point, dianCampsiteSymbol)
+                dianLocation.graphics.add(pointGraphic)
+                graphicList.add(pointGraphic)
+
+                if (type == "line") {
+                    pointCollection.add(point)
+                    mViewModel?.mapViewBean?.get()?.lineData = pointCollection
+
+                    if (pointCollection.size > 1) {
+                        val polyline = Polyline(pointCollection)
+                        val polylineGraphic = Graphic(polyline, lineSymbol)
+                        lineGraphicsOverlay.graphics.clear()
+                        lineGraphicsOverlay.graphics.add(polylineGraphic)
+                    }
+                    gdPointLineLatLng.add(tmpLat)
+                    val drawRemaker = drawRemaker(tmpLat, 1)
+                    val marker = gdMV?.map?.addMarker(drawRemaker)
+                    marker?.`object` = "line${gdPointSurfaceMaker.size}"
+                    gdPointLineMaker.add(marker!!)
+                    drawGdLine()
+                } else {
+                    polygonPoints.add(point)
+                    mViewModel?.mapViewBean?.get()?.surfaceData = polygonPoints
+                    if (polygonPoints.size > 1) {
+                        val polygon = Polygon(polygonPoints)
+                        val polygonGraphic = Graphic(polygon, polygonFillSymbol)
+                        polygonGraphicsOverlay.graphics.clear()
+                        polygonGraphicsOverlay.graphics.add(polygonGraphic)
+                    }
+
+                    gdPointSurfaceLatLng.add(tmpLat)
+                    val drawRemaker = drawRemaker(tmpLat, 2)
+                    val marker = gdMV?.map?.addMarker(drawRemaker)
+                    marker?.`object` = "polygon${gdPointSurfaceMaker.size}"
+                    gdPointSurfaceMaker.add(marker!!)
+                    drawGdPylone()
+                }
+            }
+
+        }
+
+    }
+
+    /**
+     * TODO 画线 or 画面
      *
      * @param e
      */
     private fun drawLineOrPolygon(e: MotionEvent?, latLng: LatLng?) {
         try {
-
-
             mViewModel?.mapViewBean?.get()?.showSureModify = true
 
             val bean = mViewModel?.mapViewBean?.get() ?: return
@@ -547,8 +615,8 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
         addPolyline?.remove()
         if (gdPointLineLatLng.size > 1) {
             addPolyline = gdMV?.map?.addPolyline(
-                PolylineOptions().addAll(gdPointLineLatLng).width(10f)
-                    .color(Color.argb(255, 108, 15, 1))
+                PolylineOptions().addAll(gdPointLineLatLng).width(20f)
+                    .color(Color.argb(255, 255, 108, 15))
             )
         }
     }
@@ -557,12 +625,14 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
         addPolygon?.remove()
         val polygonOptions = PolygonOptions()
         polygonOptions.addAll(gdPointSurfaceLatLng)
-        polygonOptions.strokeWidth(15f) // 多边形的边框
+        polygonOptions.strokeWidth(20f) // 多边形的边框
 //            .strokeColor(Color.argb(0, 255, 108, 15)) // 边框颜色
 //            .fillColor(Color.argb(0, 250, 100, 0));   // 多边形的填充色
-            .strokeColor(Color.argb(50, 1, 1, 1)) // 边框颜色
-            .fillColor(Color.argb(1, 1, 1, 1));   // 多边形的填充色
+            .strokeColor(Color.argb(255, 255, 108, 15)) // 边框颜色
+            .fillColor(Color.argb(85, 250, 100, 0));   // 多边形的填充色
         addPolygon = gdMV?.map?.addPolygon(polygonOptions)
+
+
 
     }
 
@@ -585,6 +655,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                     .decodeResource(resources, R.drawable.dian)
             )
         )
+        markerOption.anchor(0.5f,0.5f)
         markerOption.isFlat = true //设置marker平贴地图效果
         return markerOption
 
@@ -665,6 +736,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
             farmerOverlays.graphics.clear()
             val graphic = Graphic(mapCenterPoint, farmerSymbol)
             farmerOverlays.graphics.add(graphic)
+
             val inflater = LayoutInflater.from(mActivity)
             val ly = inflater.inflate(R.layout.callout, null, false)
             callout = map_view.callout

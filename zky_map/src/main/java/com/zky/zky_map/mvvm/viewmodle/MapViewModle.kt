@@ -29,7 +29,9 @@ class MapViewModle(application: Application, model: MapModel) :
     private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
     private val tipList = arrayListOf<String>("单机地图添加定位点", "单机地图添加多个点位以连线", "单机地图添加多个点位以连面")
     var mapViewBean = ObservableField<MapViewBean>()
-    var netPoint=ObservableField<UploadAdressBean>()
+    var netPoint = ObservableField<UploadAdressBean>()
+    var netLine = ObservableField<List<UploadAdressBean>>()
+    var netPlane = ObservableField<List<UploadAdressBean>>()
 
     init {
         val data = MapViewBean()
@@ -197,13 +199,31 @@ class MapViewModle(application: Application, model: MapModel) :
 
     fun getSpaceDataAll() {
         launchUI({
-          val bean=  mModel.getSpaceDataAll()
+            val bean = mModel.getSpaceDataAll()
             bean?.let {
-                if( !bean.point.isNullOrEmpty()){
+                if (!bean.point.isNullOrEmpty()) {
                     netPoint.set(it.point[0])
                     mapViewBean.get()?.dianShowWT = false
                     mapViewBean.get()?.showLineOrSurfaceModify = true
-                    getmVoidSingleLiveEvent().value="netPoint"
+                    getmVoidSingleLiveEvent().value = "netPoint"
+                }
+                if (!bean.line.isNullOrEmpty()) {
+                    netLine.set(bean.line)
+                    getmVoidSingleLiveEvent().value = "netLine"
+
+
+                    mapViewBean.get()?.showSureModify = false
+                    mapViewBean.get()?.showTip = false
+                    mapViewBean.get()?.showLineOrSurfaceModify = true
+                }
+
+                if (!bean.plane.isNullOrEmpty()) {
+                    netPlane.set(bean.plane)
+                    mapViewBean.get()?.showSureModify = false
+                    mapViewBean.get()?.showTip = false
+                    mapViewBean.get()?.showLineOrSurfaceModify = true
+                    getmVoidSingleLiveEvent().value = "netPlane"
+
                 }
             }
         })
