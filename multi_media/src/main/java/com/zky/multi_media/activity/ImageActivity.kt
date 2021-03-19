@@ -14,8 +14,12 @@ import kotlinx.android.synthetic.main.activity_image.*
 @Route(path = ARouterPath.MEDIA_SHOW_IMAGE)
 class ImageActivity : BaseActivity() {
 
-//    @Autowired
-//    lateinit var images: ArrayList<MediaBean>
+    @Autowired
+    lateinit var images: ArrayList<MediaBean>
+
+    @Autowired
+    @JvmField
+    var position:Int=0
 
     override fun onBindLayout() = R.layout.activity_image
 
@@ -25,8 +29,8 @@ class ImageActivity : BaseActivity() {
     override fun initData() {
         try {
             val adapter = ImagePrePagerAdapter(this)
-            val position = intent.extras["position"].toString().toInt()
-            var images=    intent.extras["images"] as ArrayList<MediaBean>
+//            val position = intent.extras["position"].toString().toInt()
+//            var images=  intent.extras["images"] as ArrayList<MediaBean>
             adapter.startIndex = position
             adapter.addAll(images)
             viewPager.adapter = adapter

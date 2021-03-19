@@ -2,6 +2,7 @@ package com.zky.basics.common.util.view
 
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
+import android.view.Gravity
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
@@ -11,7 +12,10 @@ import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.PopupWindow
 import android.widget.RelativeLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.zky.basics.common.R
+import com.zky.basics.common.adapter.MessageAdapter
 import com.zky.basics.common.util.view.adapter.SpinnerStringAdapter
 
 
@@ -25,7 +29,7 @@ fun showListPopupWindow(
     val context = view.context
     val popupWindow = PopupWindow(context)
     val maxAvailableHeight = popupWindow.getMaxAvailableHeight(view)
-    popupWindow.width =ViewGroup.LayoutParams.WRAP_CONTENT/2
+    popupWindow.width =width
     popupWindow.height = maxAvailableHeight + view.height
     val relativeLayout = LayoutInflater.from(context).inflate(R.layout.item_popup_window, null)
     val layoutParams = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -73,6 +77,44 @@ fun showFullPopupWindow(contentView: View, anchorView: View, @ColorRes color: In
     popupWindow.showAsDropDown(anchorView)
     return popupWindow
 }
+
+
+
+
+
+fun showRvListPopupWindow(
+    view: View,
+    values: List<String>,
+    onItemClickListener: MessageAdapter.ItemOnClick
+): PopupWindow {
+    val context = view.context
+    val popupWindow = PopupWindow(context)
+    val maxAvailableHeight = popupWindow.getMaxAvailableHeight(view)
+    popupWindow.width =view.width
+    popupWindow.height = maxAvailableHeight+view.height
+    val relativeLayout = LayoutInflater.from(context).inflate(R.layout.item_popup_rv_window, null)
+
+    val reView = relativeLayout.findViewById<RecyclerView>(R.id.rv_list)
+    val adapter = MessageAdapter(values)
+    adapter.setItemOnClick(object : MessageAdapter.ItemOnClick{
+        override fun onClick(value: String, position: Int) {
+            onItemClickListener.onClick(value,position)
+            popupWindow.dismiss()
+        }
+
+    })
+    reView.layoutManager=LinearLayoutManager(context)
+    reView.adapter = adapter
+    popupWindow.isFocusable = true
+    popupWindow.contentView = relativeLayout
+    popupWindow.isOutsideTouchable = true
+    popupWindow.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(context,R.color.transparent)))
+    popupWindow.showAsDropDown(view,0,0)
+
+//    popupWindow.showAsDropDown(view,0,200)
+    return popupWindow
+}
+
 
 
 //fun showWriteLiveMessagePopupWindow(context: Activity): PopupWindow {

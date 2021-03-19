@@ -20,6 +20,7 @@ import com.zky.basics.common.util.spread.decodeParcelable
 import com.zky.basics.common.util.view.CustomDialog
 import com.zky.multi_media.BR
 import com.zky.multi_media.R
+import com.zky.multi_media.activity.ImageActivity
 import com.zky.multi_media.adapter.MediaImageListAdapter
 import com.zky.multi_media.databinding.MediaFragmentBinding
 import com.zky.multi_media.mvvm.factory.MediaViewModelFactory
@@ -88,7 +89,7 @@ class MediaImageFragment :
                 OnPermission {
                 override fun hasPermission(granted: MutableList<String>?, all: Boolean) {
                     if (all) {
-                        selectMedia(bean, position)
+                        selectMedia( position)
                     }
                 }
 
@@ -99,19 +100,24 @@ class MediaImageFragment :
             })
 
         } else {
-            val params = Bundle()
+
             val projectPhoto = arrayListOf<MediaBean>()
             mViewModel?.mList?.let { projectPhoto.addAll(it) }
             mViewModel?.mList?.size?.minus(1)?.let { projectPhoto.removeAt(it) }
-            params.putSerializable("images", projectPhoto)
+//            val params = Bundle()
+//            params.putSerializable("images", projectPhoto)
 //            params.putInt("position", position)
             ARouter.getInstance().build(ARouterPath.MEDIA_SHOW_IMAGE)
                 .withInt("position", position)
                 .withSerializable("images", projectPhoto).navigation()
+//            val intent = Intent(mActivity, ImageActivity::class.java)
+//            intent.putExtra("position", position)
+//            intent.putExtra("images",projectPhoto)
+//            mActivity.startActivity(intent)
         }
     }
 
-    private fun selectMedia(e: MediaBean, position: Int) {
+    private fun selectMedia( position: Int) {
         if (position == mViewModel?.mList?.size?.minus(1)) {
             var imageCount = 9
             var videoCount = 0

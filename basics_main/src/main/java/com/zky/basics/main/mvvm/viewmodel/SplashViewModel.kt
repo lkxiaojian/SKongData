@@ -256,7 +256,7 @@ class SplashViewModel(application: Application, model: SplashModel) :
                     it.attr_tip?.showToast()
                     return
                 }
-                registUrl += "&${it.attr}=${it.value}"
+                registUrl += "&${it.attr}=${it.code}"
             }
             launchUI({
                 mModel.regist(registUrl)

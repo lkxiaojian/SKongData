@@ -96,7 +96,7 @@ class SpinnerStringAdapter(context: Context):AbsListBaseAdapter<String>(context)
         }
 
         //此处text1是Spinner默认的用来显示文字的TextView
-        val tv = convertView!!.findViewById<View>(android.R.id.text1) as TextView
+        val tv = convertViewTmp?.findViewById<View>(android.R.id.text1) as TextView
         tv.setPadding(
             dp2px(context, 10f),
             dp2px(context, 10f),

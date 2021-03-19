@@ -12,9 +12,9 @@ class TestMediaActivity : RxAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_media)
-//        MediaFragment()  MediaVoiceFragment()
+//        MediaImageFragment()  MediaVoiceFragment()
         val mediaVideoFragment = MediaVideoFragment()
-        supportFragmentManager.beginTransaction().add(R.id.fl,  MediaVoiceFragment() ).commit()
+        supportFragmentManager.beginTransaction().add(R.id.fl,  MediaImageFragment() ).commit()
 
     }
 

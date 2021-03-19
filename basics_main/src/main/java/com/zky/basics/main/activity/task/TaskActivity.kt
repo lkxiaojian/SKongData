@@ -49,6 +49,16 @@ class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskVie
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        if( TaskAddActivity.uploadSuc){
+            TaskAddActivity.uploadSuc=false
+            mViewModel?.setData()
+
+        }
+
+    }
+
     override fun onBindVariableId() = BR.taskViewModel
     override val tootBarTitle: String
         get() = "任务"

@@ -4,6 +4,7 @@ import android.app.Application
 import com.zky.basics.api.RetrofitManager.Companion.instance
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.api.common.entity.task.TaskItem
+import com.zky.basics.api.splash.entity.AccountLevel
 import com.zky.basics.api.splash.entity.ImageUrl
 import com.zky.basics.api.splash.entity.RegionOrSchoolBean
 import com.zky.basics.api.splash.entity.Userinfo
@@ -58,6 +59,16 @@ class MainModel(application: Application?) : BaseModel(application) {
         taskService.getItemList(taskCode,message)
     }
 
+    suspend fun getAddrLevel():List<AccountLevel>?=request {
+        taskService.getAddrLevel()
+    }
 
+    suspend fun getAddr(regionLevel: Int?):List<RegionOrSchoolBean>?=request {
+        taskService.getAddr(regionLevel)
+    }
+
+    suspend fun insertOrUpdateItem(url: String):Any?=request {
+        taskService.insertOrUpdateItem(url)
+    }
 
 }

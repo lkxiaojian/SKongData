@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.amap.api.location.AMapLocationClient
@@ -31,10 +32,13 @@ import com.esri.arcgisruntime.symbology.SimpleFillSymbol
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol
 import com.hjq.permissions.OnPermission
 import com.hjq.permissions.XXPermissions
+import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.mvvm.BaseMvvmFragment
 import com.zky.basics.common.util.PermissionToSetting
+import com.zky.basics.common.util.spread.decodeParcelable
 import com.zky.zky_map.BR
 import com.zky.zky_map.R
+import com.zky.basics.api.common.entity.UploadAdressBean
 import com.zky.zky_map.databinding.MapFragmentBinding
 import com.zky.zky_map.mvvm.factory.MapViewModelFactory
 import com.zky.zky_map.mvvm.viewmodle.MapViewModle
@@ -81,7 +85,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     private var gdPointSurfaceLatLng = arrayListOf<LatLng>()
     private var addPolyline: com.amap.api.maps.model.Polyline? = null
     private var addPolygon: com.amap.api.maps.model.Polygon? = null
-
+    private var userinfo: Userinfo? = null
     override fun onBindViewModel() = MapViewModle::class.java
     override fun onBindViewModelFactory() = MapViewModelFactory.getInstance(activity!!.application)
 
@@ -128,7 +132,9 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                     }
                     "atv_dian_sure" -> {
                         dianSure()
-
+                    }
+                    "netPoint"->{
+                        netPoint()
                     }
                 }
             })
@@ -151,11 +157,32 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                     initCallout()
                     drawGDPoint(LatLng(target.latitude, target.longitude))
                 }
+                val list = arrayListOf<UploadAdressBean>()
+                list.add(UploadAdressBean(mapCenterPoint!!.y, mapCenterPoint!!.x))
+                mViewModel?.insertOrUpdateSpaceData("point", list)
 
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    /**
+     * TODO
+     * 网络请求的点
+     *
+     */
+    private fun netPoint(){
+        val netPoint = mViewModel?.netPoint?.get()
+        netPoint?.let {
+
+            mapCenterPoint=Point(it.longitude, it.latitude, wgs)
+            mViewModel?.mapViewBean?.get()?.dianData = mapCenterPoint
+            initCallout()
+            drawGDPoint(LatLng(mapCenterPoint!!.y, mapCenterPoint!!.x))
+
+        }
+
     }
 
     override fun onBindVariableId() = BR.mapViewModle
@@ -170,11 +197,13 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     }
 
     override fun initData() {
+        userinfo = decodeParcelable<Userinfo>("user")
         showInitLoadView(true)
         initArgis()
         initGD()
         listener()
         showInitLoadView(false)
+        mViewModel?.getSpaceDataAll()
     }
 
     private fun initGD() {
@@ -274,7 +303,8 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
         }
         val markerOption = MarkerOptions()
         markerOption.position(la)
-        markerOption.title("test")
+
+        markerOption.title(userinfo?.username)
         markerOption.draggable(true) //设置Marker可拖动
         markerOption.icon(
             BitmapDescriptorFactory.fromBitmap(
@@ -330,11 +360,18 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
      */
     private fun lineOrSufer() {
         val lineTYpe = mViewModel?.mapViewBean?.get()?.lineTYpe
+        var type = "line"
         if (lineTYpe == 1) {
             mViewModel?.mapViewBean?.get()?.lineData = pointCollection
         } else if (lineTYpe == 2) {
+            type = "plane"
             mViewModel?.mapViewBean?.get()?.lineData = polygonPoints
         }
+        val list = arrayListOf<UploadAdressBean>()
+        mViewModel?.mapViewBean?.get()?.lineData?.forEach {
+            list.add(UploadAdressBean(it.x, it.y))
+        }
+        mViewModel?.insertOrUpdateSpaceData(type, list)
     }
 
     /**
@@ -344,6 +381,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     private fun cancleLineOrPolygon() {
         val lineTYpe = mViewModel?.mapViewBean?.get()?.lineTYpe
         dianLocation.graphics.clear()
+        var type = "point"
         when (lineTYpe) {
             0 -> {
                 mViewModel?.mapViewBean?.get()?.dianData = null
@@ -352,6 +390,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                 dianMarker?.remove()
             }
             1 -> {
+                type = "line"
                 pointCollection.clear()
                 lineGraphicsOverlay.graphics.clear()
                 mViewModel?.mapViewBean?.get()?.lineData = null
@@ -365,6 +404,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 
             }
             2 -> {
+                type = "plane"
                 polygonPoints.clear()
                 polygonGraphicsOverlay.graphics.clear()
                 mViewModel?.mapViewBean?.get()?.surfaceData = null
@@ -377,6 +417,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                 gdPointSurfaceLatLng.clear()
             }
         }
+        mViewModel?.insertOrUpdateSpaceData(type, arrayListOf())
     }
 
     /**
@@ -627,6 +668,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
             val inflater = LayoutInflater.from(mActivity)
             val ly = inflater.inflate(R.layout.callout, null, false)
             callout = map_view.callout
+            ly.findViewById<TextView>(R.id.tv_calloutInfo).text = userinfo?.username
             callout?.content = ly
             callout?.style = Callout.Style(mActivity, R.xml.callout)
             callout?.location = mapCenterPoint

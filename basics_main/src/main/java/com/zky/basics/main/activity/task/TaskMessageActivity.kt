@@ -14,6 +14,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.adapter.FragmentPager2Adapter
+import com.zky.basics.common.constant.Constants.itemCode
 import com.zky.basics.common.mvvm.BaseActivity
 import com.zky.basics.common.provider.IMapProvider
 import com.zky.basics.common.provider.IMediaProvider
@@ -52,6 +53,8 @@ class TaskMessageActivity : BaseActivity() {
     override fun initView() {
     }
 
+
+
     override val tootBarTitle: String
         get() = decodeParcelable<Userinfo>("user")?.username.toString()
 
@@ -59,7 +62,7 @@ class TaskMessageActivity : BaseActivity() {
         try {
             titles.clear()
             val taskBean = intent.extras["dataTask"] as TaskBean
-            val itemCode = intent.extras["itemCode"].toString()
+             itemCode = intent.extras["itemCode"].toString()
 
             if (!taskBean.spaceDataType.isNullOrEmpty()) {
                 titles.add("空间数据")

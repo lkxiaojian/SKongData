@@ -53,6 +53,8 @@ class MediaImageListViewModle(application: Application, mediaModel: MediaModel) 
                 bean.file_name = it.fileName
                 bean.file_path = it.filePath
                 bean.upload = true
+                bean.file_type=it.mediaType
+                bean.uploader=it.userName
                 bean.create_data = it.createDate
                 bean.videoImagePath = it.filePath
                 tmpFile.add(bean)

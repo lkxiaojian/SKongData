@@ -4,12 +4,15 @@ import android.app.Application
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import com.zky.basics.common.event.SingleLiveEvent
 import com.zky.basics.common.mvvm.viewmodel.BaseViewModel
 import com.zky.basics.common.util.showCustomDialog
+import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.common.util.view.CustomDialog
 import com.zky.zky_map.bean.MapViewBean
 import com.zky.zky_map.R
+import com.zky.basics.api.common.entity.UploadAdressBean
 import com.zky.zky_map.mvvm.model.MapModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -26,6 +29,7 @@ class MapViewModle(application: Application, model: MapModel) :
     private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
     private val tipList = arrayListOf<String>("单机地图添加定位点", "单机地图添加多个点位以连线", "单机地图添加多个点位以连面")
     var mapViewBean = ObservableField<MapViewBean>()
+    var netPoint=ObservableField<UploadAdressBean>()
 
     init {
         val data = MapViewBean()
@@ -48,7 +52,7 @@ class MapViewModle(application: Application, model: MapModel) :
                     if (it.mapSelectShow) {
                         if (it.wxOrLx) {
                             mapViewBean.get()?.mapSelect = R.drawable.wx_shang
-                        }else{
+                        } else {
                             mapViewBean.get()?.mapSelect = R.drawable.lx_shang
                         }
                     }
@@ -177,6 +181,34 @@ class MapViewModle(application: Application, model: MapModel) :
 
         }
     }
+
+
+    fun insertOrUpdateSpaceData(type: String, spaceDataList: List<UploadAdressBean>) {
+        launchUI({
+            val toJson = Gson().toJson(spaceDataList)
+            mModel.insertOrUpdateSpaceData(type, toJson)
+        }, object : NetError {
+            override fun getError(e: Exception) {
+                "上传位置失败".showToast()
+            }
+        })
+    }
+
+
+    fun getSpaceDataAll() {
+        launchUI({
+          val bean=  mModel.getSpaceDataAll()
+            bean?.let {
+                if( !bean.point.isNullOrEmpty()){
+                    netPoint.set(it.point[0])
+                    mapViewBean.get()?.dianShowWT = false
+                    mapViewBean.get()?.showLineOrSurfaceModify = true
+                    getmVoidSingleLiveEvent().value="netPoint"
+                }
+            }
+        })
+    }
+
 
     fun getmVoidSingleLiveEvent(): SingleLiveEvent<String> {
         return createLiveData(mVoidSingleLiveEvent).also {
