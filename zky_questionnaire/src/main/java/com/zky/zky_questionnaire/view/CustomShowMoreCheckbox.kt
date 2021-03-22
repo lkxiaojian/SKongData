@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.widget.AppCompatRadioButton
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
@@ -22,7 +22,7 @@ import java.lang.Exception
  *author: lk
  *description： CustomShowMoreRadio
  */
-class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
+class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListener {
     private var marTop = DisplayUtil.dip2px(10f)
     var listener: InverseBindingListener? = null
 
@@ -66,7 +66,7 @@ class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
         var height = 0
         if (childCount > 0) {
             for (i in 0 until childCount) {
-                val childAt = getChildAt(i) as AppCompatRadioButton
+                val childAt = getChildAt(i) as CheckBox
                 childAt.setOnCheckedChangeListener(this)
                 val measuredHeight = childAt.measuredHeight
                 height += measuredHeight + marTop
@@ -82,7 +82,7 @@ class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
                 for (i in 0 until childCount) {
                     split?.forEach {
                         if (i == it.toInt()) {
-                            val childAt = getChildAt(i) as SingTopRadioButton
+                            val childAt = getChildAt(i) as CheckBox
                             childAt.isChecked = true
                         }
                     }
@@ -95,18 +95,22 @@ class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
     }
 
     companion object {
-       private var bean:TestData?=null
-        @BindingAdapter(value = ["listContent","dataValue"], requireAll = false)
+        private var bean: TestData? = null
+        @BindingAdapter(value = ["listContent", "dataValue"], requireAll = false)
         @JvmStatic
-        fun setListContent(view: CustomShowMoreRadio, listContent: String,dataValue: TestData?) {
+        fun setListContent(
+            view: CustomShowMoreCheckbox,
+            listContent: String,
+            dataValue: TestData?
+        ) {
             if (view.childCount > 0) {
                 return
             }
-            bean =dataValue
+            bean = dataValue
             val split = listContent.split(",")
             split.forEach {
-                val v: View = LayoutInflater.from(view.context).inflate(R.layout.radio_cus, null)
-                if (v !is SingTopRadioButton) return@forEach
+                val v: View = LayoutInflater.from(view.context).inflate(R.layout.checkbox_cus, null)
+                if (v !is CheckBox) return@forEach
                 v.text = it
                 view.addView(v)
             }
@@ -116,16 +120,16 @@ class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
 
         @BindingAdapter(value = ["selectValues"], requireAll = false)
         @JvmStatic
-        fun setValue(view: CustomShowMoreRadio, value: String?) {
+        fun setValue(view: CustomShowMoreCheckbox, value: String?) {
             view.setValue(value)
         }
 
         @InverseBindingAdapter(attribute = "selectValues", event = "valueOfSetsAttrChanged")
         @JvmStatic
-        fun getValue(view: CustomShowMoreRadio): String {
+        fun getValue(view: CustomShowMoreCheckbox): String {
             var va = ""
             for (i in 0 until view.childCount) {
-                val checkBox = view.getChildAt(i) as SingTopRadioButton
+                val checkBox = view.getChildAt(i) as CheckBox
                 if (checkBox.isChecked) {
                     va += "$i,"
                 }
@@ -136,17 +140,15 @@ class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
             return va
         }
 
-
         @BindingAdapter(value = ["valueOfSetsAttrChanged"], requireAll = false)
         @JvmStatic
-        fun setListener(view: CustomShowMoreRadio, listener: InverseBindingListener?) {
+        fun setListener(view: CustomShowMoreCheckbox, listener: InverseBindingListener?) {
             view.listener = listener
         }
 
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        Log.e("", "")
         listener?.onChange()
         TestData.itemChange?.getItem(bean)
     }

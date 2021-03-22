@@ -1,17 +1,16 @@
 package com.zky.zky_questionnaire.fragment
 
+import android.util.Log
 import android.view.View
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.lifecycle.ViewModelProvider
-import com.refresh.lib.DaisyRefreshLayout
+
 import com.zky.basics.common.mvvm.BaseMvvmRefreshFragment
 import com.zky.basics.common.util.ObservableListUtil
-import com.zky.basics.common.util.spread.showToast
 import com.zky.zky_questionnaire.BR
 import com.zky.zky_questionnaire.R
 import com.zky.zky_questionnaire.TestData
 import com.zky.zky_questionnaire.adapter.QnListAdapter
 import com.zky.zky_questionnaire.databinding.QuetionnairefFragmentBinding
+import com.zky.zky_questionnaire.inter.itemChangeListener
 import com.zky.zky_questionnaire.mvvm.factory.QNViewModelFactory
 import com.zky.zky_questionnaire.mvvm.viewmodle.QNViewModle
 
@@ -21,19 +20,22 @@ import com.zky.zky_questionnaire.mvvm.viewmodle.QNViewModle
  *description： QuestionNaireFragment
  */
 class QuestionNaireFragment :
-    BaseMvvmRefreshFragment<TestData, QuetionnairefFragmentBinding, QNViewModle>() {
+    BaseMvvmRefreshFragment<TestData, QuetionnairefFragmentBinding, QNViewModle>(),
+    itemChangeListener {
     override fun refreshLayout() = mBinding?.drlQn
     override fun onBindViewModel() = QNViewModle::class.java
     override fun onBindViewModelFactory() = QNViewModelFactory.getInstance(mActivity.application)
 
     override fun initViewObservable() {
-        val adapter = QnListAdapter(mActivity, mViewModel?.mList)
+        val adapter = QnListAdapter(mActivity, mViewModel?.mList, this)
         mViewModel?.mList?.addOnListChangedCallback(
             ObservableListUtil.getListChangedCallback(
                 adapter
             )
         )
         mBinding?.recview?.adapter = adapter
+        mViewModel?.itemChange?.set(this)
+        TestData.itemChange = this
     }
 
     override fun onBindVariableId() = BR.qnViewModel
@@ -48,12 +50,18 @@ class QuestionNaireFragment :
 //            testData.selectValue = "0"
             list.add(testData)
         }
+
         mViewModel?.mList?.addAll(list)
 
     }
 
     override fun initData() {
 
+    }
+
+    override fun getItem(data: TestData?) {
+        val indexOf = mViewModel?.mList?.indexOf(data)
+        Log.e("","")
     }
 
 

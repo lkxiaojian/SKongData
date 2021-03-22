@@ -25,6 +25,7 @@ abstract class BaseRefreshViewModel<T, M : BaseModel>(
      * @return true 允许 false 不允许
      */
     open fun enableLoadMore(): Boolean {
+
         return true
     }
 

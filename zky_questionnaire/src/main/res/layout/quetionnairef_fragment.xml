@@ -21,10 +21,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
             android:layout_marginTop="10dp"
+            android:onClick="@{qnViewModel::startClick}"
             android:text="当前共有3条数hhhhh据"
             android:textColor="@color/color_999999"
             android:textSize="14sp"
-            android:onClick="@{qnViewModel::startClick}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +34,7 @@
             android:id="@+id/drl_qn"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-        android:layout_marginTop="100dp"
+            android:layout_marginTop="20dp"
             app:enableLoadMore="@{safeUnbox(qnViewModel.enableLoadMore)}"
             app:enableRefresh="@{safeUnbox(qnViewModel.enableRefresh)}"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -42,7 +42,6 @@
             app:onAutoRefreshCommand="@{qnViewModel.onAutoRefreshCommand}"
             app:onLoadMoreCommand="@{qnViewModel.onLoadMoreCommand}"
             app:onRefreshCommand="@{qnViewModel.onRefreshCommand}">
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recview"
                 android:layout_width="match_parent"

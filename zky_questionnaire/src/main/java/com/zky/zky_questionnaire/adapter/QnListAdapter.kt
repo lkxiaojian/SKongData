@@ -1,6 +1,7 @@
 package com.zky.zky_questionnaire.adapter
 
 import android.content.Context
+import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ViewDataBinding
 import com.zky.basics.common.adapter.BaseBindAdapter
@@ -8,14 +9,20 @@ import com.zky.zky_questionnaire.R
 import com.zky.zky_questionnaire.TestData
 import com.zky.zky_questionnaire.databinding.QnCheboxItemBinding
 import com.zky.zky_questionnaire.databinding.QnRadioItemBinding
+import com.zky.zky_questionnaire.inter.itemChangeListener
 
 /**
  *create_time : 21-3-17 下午1:50
  *author: lk
  *description： QnListAdapter
  */
-class QnListAdapter(context: Context, items: ObservableArrayList<TestData>?) :
+class QnListAdapter(
+    context: Context,
+    items: ObservableArrayList<TestData>?,
+    _itemChang: itemChangeListener
+) :
     BaseBindAdapter<TestData, ViewDataBinding>(context, items) {
+    private var itemChang = _itemChang
     override fun onBindItem(binding: ViewDataBinding?, item: TestData, position: Int) {
 
         when (binding) {
@@ -30,22 +37,21 @@ class QnListAdapter(context: Context, items: ObservableArrayList<TestData>?) :
     }
 
     override fun getLayoutItemId(viewType: Int): Int {
+        Log.e("tag", "tag----viewType--->$viewType")
+        var a = viewType % 3
+        a=2
         var layout = R.layout.qn_radio_item
-        when (viewType) {
+        when (a) {
             0 -> layout = R.layout.qn_radio_item
             1 -> layout = R.layout.qn_chebox_item
+            2 -> layout = R.layout.qn_edittext_item
         }
 
         return layout
     }
 
     override fun getItemViewType(position: Int): Int {
-        var type = 0
-        when (position) {
-            0 -> type = 0
-            1, 2 -> type = 1
-        }
-        return 0
+        return position
     }
 
 

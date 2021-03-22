@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zky.zky_questionnaire.view.SingTopRadioButton xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<CheckBox xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:theme="@style/white_009688_CheckBox"
     android:layout_width="match_parent"
@@ -8,4 +7,4 @@
     android:minHeight="20dp"
     android:gravity="center_vertical"
     >
-</com.zky.zky_questionnaire.view.SingTopRadioButton>
+</CheckBox>
