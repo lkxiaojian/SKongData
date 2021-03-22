@@ -95,6 +95,7 @@ class LevelAdapter(list: ArrayList<AccountLevel>, context: Context, click: ItemC
 
                 override fun afterTextChanged(s: Editable?) {
                     list[position].value = s?.toString()
+                    list[position].valueCode = s?.toString()
                 }
 
             })

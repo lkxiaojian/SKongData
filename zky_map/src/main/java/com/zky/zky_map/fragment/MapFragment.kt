@@ -71,7 +71,6 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     private val lineSymbol =
         SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.parseColor("#FF6C0F"), 5f)
     private var mapCenterPoint: Point? = null
-
     //    # -0x7f00a8cd
     private val polygonFillSymbol =
         SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, -0x7f00a8cd, lineSymbol)

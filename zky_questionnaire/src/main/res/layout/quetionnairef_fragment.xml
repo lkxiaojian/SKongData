@@ -16,14 +16,15 @@
 
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/atv_task_count"
+            android:id="@+id/atv_need_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
             android:layout_marginTop="10dp"
-            android:text="当前共有3条数据"
+            android:text="当前共有3条数hhhhh据"
             android:textColor="@color/color_999999"
             android:textSize="14sp"
+            android:onClick="@{qnViewModel::startClick}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,10 +34,11 @@
             android:id="@+id/drl_qn"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+        android:layout_marginTop="100dp"
             app:enableLoadMore="@{safeUnbox(qnViewModel.enableLoadMore)}"
             app:enableRefresh="@{safeUnbox(qnViewModel.enableRefresh)}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="@id/atv_task_count"
+            app:layout_constraintTop_toTopOf="@id/atv_need_count"
             app:onAutoRefreshCommand="@{qnViewModel.onAutoRefreshCommand}"
             app:onLoadMoreCommand="@{qnViewModel.onLoadMoreCommand}"
             app:onRefreshCommand="@{qnViewModel.onRefreshCommand}">
@@ -48,8 +50,6 @@
                 app:linearLayoutManager="@{safeUnbox(qnViewModel.orientation)}" />
 
         </com.refresh.lib.DaisyRefreshLayout>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

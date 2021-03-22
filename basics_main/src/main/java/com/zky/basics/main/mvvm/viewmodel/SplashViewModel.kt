@@ -250,13 +250,13 @@ class SplashViewModel(application: Application, model: SplashModel) :
             var registUrl =
                 API.URL_HOST + "regist.do?username=${data.get()?.rgName}" +
                         "&password=$p&accountLevel=$attr_idx&phone=${data.get()?.rgPhone}&" +
-                        "smsCode=${data.get()?.rgCode}"
+                        "smsCode=${data.get()?.rgCode}&job=${data.get()?.job}"
             list.forEach {
                 if (it.value.isNullOrEmpty()) {
                     it.attr_tip?.showToast()
                     return
                 }
-                registUrl += "&${it.attr}=${it.code}"
+                registUrl += "&${it.attr}=${it.value}&${it.attr_code}=${it.valueCode}"
             }
             launchUI({
                 mModel.regist(registUrl)
@@ -377,7 +377,7 @@ class SplashViewModel(application: Application, model: SplashModel) :
                         }
                     }
                     levelListT[position].value = levelList[options1].toString()
-                    levelListT[position].code = region[options1].code
+                    levelListT[position].valueCode = region[options1].code
                     getmVoidSingleLiveEvent().value = "notify"
                 }
             }

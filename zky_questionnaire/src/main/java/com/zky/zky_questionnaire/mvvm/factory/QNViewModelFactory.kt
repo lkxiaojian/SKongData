@@ -14,8 +14,8 @@ class QNViewModelFactory private constructor(private val mApplication: Applicati
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(QNViewModle::class.java)) {
-            val splashModel = qnModel(mApplication)
-            return QNViewModle(mApplication, splashModel) as T
+            val qnModel = qnModel(mApplication)
+            return QNViewModle(mApplication, qnModel) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }

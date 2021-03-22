@@ -44,7 +44,6 @@ open class BaseViewModel<M : BaseModel>(
                     if (err.isNotEmpty()) {
                         err.let { it[0]?.getError(e) }
                     }
-
                 } finally {
 
                 }

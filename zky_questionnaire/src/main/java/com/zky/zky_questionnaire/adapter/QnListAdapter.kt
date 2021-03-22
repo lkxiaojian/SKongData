@@ -5,6 +5,7 @@ import androidx.databinding.ObservableArrayList
 import androidx.databinding.ViewDataBinding
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.zky_questionnaire.R
+import com.zky.zky_questionnaire.TestData
 import com.zky.zky_questionnaire.databinding.QnCheboxItemBinding
 import com.zky.zky_questionnaire.databinding.QnRadioItemBinding
 
@@ -13,11 +14,9 @@ import com.zky.zky_questionnaire.databinding.QnRadioItemBinding
  *author: lk
  *description： QnListAdapter
  */
-class QnListAdapter(context: Context, items: ObservableArrayList<String>?) :
-    BaseBindAdapter<String, ViewDataBinding>(context, items) {
-
-
-    override fun onBindItem(binding: ViewDataBinding?, item: String, position: Int) {
+class QnListAdapter(context: Context, items: ObservableArrayList<TestData>?) :
+    BaseBindAdapter<TestData, ViewDataBinding>(context, items) {
+    override fun onBindItem(binding: ViewDataBinding?, item: TestData, position: Int) {
 
         when (binding) {
             is QnRadioItemBinding -> binding.data = item
@@ -46,7 +45,7 @@ class QnListAdapter(context: Context, items: ObservableArrayList<String>?) :
             0 -> type = 0
             1, 2 -> type = 1
         }
-        return type
+        return 0
     }
 
 

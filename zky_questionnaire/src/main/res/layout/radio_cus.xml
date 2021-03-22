@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+<CheckBox xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/qnMessage"
     android:layout_width="match_parent"
@@ -7,4 +7,4 @@
     android:minHeight="20dp"
     android:gravity="center_vertical"
     >
-</RadioButton>
+</CheckBox>

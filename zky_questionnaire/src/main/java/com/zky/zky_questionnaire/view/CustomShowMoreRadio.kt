@@ -6,12 +6,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.RadioButton
-import android.widget.RadioGroup
+import android.widget.*
 import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.InverseBindingListener
 import com.zky.basics.common.util.DisplayUtil
+import com.zky.basics.common.util.spread.removeLastString
 import com.zky.zky_questionnaire.R
+import java.lang.Exception
 
 
 /**
@@ -19,15 +21,11 @@ import com.zky.zky_questionnaire.R
  *author: lk
  *description： CustomShowMoreRadio
  */
-class CustomShowMoreRadio : RadioGroup, View.OnClickListener {
+class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
     private var marTop = DisplayUtil.dip2px(10f)
-    private var maxChildHeight = 0
-    private var minChildHeight = 0
-    private var currentView: View? = null
+    var listener: InverseBindingListener? = null
 
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet) {
-
-
     }
 
     constructor(context: Context?) : super(context) {
@@ -36,7 +34,6 @@ class CustomShowMoreRadio : RadioGroup, View.OnClickListener {
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         if (childCount > 0) {
-
             var heig = getChildAt(0).measuredHeight
             var top = 0
             for (i: Int in 0 until childCount) {
@@ -44,13 +41,10 @@ class CustomShowMoreRadio : RadioGroup, View.OnClickListener {
                 val height = v.measuredHeight
 
                 if (i > 0) {
-                    if (i == childCount - 1) {
-
-                        heig += (height + marTop)
-
+                    heig += if (i == childCount - 1) {
+                        (height + marTop)
                     } else {
-                        heig += (height + top + marTop)
-//                        top += (getChildAt(i - 1).measuredHeight + marTop)
+                        (height + top + marTop)
                     }
 
                     top += (getChildAt(i - 1).measuredHeight + marTop)
@@ -64,8 +58,6 @@ class CustomShowMoreRadio : RadioGroup, View.OnClickListener {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-
-
         for (i in 0 until childCount) {
             val childAt = getChildAt(i)
             measureChild(childAt, widthMeasureSpec, heightMeasureSpec)
@@ -73,8 +65,8 @@ class CustomShowMoreRadio : RadioGroup, View.OnClickListener {
         var height = 0
         if (childCount > 0) {
             for (i in 0 until childCount) {
-                val childAt = getChildAt(i)
-                childAt.setOnClickListener(this)
+                val childAt = getChildAt(i) as CheckBox
+                childAt.setOnCheckedChangeListener(this)
                 val measuredHeight = childAt.measuredHeight
                 height += measuredHeight + marTop
             }
@@ -82,33 +74,80 @@ class CustomShowMoreRadio : RadioGroup, View.OnClickListener {
         }
     }
 
+    fun setValue(v: String?) {
+        try {
+            if (!v.isNullOrEmpty()) {
+                val split = v?.split(",")
+                for (i in 0 until childCount) {
+                    split?.forEach {
+                        if (i == it.toInt()) {
+                            val childAt = getChildAt(i) as CheckBox
+                            childAt.isChecked = true
+                        }
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
     companion object {
-        private val viewList = arrayListOf<RadioButton>()
+        private val viewList = arrayListOf<CheckBox>()
 
         @BindingAdapter(value = ["listContent"], requireAll = false)
         @JvmStatic
-        fun setListContent(view: RadioGroup, listContent: String) {
-
-            var listContent =
-                "选择题选项每一选项项每一选项项每一选项项每一选项项每一选项项每一选项占一sdasdsadasdasdasdasdasdasdsadas行选,11择题选项每一选项项每一选项项每一选项项每一选项项每一选项项每一选项项行,选择题选项每一选项占一行"
+        fun setListContent(view: CustomShowMoreRadio, listContent: String) {
+            if (view.childCount > 0) {
+                return
+            }
             val split = listContent.split(",")
-
             split.forEach {
                 val v: View = LayoutInflater.from(view.context).inflate(R.layout.radio_cus, null)
-                if (v !is RadioButton) return@forEach
+                if (v !is CheckBox) return@forEach
                 v.text = it
                 view.addView(v)
+                viewList.add(v)
             }
             view.invalidate()
         }
-    }
 
-    override fun onClick(v: View?) {
-        if (v is RadioButton) {
 
-            Log.e("", "")
+        @BindingAdapter(value = ["selectValues"], requireAll = false)
+        @JvmStatic
+        fun setValue(view: CustomShowMoreRadio, value: String) {
+            view.setValue(value)
         }
 
+        @InverseBindingAdapter(attribute = "selectValues", event = "valueOfSetsAttrChanged")
+        @JvmStatic
+        fun getValue(view: CustomShowMoreRadio): String {
+            var va = ""
+            for (i in 0 until view.childCount) {
+                val checkBox = view.getChildAt(i) as CheckBox
+                if (checkBox.isChecked) {
+                    va += "$i,"
+                }
+            }
+            if (va.isNotEmpty()) {
+                va = va.removeLastString()
+            }
+            return va
+        }
+
+
+        @BindingAdapter(value = ["valueOfSetsAttrChanged"], requireAll = false)
+        @JvmStatic
+        fun setListener(view: CustomShowMoreRadio, listener: InverseBindingListener?) {
+            view.listener = listener
+        }
+
+    }
+
+    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+        Log.e("", "")
+        listener?.onChange()
     }
 
 

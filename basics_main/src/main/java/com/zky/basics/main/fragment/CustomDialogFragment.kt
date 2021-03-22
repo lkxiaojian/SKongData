@@ -76,7 +76,7 @@ class CustomDialogFragment : DialogFragment(), AddressDialogAdapter.itemOnClik {
         }
         abt_sure?.setOnClickListener {
             levelListT?.forEach {
-                if (it.code.isNullOrEmpty()) {
+                if (it.valueCode.isNullOrEmpty()) {
                     it.attr_tip?.showToast()
                     return@setOnClickListener
                 }
@@ -104,12 +104,12 @@ class CustomDialogFragment : DialogFragment(), AddressDialogAdapter.itemOnClik {
                         levelListT?.let {
                             for ((tindex, _) in it.withIndex()) {
                                 if (tindex >= index) {
-                                    levelListT!![index].code = ""
+                                    levelListT!![index].valueCode = ""
                                     levelListT!![index].value = ""
                                 }
                             }
                             if (position != 0) {
-                                levelListT!![index].code = addr[position - 1].code
+                                levelListT!![index].valueCode = addr[position - 1].code
                                 levelListT!![index].value = value
                             }
 
@@ -125,7 +125,7 @@ class CustomDialogFragment : DialogFragment(), AddressDialogAdapter.itemOnClik {
     }
 
     override fun itemClick(view: View, data: AccountLevel, positon: Int) {
-        if (positon != 0 && levelListT?.get(positon - 1)?.code.isNullOrEmpty()) {
+        if (positon != 0 && levelListT?.get(positon - 1)?.valueCode.isNullOrEmpty()) {
             "${levelListT?.get(positon - 1)?.attr_tip}".showToast()
             return
         }
