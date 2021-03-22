@@ -5,6 +5,8 @@ import com.amap.api.maps.CoordinateConverter
 import com.amap.api.maps.model.LatLng
 import com.esri.arcgisruntime.geometry.Point
 import com.esri.arcgisruntime.geometry.SpatialReferences
+import com.zky.zky_map.utils.TransformUtil.gcJo2toWGS84Point
+import com.zky.zky_map.utils.TransformUtil.wsG84toGCJ02Point
 
 /**
  *create_time : 21-3-17 上午8:34
@@ -16,10 +18,15 @@ object MapUtlis {
     fun TransfromGps(t: LatLng): Point {
         val toGPSPoint = LocationUtils.toGPSPoint(t.latitude, t.longitude)
         val point = Point(toGPSPoint.longitude, toGPSPoint.latitude, wgs)
+//        val toGPSPoint =  gcJo2toWGS84Point(t.latitude,t.longitude)
+//        val point = Point(toGPSPoint.x, toGPSPoint.y, wgs)
+
+
+
         return point
     }
 
-    fun TransfromGCJ(t: LatLng,context: Context): LatLng {
+    fun TransfromGCJ(t: LatLng, context: Context): LatLng {
         val converter = CoordinateConverter(context)
         // CoordType.GPS 待转换坐标类型 WGS-84坐标系
         converter.from(CoordinateConverter.CoordType.GPS)
@@ -27,6 +34,9 @@ object MapUtlis {
         converter.coord(t)
         // 执行转换操作
         val convert = converter.convert()
+        // 116.38976 39.99216
+//        val wsG84toGCJ02Point = wsG84toGCJ02Point(t.latitude, t.longitude)
+//        val latLng = LatLng(wsG84toGCJ02Point.x, wsG84toGCJ02Point.y)
         return convert
     }
 }

@@ -14,6 +14,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.adapter.FragmentPager2Adapter
+import com.zky.basics.common.constant.Constants.dataAttr2
 import com.zky.basics.common.constant.Constants.itemCode
 import com.zky.basics.common.mvvm.BaseActivity
 import com.zky.basics.common.provider.IMapProvider
@@ -63,7 +64,7 @@ class TaskMessageActivity : BaseActivity() {
             titles.clear()
             val taskBean = intent.extras["dataTask"] as TaskBean
              itemCode = intent.extras["itemCode"].toString()
-
+            dataAttr2=taskBean.dataAttr2
             if (!taskBean.spaceDataType.isNullOrEmpty()) {
                 titles.add("空间数据")
                 mListFragments.add(iMapProvider?.mapFragment!!)
