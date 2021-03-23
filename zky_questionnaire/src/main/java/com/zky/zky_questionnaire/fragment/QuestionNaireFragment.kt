@@ -2,6 +2,7 @@ package com.zky.zky_questionnaire.fragment
 
 import android.util.Log
 import android.view.View
+import com.zky.basics.api.common.entity.task.TaskQuestion
 import com.zky.basics.common.adapter.BaseBindAdapter
 
 import com.zky.basics.common.mvvm.BaseMvvmRefreshFragment
@@ -9,9 +10,9 @@ import com.zky.basics.common.util.ObservableListUtil
 import com.zky.basics.common.util.OptionsPickerBuilder
 import com.zky.zky_questionnaire.BR
 import com.zky.zky_questionnaire.R
-import com.zky.zky_questionnaire.TestData
 import com.zky.zky_questionnaire.adapter.QnListAdapter
 import com.zky.zky_questionnaire.databinding.QuetionnairefFragmentBinding
+import com.zky.zky_questionnaire.inter.Co.itemChange
 import com.zky.zky_questionnaire.inter.itemChangeListener
 import com.zky.zky_questionnaire.mvvm.factory.QNViewModelFactory
 import com.zky.zky_questionnaire.mvvm.viewmodle.QNViewModle
@@ -22,7 +23,7 @@ import com.zky.zky_questionnaire.mvvm.viewmodle.QNViewModle
  *description： QuestionNaireFragment
  */
 class QuestionNaireFragment :
-    BaseMvvmRefreshFragment<TestData, QuetionnairefFragmentBinding, QNViewModle>(),
+    BaseMvvmRefreshFragment<TaskQuestion, QuetionnairefFragmentBinding, QNViewModle>(),
     itemChangeListener, BaseBindAdapter.OnItemClickListener<Any> {
     override fun refreshLayout() = mBinding?.drlQn
     override fun onBindViewModel() = QNViewModle::class.java
@@ -35,15 +36,8 @@ class QuestionNaireFragment :
                 adapter
             )
         )
-
         mBinding?.recview?.adapter = adapter
         adapter.setItemClickListener(this)
-        mViewModel?.itemChange?.set(this)
-        TestData.itemChange = this
-        val optionsPickerBuilder = OptionsPickerBuilder()
-        var pickerBuilder = context?.let { optionsPickerBuilder.pickerBuilder(it) }
-        mViewModel?.pickerBuilder = pickerBuilder
-        mViewModel?.pickerView = pickerBuilder?.build()
     }
 
     override fun onBindVariableId() = BR.qnViewModel
@@ -51,26 +45,30 @@ class QuestionNaireFragment :
     override fun onBindLayout() = R.layout.quetionnairef_fragment
 
     override fun initView(view: View?) {
-        val list = arrayListOf<TestData>()
-        for (i in 0..50) {
-            val testData = TestData()
-            testData.message = "$i,2,3"
-            list.add(testData)
-        }
-
-        mViewModel?.mList?.addAll(list)
 
     }
 
     override fun initData() {
-
+        mViewModel?.itemChange?.set(this)
+        itemChange = this
+        val optionsPickerBuilder = OptionsPickerBuilder()
+        var pickerBuilder = context?.let { optionsPickerBuilder.pickerBuilder(it) }
+        mViewModel?.pickerBuilder = pickerBuilder
+        mViewModel?.pickerView = pickerBuilder?.build()
+        mViewModel?.getWjTemplate()
     }
 
-    override fun getItem(data: TestData?) {
-        Log.e("", "")
+    override fun getIndex(position: Int?) {
+        mViewModel?.valueChangeWithIndex(position)
     }
 
     override fun onItemClick(e: Any, position: Int) {
-        mViewModel?.setSelect("", position)
+        mViewModel?.setSelect(position)
+    }
+
+    companion object {
+        fun QuestionNewInstance(): QuestionNaireFragment {
+            return QuestionNaireFragment()
+        }
     }
 }

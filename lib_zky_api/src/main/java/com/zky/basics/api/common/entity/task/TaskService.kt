@@ -33,4 +33,13 @@ interface TaskService {
         @Url url: String?,
     ): RespDTO<Any>
 
+
+    @GET("getWjTemplate.do")
+    suspend fun getWjTemplate(@Query("taskCode") taskCode: String?): RespDTO<List<TaskQuestion>>
+
+    @GET("getWjInfo.do")
+    suspend fun getWjInfo(@Query("itemCode") taskCode: String?): RespDTO<List<TaskResult>>
+
+    @POST("insertOrUpdateWjInfo.do")
+    suspend fun insertOrUpdateWjInfo(@Query("itemCode") taskCode: String?,@Query("wjInfoString") wjInfoString: String?): RespDTO<Any>
 }

@@ -13,7 +13,7 @@ import androidx.databinding.InverseBindingListener
 import com.zky.basics.common.util.DisplayUtil
 import com.zky.basics.common.util.spread.removeLastString
 import com.zky.zky_questionnaire.R
-import com.zky.zky_questionnaire.TestData
+import com.zky.zky_questionnaire.inter.Co.itemChange
 import java.lang.Exception
 
 
@@ -95,16 +95,16 @@ class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
     }
 
     companion object {
-       private var bean:TestData?=null
-        @BindingAdapter(value = ["listContent","dataValue"], requireAll = false)
+        private var posotion: Int? = -1
+
+        @BindingAdapter(value = ["listContent", "dataValue"], requireAll = false)
         @JvmStatic
-        fun setListContent(view: CustomShowMoreRadio, listContent: String,dataValue: TestData?) {
+        fun setListContent(view: CustomShowMoreRadio, listContent: List<String>?, dataValue: Int?) {
             if (view.childCount > 0) {
                 return
             }
-            bean =dataValue
-            val split = listContent.split(",")
-            split.forEach {
+            posotion = dataValue
+            listContent?.forEach {
                 val v: View = LayoutInflater.from(view.context).inflate(R.layout.radio_cus, null)
                 if (v !is SingTopRadioButton) return@forEach
                 v.text = it
@@ -148,7 +148,7 @@ class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         Log.e("", "")
         listener?.onChange()
-        TestData.itemChange?.getItem(bean)
+        itemChange?.getIndex(posotion)
     }
 
 

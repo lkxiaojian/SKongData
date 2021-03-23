@@ -16,7 +16,8 @@ object Constants {
     const val bucketName = "zkydls-test"
     const val appCode = "27104114940837888"
     var itemCode = "27093798379061255"
-    var dataAttr2 :String?= ""
+    var dataAttr2: String? = ""
+    var taskCode: String? = "27102455388962819"
 
 
 }

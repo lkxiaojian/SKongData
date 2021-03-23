@@ -2,10 +2,8 @@ package com.zky.zky_questionnaire.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
@@ -13,7 +11,7 @@ import androidx.databinding.InverseBindingListener
 import com.zky.basics.common.util.DisplayUtil
 import com.zky.basics.common.util.spread.removeLastString
 import com.zky.zky_questionnaire.R
-import com.zky.zky_questionnaire.TestData
+import com.zky.zky_questionnaire.inter.Co.itemChange
 import java.lang.Exception
 
 
@@ -95,20 +93,19 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
     }
 
     companion object {
-        private var bean: TestData? = null
+        private var position: Int? = -1
         @BindingAdapter(value = ["listContent", "dataValue"], requireAll = false)
         @JvmStatic
         fun setListContent(
             view: CustomShowMoreCheckbox,
-            listContent: String,
-            dataValue: TestData?
+            listContent: List<String>,
+            dataValue: Int?
         ) {
             if (view.childCount > 0) {
                 return
             }
-            bean = dataValue
-            val split = listContent.split(",")
-            split.forEach {
+            position = dataValue
+            listContent.forEach {
                 val v: View = LayoutInflater.from(view.context).inflate(R.layout.checkbox_cus, null)
                 if (v !is CheckBox) return@forEach
                 v.text = it
@@ -150,7 +147,7 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         listener?.onChange()
-        TestData.itemChange?.getItem(bean)
+        itemChange?.getIndex(position)
     }
 
 

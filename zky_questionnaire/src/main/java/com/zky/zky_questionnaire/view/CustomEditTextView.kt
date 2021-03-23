@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.databinding.BindingAdapter
-import com.zky.zky_questionnaire.TestData
+import com.zky.zky_questionnaire.inter.Co.itemChange
 
 /**
  *create_time : 21-3-22 下午5:41
@@ -26,19 +26,19 @@ class CustomEditTextView(context: Context, attrs: AttributeSet?) :
             flag = true
             return
         }
-        TestData.itemChange?.getItem(null)
-
+     itemChange?.getIndex(position)
     }
 
 
     companion object {
-        @BindingAdapter(value = ["itemCode"], requireAll = false)
+        private var position:Int?=-1
+        @BindingAdapter(value = ["dataValue"], requireAll = false)
         @JvmStatic
         fun setListContent(
             view: CustomEditTextView,
-            itemCode: String
+            dataValue: Int
         ) {
-
+            position=dataValue
         }
 
 

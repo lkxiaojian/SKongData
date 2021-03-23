@@ -1,17 +1,21 @@
 package com.zky.zky_questionnaire.mvvm.viewmodle
 
 import android.app.Application
+import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableField
 import com.bigkoo.pickerview.view.OptionsPickerView
+import com.google.gson.Gson
+import com.zky.basics.api.common.entity.task.TaskQuestion
+import com.zky.basics.api.common.entity.task.TaskResult
+import com.zky.basics.common.constant.Constants
 import com.zky.basics.common.mvvm.viewmodel.BaseRefreshViewModel
-
 import com.zky.basics.common.util.spread.showToast
-import com.zky.zky_questionnaire.TestData
+import com.zky.zky_questionnaire.R
+
 import com.zky.zky_questionnaire.inter.itemChangeListener
 import com.zky.zky_questionnaire.mvvm.model.qnModel
 import views.ViewOption.OptionsPickerBuilder
-
 /**
  * Created by lk
  * Date 2019-11-08
@@ -19,11 +23,17 @@ import views.ViewOption.OptionsPickerBuilder
  * Detail:
  */
 class QNViewModle(application: Application, model: qnModel) :
-    BaseRefreshViewModel<TestData, qnModel>(application, model) {
+    BaseRefreshViewModel<TaskQuestion, qnModel>(application, model) {
     var itemChange = ObservableField<itemChangeListener>()
+    var pickerBuilder: OptionsPickerBuilder? = null
+    var pickerView: OptionsPickerView<Any>? = null
+    var needWrite = ObservableField<String>()
+    private var needCout = 0
 
-     var pickerBuilder: OptionsPickerBuilder? = null
-    var  pickerView: OptionsPickerView<Any>? =null
+    init {
+        needWrite.set("")
+    }
+
     override fun refreshData() {
 
     }
@@ -34,29 +44,75 @@ class QNViewModle(application: Application, model: qnModel) :
     override fun enableLoadMore() = false
     override fun enableRefresh() = false
     fun startClick(view: View) {
-        mList[0].selectValue.showToast()
+        when (view.id) {
+            R.id.abt_upload_wj -> {
+                val list = arrayListOf<TaskResult>()
+                mList.forEach {
+                    if (it.selectValue.isEmpty()) {
+                        "第${it.q_index}题未填写".showToast()
+                        return
+                    }
+                    list.add(TaskResult(it.selectValue))
+                }
+
+                val toJson = Gson().toJson(list)
+                launchUI({
+                    mModel.insertOrUpdateWjInfo(toJson)
+                    "上传成功".showToast()
+                })
+
+
+            }
+        }
+
+    }
+
+    fun getWjTemplate() {
+        launchUI({
+            val wjTemplate = mModel.getWjTemplate(Constants.taskCode)
+            val wjInfo = mModel.getWjInfo()
+            if(wjInfo!=null){
+              for ((index,value) in wjInfo.withIndex()){
+                  wjTemplate?.get(index)?.selectValue=value.name
+              }
+            }
+            wjTemplate?.let { mList.addAll(it) }
+            needWrite.set("$needCout/${mList.size}")
+        })
+    }
+
+    fun setSelect(position: Int) {
+        var list = mList[position].q_option
+        list?.let {
+            showPicker(it, position)
+        }
+
     }
 
 
-    fun setSelect(type: String,position:Int) {
-        var list = arrayListOf<String>()
-        list.add("123")
-        list.add("12dddd")
-        list.add("hahhah")
-        list.add("hahhah")
-        list.add("hahhah")
-        showPicker(list,position)
-    }
-
-
-    fun showPicker(list: List<String>,position:Int) {
+    fun showPicker(list: List<String>, position: Int) {
         pickerView?.setPicker(list)
 //        pickerView?.setSelectOptions(data.get()!!.levelIndel)
         pickerView?.show()
         pickerBuilder?.setOnOptionsSelectListener { options1, _, _, _ ->
-            mList[position].selectValue=list[options1]
+            mList[position].selectValue = list[options1]
+            valueChangeWithIndex(position)
         }
+    }
 
+    fun valueChangeWithIndex(position: Int?) {
+        try {
+            val taskQuestion = mList[(position!! - 1)]
+            needCout = 0
+            mList.forEach {
+                if (it.selectValue.isNotEmpty()) {
+                    needCout += 1
+                }
+            }
+            needWrite.set("$needCout/${mList.size}")
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
     }
 

@@ -16,11 +16,9 @@ import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.adapter.FragmentPager2Adapter
 import com.zky.basics.common.constant.Constants.dataAttr2
 import com.zky.basics.common.constant.Constants.itemCode
+import com.zky.basics.common.constant.Constants.taskCode
 import com.zky.basics.common.mvvm.BaseActivity
-import com.zky.basics.common.provider.IMapProvider
-import com.zky.basics.common.provider.IMediaProvider
-import com.zky.basics.common.provider.IMediaSelectVideoProvider
-import com.zky.basics.common.provider.IMediaSelectVoiceProvider
+import com.zky.basics.common.provider.*
 import com.zky.basics.common.util.spread.decodeParcelable
 import com.zky.basics.main.R
 import kotlinx.android.synthetic.main.activity_task_message.*
@@ -45,6 +43,11 @@ class TaskMessageActivity : BaseActivity() {
     @Autowired(name = ARouterPath.MEDIA_SELECT_VIDEO)
     var iMediaSelectVideoProvider: IMediaSelectVideoProvider? = null
 
+    @JvmField
+    @Autowired(name = ARouterPath.QUESTION)
+    var iQuestionProvider: IQuestionProvider? = null
+
+
     //    "空间数据", "问卷信息", "照片信息", "视频信息", "音频信息"
     private val titles = arrayListOf<String>()
 
@@ -55,7 +58,6 @@ class TaskMessageActivity : BaseActivity() {
     }
 
 
-
     override val tootBarTitle: String
         get() = decodeParcelable<Userinfo>("user")?.username.toString()
 
@@ -63,14 +65,15 @@ class TaskMessageActivity : BaseActivity() {
         try {
             titles.clear()
             val taskBean = intent.extras["dataTask"] as TaskBean
-             itemCode = intent.extras["itemCode"].toString()
-            dataAttr2=taskBean.dataAttr2
+            itemCode = intent.extras["itemCode"].toString()
+            dataAttr2 = taskBean.dataAttr2
+            taskCode=taskBean.taskCode
             if (!taskBean.spaceDataType.isNullOrEmpty()) {
                 titles.add("空间数据")
                 mListFragments.add(iMapProvider?.mapFragment!!)
             }
             titles.add("问卷信息")
-            mListFragments.add(Fragment())
+            mListFragments.add(iQuestionProvider?.questionFragment!!)
             taskBean.mediaDataType?.let {
 
                 if (it.contains("照片")) {

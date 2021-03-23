@@ -6,14 +6,15 @@
 
         <variable
             name="data"
-            type="com.zky.zky_questionnaire.TestData" />
+            type="com.zky.basics.api.common.entity.task.TaskQuestion" />
 
-        <import type="com.zky.zky_questionnaire.R" />
+        <import type="android.view.View" />
     </data>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_click"
         style="@style/qnCardView"
+        android:visibility="@{data.display? View.VISIBLE:View.GONE}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="3dp">
@@ -28,7 +29,7 @@
                 style="@style/qnTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="select"
+                android:text="@{data.q_index+data.q_title}"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
