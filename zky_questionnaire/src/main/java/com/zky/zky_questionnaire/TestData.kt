@@ -10,15 +10,21 @@ import com.zky.zky_questionnaire.inter.itemChangeListener
  *author: lk
  *description： TestData
  */
- class TestData: BaseObservable() {
-    companion object{
-        var itemChange:itemChangeListener?=null
+class TestData : BaseObservable() {
+    companion object {
+        var itemChange: itemChangeListener? = null
     }
-
+    @get:Bindable
+    @set:Bindable
+    var tipSelect = "请选择"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.tipSelect)
+        }
 
     @get:Bindable
     @set:Bindable
-    var message=""
+    var message = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.message)
@@ -26,7 +32,7 @@ import com.zky.zky_questionnaire.inter.itemChangeListener
 
     @get:Bindable
     @set:Bindable
-    var selectValue: String = ""
+    var selectValue:String= ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.selectValue)

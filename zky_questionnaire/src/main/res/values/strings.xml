@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">zky_questionnaire</string>
+    <string name="qn_sl_top">请选择</string>
 </resources>

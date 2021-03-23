@@ -2,9 +2,11 @@ package com.zky.zky_questionnaire.fragment
 
 import android.util.Log
 import android.view.View
+import com.zky.basics.common.adapter.BaseBindAdapter
 
 import com.zky.basics.common.mvvm.BaseMvvmRefreshFragment
 import com.zky.basics.common.util.ObservableListUtil
+import com.zky.basics.common.util.OptionsPickerBuilder
 import com.zky.zky_questionnaire.BR
 import com.zky.zky_questionnaire.R
 import com.zky.zky_questionnaire.TestData
@@ -21,7 +23,7 @@ import com.zky.zky_questionnaire.mvvm.viewmodle.QNViewModle
  */
 class QuestionNaireFragment :
     BaseMvvmRefreshFragment<TestData, QuetionnairefFragmentBinding, QNViewModle>(),
-    itemChangeListener {
+    itemChangeListener, BaseBindAdapter.OnItemClickListener<Any> {
     override fun refreshLayout() = mBinding?.drlQn
     override fun onBindViewModel() = QNViewModle::class.java
     override fun onBindViewModelFactory() = QNViewModelFactory.getInstance(mActivity.application)
@@ -33,9 +35,15 @@ class QuestionNaireFragment :
                 adapter
             )
         )
+
         mBinding?.recview?.adapter = adapter
+        adapter.setItemClickListener(this)
         mViewModel?.itemChange?.set(this)
         TestData.itemChange = this
+        val optionsPickerBuilder = OptionsPickerBuilder()
+        var pickerBuilder = context?.let { optionsPickerBuilder.pickerBuilder(it) }
+        mViewModel?.pickerBuilder = pickerBuilder
+        mViewModel?.pickerView = pickerBuilder?.build()
     }
 
     override fun onBindVariableId() = BR.qnViewModel
@@ -47,7 +55,6 @@ class QuestionNaireFragment :
         for (i in 0..50) {
             val testData = TestData()
             testData.message = "$i,2,3"
-//            testData.selectValue = "0"
             list.add(testData)
         }
 
@@ -60,9 +67,10 @@ class QuestionNaireFragment :
     }
 
     override fun getItem(data: TestData?) {
-        val indexOf = mViewModel?.mList?.indexOf(data)
-        Log.e("","")
+        Log.e("", "")
     }
 
-
+    override fun onItemClick(e: Any, position: Int) {
+        mViewModel?.setSelect("", position)
+    }
 }

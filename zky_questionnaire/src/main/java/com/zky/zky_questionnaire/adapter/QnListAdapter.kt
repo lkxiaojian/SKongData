@@ -8,7 +8,9 @@ import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.zky_questionnaire.R
 import com.zky.zky_questionnaire.TestData
 import com.zky.zky_questionnaire.databinding.QnCheboxItemBinding
+import com.zky.zky_questionnaire.databinding.QnEdittextItemBinding
 import com.zky.zky_questionnaire.databinding.QnRadioItemBinding
+import com.zky.zky_questionnaire.databinding.QnSelectItemBinding
 import com.zky.zky_questionnaire.inter.itemChangeListener
 
 /**
@@ -28,23 +30,30 @@ class QnListAdapter(
         when (binding) {
             is QnRadioItemBinding -> binding.data = item
             is QnCheboxItemBinding -> binding.data = item
+            is QnEdittextItemBinding -> binding.data = item
+            is QnSelectItemBinding -> {
+                binding.data = item
+                binding.atvSelectXl.setOnClickListener {
+                    mItemClickListener?.onItemClick(item, position)
+                }
+            }
+
+
         }
 
 
-//        binding?.cvClick?.setOnClickListener {
-//            mItemClickListener?.onItemClick(item, position)
-//        }
     }
 
     override fun getLayoutItemId(viewType: Int): Int {
         Log.e("tag", "tag----viewType--->$viewType")
         var a = viewType % 3
-        a=2
+        a = 3
         var layout = R.layout.qn_radio_item
         when (a) {
             0 -> layout = R.layout.qn_radio_item
             1 -> layout = R.layout.qn_chebox_item
             2 -> layout = R.layout.qn_edittext_item
+            3 -> layout = R.layout.qn_select_item
         }
 
         return layout
