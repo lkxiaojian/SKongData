@@ -1,7 +1,6 @@
 package com.zky.zky_questionnaire.mvvm.viewmodle
 
 import android.app.Application
-import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableField
 import com.bigkoo.pickerview.view.OptionsPickerView
@@ -9,10 +8,10 @@ import com.google.gson.Gson
 import com.zky.basics.api.common.entity.task.TaskQuestion
 import com.zky.basics.api.common.entity.task.TaskResult
 import com.zky.basics.common.constant.Constants
+import com.zky.basics.common.event.SingleLiveEvent
 import com.zky.basics.common.mvvm.viewmodel.BaseRefreshViewModel
 import com.zky.basics.common.util.spread.showToast
 import com.zky.zky_questionnaire.R
-
 import com.zky.zky_questionnaire.inter.itemChangeListener
 import com.zky.zky_questionnaire.mvvm.model.qnModel
 import views.ViewOption.OptionsPickerBuilder
@@ -28,6 +27,9 @@ class QNViewModle(application: Application, model: qnModel) :
     var pickerBuilder: OptionsPickerBuilder? = null
     var pickerView: OptionsPickerView<Any>? = null
     var needWrite = ObservableField<String>()
+    var q_index:Int?=0
+    private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
+
     private var needCout = 0
 
     init {
@@ -50,6 +52,8 @@ class QNViewModle(application: Application, model: qnModel) :
                 mList.forEach {
                     if (it.selectValue.isEmpty()) {
                         "第${it.q_index}题未填写".showToast()
+                        q_index=it.q_index
+                        getmVoidSingleLiveEvent().value = "scroll"
                         return
                     }
                     list.add(TaskResult(it.selectValue))
@@ -70,13 +74,14 @@ class QNViewModle(application: Application, model: qnModel) :
     fun getWjTemplate() {
         launchUI({
             val wjTemplate = mModel.getWjTemplate(Constants.taskCode)
+            wjTemplate?.let { mList.addAll(it) }
+
             val wjInfo = mModel.getWjInfo()
             if(wjInfo!=null){
-              for ((index,value) in wjInfo.withIndex()){
-                  wjTemplate?.get(index)?.selectValue=value.name
-              }
+                for ((index,value) in wjInfo.withIndex()){
+                    mList[index]?.selectValue=value.name
+                }
             }
-            wjTemplate?.let { mList.addAll(it) }
             needWrite.set("$needCout/${mList.size}")
         })
     }
@@ -115,6 +120,10 @@ class QNViewModle(application: Application, model: qnModel) :
         }
 
     }
-
+    fun getmVoidSingleLiveEvent(): SingleLiveEvent<String> {
+        return createLiveData(mVoidSingleLiveEvent).also {
+            mVoidSingleLiveEvent = it
+        }
+    }
 
 }

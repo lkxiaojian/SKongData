@@ -99,7 +99,7 @@ class MediaVoiceFragment :
                     } else {
                         var filePath = bean.file_path
 
-                        if (!filePath.startsWith("/storage/emulated/0") && !filePath.startsWith("http")
+                        if (!filePath.contains("/mnt")&&!filePath.contains("/storage/emulated/0") && !filePath.startsWith("http")
                         ) {
                             filePath = API.ImageFolderPath + bean.file_path
                         }

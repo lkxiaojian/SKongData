@@ -1,9 +1,13 @@
 package com.zky.zky_questionnaire.fragment
 
+import android.content.Intent
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.Observer
+import com.alibaba.android.arouter.launcher.ARouter
 import com.zky.basics.api.common.entity.task.TaskQuestion
 import com.zky.basics.common.adapter.BaseBindAdapter
+import com.zky.basics.common.constant.Constants
 
 import com.zky.basics.common.mvvm.BaseMvvmRefreshFragment
 import com.zky.basics.common.util.ObservableListUtil
@@ -30,6 +34,11 @@ class QuestionNaireFragment :
     override fun onBindViewModelFactory() = QNViewModelFactory.getInstance(mActivity.application)
 
     override fun initViewObservable() {
+
+
+
+
+
         val adapter = QnListAdapter(mActivity, mViewModel?.mList, this)
         mViewModel?.mList?.addOnListChangedCallback(
             ObservableListUtil.getListChangedCallback(
@@ -38,6 +47,18 @@ class QuestionNaireFragment :
         )
         mBinding?.recview?.adapter = adapter
         adapter.setItemClickListener(this)
+
+
+        mViewModel?.getmVoidSingleLiveEvent()
+            ?.observe(this, { aVoid: String? ->
+                when (aVoid) {
+                    "scroll" -> {
+                        mViewModel?.q_index?.let { mBinding?.recview?.scrollToPosition(it) }
+                    }
+
+                }
+            })
+
     }
 
     override fun onBindVariableId() = BR.qnViewModel
@@ -58,8 +79,8 @@ class QuestionNaireFragment :
         mViewModel?.getWjTemplate()
     }
 
-    override fun getIndex(position: Int?) {
-        mViewModel?.valueChangeWithIndex(position)
+    override fun getIndex(p: Int?) {
+        mViewModel?.valueChangeWithIndex(p)
     }
 
     override fun onItemClick(e: Any, position: Int) {

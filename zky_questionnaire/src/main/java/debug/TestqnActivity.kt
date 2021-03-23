@@ -7,12 +7,12 @@ import com.zky.zky_questionnaire.R
 import com.zky.zky_questionnaire.fragment.QuestionNaireFragment
 
 
-class TestMineActivity : RxAppCompatActivity() {
+class TestqnActivity : RxAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.debug_framelayout)
 
-        RetrofitManager.TOKEN="1616479412866"
+        RetrofitManager.TOKEN="1616485755841"
         supportFragmentManager.beginTransaction().add(R.id.fl, QuestionNaireFragment()).commit()
 
     }

@@ -225,11 +225,9 @@ class MediaVoiceListViewModle(application: Application, mediaModel: MediaModel) 
             mList[position].startIng = 1
             return
         }
-
         timer = Timer()
         task = tTask(position)
         timer?.schedule(task, 0, 1000)
-
     }
 
     fun vioceStop() {

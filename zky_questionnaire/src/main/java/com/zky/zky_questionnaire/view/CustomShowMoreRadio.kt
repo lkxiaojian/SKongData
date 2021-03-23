@@ -117,6 +117,14 @@ class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
         @BindingAdapter(value = ["selectValues"], requireAll = false)
         @JvmStatic
         fun setValue(view: CustomShowMoreRadio, value: String?) {
+            try {
+                val childCount = view.childCount
+                if(childCount>0&&value.isNullOrEmpty()){
+                    value?.toInt()?.let { (view.getChildAt(it) as SingTopRadioButton).isChecked=true }
+                }
+            }catch (e:Exception){
+
+            }
             view.setValue(value)
         }
 

@@ -26,6 +26,19 @@ android {
     }
 
 
+    // 配置资源路径，方便测试环境，打包不集成到正式环境
+    // release 时 debug 目录下文件不需要合并到主工程
+    sourceSets {
+        main {
+            if (!isModule.toBoolean()) {
+                java {
+                    exclude '**/debug/**'
+                }
+            }
+        }
+    }
+
+
 }
 
 
@@ -33,8 +46,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api project(':lib_common')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation ("androidx.constraintlayout:constraintlayout:$clayout_version")
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation("androidx.constraintlayout:constraintlayout:$clayout_version")
     kapt rootProject.ext.dependencies["arouter-compiler"]
     kapt rootProject.ext.dependencies["dagger-compiler"]
     api rootProject.ext.dependencies["oss"]

@@ -38,8 +38,6 @@ class QnListAdapter(
                 }
             }
         }
-
-
     }
 
     override fun getLayoutItemId(viewType: Int): Int {

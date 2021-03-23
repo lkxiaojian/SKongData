@@ -102,8 +102,6 @@ class TaskViewModel(application: Application, model: MainModel) :
                 TimePv(v)
                 pickerView?.show()
             }
-
-
         }
 
     }
@@ -112,7 +110,6 @@ class TaskViewModel(application: Application, model: MainModel) :
         launchUI({
             mModel.insertOrUpdateItem(url)
             "添加成功".showToast()
-
             getmVoidSingleLiveEvent().value = "finsh"
         })
 
