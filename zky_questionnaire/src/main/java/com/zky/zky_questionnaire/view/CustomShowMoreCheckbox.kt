@@ -119,22 +119,19 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
         @BindingAdapter(value = ["selectValues"], requireAll = false)
         @JvmStatic
         fun setValue(view: CustomShowMoreCheckbox, value: String?) {
-            try {
-                if(view.childCount>0){
-                    val split = value?.split(",")
-                    split?.forEach {
-                        if(it.isNotEmpty()){
-                            (view.getChildAt(it.toInt()) as CheckBox) .isChecked=true
-                        }
-
-                    }
-                }
-            }catch (e:Exception){
-
-            }
-
-
-
+//            try {
+//                if(view.childCount>0){
+//                    val split = value?.split(",")
+//                    split?.forEach {
+//                        if(it.isNotEmpty()){
+//                            (view.getChildAt(it.toInt()) as CheckBox) .isChecked=true
+//                        }
+//
+//                    }
+//                }
+//            }catch (e:Exception){
+//
+//            }
             view.setValue(value)
         }
 

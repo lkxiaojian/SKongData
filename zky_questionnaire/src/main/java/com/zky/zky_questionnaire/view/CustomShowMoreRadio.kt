@@ -78,14 +78,8 @@ class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
     fun setValue(v: String?) {
         try {
             if (!v.isNullOrEmpty()) {
-                val split = v?.split(",")
-                for (i in 0 until childCount) {
-                    split?.forEach {
-                        if (i == it.toInt()) {
-                            val childAt = getChildAt(i) as SingTopRadioButton
-                            childAt.isChecked = true
-                        }
-                    }
+                if (childCount > 0) {
+                    v.toInt().let { (getChildAt(it) as SingTopRadioButton).isChecked = true }
                 }
             }
         } catch (e: Exception) {
@@ -117,14 +111,14 @@ class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
         @BindingAdapter(value = ["selectValues"], requireAll = false)
         @JvmStatic
         fun setValue(view: CustomShowMoreRadio, value: String?) {
-            try {
-                val childCount = view.childCount
-                if(childCount>0&&value.isNullOrEmpty()){
-                    value?.toInt()?.let { (view.getChildAt(it) as SingTopRadioButton).isChecked=true }
-                }
-            }catch (e:Exception){
-
-            }
+//            try {
+//                val childCount = view.childCount
+//                if(childCount>0&&value.isNullOrEmpty()){
+//                    value?.toInt()?.let { (view.getChildAt(it) as SingTopRadioButton).isChecked=true }
+//                }
+//            }catch (e:Exception){
+//
+//            }
             view.setValue(value)
         }
 

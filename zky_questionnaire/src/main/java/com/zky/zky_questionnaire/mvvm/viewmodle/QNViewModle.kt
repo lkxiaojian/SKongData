@@ -14,7 +14,9 @@ import com.zky.basics.common.util.spread.showToast
 import com.zky.zky_questionnaire.R
 import com.zky.zky_questionnaire.inter.itemChangeListener
 import com.zky.zky_questionnaire.mvvm.model.qnModel
+import kotlinx.coroutines.delay
 import views.ViewOption.OptionsPickerBuilder
+
 /**
  * Created by lk
  * Date 2019-11-08
@@ -27,7 +29,7 @@ class QNViewModle(application: Application, model: qnModel) :
     var pickerBuilder: OptionsPickerBuilder? = null
     var pickerView: OptionsPickerView<Any>? = null
     var needWrite = ObservableField<String>()
-    var q_index:Int?=0
+    var q_index: Int? = 0
     private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
 
     private var needCout = 0
@@ -52,7 +54,7 @@ class QNViewModle(application: Application, model: qnModel) :
                 mList.forEach {
                     if (it.selectValue.isEmpty()) {
                         "第${it.q_index}题未填写".showToast()
-                        q_index=it.q_index
+                        q_index = it.q_index?.minus(1)
                         getmVoidSingleLiveEvent().value = "scroll"
                         return
                     }
@@ -75,11 +77,12 @@ class QNViewModle(application: Application, model: qnModel) :
         launchUI({
             val wjTemplate = mModel.getWjTemplate(Constants.taskCode)
             wjTemplate?.let { mList.addAll(it) }
-
+            //防止 布局未初始化，就进行渲染
+            delay(100)
             val wjInfo = mModel.getWjInfo()
-            if(wjInfo!=null){
-                for ((index,value) in wjInfo.withIndex()){
-                    mList[index]?.selectValue=value.name
+            if (wjInfo != null) {
+                for ((index, value) in wjInfo.withIndex()) {
+                    mList[index]?.selectValue = value.name
                 }
             }
             needWrite.set("$needCout/${mList.size}")
@@ -120,6 +123,7 @@ class QNViewModle(application: Application, model: qnModel) :
         }
 
     }
+
     fun getmVoidSingleLiveEvent(): SingleLiveEvent<String> {
         return createLiveData(mVoidSingleLiveEvent).also {
             mVoidSingleLiveEvent = it

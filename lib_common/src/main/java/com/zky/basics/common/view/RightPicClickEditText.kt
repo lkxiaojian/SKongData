@@ -37,11 +37,7 @@ class RightPicClickEditText(context: Context, attrs: AttributeSet?) : AppCompatE
 
     override fun onTextChanged(text: CharSequence?, start: Int, lengthBefore: Int, lengthAfter: Int) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter)
-//        if (isFirstIndex < 4 && firstMesage.isNullOrEmpty()&&text.isNullOrEmpty()) {
-//            isFirstIndex += 1
-//            firstMesage = text.toString()
-//            return
-//        }
+        //防止未初始化，就进行加载
         if(firstMesage==null){
             return
         }
@@ -85,20 +81,15 @@ class RightPicClickEditText(context: Context, attrs: AttributeSet?) : AppCompatE
 
                 return true
             }
-
             val drawableLeft = compoundDrawables[0]
-
             if (drawableLeft != null && rawX <= (left + drawableLeft.bounds.width())) {
                 //点击了左侧监听
                 imageOnCLick?.onClickRightOrLeft(1)
                 return true
             }
         }
-
         return super.onTouchEvent(event)
     }
-
-
     /**
      * TODO 0 right 1 left
      *
@@ -106,6 +97,4 @@ class RightPicClickEditText(context: Context, attrs: AttributeSet?) : AppCompatE
     interface OnClickRightOrLeftImage {
         fun onClickRightOrLeft(index: Int)
     }
-
-
 }
