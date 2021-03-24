@@ -196,6 +196,12 @@ class MapViewModle(application: Application, model: MapModel) :
         })
     }
 
+    fun delayInitDw() {
+        launchUI({
+            delay(2500)
+            getmVoidSingleLiveEvent().value = "initGDDW"
+        })
+    }
 
     fun getSpaceDataAll() {
         launchUI({
@@ -210,8 +216,6 @@ class MapViewModle(application: Application, model: MapModel) :
                 if (!bean.line.isNullOrEmpty()) {
                     netLine.set(bean.line)
                     getmVoidSingleLiveEvent().value = "netLine"
-
-
                     mapViewBean.get()?.showSureModify = false
                     mapViewBean.get()?.showTip = false
                     mapViewBean.get()?.showLineOrSurfaceModify = true
@@ -223,7 +227,6 @@ class MapViewModle(application: Application, model: MapModel) :
                     mapViewBean.get()?.showTip = false
                     mapViewBean.get()?.showLineOrSurfaceModify = true
                     getmVoidSingleLiveEvent().value = "netPlane"
-
                 }
             }
         })

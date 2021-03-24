@@ -18,11 +18,13 @@ class AudioUtlis private constructor() {
 
     private var click: AudioClick? = null
     fun startAudio(path: String) {
+        var di=1
         try {
             var player = mapList[path]
             if (player == null) {
                 player = MediaPlayer()
             }
+
             if (player.isPlaying) {
                 player.pause()
                 click?.pauseListener(

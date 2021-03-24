@@ -21,7 +21,7 @@
         cornerRadius="3"
         leaderLength="15"
         leaderPosition="LOWER_MIDDLE"
-        leaderWidth="15"
+        leaderWidth="0"
         maxHeight="500"
         maxWidth="500"
         minHeight="35"

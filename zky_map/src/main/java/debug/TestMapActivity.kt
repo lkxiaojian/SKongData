@@ -12,7 +12,7 @@ class TestMapActivity : RxAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.debug_framelayout)
-        RetrofitManager.TOKEN="1616142538367"
+        RetrofitManager.TOKEN="1616552677977"
         itemCode="27093798379061255"
 
         supportFragmentManager.beginTransaction().add(R.id.fl, MapFragment()).commit()

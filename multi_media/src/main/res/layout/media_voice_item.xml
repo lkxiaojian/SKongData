@@ -53,7 +53,7 @@
             android:visibility="@{data.startIng ==1?View.VISIBLE:View.GONE}"
             app:layout_constraintLeft_toLeftOf="@id/aiv_media_v"
             app:layout_constraintRight_toRightOf="@id/aiv_media_v"
-            app:layout_constraintTop_toTopOf="@id/atv_time" />
+            app:layout_constraintTop_toBottomOf="@id/atv_time" />
 
 
         <androidx.appcompat.widget.AppCompatTextView

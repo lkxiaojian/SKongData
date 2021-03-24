@@ -145,6 +145,9 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                     "netPlane" -> {
                         drawNetLineOrPolygon("plane")
                     }
+                    "initGDDW"->{
+                        initGDDW()
+                    }
                 }
             })
     }
@@ -208,16 +211,13 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
         userinfo = decodeParcelable<Userinfo>("user")
         showInitLoadView(true)
         initArgis()
+        mViewModel?.delayInitDw()
         initGD()
         listener()
         showInitLoadView(false)
         mViewModel?.getSpaceDataAll()
     }
-
-    private fun initGD() {
-        //缩放按钮是否显示
-        mBinding?.gdMV?.map?.uiSettings?.isZoomControlsEnabled = false
-
+    private fun initGDDW(){
 
         var mLocationOption: AMapLocationClientOption? = null
         var mlocationClient = AMapLocationClient(activity)
@@ -271,14 +271,17 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
             }
 
         }
+    }
+
+    private fun initGD() {
+        //缩放按钮是否显示
+        mBinding?.gdMV?.map?.uiSettings?.isZoomControlsEnabled = false
         mBinding?.gdMV?.map?.maxZoomLevel = 15f
 // gd 地图移动监听
         mBinding?.gdMV?.map?.setOnCameraChangeListener(object : AMap.OnCameraChangeListener {
             override fun onCameraChange(p0: CameraPosition) {
                 mapCenterPoint = MapUtlis.TransfromGps(p0.target)
                 setLngAndLong()
-
-
             }
 
             override fun onCameraChangeFinish(p0: CameraPosition) {
@@ -441,6 +444,10 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 
 
                 return super.onSingleTapConfirmed(e)
+            }
+
+            override fun onRotate(event: MotionEvent?, rotationAngle: Double): Boolean {
+                return true
             }
         }
     }
@@ -777,7 +784,6 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
             map_view?.isAttributionTextVisible = false
             meLocation = GraphicsOverlay()
             dianLocation = GraphicsOverlay()
-            dianLocation.isVisible=true
             lineGraphicsOverlay = GraphicsOverlay()
             farmerOverlays = GraphicsOverlay()
             polygonGraphicsOverlay = GraphicsOverlay()
@@ -812,6 +818,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                         R.drawable.move_poiat
                     )
                 } as BitmapDrawable?
+
             farmerSymbol = PictureMarkerSymbol.createAsync(farmerDrawable).get()
             dingwei()
             initCallout(null)
@@ -830,6 +837,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
             callout = map_view.callout
             if (point == null) {
                 farmerOverlays.graphics.clear()
+                farmerSymbol?.offsetY=20f
                 val graphic = Graphic(mapCenterPoint, farmerSymbol)
                 graphic.isVisible=true
                 farmerOverlays.graphics.add(graphic)
@@ -843,8 +851,6 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 
             callout?.content = ly
             callout?.style = Callout.Style(mActivity, R.xml.callout)
-
-
             callout?.show()
         } catch (e: Exception) {
             e.printStackTrace()

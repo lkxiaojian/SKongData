@@ -21,8 +21,9 @@ import java.io.Serializable
 data class MediaBean(
     var code: String,
     var file_type: String,
+    @Bindable
     var file_path: String,
-    var file_name: String,
+     var file_name: String,
     var create_data: String,
     var isupload: Boolean,
     var videoImagePath: String?,
@@ -38,6 +39,15 @@ data class MediaBean(
             field = value
             notifyPropertyChanged(BR.upload)
         }
+
+    @get:Bindable
+    @set:Bindable
+    var filePathIsNUll: Boolean = true
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.filePathIsNUll)
+        }
+
 
     @get:Bindable
     @set:Bindable

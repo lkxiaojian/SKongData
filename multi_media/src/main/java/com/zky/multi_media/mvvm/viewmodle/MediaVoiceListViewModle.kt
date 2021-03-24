@@ -52,6 +52,8 @@ class MediaVoiceListViewModle(application: Application, mediaModel: MediaModel) 
                 bean.file_name = it.fileName
                 bean.file_path = it.filePath
                 bean.upload = true
+                bean.startIng=1
+                bean.filePathIsNUll= bean.file_path.isEmpty()
                 bean.create_data = it.createDate
                 tmpFile.add(bean)
             }
@@ -203,11 +205,12 @@ class MediaVoiceListViewModle(application: Application, mediaModel: MediaModel) 
     fun setTime(path: String, _length: Int) {
         length = _length
         var position = -1
+
         for ((index, bean) in mList.withIndex()) {
             if (bean.create_data.isNullOrEmpty()) {
                 continue
             }
-            if (bean.file_path == path) {
+            if (path.contains(bean.file_path)) {
                 position = index
                 mList[index].startIng = 2
             } else {
@@ -220,6 +223,9 @@ class MediaVoiceListViewModle(application: Application, mediaModel: MediaModel) 
             task = null
             timer?.cancel()
             timer = null
+        }
+        if(position==-1){
+            return
         }
         if (_length == 0) {
             mList[position].startIng = 1
@@ -250,7 +256,11 @@ class MediaVoiceListViewModle(application: Application, mediaModel: MediaModel) 
         private val position = index
         override fun run() {
             if (position != -1) {
-                mList[position].lastTime = "${--length} 秒"
+                var i = --length
+                if(i<0){
+                    i=0
+                }
+                mList[position].lastTime = "$i 秒"
             }
 
 

@@ -22,7 +22,7 @@ class RightPicClickEditText(context: Context, attrs: AttributeSet?) : AppCompatE
     private var drawableHint = ContextCompat.getDrawable(context, R.drawable.paw_hint)
     private val drawableLeft = ContextCompat.getDrawable(context, R.drawable.login_password)
 
-    private var firstMesage = ""
+    private var firstMesage = "......."
     private var imageOnCLick: OnClickRightOrLeftImage? = null
     private var hintInit = true
 
@@ -37,19 +37,22 @@ class RightPicClickEditText(context: Context, attrs: AttributeSet?) : AppCompatE
 
     override fun onTextChanged(text: CharSequence?, start: Int, lengthBefore: Int, lengthAfter: Int) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter)
-        if (isFirstIndex < 4 && firstMesage.isNullOrEmpty()&&text.isNullOrEmpty()) {
-            isFirstIndex += 1
-            firstMesage = text.toString()
+//        if (isFirstIndex < 4 && firstMesage.isNullOrEmpty()&&text.isNullOrEmpty()) {
+//            isFirstIndex += 1
+//            firstMesage = text.toString()
+//            return
+//        }
+        if(firstMesage==null){
             return
         }
         if (text.isNullOrEmpty()) {
             drawableLeft?.setBounds(0, 0, drawableLeft.intrinsicWidth, drawableLeft.intrinsicHeight)
             setCompoundDrawables(drawableLeft, null, null, null)
         } else {
-            if (hintInit) {
-                drawableHint = ContextCompat.getDrawable(context, R.drawable.paw_hint)
+            drawableHint = if (hintInit) {
+                ContextCompat.getDrawable(context, R.drawable.paw_hint)
             } else {
-                drawableHint = ContextCompat.getDrawable(context, R.drawable.nohint)
+                ContextCompat.getDrawable(context, R.drawable.nohint)
             }
             drawableLeft?.setBounds(0, 0, drawableLeft.intrinsicWidth, drawableLeft.intrinsicHeight);
             drawableHint?.setBounds(0, 0, drawableHint!!.intrinsicWidth, drawableHint!!.intrinsicHeight);
