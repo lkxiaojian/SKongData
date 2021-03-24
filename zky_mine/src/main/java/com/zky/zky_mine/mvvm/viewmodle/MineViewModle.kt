@@ -26,13 +26,12 @@ import com.zky.basics.common.util.spread.encode
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.common.util.uploadFile.OSSAuthCredentialsProvider
 import com.zky.basics.common.util.uploadFile.UploadingFile
-import com.zky.basics.common.util.uploadFile.okhttp.OkhttpUpLoadFileUtils
 import com.zky.basics.common.view.PhotoSelectDialog
 
 import com.zky.zky_mine.R
 import com.zky.zky_mine.activity.AboutActivity
 import com.zky.zky_mine.activity.ModificationPasswadActivity
-import com.zky.zky_mine.bean.MineModelBean
+import com.zky.zky_mine.entity.MineModelBean
 import com.zky.zky_mine.mvvm.model.MineModel
 
 import com.zky.basics.common.util.uploadFile.OssUploadingFileUtil

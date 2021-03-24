@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -93,22 +94,22 @@ class SplashViewModel(application: Application, model: SplashModel) :
         }
         val sPaw = SM3.encrypt(sTmpPaw!!)
         //离线登入
-        if (!checkNet()) {
-            val userinfo = decodeParcelable<Userinfo>("user")
-            if (userinfo?.accountLevel == 5) {
-                val phone = userinfo.phone
-                val pwd = userinfo.password
-                if (phone != name.get() || pwd != paw.get()) {
-                    R.string.acountorpaw.showToast()
-                    return
-                }
-                getmVoidSingleLiveEvent().value = "noNet"
-                mVoidSingleLiveEvent!!.call()
-            } else {
-                R.string.net_error.showToast()
-            }
-            return
-        }
+//        if (!checkNet()) {
+//            val userinfo = decodeParcelable<Userinfo>("user")
+//            if (userinfo?.accountLevel == 5) {
+//                val phone = userinfo.phone
+//                val pwd = userinfo.password
+//                if (phone != name.get() || pwd != paw.get()) {
+//                    R.string.acountorpaw.showToast()
+//                    return
+//                }
+//                getmVoidSingleLiveEvent().value = "noNet"
+//                mVoidSingleLiveEvent!!.call()
+//            } else {
+//                R.string.net_error.showToast()
+//            }
+//            return
+//        }
         getmVoidSingleLiveEvent().value = "loadShow"
         getmVoidSingleLiveEvent().call()
         launchUI({
@@ -116,6 +117,7 @@ class SplashViewModel(application: Application, model: SplashModel) :
             userinfo?.let { it ->
                 it.token?.let {
                     RetrofitManager.TOKEN = it
+
                 }
                 //存储 user 对象
                 userinfo.headImgPath?.encode("headImgPath")

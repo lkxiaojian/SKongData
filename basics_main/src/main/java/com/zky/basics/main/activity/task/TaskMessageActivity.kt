@@ -74,6 +74,7 @@ class TaskMessageActivity : BaseActivity() {
             }
             titles.add("问卷信息")
             mListFragments.add(iQuestionProvider?.questionFragment!!)
+
             taskBean.mediaDataType?.let {
 
                 if (it.contains("照片")) {
@@ -95,6 +96,7 @@ class TaskMessageActivity : BaseActivity() {
 
             pager_tour_task?.adapter = fragmentPager2Adapter
             pager_tour_task.currentItem = 0
+            pager_tour_task.isUserInputEnabled = false
             //添加动画
 //        pager_tour_task.setPageTransformer(ZoomOutPageTransformer())
             //切换tab页
@@ -115,9 +117,7 @@ class TaskMessageActivity : BaseActivity() {
 
                 @RequiresApi(Build.VERSION_CODES.M)
                 override fun onTabUnselected(tab: TabLayout.Tab) {
-
                     tab.customView = null
-
                 }
 
                 override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -164,8 +164,5 @@ class TaskMessageActivity : BaseActivity() {
                 it.onActivityResult(requestCode, resultCode, data)
             }
         }
-
     }
-
-
 }

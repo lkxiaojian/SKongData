@@ -128,7 +128,6 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                     }
                     "atv_sure" -> {
                         lineOrSufer()
-
                     }
                     "atv_cancle" -> {
                         cancleLineOrPolygon()
@@ -778,6 +777,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
             map_view?.isAttributionTextVisible = false
             meLocation = GraphicsOverlay()
             dianLocation = GraphicsOverlay()
+            dianLocation.isVisible=true
             lineGraphicsOverlay = GraphicsOverlay()
             farmerOverlays = GraphicsOverlay()
             polygonGraphicsOverlay = GraphicsOverlay()
@@ -831,9 +831,11 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
             if (point == null) {
                 farmerOverlays.graphics.clear()
                 val graphic = Graphic(mapCenterPoint, farmerSymbol)
+                graphic.isVisible=true
                 farmerOverlays.graphics.add(graphic)
                 ly.findViewById<TextView>(R.id.tv_calloutInfo).text = userinfo?.username
-                callout?.location = mapCenterPoint
+//                callout?.location = mapCenterPoint
+                callout?.setGeoElement(graphic, mapCenterPoint)
             } else {
                 ly.findViewById<TextView>(R.id.tv_calloutInfo).text = dataAttr2
                 callout?.location = point
@@ -842,7 +844,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
             callout?.content = ly
             callout?.style = Callout.Style(mActivity, R.xml.callout)
 
-//            callout?.setGeoElement(graphic, mapCenterPoint)
+
             callout?.show()
         } catch (e: Exception) {
             e.printStackTrace()

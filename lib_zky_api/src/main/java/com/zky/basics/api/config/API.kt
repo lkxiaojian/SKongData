@@ -16,7 +16,7 @@ object API {
 
     //uploadUserHeadImg
     const val uploadProjectFile = "uploadProjectFile.do"
-    const val URL_APP_UPDATE = "http://47.104.93.173:8080/edu_zxzjjg/getAppInfo.do"
+    const val URL_APP_UPDATE = URL_HOST+"getAppInfo.do"
     const val PAGE_SIZE = 10
     const val URL_UPLOAD_NEW = URL_HOST + "savaFileInfo.do"
     const val URL_UPLOAD_HEARD = URL_HOST + "uploadUserHeadImg.do"

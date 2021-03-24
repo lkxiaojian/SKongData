@@ -1,4 +1,4 @@
-package com.zky.zky_mine.bean;
+package com.zky.zky_mine.entity;
 
 
 import androidx.databinding.BaseObservable;
