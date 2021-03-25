@@ -24,16 +24,17 @@
             app:layout_constraintTop_toTopOf="parent"
             android:onClick="@{mainListViewModel::startClick}"/>
         <ImageView
-            android:layout_width="30.6dp"
-            android:layout_height="30.6dp"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginEnd="14dp"
             android:layout_marginTop="15dp"
-            android:src="@drawable/mine_tmp"
-
+            app:circleImageUrl="@{mainListViewModel.imageHeard}"
+            app:errorDrawableId="@{mainListViewModel.errorHeard}"
+            app:placeDrawableId="@{mainListViewModel.errorHeard}"
             />
-
+<!--        android:src="@drawable/mine_tmp"-->
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/atv_name_top"
             style="@style/main_name"
