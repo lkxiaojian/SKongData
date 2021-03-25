@@ -65,6 +65,7 @@ class MineViewModle(application: Application, model: MineModel) :
             API.ImageFolderPath + "".decode("headImgPath")
         mineModelBean.curName = userinfo?.username
         mineModelBean.phone = userinfo?.phone
+        mineModelBean.fzqy=userinfo?.province+userinfo?.city+userinfo?.county+userinfo?.town+userinfo?.village
         mineBean.set(mineModelBean)
 
     }

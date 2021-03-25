@@ -29,10 +29,25 @@ public class MineModelBean extends BaseObservable {
     private int errorHeard;
     private String curName;
     private String phone;
+    private String fzqy;
+    @Bindable
+    public String getFzqy() {
+        return fzqy;
+    }
+
+    public void setFzqy(String fzqy) {
+        this.fzqy = fzqy;
+        notifyPropertyChanged(BR.fzqy);
+    }
+
     @Bindable
     public String getPhone() {
+        if(phone==null){
+            return "";
+        }
         return phone;
     }
+
 
     public void setPhone(String phone) {
         this.phone = phone;

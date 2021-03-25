@@ -28,7 +28,12 @@ import android.os.Parcelable
     var headImgPath: String? = null,
     var remark: String? = null,
     var createDate: String? = null,
-    var token: String? = null
+    var token: String? = null,
+    var province:String?="",
+    var city:String?="",
+    var county:String?="",
+    var town:String?="",
+    var village:String?=""
 ):Parcelable{
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -42,6 +47,11 @@ import android.os.Parcelable
         parcel.readString(),
         parcel.readInt(),
         parcel.readInt(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -73,6 +83,11 @@ import android.os.Parcelable
         parcel.writeString(remark)
         parcel.writeString(createDate)
         parcel.writeString(token)
+        parcel.writeString(province)
+        parcel.writeString(city)
+        parcel.writeString(county)
+        parcel.writeString(town)
+        parcel.writeString(village)
     }
 
     override fun describeContents(): Int {
@@ -88,6 +103,7 @@ import android.os.Parcelable
             return arrayOfNulls(size)
         }
     }
+
 
 }
 
