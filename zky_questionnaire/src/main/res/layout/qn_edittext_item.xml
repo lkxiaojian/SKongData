@@ -14,11 +14,7 @@
         android:id="@+id/cv_click"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="12dp"
-        android:background="@color/white"
-        android:minHeight="124dp"
+        style="@style/qnCardView"
         android:visibility="@{data.display? View.VISIBLE:View.GONE}"
 
         app:cardCornerRadius="3dp">
