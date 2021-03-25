@@ -24,21 +24,6 @@ android {
             arg("AROUTER_GENERATE_DOC", "enable")
         }
     }
-
-
-    // 配置资源路径，方便测试环境，打包不集成到正式环境
-    // release 时 debug 目录下文件不需要合并到主工程
-    sourceSets {
-        main {
-            if (!isModule.toBoolean()) {
-                java {
-                    exclude '**/debug/**'
-                }
-            }
-        }
-    }
-
-
 }
 
 

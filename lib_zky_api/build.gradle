@@ -35,13 +35,6 @@ android {
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
-            if (isModule.toBoolean()) {
-            } else {
-                resources {
-                    //正式版本时，排除debug文件夹下所有调试文件
-                    exclude 'src/debug/*'
-                }
-            }
         }
     }
     buildTypes {

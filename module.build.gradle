@@ -45,10 +45,10 @@ android {
 
     signingConfigs {
         release {
-            keyAlias 'jyb'
-            keyPassword 'jybqaz'
-            storeFile file('jyb.jks')
-            storePassword 'jybqaz'
+            keyAlias 'skong'
+            keyPassword '123qaz'
+            storeFile file('skong.jks')
+            storePassword '123qaz'
         }
     }
 //    dataBinding {
