@@ -1,6 +1,7 @@
 package com.zky.basics.main.activity
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -57,7 +58,6 @@ class LoginActivity :
                 }
             })
     }
-
     override fun onBindVariableId() = BR.loginViewModel
     override fun onBindLayout() = R.layout.activity_login
     override fun enableToolbar() = false

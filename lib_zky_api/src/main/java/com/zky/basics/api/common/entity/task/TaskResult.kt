@@ -5,4 +5,4 @@ package com.zky.basics.api.common.entity.task
  *author: lk
  *description： TaskResult
  */
-data class TaskResult(var name: String)
+data class TaskResult(var q_code: String?, var answer: String?)

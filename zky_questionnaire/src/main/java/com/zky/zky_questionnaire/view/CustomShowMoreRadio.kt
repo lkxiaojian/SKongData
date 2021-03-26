@@ -53,6 +53,10 @@ class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
 
                 v.layout(0, top, v.measuredWidth, heig)
             }
+
+            if(!setSuucced){
+                setValue(value)
+            }
         }
 
     }
@@ -74,12 +78,16 @@ class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
             setMeasuredDimension(width, height)
         }
     }
-
+    private var value: String? = ""
+    private var setSuucced=true
     fun setValue(v: String?) {
         try {
             if (!v.isNullOrEmpty()) {
                 if (childCount > 0) {
                     v.toInt().let { (getChildAt(it) as SingTopRadioButton).isChecked = true }
+                } else {
+                    value = v
+                    setSuucced=false
                 }
             }
         } catch (e: Exception) {

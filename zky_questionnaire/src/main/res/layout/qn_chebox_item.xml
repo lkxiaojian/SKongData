@@ -22,12 +22,22 @@
             style="@style/qnTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
+            <TextView
+                android:id="@+id/tv_bt"
+                style="@style/qnTitle"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="*"
+                android:textColor="@color/color_E02020"
+                />
             <TextView
                 android:id="@+id/tv_title"
                 style="@style/qnTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintLeft_toRightOf="@id/tv_bt"
                 android:text="@{data.q_index+data.q_title}"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,7 +50,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_title"
                 app:listContent="@{data.q_option}"
                 app:dataValue="@{data.q_index}"
-                app:selectValues="@={data.selectValue}" />
+                app:selectValues="@={data.answer}" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

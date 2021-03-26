@@ -107,9 +107,10 @@ ext {
             "Player-exo"              : "com.shuyu:GSYVideoPlayer-exo2:6.0.2",
             "android-recovery"        : "com.zxy.android:recovery:1.0.0",
             "mmkv"                    : "com.tencent:mmkv-static:1.2.6",
-            "yxcardview"              : 'com.zyp.cardview:cardview:1.0.1',
-            "NotchScreenTool"         : 'com.github.smarxpan:NotchScreenTool:0.0.1',
-            "notchfit"                : 'com.wcl.notchfit:notchfit:1.4.2'
+            "yxcardview"              : 'com.zyp.cardview:cardview:1.0.1'
+
+//            "NotchScreenTool"         : 'com.github.smarxpan:NotchScreenTool:0.0.1',
+//            "notchfit"                : 'com.wcl.notchfit:notchfit:1.4.2'
 
     ]
 

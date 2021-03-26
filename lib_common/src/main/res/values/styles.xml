@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/color_126FB7</item>
         <item name="colorPrimaryDark">@color/color_126FB7</item>
         <item name="colorAccent">@color/color_126FB7</item>
+        <item name="android:typeface">serif</item>
     </style>
     <style name="Launcher" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splash</item>

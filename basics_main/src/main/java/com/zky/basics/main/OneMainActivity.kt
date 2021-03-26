@@ -9,6 +9,7 @@ import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
 import com.zky.basics.common.util.BangUtli.setViewPading
 import com.zky.basics.common.util.ObservableListUtil
+import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.activity.task.TaskActivity
 import com.zky.basics.main.adapter.MainListAdapter
 import com.zky.basics.main.databinding.ActivityOneMainBinding
@@ -18,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_one_main.*
 
 class OneMainActivity : BaseMvvmRefreshActivity<ActivityOneMainBinding, MainViewModel>(),
     BaseBindAdapter.OnItemClickListener<Any> {
+    private var mBackPressed: Long = 0
     override fun refreshLayout() = mBinding?.drlMain
     override fun onBindViewModel() = MainViewModel::class.java
     override fun onBindViewModelFactory() = MainViewModelFactory.getInstance(application)
@@ -53,5 +55,20 @@ class OneMainActivity : BaseMvvmRefreshActivity<ActivityOneMainBinding, MainView
         val taskBean = e as TaskBean
         intent.putExtra("data", taskBean)
         startActivity(intent)
+    }
+
+
+    override fun onBackPressed() {
+        mBackPressed = if (mBackPressed + TIME_EXIT > System.currentTimeMillis()) {
+            super.onBackPressed()
+            return
+        } else {
+            "再点击一次返回退出程序".showToast()
+            System.currentTimeMillis()
+        }
+    }
+
+    companion object {
+        private const val TIME_EXIT = 2000
     }
 }

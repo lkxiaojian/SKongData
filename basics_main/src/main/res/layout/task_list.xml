@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginEnd="24dp"
         android:background="@color/white"
         app:ycStartShadowColor="#124B4B4B"
@@ -46,14 +46,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="@{data.taskCode==null?R.string.wscwj:R.string.yscwj}"
-                android:textColor="@{data.taskCode==null?R.color.color_FA6400:R.color.color_009688}"
+                android:text="@{data.collectStatus==2?R.string.wscwj:R.string.yscwj}"
+                android:textColor="@{data.collectStatus==2?0xFFFA6400:0xFF009688}"
                 android:textSize="10sp"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="SmallSp" />
-
-
+               />
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/atv_id_card"
                 android:layout_width="match_parent"

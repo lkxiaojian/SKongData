@@ -11,18 +11,24 @@ import com.zky.basics.api.BR
  *author: lk
  *description： TaskItem
  */
-data class TaskItem(
+ class TaskItem(
     var taskCode: String?,
     var itemCode: String?,
     var dataAttr1: String?,
     var dataAttr2: String?,
-    var dataAttr3: String?,
-    var collectStatus: String?
+    var dataAttr3: String?
 ): BaseObservable() , Parcelable {
     var fData: TaskBean? = null
 
+    @get:Bindable
+    @set:Bindable
+    var collectStatus: Int = -1 // 下标
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.collectStatus)
+        }
+
     constructor(parcel: Parcel) : this(
-        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -31,20 +37,13 @@ data class TaskItem(
     ) {
         fData = parcel.readParcelable(TaskBean::class.java.classLoader)
     }
-//    @get:Bindable
-//    @set:Bindable
-//    var searchMessage: String = ""
-//        set(value) {
-//            field = value
-//            notifyPropertyChanged(BR.searchMessage)
-//        }
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(taskCode)
         parcel.writeString(itemCode)
         parcel.writeString(dataAttr1)
         parcel.writeString(dataAttr2)
         parcel.writeString(dataAttr3)
-        parcel.writeString(collectStatus)
         parcel.writeParcelable(fData, flags)
     }
 
@@ -61,5 +60,6 @@ data class TaskItem(
             return arrayOfNulls(size)
         }
     }
+
 
 }

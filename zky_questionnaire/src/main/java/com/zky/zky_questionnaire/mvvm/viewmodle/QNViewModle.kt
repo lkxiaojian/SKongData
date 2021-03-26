@@ -50,15 +50,15 @@ class QNViewModle(application: Application, model: qnModel) :
     fun startClick(view: View) {
         when (view.id) {
             R.id.abt_upload_wj -> {
-                val list = arrayListOf<TaskResult>()
+                var list= arrayListOf<TaskResult>()
                 mList.forEach {
-                    if (it.selectValue.isEmpty()) {
+                    if (it.answer.isNullOrEmpty() && it.nullable == 1) {
                         "第${it.q_index}题未填写".showToast()
                         q_index = it.q_index?.minus(1)
                         getmVoidSingleLiveEvent().value = "scroll"
                         return
                     }
-                    list.add(TaskResult(it.selectValue))
+                    list.add(TaskResult(it.q_code,it.answer))
                 }
 
                 val toJson = Gson().toJson(list)
@@ -66,8 +66,6 @@ class QNViewModle(application: Application, model: qnModel) :
                     mModel.insertOrUpdateWjInfo(toJson)
                     "上传成功".showToast()
                 })
-
-
             }
         }
 
@@ -76,15 +74,17 @@ class QNViewModle(application: Application, model: qnModel) :
     fun getWjTemplate() {
         launchUI({
             val wjTemplate = mModel.getWjTemplate(Constants.taskCode)
-            wjTemplate?.let { mList.addAll(it) }
-            //防止 布局未初始化，就进行渲染
-            delay(100)
             val wjInfo = mModel.getWjInfo()
-            if (wjInfo != null) {
-                for ((index, value) in wjInfo.withIndex()) {
-                    mList[index]?.selectValue = value.name
+            if (wjInfo != null && wjTemplate != null) {
+                for ((indexwj, valuewj) in wjInfo.withIndex()) {
+                    for ((indexa, valuea) in wjInfo.withIndex()) {
+                        if(valuea.q_code==valuewj.q_code){
+                            wjTemplate[indexwj].answer=valuea.answer
+                        }
+                    }
                 }
             }
+            wjTemplate?.let { mList.addAll(it) }
             needWrite.set("$needCout/${mList.size}")
         })
     }
@@ -103,7 +103,7 @@ class QNViewModle(application: Application, model: qnModel) :
 //        pickerView?.setSelectOptions(data.get()!!.levelIndel)
         pickerView?.show()
         pickerBuilder?.setOnOptionsSelectListener { options1, _, _, _ ->
-            mList[position].selectValue = list[options1]
+            mList[position].answer = list[options1]
             valueChangeWithIndex(position)
         }
     }
@@ -113,7 +113,7 @@ class QNViewModle(application: Application, model: qnModel) :
             val taskQuestion = mList[(position!! - 1)]
             needCout = 0
             mList.forEach {
-                if (it.selectValue.isNotEmpty()) {
+                if (it.answer.isNullOrEmpty()) {
                     needCout += 1
                 }
             }

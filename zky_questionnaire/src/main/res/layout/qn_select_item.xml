@@ -23,12 +23,23 @@
             style="@style/qnTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
+            <TextView
+                android:id="@+id/tv_bt"
+                style="@style/qnTitle"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{data.nullable==1?View.VISIBLE:View.GONE}"
+                android:text="*"
+                android:textColor="@color/color_E02020"
+                />
             <TextView
                 android:id="@+id/tv_title"
                 style="@style/qnTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintLeft_toRightOf="@+id/tv_bt"
                 android:text="@{data.q_index+data.q_title}"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,7 +54,7 @@
                 android:padding="5dp"
                 android:paddingBottom="10dp"
                 android:hint="请选择"
-                android:text="@={data.selectValue}"
+                android:text="@={data.answer}"
                 android:textColor="@color/color_999999"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/tv_title" />

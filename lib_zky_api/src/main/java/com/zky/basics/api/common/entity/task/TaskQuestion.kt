@@ -12,13 +12,23 @@ import com.zky.basics.api.BR
 class TaskQuestion : BaseObservable() {
     @get:Bindable
     @set:Bindable
-    var q_index: Int? = -1
+    var q_index: Int? = -1 // 下标
         set(value) {
             field = value
             notifyPropertyChanged(BR.q_index)
         }
-    var is_nullable: Int? = -1
+
+    @get:Bindable
+    @set:Bindable
+    var nullable: Int? = -1  // 1 不能为空  2 能为空
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.nullable)
+        }
+
+    //题编号
     var q_code: String? = ""
+
     @get:Bindable
     @set:Bindable
     var q_title: String? = ""
@@ -26,6 +36,8 @@ class TaskQuestion : BaseObservable() {
             field = value
             notifyPropertyChanged(BR.q_title)
         }
+
+    //题的类型 radio chebox
     @get:Bindable
     @set:Bindable
     var q_type: String? = ""
@@ -33,6 +45,7 @@ class TaskQuestion : BaseObservable() {
             field = value
             notifyPropertyChanged(BR.q_type)
         }
+
     @get:Bindable
     @set:Bindable
     var q_option: List<String>? = null
@@ -43,7 +56,7 @@ class TaskQuestion : BaseObservable() {
 
     @get:Bindable
     @set:Bindable
-    var display: Boolean? = true
+    var display: Boolean? = true // true 显示  false 不显示
         set(value) {
             field = value
             notifyPropertyChanged(BR.display)
@@ -60,9 +73,9 @@ class TaskQuestion : BaseObservable() {
 
     @get:Bindable
     @set:Bindable
-    var selectValue:String= ""
+    var answer: String? = "" //选择的答案
         set(value) {
             field = value
-            notifyPropertyChanged(BR.selectValue)
+            notifyPropertyChanged(BR.answer)
         }
 }

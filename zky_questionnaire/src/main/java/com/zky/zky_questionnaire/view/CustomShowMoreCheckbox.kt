@@ -51,7 +51,12 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
 
                 v.layout(0, top, v.measuredWidth, heig)
             }
+
+            if(!setSuucced){
+                setValue(value)
+            }
         }
+
 
     }
 
@@ -73,17 +78,25 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
         }
     }
 
+    private var value: String? = ""
+    private var setSuucced=true
     fun setValue(v: String?) {
         try {
             if (!v.isNullOrEmpty()) {
-                val split = v?.split(",")
-                for (i in 0 until childCount) {
-                    split?.forEach {
-                        if (i == it.toInt()) {
-                            val childAt = getChildAt(i) as CheckBox
-                            childAt.isChecked = true
+                if (childCount > 0) {
+                    setSuucced=true
+                    val split = v?.split(",")
+                    for (i in 0 until childCount) {
+                        split?.forEach {
+                            if (i == it.toInt()) {
+                                val childAt = getChildAt(i) as CheckBox
+                                childAt.isChecked = true
+                            }
                         }
                     }
+                } else {
+                    value = v
+                    setSuucced=false
                 }
             }
         } catch (e: Exception) {
