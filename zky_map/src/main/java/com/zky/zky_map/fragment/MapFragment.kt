@@ -12,12 +12,10 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.alibaba.android.arouter.launcher.ARouter
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.maps.AMap
 import com.amap.api.maps.CameraUpdateFactory
-import com.amap.api.maps.CoordinateConverter
 import com.amap.api.maps.model.*
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment
 import com.esri.arcgisruntime.geometry.*
@@ -113,9 +111,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                                 CameraUpdateFactory
                                     .newLatLngZoom(transfromGCJ, 15f)
                             )
-
                         }
-
                     }
                     "movePoint" -> {
                         setLngAndLong()
@@ -837,7 +833,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
             callout = map_view.callout
             if (point == null) {
                 farmerOverlays.graphics.clear()
-                farmerSymbol?.offsetY=20f
+//                farmerSymbol?.offsetY=20f
                 val graphic = Graphic(mapCenterPoint, farmerSymbol)
                 graphic.isVisible=true
                 farmerOverlays.graphics.add(graphic)

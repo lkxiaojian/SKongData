@@ -167,7 +167,7 @@ android {
         api(rootProject.ext.dependencies["dagger-android"])
         api(rootProject.ext.dependencies["dagger-android-support"])
         kapt(rootProject.ext.dependencies["dagger-android-processor"])
-
+        api(rootProject.ext.dependencies["yxcardview"])
 
         api(rootProject.ext.dependencies["stetho"])
         api(rootProject.ext.dependencies.MultiImageSelector)
@@ -181,6 +181,8 @@ android {
 
 //        api(rootProject.ext.dependencies["Player-exo"])
         api(rootProject.ext.dependencies["mmkv"])
+        api(rootProject.ext.dependencies["NotchScreenTool"])
+        api(rootProject.ext.dependencies["notchfit"])
 
         api 'com.shuyu:gsyVideoPlayer-armv5:6.0.2'
         api 'com.shuyu:gsyVideoPlayer-armv7a:6.0.2'

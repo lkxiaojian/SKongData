@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.zky.basics.api.splash.entity.AccountLevel
 import com.zky.basics.common.BR
 import com.zky.basics.common.mvvm.BaseMvvmActivity
+import com.zky.basics.common.util.BangUtli
 import com.zky.basics.main.R
 import com.zky.basics.main.adapter.LevelAdapter
 import com.zky.basics.main.databinding.ActivityRegistBinding
@@ -49,6 +50,8 @@ class RegistActivity :
     override val tootBarTitle = "账号注册"
 
     override val isFullScreen: Boolean = true
+
+
 
     override fun itemClick(bean: AccountLevel, position: Int) {
 

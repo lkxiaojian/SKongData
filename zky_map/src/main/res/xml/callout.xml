@@ -16,10 +16,10 @@
 
     <calloutStyle
         backgroundColor="#ffffff"
-        borderColor="#FF979797"
+        borderColor="#00FFFFFF"
         borderWidth="1"
         cornerRadius="3"
-        leaderLength="15"
+        leaderLength="25"
         leaderPosition="LOWER_MIDDLE"
         leaderWidth="0"
         maxHeight="500"

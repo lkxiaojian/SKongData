@@ -11,15 +11,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name="debug.TestMineActivity">
+
+        </activity>
+        <activity android:name=".activity.ModificationPasswadActivity"></activity>
+        <activity android:name=".activity.AboutActivity"></activity>
+        <activity android:name=".activity.ZkyJybMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".activity.ModificationPasswadActivity"></activity>
-        <activity android:name=".activity.AboutActivity"></activity>
-        <activity android:name=".activity.ZkyJybMainActivity">
         </activity>
         <!-- <provider -->
         <!-- android:name="android.support.v4.content.FileProvider" -->

@@ -1,6 +1,7 @@
 package com.zky.basics.common
 
 import android.content.Context
+import android.graphics.Typeface
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import com.alibaba.android.arouter.launcher.ARouter
@@ -14,10 +15,12 @@ import com.zhy.http.okhttp.OkHttpUtils
 import com.zky.basics.common.util.OKHttpUpdateHttpService
 import com.zky.basics.common.util.log.KLog
 import okhttp3.OkHttpClient
+import java.io.File
 import java.util.concurrent.TimeUnit
 
 
 open class BaseApplication : MultiDexApplication() {
+    private val FONT_PATH = "mediumitalic.ttf"
     override fun onCreate() {
         super.onCreate()
         instance = this
@@ -30,12 +33,19 @@ open class BaseApplication : MultiDexApplication() {
             ARouter.openDebug() // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
         }
         ARouter.init(this)
-
         //app更新
         initOKHttpUtils()
         initUpdate()
         //MMKV
         initialize(this)
+        try {
+            val createFromAsset = Typeface.createFromAsset(applicationContext.assets, FONT_PATH)
+            val declaredField = createFromAsset::class.java.getDeclaredField("SERIF")
+            declaredField.isAccessible = true
+            declaredField.set(null, createFromAsset)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     //app 更新

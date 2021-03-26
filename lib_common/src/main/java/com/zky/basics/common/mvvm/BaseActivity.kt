@@ -3,12 +3,14 @@ package com.zky.basics.common.mvvm
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.LayoutRes
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import com.alibaba.android.arouter.launcher.ARouter
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity
@@ -16,6 +18,7 @@ import com.zky.basics.common.R
 import com.zky.basics.common.event.common.BaseActivityEvent
 import com.zky.basics.common.manager.ActivityManager.Companion.instance
 import com.zky.basics.common.mvvm.view.IBaseView
+import com.zky.basics.common.util.BangUtli
 import com.zky.basics.common.util.NetUtil.checkNetToast
 import com.zky.basics.common.view.LoadingInitView
 import com.zky.basics.common.view.LoadingTransView
@@ -24,6 +27,7 @@ import com.zky.basics.common.view.NoDataView
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+
 
 abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
     private var mTxtTitle: TextView? = null
@@ -39,7 +43,11 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
     private var mViewStubNoData: ViewStub? = null
     private var mViewStubError: ViewStub? = null
     private var mContentView: ViewGroup? = null
-    private lateinit  var context:Context
+    private lateinit var context: Context
+    private var marginBottom = 0
+    private var rlRootTop: RelativeLayout? = null
+
+    @RequiresApi(Build.VERSION_CODES.P)
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,10 +58,21 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
+            val layoutParams: WindowManager.LayoutParams = window.attributes
+            layoutParams.layoutInDisplayCutoutMode =
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+            //状态栏设置透明
+            window.statusBarColor = 0
+            //设置沉浸式
+            val flags =
+                View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            var visibility: Int = window.decorView.systemUiVisibility
+            visibility = visibility or flags
+            window.decorView.systemUiVisibility = visibility
         }
         super.setContentView(R.layout.activity_root1)
         mContentView = findViewById<View>(android.R.id.content) as ViewGroup
-        context=this
+        context = this
         initCommonView()
         initContentView()
         ARouter.getInstance().inject(this)
@@ -64,8 +83,11 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
         instance?.addActivity(this)
     }
 
+
     private fun initCommonView() {
         mViewStubToolbar = findViewById(R.id.view_stub_toolbar)
+
+        rlRootTop = findViewById(R.id.rl_root_top)
         mViewStubContent =
             findViewById(R.id.view_stub_content)
         mViewStubInitLoading =
@@ -79,6 +101,22 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
             val view = mViewStubToolbar?.inflate()
             initToolbar(view)
         }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        if (isFullScreen) {
+            setFull()
+        }
+    }
+
+    fun setFull() {
+
+        if (enableToolbar()) {
+            BangUtli.setViewPading(mToolbar, window)
+        }
+
+
     }
 
     override fun setContentView(@LayoutRes layoutResID: Int) {
@@ -151,8 +189,8 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
 
     override fun showInitLoadView(show: Boolean) {
         if (mLoadingInitView == null) {
-            val view = mViewStubInitLoading!!.inflate()
-            mLoadingInitView = view.findViewById(R.id.view_init_loading)
+            val view = mViewStubInitLoading?.inflate()
+            mLoadingInitView = view?.findViewById(R.id.view_init_loading)
         }
         mLoadingInitView?.visibility = if (show) View.VISIBLE else View.GONE
         mLoadingInitView?.loading(show)
@@ -160,8 +198,8 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
 
     override fun showNetWorkErrView(show: Boolean) {
         if (mNetErrorView == null) {
-            val view = mViewStubError!!.inflate()
-            mNetErrorView = view.findViewById(R.id.view_net_error)
+            val view = mViewStubError?.inflate()
+            mNetErrorView = view?.findViewById(R.id.view_net_error)
             mNetErrorView?.setOnClickListener(View.OnClickListener {
                 if (!checkNetToast()) {
                     return@OnClickListener
@@ -183,8 +221,8 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
 
     override fun showTransLoadingView(show: Boolean) {
         if (mLoadingTransView == null) {
-            val view = mViewStubTransLoading!!.inflate()
-            mLoadingTransView = view.findViewById(R.id.view_trans_loading)
+            val view = mViewStubTransLoading?.inflate()
+            mLoadingTransView = view?.findViewById(R.id.view_trans_loading)
         }
         mLoadingTransView!!.visibility = if (show) View.VISIBLE else View.GONE
         mLoadingTransView!!.loading(show)
@@ -193,7 +231,6 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun <T> onEvent(@Suppress("UNUSED_PARAMETER") event: BaseActivityEvent<T>?) {
     }
-
 
 
     open val isFullScreen: Boolean

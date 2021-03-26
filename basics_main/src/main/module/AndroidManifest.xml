@@ -19,11 +19,16 @@
             android:theme="@style/AppThemeBlack"
             android:windowSoftInputMode="adjustPan|stateHidden">
 
-
         </activity>
         <activity android:name=".activity.RegistActivity">
 
 
+        </activity>
+        <activity android:name=".OneMainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activity.LoginActivity"
@@ -37,10 +42,7 @@
             android:resizeableActivity="true"
             android:screenOrientation="portrait"
             android:theme="@style/Launcher">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
 
         <meta-data

@@ -10,7 +10,7 @@
             type="com.zky.basics.api.common.entity.task.TaskBean" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.zyp.cardview.YcCardView
         android:id="@+id/cv_click"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,8 +18,9 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="32dp"
         android:background="@color/white"
-        android:minHeight="88dp"
-        app:cardCornerRadius="3dp">
+        app:ycStartShadowColor="#124B4B4B"
+        app:ycCardElevation="10dp"
+        android:minHeight="88dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -87,5 +88,5 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.zyp.cardview.YcCardView>
 </layout>

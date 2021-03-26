@@ -45,7 +45,6 @@ class MainMineFragment : BaseMvvmFragment<ViewDataBinding, MineViewModle>() {
 
     override fun onBindLayout() = R.layout.main_mine_fragment
 
-
     override fun getToolbarTitle() = ""
 
     override fun enableToolbar() = false

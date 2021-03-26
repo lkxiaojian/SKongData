@@ -11,8 +11,7 @@
             type="com.zky.basics.api.common.entity.task.TaskItem" />
         <import type="com.zky.basics.main.R"/>
     </data>
-
-    <androidx.cardview.widget.CardView
+    <com.zyp.cardview.YcCardView
         android:id="@+id/cv_click"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,12 +19,14 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="24dp"
         android:background="@color/white"
-        android:minHeight="82dp"
-        app:cardCornerRadius="3dp">
+        app:ycStartShadowColor="#124B4B4B"
+        app:ycCardElevation="10dp"
+        android:minHeight="82dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/atv_task_hz"
                 android:layout_width="wrap_content"
@@ -93,5 +94,5 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.zyp.cardview.YcCardView>
 </layout>
