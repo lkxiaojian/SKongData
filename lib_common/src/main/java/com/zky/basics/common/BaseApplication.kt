@@ -20,10 +20,8 @@ import java.util.concurrent.TimeUnit
 
 
 open class BaseApplication : MultiDexApplication() {
-    //    private val FONT_PATH = "mediumitalic.ttf"
-//    private val FONT_PATH = "sy3.otf"
 
-        private val FONT_PATH = "yizhiqingshu.ttf"
+
     override fun onCreate() {
         super.onCreate()
         instance = this
@@ -43,7 +41,7 @@ open class BaseApplication : MultiDexApplication() {
         initialize(this)
         try {
             val createFromAsset = Typeface.createFromAsset(applicationContext.assets, FONT_PATH)
-            val declaredField = createFromAsset::class.java.getDeclaredField("SERIF")
+            val declaredField = createFromAsset::class.java.getDeclaredField("MONOSPACE")
             declaredField.isAccessible = true
             declaredField.set(null, createFromAsset)
         } catch (e: Exception) {
@@ -83,6 +81,10 @@ open class BaseApplication : MultiDexApplication() {
     }
 
     companion object {
+        //    private val FONT_PATH = "mediumitalic.ttf"
+        const val FONT_PATH = "sy3.otf"
+
+        //        const val FONT_PATH = "yizhiqingshu.ttf"
         lateinit var instance: BaseApplication
     }
 }

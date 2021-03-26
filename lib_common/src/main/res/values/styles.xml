@@ -5,16 +5,17 @@
         <item name="colorPrimary">@color/color_126FB7</item>
         <item name="colorPrimaryDark">@color/color_126FB7</item>
         <item name="colorAccent">@color/color_126FB7</item>
-        <item name="android:typeface">serif</item>
+        <item name="android:typeface">monospace</item>
     </style>
     <style name="Launcher" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splash</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:typeface">monospace</item>
     </style>
 
-    <style name="AppThemeBlack" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppThemeBlack" parent="AppTheme">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/color_ededed</item>
         <item name="colorPrimaryDark">@color/color_ededed</item>

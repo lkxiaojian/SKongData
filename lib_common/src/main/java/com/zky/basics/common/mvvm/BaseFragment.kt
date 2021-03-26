@@ -1,5 +1,6 @@
 package com.zky.basics.common.mvvm
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -44,7 +45,6 @@ abstract class BaseFragment : Fragment(), IBaseView {
     private var isViewCreated = false
     private var isViewVisable = false
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         mActivity = activity as RxAppCompatActivity
         ARouter.getInstance().inject(this)

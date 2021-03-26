@@ -13,6 +13,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.api.splash.entity.Userinfo
+import com.zky.basics.common.BaseApplication.Companion.FONT_PATH
 import com.zky.basics.common.adapter.FragmentPager2Adapter
 import com.zky.basics.common.constant.Constants.dataAttr2
 import com.zky.basics.common.constant.Constants.itemCode
@@ -57,17 +58,20 @@ class TaskMessageActivity : BaseActivity() {
     override fun initView() {
     }
 
+    lateinit var typeface: Typeface
+
 
     override val tootBarTitle: String
         get() = decodeParcelable<Userinfo>("user")?.username.toString()
 
     override fun initData() {
         try {
+            typeface = Typeface.createFromAsset(assets, FONT_PATH)
             titles.clear()
             val taskBean = intent.extras["dataTask"] as TaskBean
             itemCode = intent.extras["itemCode"].toString()
             dataAttr2 = taskBean.dataAttr2
-            taskCode=taskBean.taskCode
+            taskCode = taskBean.taskCode
             if (!taskBean.spaceDataType.isNullOrEmpty()) {
                 titles.add("空间数据")
                 mListFragments.add(iMapProvider?.mapFragment!!)
@@ -103,12 +107,35 @@ class TaskMessageActivity : BaseActivity() {
             TabLayoutMediator(
                 layout_tour, pager_tour_task
             ) { tab, position ->
+
+//                try {
+//                    val textFiled = tab.view::class.java.getDeclaredField("textView")
+//                    textFiled.isAccessible = true
+//                    val textView = textFiled.get(tab.view) as TextView
+//                    textView.typeface = typeface
+//                    textView.text = titles[position]
+//                    val selectedSize = TypedValue.applyDimension(
+//                        TypedValue.COMPLEX_UNIT_SP,
+//                        7f,
+//                        resources.displayMetrics
+//                    )
+//
+//                    textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, selectedSize)
+//                    textView.setTextColor(
+//                        ContextCompat.getColor(
+//                            this@TaskMessageActivity,
+//                            R.color.color_black
+//                        )
+//                    )
+//                    textFiled.set(tab.view, textView)
+//                } catch (e: java.lang.Exception) {
+//                    e.printStackTrace()
+//                }
+
                 tab.text = titles[position]
             }.attach()
 
             setTab(layout_tour.getTabAt(0)?.view?.tab)
-
-
             layout_tour.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 @RequiresApi(Build.VERSION_CODES.M)
                 override fun onTabSelected(tab: TabLayout.Tab) {
@@ -143,6 +170,7 @@ class TaskMessageActivity : BaseActivity() {
             7f,
             resources.displayMetrics
         )
+
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, selectedSize)
         textView.setTextColor(
             ContextCompat.getColor(
@@ -150,7 +178,8 @@ class TaskMessageActivity : BaseActivity() {
                 R.color.color_3388EF
             )
         )
-        textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)//加粗
+        textView.typeface = typeface
+//        textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)//加粗
         textView.text = tab.text
         tab.customView = textView
     }

@@ -6,6 +6,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.zky.basics.api.room.bean.MediaBean
 import com.zky.basics.common.mvvm.BaseActivity
+import com.zky.basics.common.util.BangUtli
 import com.zky.multi_media.R
 import com.zky.multi_media.adapter.ImagePrePagerAdapter
 import kotlinx.android.synthetic.main.activity_image.*
@@ -19,7 +20,7 @@ class ImageActivity : BaseActivity() {
 
     @Autowired
     @JvmField
-    var position:Int=0
+    var position: Int = 0
 
     override fun onBindLayout() = R.layout.activity_image
 

@@ -19,6 +19,8 @@ abstract class BaseMvvmFragment<V : ViewDataBinding?, VM : BaseViewModel<*>?> :
     protected var mViewModel: VM? = null
     private var viewModelId = 0
     override fun initConentView(root: ViewGroup?) {
+
+
         mBinding =
             DataBindingUtil.inflate<V>(LayoutInflater.from(mActivity), onBindLayout(), root, true)
         initViewModel()
