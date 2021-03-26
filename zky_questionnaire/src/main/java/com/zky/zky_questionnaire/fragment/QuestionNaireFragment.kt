@@ -1,6 +1,7 @@
 package com.zky.zky_questionnaire.fragment
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
@@ -32,13 +33,7 @@ class QuestionNaireFragment :
     override fun refreshLayout() = mBinding?.drlQn
     override fun onBindViewModel() = QNViewModle::class.java
     override fun onBindViewModelFactory() = QNViewModelFactory.getInstance(mActivity.application)
-
     override fun initViewObservable() {
-
-
-
-
-
         val adapter = QnListAdapter(mActivity, mViewModel?.mList, this)
         mViewModel?.mList?.addOnListChangedCallback(
             ObservableListUtil.getListChangedCallback(

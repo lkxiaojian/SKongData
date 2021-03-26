@@ -21,9 +21,9 @@ import java.util.concurrent.TimeUnit
 
 open class BaseApplication : MultiDexApplication() {
     //    private val FONT_PATH = "mediumitalic.ttf"
-    private val FONT_PATH = "sy3.otf"
+//    private val FONT_PATH = "sy3.otf"
 
-    //    private val FONT_PATH = "yizhiqingshu.ttf"
+        private val FONT_PATH = "yizhiqingshu.ttf"
     override fun onCreate() {
         super.onCreate()
         instance = this

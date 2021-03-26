@@ -113,7 +113,7 @@ class QNViewModle(application: Application, model: qnModel) :
             val taskQuestion = mList[(position!! - 1)]
             needCout = 0
             mList.forEach {
-                if (it.answer.isNullOrEmpty()) {
+                if (!it.answer.isNullOrEmpty()) {
                     needCout += 1
                 }
             }
