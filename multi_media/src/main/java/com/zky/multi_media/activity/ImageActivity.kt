@@ -1,12 +1,10 @@
 package com.zky.multi_media.activity
 
-import android.annotation.SuppressLint
 import androidx.viewpager.widget.ViewPager
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.zky.basics.api.room.bean.MediaBean
 import com.zky.basics.common.mvvm.BaseActivity
-import com.zky.basics.common.util.BangUtli
 import com.zky.multi_media.R
 import com.zky.multi_media.adapter.ImagePrePagerAdapter
 import kotlinx.android.synthetic.main.activity_image.*

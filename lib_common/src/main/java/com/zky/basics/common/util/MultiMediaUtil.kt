@@ -33,12 +33,6 @@ import java.util.*
  * <h3>注意事项：</h3>
  *  * 1. 拍照、拍视频、选择图片完成的回调都在onActivityResult中回调的
  *  * 2.选择图片获取：List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)</String>
- *
- *
- *
- * Date:        2018/12/25<br></br>
- * Version:     V1.0.0<br></br>
- * Update:     <br></br>
  */
 object MultiMediaUtil {
 

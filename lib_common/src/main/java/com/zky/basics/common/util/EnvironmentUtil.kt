@@ -67,7 +67,7 @@ class EnvironmentUtil {
      *
      * @return
      */
-    protected fun isTopActivity(context: Context, clazz: Class<*>): Boolean {
+     fun isTopActivity(context: Context, clazz: Class<*>): Boolean {
         val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val runningTaskInfos = manager.getRunningTasks(1)
         return (runningTaskInfos != null && runningTaskInfos.isNotEmpty()

@@ -2,12 +2,10 @@ package com.zky.basics.main
 
 
 import android.content.Intent
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
-import com.zky.basics.common.util.BangUtli.setViewPading
+import com.zky.basics.common.util.Handset.BangUtli.setViewPading
 import com.zky.basics.common.util.ObservableListUtil
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.activity.task.TaskActivity
@@ -15,7 +13,6 @@ import com.zky.basics.main.adapter.MainListAdapter
 import com.zky.basics.main.databinding.ActivityOneMainBinding
 import com.zky.basics.main.mvvm.factory.MainViewModelFactory
 import com.zky.basics.main.mvvm.viewmodel.MainViewModel
-import kotlinx.android.synthetic.main.activity_one_main.*
 
 class OneMainActivity : BaseMvvmRefreshActivity<ActivityOneMainBinding, MainViewModel>(),
     BaseBindAdapter.OnItemClickListener<Any> {

@@ -10,6 +10,8 @@ import com.zky.basics.api.config.API
 import com.zky.basics.common.BR
 import com.zky.basics.common.constant.Constants
 import com.zky.basics.common.mvvm.BaseMvvmActivity
+import com.zky.basics.common.util.Handset.HandsetMakers.checkPhoneMasker
+import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.OneMainActivity
 import com.zky.basics.main.R
 import com.zky.basics.main.databinding.ActivityLoginBinding
@@ -29,6 +31,7 @@ class LoginActivity :
             .isWifiOnly(false)
             .updateAppUrl(API.ImageFolderPath)
             .update()
+
         mViewModel?.getmVoidSingleLiveEvent()
             ?.observe(this, Observer { aVoid: String? ->
                 //online login

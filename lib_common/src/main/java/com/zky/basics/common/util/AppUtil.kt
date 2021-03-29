@@ -12,12 +12,12 @@ fun getVersionCode(context: Context): Long {
         val packageManager = context.packageManager
         //getPackageName()是你当前类的包名，0代表是获取版本信息
         val packInfo = packageManager.getPackageInfo(context.packageName, 0)
-//        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-//            packInfo.longVersionCode
-//        } else {
-//            packInfo.versionCode.toLong()
-//        }
-       return packInfo.longVersionCode
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            packInfo.longVersionCode
+        } else {
+            packInfo.versionCode.toLong()
+        }
+//       return packInfo.longVersionCode
     } catch (e: Exception) {
     }
     return 0

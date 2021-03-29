@@ -3,10 +3,8 @@ package com.zky.basics.main.activity
 import androidx.lifecycle.Observer
 import com.zky.basics.common.BR
 import com.zky.basics.common.mvvm.BaseMvvmActivity
-import com.zky.basics.common.util.BangUtli
 import com.zky.basics.main.R
 import com.zky.basics.main.databinding.ActivityFrogetBinding
-import com.zky.basics.main.databinding.ActivityLoginBinding
 import com.zky.basics.main.mvvm.factory.MainViewModelFactory.Companion.getInstance
 import com.zky.basics.main.mvvm.viewmodel.SplashViewModel
 

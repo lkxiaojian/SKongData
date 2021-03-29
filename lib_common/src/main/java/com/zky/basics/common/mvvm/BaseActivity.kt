@@ -3,8 +3,6 @@ package com.zky.basics.common.mvvm
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
@@ -20,7 +18,8 @@ import com.zky.basics.common.R
 import com.zky.basics.common.event.common.BaseActivityEvent
 import com.zky.basics.common.manager.ActivityManager.Companion.instance
 import com.zky.basics.common.mvvm.view.IBaseView
-import com.zky.basics.common.util.BangUtli
+import com.zky.basics.common.util.Handset.BangUtli
+import com.zky.basics.common.util.Handset.HasNotch
 import com.zky.basics.common.util.NetUtil.checkNetToast
 import com.zky.basics.common.view.LoadingInitView
 import com.zky.basics.common.view.LoadingTransView
@@ -55,22 +54,28 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         if (isFullScreen) {
-//            requestWindowFeature(Window.FEATURE_NO_TITLE)
-//            window.setFlags(
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN
-//            )
-            val layoutParams: WindowManager.LayoutParams = window.attributes
-            layoutParams.layoutInDisplayCutoutMode =
-                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-            //状态栏设置透明
-            window.statusBarColor = 0
-            //设置沉浸式
-            val flags =
-                View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            var visibility: Int = window.decorView.systemUiVisibility
-            visibility = visibility or flags
-            window.decorView.systemUiVisibility = visibility
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                if(HasNotch.checkPhoneHas(this)){
+                    val layoutParams: WindowManager.LayoutParams = window.attributes
+                    layoutParams.layoutInDisplayCutoutMode =
+                        WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+                    //状态栏设置透明
+                    window.statusBarColor = 0
+                    //设置沉浸式 gc123852
+                    val flags =
+                        View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    var visibility: Int = window.decorView.systemUiVisibility
+                    visibility = visibility or flags
+                    window.decorView.systemUiVisibility = visibility
+                }
+            }
+
+
         }
         super.setContentView(R.layout.activity_root1)
         mContentView = findViewById<View>(android.R.id.content) as ViewGroup

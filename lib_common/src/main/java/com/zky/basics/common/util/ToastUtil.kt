@@ -15,7 +15,6 @@ object ToastUtil {
             BaseApplication.instance,
             BaseApplication.instance.getString(resId),
             duration
-        )
-            .show()
+        ).show()
     }
 }
