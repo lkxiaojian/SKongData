@@ -37,6 +37,7 @@
             <TextView
                 android:id="@+id/tv_title"
                 style="@style/qnTitle"
+                android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toRightOf="@+id/tv_bt"

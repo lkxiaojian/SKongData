@@ -39,6 +39,7 @@
                 style="@style/qnTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 app:layout_constraintLeft_toRightOf="@id/tv_bt"
                 android:text="@{data.q_index+data.q_title}"
                 app:layout_constraintTop_toTopOf="parent" />
