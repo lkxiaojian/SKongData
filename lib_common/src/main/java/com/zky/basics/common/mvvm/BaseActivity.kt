@@ -3,6 +3,8 @@ package com.zky.basics.common.mvvm
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils

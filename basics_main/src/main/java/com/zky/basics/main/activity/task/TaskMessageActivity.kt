@@ -168,7 +168,7 @@ class TaskMessageActivity : BaseActivity() {
         val selectedSize = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_SP,
             7f,
-            resources.displayMetrics
+            resources?.displayMetrics
         )
 
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, selectedSize)

@@ -81,10 +81,7 @@ open class BaseApplication : MultiDexApplication() {
     }
 
     companion object {
-        //    private val FONT_PATH = "mediumitalic.ttf"
-        const val FONT_PATH = "sy3.otf"
-
-        //        const val FONT_PATH = "yizhiqingshu.ttf"
+        const val FONT_PATH = "NotoSans.ttf"
         lateinit var instance: BaseApplication
     }
 }

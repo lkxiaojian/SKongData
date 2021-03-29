@@ -48,6 +48,10 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".activity.FrogetActivity" />
         <activity android:name=".activity.RegistActivity" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

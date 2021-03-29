@@ -1,19 +1,15 @@
 package com.zky.basics.main.activity
 
 import android.content.Intent
-import android.graphics.Typeface
-import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.google.gson.Gson
 import com.xuexiang.xupdate.XUpdate
 import com.zky.basics.api.config.API
 import com.zky.basics.common.BR
 import com.zky.basics.common.constant.Constants
 import com.zky.basics.common.mvvm.BaseMvvmActivity
-import com.zky.basics.main.MainActivity
 import com.zky.basics.main.OneMainActivity
 import com.zky.basics.main.R
 import com.zky.basics.main.databinding.ActivityLoginBinding
@@ -58,6 +54,7 @@ class LoginActivity :
                 }
             })
     }
+
     override fun onBindVariableId() = BR.loginViewModel
     override fun onBindLayout() = R.layout.activity_login
     override fun enableToolbar() = false

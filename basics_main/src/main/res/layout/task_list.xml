@@ -9,30 +9,32 @@
         <variable
             name="data"
             type="com.zky.basics.api.common.entity.task.TaskItem" />
-        <import type="com.zky.basics.main.R"/>
+
+        <import type="com.zky.basics.main.R" />
     </data>
+
     <com.zyp.cardview.YcCardView
         android:id="@+id/cv_click"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginBottom="20dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="20dp"
         android:background="@color/white"
-        app:ycStartShadowColor="#124B4B4B"
         app:ycCardElevation="10dp"
-        android:minHeight="82dp">
+        app:ycStartShadowColor="#124B4B4B">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent">
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/atv_task_hz"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
                 android:text="@{data.fData.dataAttr1 +':'+ data.dataAttr1}"
                 android:textColor="@color/color_black"
                 android:textSize="14sp"
@@ -44,14 +46,14 @@
                 android:id="@+id/collect_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="8dp"
                 android:text="@{data.collectStatus==2?R.string.wscwj:R.string.yscwj}"
                 android:textColor="@{data.collectStatus==2?0xFFFA6400:0xFF009688}"
                 android:textSize="10sp"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-               />
+                app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/atv_id_card"
                 android:layout_width="match_parent"
@@ -59,18 +61,20 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="25dp"
+                android:lines="1"
+                android:maxLines="1"
                 android:text="@{data.fData.dataAttr2 +':'+ data.dataAttr2}"
                 android:textColor="@color/color_666666"
                 android:textSize="14sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/collect_state" />
+                app:layout_constraintTop_toBottomOf="@+id/atv_task_hz" />
 
             <ImageView
                 android:id="@+id/iv_left"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
                 android:src="@drawable/task_right"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/collect_state" />
@@ -79,16 +83,14 @@
                 android:id="@+id/atv_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="10dp"
-                app:layout_constraintTop_toBottomOf="@+id/atv_id_card"
-                android:text="@{data.fData.dataAttr3 +':'+ data.dataAttr3}"
-                android:textSize="14sp"
-                android:textColor="@color/color_666666"
                 android:paddingBottom="10dp"
-
-                />
+                android:text="@{data.fData.dataAttr3 +':'+ data.dataAttr3}"
+                android:textColor="@color/color_666666"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/atv_id_card" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
