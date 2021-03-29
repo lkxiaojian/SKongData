@@ -155,8 +155,8 @@
 
 #websocket
 -keep class com.zhangke.websocket** { *; }
-
-
+#自定义cardview
+-keep class com.zyp.cardview**{*;}
 
 # gilde
 -keep public class * implements com.bumptech.glide.module.GlideModule
