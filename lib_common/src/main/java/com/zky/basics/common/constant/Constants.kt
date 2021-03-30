@@ -12,7 +12,7 @@ object Constants {
     var ossStsTokenCredentialProvider: OSSStsTokenCredentialProvider? = null
     var isNet = true
 
-    const val providePath = "com.zky.sk.data.fileprovider"
+    const val providePath = "com.zky.sk.data.fileProvider"
     const val bucketName = "zkydls-test"
     const val appCode = "27104114940837888"
     var itemCode = "27093798379061255"

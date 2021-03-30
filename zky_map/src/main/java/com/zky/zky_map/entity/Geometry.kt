@@ -6,5 +6,5 @@ package com.zky.zky_map.bean
  *description： Geometry
  */
 
-data class TGeometry(var paths:List<List<List<Double>>>)
+data class TGeometry(var paths:List<List<List<Double>>>,var rings:List<List<List<Double>>>)
 data class Geometry(var x: Double,var y:Double)

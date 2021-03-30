@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -362,17 +363,15 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
             override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
                 val bean = mViewModel?.mapViewBean?.get()
                 val type = bean?.lineTYpe
-                type?.let {
-                    if (type == 0) {
-                        return super.onSingleTapConfirmed(e)
-                    }
-                }
+//                type?.let {
+//                    if (type == 0) {
+//                        return super.onSingleTapConfirmed(e)
+//                    }
+//                }
                 if (bean?.showLineOrSurfaceModify == false) {
                     drawLineOrPolygon(e, null)
                 }
                 try {
-
-
                     if (bean?.showLineOrSurfaceModify == true) {
                         val mapPoint = android.graphics.Point(e.x.toInt(), e.y.toInt())
                         var listListenableFuture =
@@ -385,10 +384,27 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                         listListenableFuture?.addDoneListener {
                             var identifyLayerResults = listListenableFuture.get()
                             var pointList: PointCollection? = null
-                            if (type == 1) {
-                                pointList = mViewModel?.mapViewBean?.get()?.lineData
-                            } else if (type == 2) {
-                                pointList = mViewModel?.mapViewBean?.get()?.surfaceData
+
+
+                            if(identifyLayerResults.size==1){
+                                val dianData = mViewModel?.mapViewBean?.get()?.dianData
+                                if(dianData!=null){
+                                    if (callout != null && callout!!.isShowing) {
+                                    callout?.dismiss()
+                                }
+                                val point = Point(dianData.x, dianData.y, wgs)
+                                initCallout(point)
+                                }
+                                return@addDoneListener
+                            }
+                            if(identifyLayerResults.size>1){
+                                val toJson = identifyLayerResults[0].graphics[0].geometry.toJson()
+                                pointList = if(toJson.contains("paths")){
+                                    mViewModel?.mapViewBean?.get()?.lineData
+                                }else {
+                                    mViewModel?.mapViewBean?.get()?.surfaceData
+                                }
+
                             }
                             for (result in identifyLayerResults) {
                                 for (data in result.graphics) {
@@ -399,6 +415,9 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                                             com.zky.zky_map.bean.TGeometry::class.java
                                         )
                                         for (itemData in pointList) {
+                                            if(geometry.paths.isNullOrEmpty()){
+                                                geometry.paths=geometry.rings
+                                            }
                                             if (!geometry.paths.isNullOrEmpty() && !geometry.paths[0].isNullOrEmpty()) {
                                                 val list = geometry.paths[0]
                                                 list.forEach {
