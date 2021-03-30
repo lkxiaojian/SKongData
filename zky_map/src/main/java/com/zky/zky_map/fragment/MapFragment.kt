@@ -76,7 +76,8 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
         SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, -0x7f00a8cd, lineSymbol)
     private val df = DecimalFormat("#.00000")
     private lateinit var meLocation: GraphicsOverlay
-    private lateinit var dianLocation: GraphicsOverlay
+    private lateinit var dianLocationLine: GraphicsOverlay
+    private lateinit var dianLocationPoly: GraphicsOverlay
     private lateinit var lineGraphicsOverlay: GraphicsOverlay
     private lateinit var polygonGraphicsOverlay: GraphicsOverlay
     private lateinit var farmerOverlays: GraphicsOverlay
@@ -363,11 +364,11 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
             override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
                 val bean = mViewModel?.mapViewBean?.get()
                 val type = bean?.lineTYpe
-//                type?.let {
-//                    if (type == 0) {
-//                        return super.onSingleTapConfirmed(e)
-//                    }
-//                }
+                type?.let {
+                    if (type == 0 && !bean.showLineOrSurfaceModify) {
+                        return super.onSingleTapConfirmed(e)
+                    }
+                }
                 if (bean?.showLineOrSurfaceModify == false) {
                     drawLineOrPolygon(e, null)
                 }
@@ -393,7 +394,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                                     callout?.dismiss()
                                 }
                                 val point = Point(dianData.x, dianData.y, wgs)
-                                initCallout(point)
+                                initCallout(point,"1")
                                 }
                                 return@addDoneListener
                             }
@@ -501,7 +502,6 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
      */
     private fun cancleLineOrPolygon() {
         val lineTYpe = mViewModel?.mapViewBean?.get()?.lineTYpe
-        dianLocation.graphics.clear()
         var type = "point"
         when (lineTYpe) {
             0 -> {
@@ -511,6 +511,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                 dianMarker?.remove()
             }
             1 -> {
+                dianLocationLine.graphics.clear()
                 type = "line"
                 pointCollection.clear()
                 lineGraphicsOverlay.graphics.clear()
@@ -525,11 +526,12 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 
             }
             2 -> {
+                dianLocationPoly.graphics.clear()
+
                 type = "plane"
                 polygonPoints.clear()
                 polygonGraphicsOverlay.graphics.clear()
                 mViewModel?.mapViewBean?.get()?.surfaceData = null
-
                 addPolygon?.remove()
                 gdPointSurfaceMaker.forEach {
                     it.remove()
@@ -548,11 +550,12 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     private fun repalLineOrPolygon() {
         try {
             val lineTYpe = mViewModel?.mapViewBean?.get()?.lineTYpe
-            if (dianLocation.graphics.isNullOrEmpty()) {
-                return
-            }
-            dianLocation.graphics.removeAt(dianLocation.graphics.size - 1)
+
             if (lineTYpe == 1) {
+                if (dianLocationLine.graphics.isNullOrEmpty()) {
+                    return
+                }
+                dianLocationLine.graphics.removeAt(dianLocationLine.graphics.size - 1)
                 pointCollection.removeAt(pointCollection.size - 1)
                 lineGraphicsOverlay.graphics.clear()
                 if (pointCollection.size > 1) {
@@ -566,6 +569,10 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                 gdPointLineLatLng.removeAt(gdPointLineLatLng.lastIndex)
                 drawGdLine()
             } else if (lineTYpe == 2) {
+                if (dianLocationPoly.graphics.isNullOrEmpty()) {
+                    return
+                }
+                dianLocationPoly.graphics.removeAt(dianLocationPoly.graphics.size - 1)
                 polygonPoints.removeAt(polygonPoints.size - 1)
                 polygonGraphicsOverlay.graphics.clear()
                 if (polygonPoints.size > 1) {
@@ -606,10 +613,11 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                 point = GeometryEngine.project(Point(it.longitude, it.latitude), wgs) as Point
                 tmpLat = TransfromGCJ(LatLng(point.y, point.x), mActivity)
                 val pointGraphic = Graphic(point, dianCampsiteSymbol)
-                dianLocation.graphics.add(pointGraphic)
+
                 graphicList.add(pointGraphic)
 
                 if (type == "line") {
+                    dianLocationLine.graphics.add(pointGraphic)
                     pointCollection.add(point)
                     mViewModel?.mapViewBean?.get()?.lineData = pointCollection
 
@@ -626,6 +634,8 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                     gdPointLineMaker.add(marker!!)
                     drawGdLine()
                 } else {
+                    dianLocationPoly.graphics.add(pointGraphic)
+
                     polygonPoints.add(point)
                     mViewModel?.mapViewBean?.get()?.surfaceData = polygonPoints
                     if (polygonPoints.size > 1) {
@@ -659,19 +669,17 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
             if (mViewModel?.mapViewBean?.get()?.showLineOrSurfaceModify == true) {
                 return
             }
-
-
             mViewModel?.mapViewBean?.get()?.showSureModify = true
-
             val bean = mViewModel?.mapViewBean?.get() ?: return
             val lineTYpe = bean.lineTYpe
             var point: Point? = null
             var tmpLat: LatLng? = null
+            var   pointGraphic:Graphic?=null
             if (bean.wxOrLx) {
                 val mapPoint = android.graphics.Point(e!!.x.toInt(), e.y.toInt())
                 val screenToLocation = map_view.screenToLocation(mapPoint)
-                val pointGraphic = Graphic(screenToLocation, dianCampsiteSymbol)
-                dianLocation.graphics.add(pointGraphic)
+                pointGraphic  = Graphic(screenToLocation, dianCampsiteSymbol)
+
                 graphicList.add(pointGraphic)
                 point = GeometryEngine.project(screenToLocation, wgs) as Point
                 tmpLat = TransfromGCJ(LatLng(point.y, point.x), mActivity)
@@ -679,15 +687,13 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
             } else {
                 tmpLat = latLng
                 point = TransfromGps(tmpLat!!)
-                val pointGraphic = Graphic(point, dianCampsiteSymbol)
-                dianLocation.graphics.add(pointGraphic)
+                 pointGraphic = Graphic(point, dianCampsiteSymbol)
                 graphicList.add(pointGraphic)
             }
-
-
             when (lineTYpe) {
                 1 -> {
                     //线
+                    dianLocationLine.graphics.add(pointGraphic)
                     pointCollection.add(point)
                     if (pointCollection.size > 1) {
                         val polyline = Polyline(pointCollection)
@@ -705,6 +711,8 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                 }
                 2 -> {
                     //面
+                    dianLocationPoly.graphics.add(pointGraphic)
+
                     polygonPoints.add(point)
                     if (polygonPoints.size > 1) {
                         val polygon = Polygon(polygonPoints)
@@ -799,12 +807,14 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
             map_view?.map = map
             map_view?.isAttributionTextVisible = false
             meLocation = GraphicsOverlay()
-            dianLocation = GraphicsOverlay()
+            dianLocationLine = GraphicsOverlay()
+            dianLocationPoly = GraphicsOverlay()
             lineGraphicsOverlay = GraphicsOverlay()
             farmerOverlays = GraphicsOverlay()
             polygonGraphicsOverlay = GraphicsOverlay()
             map_view?.graphicsOverlays?.add(meLocation)
-            map_view?.graphicsOverlays?.add(dianLocation)
+            map_view?.graphicsOverlays?.add(dianLocationLine)
+            map_view?.graphicsOverlays?.add(dianLocationPoly)
             map_view?.graphicsOverlays?.add(lineGraphicsOverlay)
             map_view?.graphicsOverlays?.add(polygonGraphicsOverlay)
             map_view?.graphicsOverlays?.add(farmerOverlays)
@@ -846,7 +856,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     }
 
 
-    private fun initCallout(point: Point?) {
+    private fun initCallout(point: Point?,vararg type: String) {
         try {
             val inflater = LayoutInflater.from(mActivity)
             val ly = inflater.inflate(R.layout.callout, null, false)
@@ -861,7 +871,12 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 //                callout?.location = mapCenterPoint
                 callout?.setGeoElement(graphic, mapCenterPoint)
             } else {
-                ly.findViewById<TextView>(R.id.tv_calloutInfo).text = dataAttr2
+                if(type.isNotEmpty()){
+                    ly.findViewById<TextView>(R.id.tv_calloutInfo).text = userinfo?.username
+                }else{
+                    ly.findViewById<TextView>(R.id.tv_calloutInfo).text = dataAttr2
+                }
+
                 callout?.location = point
             }
 
