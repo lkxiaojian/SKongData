@@ -1,11 +1,11 @@
 package com.zky.basics.main
 
 
+import BangUtli.setViewPading
 import android.content.Intent
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
-import com.zky.basics.common.util.Handset.BangUtli.setViewPading
 import com.zky.basics.common.util.ObservableListUtil
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.activity.task.TaskActivity

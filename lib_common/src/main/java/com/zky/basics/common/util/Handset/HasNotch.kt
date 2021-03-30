@@ -1,4 +1,3 @@
-package com.zky.basics.common.util.Handset
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -9,7 +8,6 @@ import android.view.Window
 import androidx.annotation.RequiresApi
 import com.zky.basics.common.util.Handset.HandsetMakers.checkPhoneMasker
 import java.lang.Exception
-import java.lang.reflect.Method
 
 /**
  * 判断手机是否有刘海
@@ -18,17 +16,29 @@ object HasNotch {
 
     fun checkPhoneHas(context: Context?): Boolean {
         var f = false
-        val checkPhoneMasker = checkPhoneMasker()
-        when (checkPhoneMasker) {
 
+        when (checkPhoneMasker()) {
+            0 -> f = hasNotchAtGoogle(context)
             1 -> f = hasNotchAtXiaoMi(context)
             2 -> f = hasNotchAtHuaWei(context)
             3 -> f = hasNotchAtVivo(context)
             4 -> f = hasNotchInOppo(context)
-
         }
 
         return f
+    }
+
+    fun hasNotchAtGoogle(context: Context?): Boolean {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                return (context as Activity)?.window?.decorView?.rootWindowInsets?.displayCutout == null
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
+        }
+
+        return false
     }
 
 
@@ -76,7 +86,7 @@ object HasNotch {
             val getInt =
                 SystemPropertiesClass?.getMethod("getInt", String::class.java, Int::class.java)
             result =
-                getInt?.invoke(SystemPropertiesClass, "ro.miui.notch",0) as Int
+                getInt?.invoke(SystemPropertiesClass, "ro.miui.notch", 0) as Int
         } catch (e: Exception) {
             e.printStackTrace()
         }

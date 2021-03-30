@@ -1,11 +1,11 @@
-package com.zky.basics.common.util.Handset
-
 import android.content.Context
 import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import com.zky.basics.common.BuildConfig
+import com.zky.basics.common.util.Handset.HandsetMakers
 import com.zky.basics.common.util.Handset.HasNotch.checkPhoneHas
 
 
@@ -110,25 +110,36 @@ object BangUtli {
         return 0
     }
 
+    fun setCJViewPading(view: View?) {
+        setView(view)
+    }
+
     fun setViewPading(view: View?, window: Window?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val checkPhoneHas = checkPhoneHas(view?.context)
             if (checkPhoneHas) {
-                //获取
-                val statusBarHeight = getStatusBarHeight(view?.context)
-                if (statusBarHeight > 0) {
-                    view?.setPadding(0,statusBarHeight,0,0)
+                if (BuildConfig.DEBUG && HandsetMakers.checkPhoneMasker() == 0) {
+                    val displayCutout = window?.decorView?.rootWindowInsets?.displayCutout
+                    displayCutout?.let {
+                        view?.setPadding(
+                            it.safeInsetLeft, it.safeInsetTop, it.safeInsetRight, it.safeInsetBottom
+                        )
+                        view?.invalidate()
+                    }
+                } else {
+                    //获取
+                    setView(view)
                 }
 
-//                val displayCutout = window?.decorView?.rootWindowInsets?.displayCutout
-//                displayCutout?.let {
-//                    view?.setPadding(
-//                        it.safeInsetLeft, it.safeInsetTop, it.safeInsetRight, it.safeInsetBottom
-//                    )
-//                    view?.invalidate()
-//                }
-
             }
+        }
+    }
+
+    private fun setView(view: View?) {
+        val statusBarHeight = getStatusBarHeight(view?.context)
+        if (statusBarHeight > 0) {
+            view?.setPadding(0, statusBarHeight, 0, 0)
+            view?.invalidate()
         }
     }
 

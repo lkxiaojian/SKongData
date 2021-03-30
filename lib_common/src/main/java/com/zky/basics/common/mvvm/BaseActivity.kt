@@ -18,8 +18,6 @@ import com.zky.basics.common.R
 import com.zky.basics.common.event.common.BaseActivityEvent
 import com.zky.basics.common.manager.ActivityManager.Companion.instance
 import com.zky.basics.common.mvvm.view.IBaseView
-import com.zky.basics.common.util.Handset.BangUtli
-import com.zky.basics.common.util.Handset.HasNotch
 import com.zky.basics.common.util.NetUtil.checkNetToast
 import com.zky.basics.common.view.LoadingInitView
 import com.zky.basics.common.view.LoadingTransView
