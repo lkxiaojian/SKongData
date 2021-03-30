@@ -3,6 +3,7 @@ package com.zky.multi_media.activity
 
 import android.content.Intent
 import android.os.Parcelable
+import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.zky.basics.api.room.bean.MediaBean
 import com.zky.basics.common.adapter.BaseBindAdapter
@@ -38,7 +39,7 @@ class SearchVoiceActivity :
         mViewModel?.search()
 
         mViewModel?.getmVoidSingleLiveEvent()?.observe(this,
-            { it ->
+            Observer { it ->
                 if (it == "sure") {
                     val list = mViewModel?.mList?.filter { it.check }
                     val intent = Intent()

@@ -3,6 +3,7 @@ package com.zky.zky_questionnaire.mvvm.viewmodle
 import android.app.Application
 import android.view.View
 import androidx.databinding.ObservableField
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener
 import com.bigkoo.pickerview.view.OptionsPickerView
 import com.google.gson.Gson
 import com.zky.basics.api.common.entity.task.TaskQuestion
@@ -102,10 +103,10 @@ class QNViewModle(application: Application, model: qnModel) :
         pickerView?.setPicker(list)
 //        pickerView?.setSelectOptions(data.get()!!.levelIndel)
         pickerView?.show()
-        pickerBuilder?.setOnOptionsSelectListener { options1, _, _, _ ->
+        pickerBuilder?.setOnOptionsSelectListener (OnOptionsSelectListener{ options1, _, _, _ ->
             mList[position].answer = list[options1]
             valueChangeWithIndex(position)
-        }
+        })
     }
 
     fun valueChangeWithIndex(position: Int?) {

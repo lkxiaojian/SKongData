@@ -19,12 +19,11 @@ class MainViewModel(application: Application, model: MainModel) :
     BaseRefreshViewModel<TaskBean, MainModel>(application, model) {
     private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
     var nameTop = ObservableField<String>()
-    var nameBom = ObservableField<String>()
     var errorHeard=ObservableField<Int>()
     var imageHeard=ObservableField<String>()
     init {
-        nameTop.set("某某县时空大数据采集")
-        nameBom.set("与查询系统")
+
+        nameTop.set(application.getString(R.string.app_title))
         errorHeard.set(R.drawable.mine_tmp)
         imageHeard.set(API.ImageFolderPath + "".decode("headImgPath"))
     }

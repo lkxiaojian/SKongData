@@ -42,20 +42,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="70dp"
+            android:gravity="center_horizontal"
             android:text="@={mainListViewModel.nameTop}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/atv_name_bom"
-            style="@style/main_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@={mainListViewModel.nameBom}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/atv_name_top" />
+<!--        <androidx.appcompat.widget.AppCompatTextView-->
+<!--            android:id="@+id/atv_name_bom"-->
+<!--            style="@style/main_name"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@={mainListViewModel.nameBom}"-->
+<!--            app:layout_constraintLeft_toLeftOf="parent"-->
+<!--            app:layout_constraintRight_toRightOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/atv_name_top" />-->
 
         <com.refresh.lib.DaisyRefreshLayout
             android:id="@+id/drl_main"
@@ -65,7 +66,7 @@
             app:enableLoadMore="@{safeUnbox(mainListViewModel.enableLoadMore)}"
             app:enableRefresh="@{safeUnbox(mainListViewModel.enableRefresh)}"
             app:layout_constraintBottom_toTopOf="@+id/atv_bq"
-            app:layout_constraintTop_toBottomOf="@+id/atv_name_bom"
+            app:layout_constraintTop_toBottomOf="@+id/atv_name_top"
             app:onAutoRefreshCommand="@{mainListViewModel.onAutoRefreshCommand}"
             app:onLoadMoreCommand="@{mainListViewModel.onLoadMoreCommand}"
             app:onRefreshCommand="@{mainListViewModel.onRefreshCommand}">
