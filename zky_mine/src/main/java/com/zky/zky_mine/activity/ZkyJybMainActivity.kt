@@ -19,7 +19,7 @@ class ZkyJybMainActivity : BaseActivity() {
     }
 
     override val tootBarTitle = "我的"
-    override val isFullScreen = true
+    override val isFullScreen = false
     override fun onBindToolbarLayout() = R.layout.blue_common_toolbar
 
 

@@ -42,6 +42,6 @@ class ModificationPasswadActivity :
 
     override fun onBindLayout() = R.layout.activity_modification_passwad
     override val tootBarTitle = "修改密码"
-    override val isFullScreen = true
+    override val isFullScreen = false
     override fun onBindToolbarLayout() = R.layout.blue_common_toolbar
 }

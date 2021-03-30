@@ -1,6 +1,7 @@
 package com.zky.basics.main
 
 
+import BangUtli.setCJViewPading
 import BangUtli.setViewPading
 import android.content.Intent
 import com.zky.basics.api.common.entity.task.TaskBean
@@ -31,14 +32,13 @@ class OneMainActivity : BaseMvvmRefreshActivity<ActivityOneMainBinding, MainView
         adapter.setItemClickListener(this)
         mBinding?.recview?.adapter = adapter
         mViewModel?.getData()
+
     }
 
-//
+
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        if(isFullScreen){
-            setViewPading(mBinding?.clTest,window)
-        }
+        setCJViewPading(mBinding?.clTest)
     }
 
     override fun onBindVariableId() = BR.mainListViewModel

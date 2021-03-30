@@ -61,8 +61,8 @@ class TaskMessageActivity : BaseActivity() {
     lateinit var typeface: Typeface
 
 
-    override val tootBarTitle: String
-        get() = decodeParcelable<Userinfo>("user")?.username.toString()
+    override val tootBarTitle= decodeParcelable<Userinfo>("user")?.username.toString()
+
 
     override fun initData() {
         try {
@@ -107,31 +107,6 @@ class TaskMessageActivity : BaseActivity() {
             TabLayoutMediator(
                 layout_tour, pager_tour_task
             ) { tab, position ->
-
-//                try {
-//                    val textFiled = tab.view::class.java.getDeclaredField("textView")
-//                    textFiled.isAccessible = true
-//                    val textView = textFiled.get(tab.view) as TextView
-//                    textView.typeface = typeface
-//                    textView.text = titles[position]
-//                    val selectedSize = TypedValue.applyDimension(
-//                        TypedValue.COMPLEX_UNIT_SP,
-//                        7f,
-//                        resources.displayMetrics
-//                    )
-//
-//                    textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, selectedSize)
-//                    textView.setTextColor(
-//                        ContextCompat.getColor(
-//                            this@TaskMessageActivity,
-//                            R.color.color_black
-//                        )
-//                    )
-//                    textFiled.set(tab.view, textView)
-//                } catch (e: java.lang.Exception) {
-//                    e.printStackTrace()
-//                }
-
                 tab.text = titles[position]
             }.attach()
 
@@ -157,8 +132,7 @@ class TaskMessageActivity : BaseActivity() {
     }
 
     override fun onBindToolbarLayout() = R.layout.white_common_toolbar
-    override val isFullScreen: Boolean
-        get() = false
+    override val isFullScreen= false
 
     private fun setTab(tab: TabLayout.Tab?) {
         if (tab == null) {

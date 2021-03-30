@@ -13,14 +13,14 @@
         tools:replace="android:allowBackup">
         <activity android:name=".activity.task.TaskAddActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"
-            android:theme="@style/AppThemeBlack">
-
+           >
+<!--            android:theme="@style/AppThemeBlack"-->
         </activity>
         <activity
             android:name=".activity.task.TaskMessageActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"
-            android:theme="@style/AppThemeBlack">
-
+           >
+<!--            android:theme="@style/AppThemeBlack"-->
 
 
         </activity>

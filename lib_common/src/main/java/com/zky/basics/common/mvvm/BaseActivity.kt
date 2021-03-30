@@ -1,5 +1,8 @@
 package com.zky.basics.common.mvvm
 
+import BangUtli
+import BangUtli.setCJViewPading
+import HasNotch
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
@@ -58,22 +61,15 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                if(HasNotch.checkPhoneHas(this)){
+                if (HasNotch.checkPhoneHas(this)) {
                     val layoutParams: WindowManager.LayoutParams = window.attributes
                     layoutParams.layoutInDisplayCutoutMode =
                         WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-                    //状态栏设置透明
-                    window.statusBarColor = 0
-                    //设置沉浸式 gc123852
-                    val flags =
-                        View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    var visibility: Int = window.decorView.systemUiVisibility
-                    visibility = visibility or flags
-                    window.decorView.systemUiVisibility = visibility
+                    setImmersion()
                 }
             }
-
-
+        } else {
+            setImmersion()
         }
         super.setContentView(R.layout.activity_root1)
         mContentView = findViewById<View>(android.R.id.content) as ViewGroup
@@ -86,6 +82,28 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
         initData()
         EventBus.getDefault().register(this)
         instance?.addActivity(this)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun setImmersion() {
+////        状态栏设置透明
+        window.statusBarColor = 0
+        //设置沉浸式
+        if (isFullScreen) {
+            val flags =
+                View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            var visibility: Int = window.decorView.systemUiVisibility
+            visibility = visibility or flags
+            window.decorView.systemUiVisibility = visibility
+        } else {
+            val option = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+            window.decorView.systemUiVisibility = option
+            if (onBindToolbarLayout() != R.layout.blue_common_toolbar) {
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
+        }
+
     }
 
 
@@ -110,19 +128,17 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        if (isFullScreen) {
-            setFull()
-        }
-    }
-
-    fun setFull() {
-
         if (enableToolbar()) {
-            BangUtli.setViewPading(mToolbar, window)
+            if (isFullScreen) {
+                BangUtli.setViewPading(mToolbar, window)
+            } else {
+                if (onBindToolbarLayout() == R.layout.blue_common_toolbar) {
+                    setCJViewPading(mToolbar)
+                }
+            }
         }
-
-
     }
+
 
     override fun setContentView(@LayoutRes layoutResID: Int) {
         if (mViewStubContent != null) {
@@ -242,6 +258,6 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
         get() = false
 
     companion object {
-        protected val TAG = BaseActivity::class.java.simpleName
+        val TAG = BaseActivity::class.java.simpleName
     }
 }
