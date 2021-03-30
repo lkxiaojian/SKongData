@@ -36,7 +36,6 @@ class ModificationPasswadActivity :
                 }
             }
         )
-
     }
 
     override fun onBindVariableId() = BR.modifyViewModel
