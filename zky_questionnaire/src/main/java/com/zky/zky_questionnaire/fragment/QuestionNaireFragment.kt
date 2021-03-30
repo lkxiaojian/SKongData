@@ -45,7 +45,7 @@ class QuestionNaireFragment :
 
 
         mViewModel?.getmVoidSingleLiveEvent()
-            ?.observe(this, { aVoid: String? ->
+            ?.observe(this, Observer{ aVoid: String? ->
                 when (aVoid) {
                     "scroll" -> {
                         mViewModel?.q_index?.let { mBinding?.recview?.scrollToPosition(it) }
