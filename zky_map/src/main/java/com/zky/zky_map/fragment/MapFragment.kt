@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.maps.AMap
@@ -93,12 +94,12 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 
     override fun initViewObservable() {
         mViewModel?.getmVoidSingleLiveEvent()
-            ?.observe(this, { a: String? ->
+            ?.observe(this, Observer{ a: String? ->
                 when (a) {
                     "argisdingwei" -> {
                         if (mePoint == null) {
                             dingwei()
-                            return@observe
+                            return@Observer
                         }
                         if (mViewModel?.mapViewBean?.get()?.wxOrLx == true) {
                             map_view.setViewpointCenterAsync(mePoint)
@@ -106,7 +107,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                         } else if (mViewModel?.mapViewBean?.get()?.wxOrLx == false) {
 
                             val latLng = LatLng(mePoint!!.y, mePoint!!.x)
-                            val transfromGCJ = MapUtlis.TransfromGCJ(latLng, mActivity)
+                            val transfromGCJ = TransfromGCJ(latLng, mActivity)
                             mBinding?.gdMV?.map?.moveCamera(
                                 CameraUpdateFactory
                                     .newLatLngZoom(transfromGCJ, 15f)

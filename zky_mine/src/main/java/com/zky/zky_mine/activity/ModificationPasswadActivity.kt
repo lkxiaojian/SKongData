@@ -1,6 +1,7 @@
 package com.zky.zky_mine.activity
 
 import ARouterPath
+import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
 import com.zky.basics.common.mvvm.BaseMvvmActivity
 import com.zky.zky_mine.BR
@@ -21,7 +22,7 @@ class ModificationPasswadActivity :
             return
         }
         mViewModel?.getmVoidSingleLiveEvent()?.observe(this,
-            {
+            Observer {
                 when (it) {
                     "success" -> {
                         showTransLoadingView(false)

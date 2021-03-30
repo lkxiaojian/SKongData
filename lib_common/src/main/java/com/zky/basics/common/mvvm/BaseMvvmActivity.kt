@@ -57,7 +57,7 @@ abstract class BaseMvvmActivity<V : ViewDataBinding?, VM : BaseViewModel<*>?> :
         )
         mViewModel?.uc()?.showTransLoadingViewEvent?.observe(
             this,
-            { show: Boolean? ->
+            Observer { show: Boolean? ->
                 KLog.v("MYTAG", "view postShowTransLoadingViewEvent start...")
                 showTransLoadingView(show!!)
             }
