@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener
 import com.bigkoo.pickerview.view.OptionsPickerView
 import com.zky.basics.api.RetrofitManager
 import com.zky.basics.api.config.API
@@ -284,7 +285,7 @@ class SplashViewModel(application: Application, model: SplashModel) :
                 pickerView?.setPicker(levelList)
                 pickerView?.setSelectOptions(data.get()!!.levelIndel)
                 pickerView?.show()
-                pickerBuilder?.setOnOptionsSelectListener { options1, _, _, _ ->
+                pickerBuilder?.setOnOptionsSelectListener (OnOptionsSelectListener{ options1, _, _, _ ->
                     attr_idx = accountLevel[options1].attr_idx
                     levelListT.clear()
                     for ((index, value) in accountLevel.withIndex()) {
@@ -296,7 +297,7 @@ class SplashViewModel(application: Application, model: SplashModel) :
                     data.get()?.writeLevel = true
                     getmVoidSingleLiveEvent().value = "notify"
 
-                }
+                })
 
             }
 
@@ -372,7 +373,7 @@ class SplashViewModel(application: Application, model: SplashModel) :
                 pickerView?.setPicker(levelList)
                 pickerView?.setSelectOptions(data.get()!!.levelIndel)
                 pickerView?.show()
-                pickerBuilder?.setOnOptionsSelectListener { options1, _, _, _ ->
+                pickerBuilder?.setOnOptionsSelectListener (OnOptionsSelectListener{ options1, _, _, _ ->
                     for ((index, _) in levelListT.withIndex()) {
                         if (index >= position) {
                             levelListT[index].value = ""
@@ -381,7 +382,7 @@ class SplashViewModel(application: Application, model: SplashModel) :
                     levelListT[position].value = levelList[options1].toString()
                     levelListT[position].valueCode = region[options1].code
                     getmVoidSingleLiveEvent().value = "notify"
-                }
+                })
             }
         })
 
