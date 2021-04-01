@@ -40,7 +40,7 @@ class MapViewModle(application: Application, model: MapModel) :
         data.showTip = true
         data.dianShowWT = true
         data.lineOrSurfaceTipText = "修改点位"
-        data.mapSelect = R.drawable.wx_xia
+        data.mapSelect = R.drawable.lx_xia
         mapViewBean.set(data)
     }
 
@@ -206,6 +206,8 @@ class MapViewModle(application: Application, model: MapModel) :
     fun getSpaceDataAll() {
         launchUI({
             val bean = mModel.getSpaceDataAll()
+            getmVoidSingleLiveEvent().value = "disShow"
+
             bean?.let {
                 if (!bean.point.isNullOrEmpty()) {
                     netPoint.set(it.point[0])
@@ -229,6 +231,11 @@ class MapViewModle(application: Application, model: MapModel) :
                     getmVoidSingleLiveEvent().value = "netPlane"
                 }
             }
+        },object :NetError{
+            override fun getError(e: Exception) {
+                getmVoidSingleLiveEvent().value = "disShow"
+            }
+
         })
     }
 

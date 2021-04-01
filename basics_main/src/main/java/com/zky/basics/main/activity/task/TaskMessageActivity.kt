@@ -13,9 +13,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.api.splash.entity.Userinfo
-import com.zky.basics.common.BaseApplication.Companion.FONT_PATH
 import com.zky.basics.common.adapter.FragmentPager2Adapter
-import com.zky.basics.common.constant.Constants.dataAttr2
 import com.zky.basics.common.constant.Constants.itemCode
 import com.zky.basics.common.constant.Constants.taskCode
 import com.zky.basics.common.mvvm.BaseActivity
@@ -58,19 +56,13 @@ class TaskMessageActivity : BaseActivity() {
     override fun initView() {
     }
 
-    lateinit var typeface: Typeface
-
-
     override val tootBarTitle= decodeParcelable<Userinfo>("user")?.username.toString()
-
-
     override fun initData() {
         try {
-            typeface = Typeface.createFromAsset(assets, FONT_PATH)
             titles.clear()
             val taskBean = intent.extras["dataTask"] as TaskBean
             itemCode = intent.extras["itemCode"].toString()
-            dataAttr2 = taskBean.dataAttr2
+
             taskCode = taskBean.taskCode
             if (!taskBean.spaceDataType.isNullOrEmpty()) {
                 titles.add("空间数据")
@@ -144,7 +136,6 @@ class TaskMessageActivity : BaseActivity() {
             7f,
             resources?.displayMetrics
         )
-
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, selectedSize)
         textView.setTextColor(
             ContextCompat.getColor(
@@ -152,8 +143,7 @@ class TaskMessageActivity : BaseActivity() {
                 R.color.color_3388EF
             )
         )
-        textView.typeface = typeface
-//        textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)//加粗
+        textView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)//加粗
         textView.text = tab.text
         tab.customView = textView
     }

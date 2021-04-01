@@ -178,7 +178,7 @@ class MapViewBean() : BaseObservable() {
      */
     @get:Bindable
     @set:Bindable
-    var wxOrLx: Boolean = true
+    var wxOrLx: Boolean = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.wxOrLx)

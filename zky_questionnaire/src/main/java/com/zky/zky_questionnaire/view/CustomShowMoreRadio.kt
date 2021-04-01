@@ -23,7 +23,7 @@ import java.lang.Exception
  *description： CustomShowMoreRadio
  */
 class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
-    private var marTop = DisplayUtil.dip2px(10f)
+    private var marTop = DisplayUtil.dip2px(7f)
     var listener: InverseBindingListener? = null
 
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet) {
@@ -42,12 +42,12 @@ class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
                 val height = v.measuredHeight
 
                 if (i > 0) {
-                    heig += if (i == childCount - 1) {
-                        (height + marTop)
-                    } else {
-                        (height + top + marTop)
-                    }
-
+//                    heig += if (i == childCount - 1) {
+//                        (height + marTop)
+//                    } else {
+//                        (height + top + marTop)
+//                    }
+                    heig +=(height + marTop)
                     top += (getChildAt(i - 1).measuredHeight + marTop)
                 }
 

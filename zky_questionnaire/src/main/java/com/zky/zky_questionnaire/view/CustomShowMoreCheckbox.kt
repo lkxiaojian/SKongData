@@ -21,7 +21,7 @@ import java.lang.Exception
  *description： CustomShowMoreRadio
  */
 class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListener {
-    private var marTop = DisplayUtil.dip2px(10f)
+    private var marTop = DisplayUtil.dip2px(7f)
     var listener: InverseBindingListener? = null
 
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet) {
@@ -40,19 +40,19 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
                 val height = v.measuredHeight
 
                 if (i > 0) {
-                    heig += if (i == childCount - 1) {
-                        (height + marTop)
-                    } else {
-                        (height + top + marTop)
-                    }
-
+//                    heig += if (i == childCount - 1) {
+//                        (height + marTop)
+//                    } else {
+//                        (height + top + marTop)
+//                    }
+                    heig += (height + marTop)
                     top += (getChildAt(i - 1).measuredHeight + marTop)
                 }
 
-                v.layout(0, top, v.measuredWidth, heig)
+                    v.layout(0, top, v.measuredWidth, heig)
             }
 
-            if(!setSuucced){
+            if (!setSuucced) {
                 setValue(value)
             }
         }
@@ -64,7 +64,7 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         for (i in 0 until childCount) {
             val childAt = getChildAt(i)
-            measureChild(childAt, widthMeasureSpec, heightMeasureSpec)
+            measureChild(childAt, childAt.measuredWidth, childAt.measuredHeight)
         }
         var height = 0
         if (childCount > 0) {
@@ -72,19 +72,25 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
                 val childAt = getChildAt(i) as CheckBox
                 childAt.setOnCheckedChangeListener(this)
                 val measuredHeight = childAt.measuredHeight
-                height += measuredHeight + marTop
+//                if(i<childCount-1){
+//                    height += measuredHeight + marTop
+//                }
+//                else{
+//                    height += measuredHeight
+//                }
+                height += (measuredHeight + marTop)
             }
             setMeasuredDimension(width, height)
         }
     }
 
     private var value: String? = ""
-    private var setSuucced=true
+    private var setSuucced = true
     fun setValue(v: String?) {
         try {
             if (!v.isNullOrEmpty()) {
                 if (childCount > 0) {
-                    setSuucced=true
+                    setSuucced = true
                     val split = v?.split(",")
                     for (i in 0 until childCount) {
                         split?.forEach {
@@ -96,7 +102,7 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
                     }
                 } else {
                     value = v
-                    setSuucced=false
+                    setSuucced = false
                 }
             }
         } catch (e: Exception) {

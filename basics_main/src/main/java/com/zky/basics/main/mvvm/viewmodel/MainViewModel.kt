@@ -19,8 +19,9 @@ class MainViewModel(application: Application, model: MainModel) :
     BaseRefreshViewModel<TaskBean, MainModel>(application, model) {
     private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
     var nameTop = ObservableField<String>()
-    var errorHeard=ObservableField<Int>()
-    var imageHeard=ObservableField<String>()
+    var errorHeard = ObservableField<Int>()
+    var imageHeard = ObservableField<String>()
+
     init {
 
         nameTop.set(application.getString(R.string.app_title))
@@ -29,21 +30,26 @@ class MainViewModel(application: Application, model: MainModel) :
     }
 
     override fun refreshData() {
-
+        getData()
     }
 
     override fun loadMore() {
     }
 
     override fun enableLoadMore() = false
-    override fun enableRefresh() = false
+    override fun enableRefresh() = true
     fun getData() {
         launchUI({
+            mList.clear()
             val taskList = mModel.getTaskList(appCode)
             taskList?.let {
                 mList.addAll(it)
             }
-
+            postStopRefreshEvent()
+        }, object : NetError {
+            override fun getError(e: Exception) {
+                postStopRefreshEvent()
+            }
         })
     }
 

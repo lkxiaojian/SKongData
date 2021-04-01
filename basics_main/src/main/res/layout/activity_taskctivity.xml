@@ -77,7 +77,7 @@
             app:enableLoadMore="@{safeUnbox(taskViewModel.enableLoadMore)}"
             app:enableRefresh="@{safeUnbox(taskViewModel.enableRefresh)}"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="70dp"
             app:layout_constraintTop_toTopOf="parent"
             app:onAutoRefreshCommand="@{taskViewModel.onAutoRefreshCommand}"
             app:onLoadMoreCommand="@{taskViewModel.onLoadMoreCommand}"

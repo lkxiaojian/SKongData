@@ -7,6 +7,8 @@ import androidx.multidex.MultiDexApplication
 import com.alibaba.android.arouter.launcher.ARouter
 import com.facebook.stetho.Stetho
 import com.tencent.mmkv.MMKV.initialize
+import com.umeng.analytics.MobclickAgent
+import com.umeng.commonsdk.UMConfigure
 import com.xuexiang.xupdate.XUpdate
 import com.xuexiang.xupdate.entity.UpdateError
 import com.xuexiang.xupdate.entity.UpdateError.ERROR
@@ -39,14 +41,18 @@ open class BaseApplication : MultiDexApplication() {
         initUpdate()
         //MMKV
         initialize(this)
-        try {
-            val createFromAsset = Typeface.createFromAsset(applicationContext.assets, FONT_PATH)
-            val declaredField = createFromAsset::class.java.getDeclaredField("MONOSPACE")
-            declaredField.isAccessible = true
-            declaredField.set(null, createFromAsset)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+//        try {
+//            val createFromAsset = Typeface.createFromAsset(applicationContext.assets, FONT_PATH)
+//            val declaredField = createFromAsset::class.java.getDeclaredField("MONOSPACE")
+//            declaredField.isAccessible = true
+//            declaredField.set(null, createFromAsset)
+//
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+        UMConfigure.init(this, "60653f5718b72d2d2440da79", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "")
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
+
     }
 
     //app 更新
@@ -81,7 +87,8 @@ open class BaseApplication : MultiDexApplication() {
     }
 
     companion object {
-        const val FONT_PATH = "NotoSans.ttf"
+//        const val FONT_PATH = "NotoSans.ttf"
+//        const val FONT_PATH = "NotoSansSC-Regular.ttf"
         lateinit var instance: BaseApplication
     }
 }

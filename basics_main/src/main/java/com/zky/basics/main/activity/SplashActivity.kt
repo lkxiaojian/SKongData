@@ -2,6 +2,7 @@ package com.zky.basics.main.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.graphics.Typeface
 import android.os.Handler
 import android.os.Message
 import androidx.databinding.ViewDataBinding
@@ -14,11 +15,13 @@ import com.hjq.permissions.OnPermission
 import com.hjq.permissions.XXPermissions
 import com.zky.basics.api.room.AppDatabase
 import com.zky.basics.api.room.Dao.TestRoomDbDao
+import com.zky.basics.common.BaseApplication
 import com.zky.basics.common.mvvm.BaseMvvmActivity
 import com.zky.basics.common.util.PermissionToSetting
 import com.zky.basics.main.R
 import com.zky.basics.main.mvvm.factory.MainViewModelFactory
 import com.zky.basics.main.mvvm.viewmodel.SplashViewModel
+import kotlinx.android.synthetic.main.activity_splash.*
 import java.lang.ref.WeakReference
 
 class SplashActivity : BaseMvvmActivity<ViewDataBinding, SplashViewModel>() {
@@ -49,7 +52,10 @@ class SplashActivity : BaseMvvmActivity<ViewDataBinding, SplashViewModel>() {
 
         })
 
-
+//        val createFromAssetBold = Typeface.createFromAsset(applicationContext.assets,
+//            BaseApplication.FONT_PATH_BOLD
+//        )
+//        atv_test.typeface=createFromAssetBold
 
 
     }

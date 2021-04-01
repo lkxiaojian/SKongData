@@ -55,7 +55,6 @@
             android:drawableStart="@drawable/login_phone"
             android:drawablePadding="10dp"
             android:gravity="center_vertical"
-            android:fontFamily="@font/noto_sans"
             android:hint="请输入账号"
             android:inputType="number"
             android:paddingStart="10dp"

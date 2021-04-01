@@ -117,7 +117,7 @@ class MediaVideoFragment :
                 .withMaxImageSelectable(imageCount) //最大视频选择数目 如果不需要视频 将数目设置为0
                 .withMaxVideoSelectable(videoCount) //图片选择器是否显示数字
                 .withCountable(true)        //最大视频长度
-                .withMaxVideoLength(600 * 1000) //                            //最大视频文件大小 单位MB
+                .withMaxVideoLength(20 * 1000) //                            //最大视频文件大小 单位MB
                 .withMaxVideoSize(1000) //最大图片高度 默认1920
                 .withMaxHeight(11920) //最大图片宽度 默认1920
                 .withMaxWidth(11920) //最大图片大小 单位MB

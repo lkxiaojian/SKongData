@@ -50,6 +50,7 @@ class RightPicClickEditText(context: Context, attrs: AttributeSet?) : AppCompatE
             } else {
                 ContextCompat.getDrawable(context, R.drawable.nohint)
             }
+
             drawableLeft?.setBounds(0, 0, drawableLeft.intrinsicWidth, drawableLeft.intrinsicHeight);
             drawableHint?.setBounds(0, 0, drawableHint!!.intrinsicWidth, drawableHint!!.intrinsicHeight);
             setCompoundDrawables(drawableLeft, null, drawableHint, null)
@@ -74,19 +75,31 @@ class RightPicClickEditText(context: Context, attrs: AttributeSet?) : AppCompatE
                 if(text!=null){
                     text?.toString()?.length?.let { setSelection( it) }
                 }
+                requestFocus()
                 drawableLeft?.setBounds(0, 0, drawableLeft.intrinsicWidth, drawableLeft.intrinsicHeight);
                 drawableHint?.setBounds(0, 0, drawableHint!!.intrinsicWidth, drawableHint!!.intrinsicHeight);
                 setCompoundDrawables(drawableLeft, null, drawableHint, null)
                 hintInit = !hintInit
-
                 return true
             }
             val drawableLeft = compoundDrawables[0]
-            if (drawableLeft != null && rawX <= (left + drawableLeft.bounds.width())) {
+            if (drawableLeft != null && rawX <= (left + drawableLeft.bounds.width()*2)) {
                 //点击了左侧监听
                 imageOnCLick?.onClickRightOrLeft(1)
                 return true
             }
+
+            inputType = if (hintInit) {
+                InputType.TYPE_TEXT_VARIATION_PASSWORD or InputType.TYPE_CLASS_TEXT
+            } else {
+                InputType.TYPE_CLASS_TEXT
+            }
+
+            if(text!=null){
+                text?.toString()?.length?.let { setSelection( it) }
+            }
+
+
         }
         return super.onTouchEvent(event)
     }

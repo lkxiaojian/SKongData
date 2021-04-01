@@ -6,8 +6,8 @@ ext {
             applicationId    : "com.zky.sk.data",
             minSdkVersion    : 21,
             targetSdkVersion : 28,
-            versionCode      : 3,
-            versionName      : "1.0.2",
+            versionCode      : 5,
+            versionName      : "1.0.4",
     ]
     //version配置
     versions = [
@@ -107,8 +107,9 @@ ext {
             "Player-exo"              : "com.shuyu:GSYVideoPlayer-exo2:6.0.2",
             "android-recovery"        : "com.zxy.android:recovery:1.0.0",
             "mmkv"                    : "com.tencent:mmkv-static:1.2.6",
-            "yxcardview"              : 'com.zyp.cardview:cardview:1.0.1'
-
+            "yxcardview"              : 'com.zyp.cardview:cardview:1.0.1',
+            "umeng"                   : "com.umeng.umsdk:common:9.3.6",
+            "umengasms"               : "com.umeng.umsdk:asms:1.2.0"
 //            "NotchScreenTool"         : 'com.github.smarxpan:NotchScreenTool:0.0.1',
 //            "notchfit"                : 'com.wcl.notchfit:notchfit:1.4.2'
 

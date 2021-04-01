@@ -5,6 +5,7 @@ import android.content.Intent
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.api.common.entity.task.TaskItem
 import com.zky.basics.common.adapter.BaseBindAdapter
+import com.zky.basics.common.constant.Constants
 import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
 import com.zky.basics.common.util.ObservableListUtil
 import com.zky.basics.common.util.spread.showToast
@@ -64,10 +65,13 @@ class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskVie
         get() = "任务"
 
     override fun onItemClick(e: Any, position: Int) {
+        val taskItem = e as TaskItem
         val intent = Intent(this, TaskMessageActivity::class.java)
-        intent.putExtra("itemCode", (e as TaskItem).itemCode)
+        intent.putExtra("itemCode", taskItem.itemCode)
         intent.putExtra("dataTask", mViewModel?.taskBean)
+        Constants.dataAttr2 = taskItem.dataAttr1
         startActivity(intent)
+
     }
 
 }

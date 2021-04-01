@@ -134,7 +134,8 @@ android {
         api(rootProject.ext.dependencies.rxjava)
         api(rootProject.ext.dependencies.rxandroid)
         api(rootProject.ext.dependencies.eventbus)
-        api(rootProject.ext.dependencies.autosize)
+//        api(rootProject.ext.dependencies.autosize)
+        api(rootProject.ext.dependencies["autosize"])
         api(rootProject.ext.dependencies["oss"])
 //        api(rootProject.ext.dependencies.arcgis)
         api(rootProject.ext.dependencies["android-recovery"])
@@ -168,6 +169,8 @@ android {
         api(rootProject.ext.dependencies["dagger-android-support"])
         kapt(rootProject.ext.dependencies["dagger-android-processor"])
         api(rootProject.ext.dependencies["yxcardview"])
+        api(rootProject.ext.dependencies["umeng"])
+        api(rootProject.ext.dependencies["umengasms"])
 
         api(rootProject.ext.dependencies["stetho"])
         api(rootProject.ext.dependencies.MultiImageSelector)

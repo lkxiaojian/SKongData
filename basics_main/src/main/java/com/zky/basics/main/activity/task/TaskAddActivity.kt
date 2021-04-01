@@ -2,6 +2,7 @@ package com.zky.basics.main.activity.task
 
 
 import android.text.method.DigitsKeyListener
+import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.api.config.API
@@ -38,7 +39,7 @@ class TaskAddActivity : BaseMvvmActivity<ActivityTaskAddBinding, TaskViewModel>(
                 mBinding?.aetIdcatd?.keyListener= DigitsKeyListener.getInstance("0123456789xX")
             }
             mViewModel?.getmVoidSingleLiveEvent()
-                ?.observe(this, { aVoid: String? ->
+                ?.observe(this, Observer{ aVoid: String? ->
                     when (aVoid) {
                         "dialogShow" -> {
                             val customDialogFragment = CustomDialogFragment()
@@ -59,7 +60,7 @@ class TaskAddActivity : BaseMvvmActivity<ActivityTaskAddBinding, TaskViewModel>(
                         "abt_add" -> {
                             if (levelList.isNullOrEmpty()) {
                                 "地址未选择".showToast()
-                                return@observe
+                               return@Observer
                             }
                             addSure()
                         }

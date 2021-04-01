@@ -223,6 +223,6 @@ abstract class BaseFragment : Fragment(), IBaseView {
     }
 
     companion object {
-        protected val TAG = BaseFragment::class.java.simpleName
+         val TAG = BaseFragment::class.java.simpleName
     }
 }

@@ -10,19 +10,18 @@
         <import type="android.view.View"/>
     </data>
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cv_click"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         style="@style/qnCardView"
         android:visibility="@{data.display? View.VISIBLE:View.GONE}"
-
-        app:cardCornerRadius="3dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             style="@style/qnTop"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
             <TextView
                 android:id="@+id/tv_bt"
                 style="@style/qnTitle"
@@ -64,5 +63,5 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
