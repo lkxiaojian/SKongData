@@ -60,11 +60,12 @@ import java.text.DecimalFormat
  */
 class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     private var mePoint: Point? = null
-    private val wgs = SpatialReferences.getWgs84()
+
     private var meCampsiteSymbol: PictureMarkerSymbol? = null
     private var dianCampsiteSymbol: PictureMarkerSymbol? = null
     private var farmerSymbol: PictureMarkerSymbol? = null
     private var callout: Callout? = null
+    private val wgs = SpatialReferences.getWgs84()
     private val graphicList = arrayListOf<Graphic>()
     var pointCollection: PointCollection = PointCollection(SpatialReferences.getWgs84())
     val polygonPoints = PointCollection(SpatialReferences.getWgs84())
@@ -96,6 +97,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 
 
     override fun initViewObservable() {
+
         mViewModel?.getmVoidSingleLiveEvent()
             ?.observe(this, Observer { a: String? ->
                 when (a) {
@@ -157,12 +159,12 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 
                     }
                     "move_line" -> {
-                        if(!pointCollection.isNullOrEmpty()){
+                        if (!pointCollection.isNullOrEmpty()) {
                             movePoint(pointCollection[0])
                         }
                     }
                     "move_mian" -> {
-                        if(!polygonPoints.isNullOrEmpty()){
+                        if (!polygonPoints.isNullOrEmpty()) {
                             movePoint(polygonPoints[0])
                         }
                     }
@@ -242,78 +244,90 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     }
 
     override fun initData() {
-        showTransLoadingView(true)
-        userinfo = decodeParcelable<Userinfo>("user")
-        showInitLoadView(true)
-        initArgis()
-        mViewModel?.delayInitDw()
-        initGD()
-        listener()
-        showInitLoadView(false)
-//        mViewModel?.getSpaceDataAll()
+        try {
+            showTransLoadingView(true)
+            userinfo = decodeParcelable<Userinfo>("user")
+            showInitLoadView(true)
+            initArgis()
+            mViewModel?.delayInitDw()
+            initGD()
+            listener()
+            showInitLoadView(false)
+            mViewModel?.getSpaceDataAll()
+        } catch (e: java.lang.Exception) {
+            showTransLoadingView(false)
+        }
+
 
     }
 
     private fun initGDDW() {
 
-//        var mLocationOption: AMapLocationClientOption? = null
-//        var mlocationClient = AMapLocationClient(activity)
+        var mLocationOption: AMapLocationClientOption? = null
+        var mlocationClient = AMapLocationClient(activity)
 //初始化定位参数
-//        mLocationOption = AMapLocationClientOption()
+        mLocationOption = AMapLocationClientOption()
 //设置返回地址信息，默认为true
-//        mLocationOption.isNeedAddress = true
+        mLocationOption.isNeedAddress = true
 //设置定位监听
 //        mlocationClient.setLocationListener(this)
-////设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
-//        mLocationOption.locationMode = AMapLocationClientOption.AMapLocationMode.Battery_Saving
-////设置定位间隔,单位毫秒,默认为2000ms
-//        mLocationOption.interval = 2000*10
-////设置定位参数
-//        mlocationClient.setLocationOption(mLocationOption)
-//
-////启动定位
-//        mlocationClient.startLocation()
-//        var firstLocation = true
-//        mlocationClient.setLocationListener {
-//            if (it != null && it.errorCode == 0 && firstLocation || mePoint == null) {
-//                val latitude = it.latitude
-//                val longitude = it.longitude
-//                if (longitude > 0) {
-//                    firstLocation = false
-//                }
-//
-//
-//                val markerOption = MarkerOptions()
-//                val latLng = LatLng(latitude, longitude)
-//
-//                mePoint = MapUtlis.TransfromGps(latLng)
-//
-//                markerOption.position(latLng)
-//                markerOption.draggable(true) //设置Marker可拖动
-//                markerOption.icon(
-//                    BitmapDescriptorFactory.fromBitmap(
-//                        BitmapFactory
-//                            .decodeResource(resources, R.drawable.my_location)
-//                    )
-//                )
-//
-//                //  将Marker设置为贴地显示，可以双指下拉地图查看效果
-//                markerOption.isFlat = true //设置marker平贴地图效果
-//                mBinding?.gdMV?.map?.addMarker(markerOption)
-//                mBinding?.gdMV?.map?.moveCamera(
-//                    CameraUpdateFactory
-//                        .newLatLngZoom(latLng, 15f)
-//                )
-//
-//            }
-//
-//        }
+//设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+        mLocationOption.locationMode = AMapLocationClientOption.AMapLocationMode.Battery_Saving
+//设置定位间隔,单位毫秒,默认为2000ms
+        mLocationOption.interval = 5000
+//设置定位参数
+        mlocationClient.setLocationOption(mLocationOption)
+
+//启动定位
+        mlocationClient.startLocation()
+        var firstLocation = true
+        var firstMove=false
+        mlocationClient.setLocationListener {
+            if(firstMove){
+                return@setLocationListener
+            }
+            if (it != null && it.errorCode == 0 && firstLocation || mePoint == null) {
+                val latitude = it.latitude
+                val longitude = it.longitude
+                if (longitude > 0) {
+                    firstLocation = false
+                }
+
+
+                val markerOption = MarkerOptions()
+                val latLng = LatLng(latitude, longitude)
+
+                mePoint = MapUtlis.TransfromGps(latLng)
+
+                markerOption.position(latLng)
+                markerOption.draggable(true) //设置Marker可拖动
+                markerOption.icon(
+                    BitmapDescriptorFactory.fromBitmap(
+                        BitmapFactory
+                            .decodeResource(resources, R.drawable.my_location)
+                    )
+                )
+
+                //  将Marker设置为贴地显示，可以双指下拉地图查看效果
+                markerOption.isFlat = true //设置marker平贴地图效果
+                mBinding?.gdMV?.map?.addMarker(markerOption)
+                mBinding?.gdMV?.map?.moveCamera(
+                    CameraUpdateFactory
+                        .newLatLngZoom(latLng, 12f)
+                )
+                firstMove=true
+
+            }
+
+        }
     }
 
     private fun initGD() {
         //缩放按钮是否显示
         mBinding?.gdMV?.map?.uiSettings?.isZoomControlsEnabled = false
         mBinding?.gdMV?.map?.maxZoomLevel = 15f
+        mBinding?.gdMV?.map?.uiSettings?.isRotateGesturesEnabled=false
+        mBinding?.gdMV?.map?.uiSettings?.isTiltGesturesEnabled=false
 // gd 地图移动监听
         mBinding?.gdMV?.map?.setOnCameraChangeListener(object : AMap.OnCameraChangeListener {
             override fun onCameraChange(p0: CameraPosition) {
@@ -707,7 +721,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
             }
             val bean = mViewModel?.mapViewBean?.get() ?: return
             val lineTYpe = bean.lineTYpe
-            if(lineTYpe!=0){
+            if (lineTYpe != 0) {
                 mViewModel?.mapViewBean?.get()?.showSureModify = true
             }
             var point: Point? = null
@@ -801,13 +815,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 
         val markerOption = MarkerOptions()
         markerOption.position(latLng)
-//        if (lineTYpe == 1 && gdPointLineLatLng.size == 0) {
-//            markerOption.title("test")
-//        } else if (lineTYpe == 2 && gdPointSurfaceLatLng.size == 0) {
-//            markerOption.title("test")
-//        }
         markerOption.title(dataAttr2)
-//
         markerOption.draggable(true) //设置Marker可拖动
         markerOption.icon(
             BitmapDescriptorFactory.fromBitmap(
@@ -909,11 +917,6 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 //                callout?.location = mapCenterPoint
                 callout?.setGeoElement(graphic, mapCenterPoint)
             } else {
-//                if (type.isNotEmpty()) {
-//                    ly.findViewById<TextView>(R.id.tv_calloutInfo).text = userinfo?.username
-//                } else {
-//                    ly.findViewById<TextView>(R.id.tv_calloutInfo).text = dataAttr2
-//                }
                 ly.findViewById<TextView>(R.id.tv_calloutInfo).text = dataAttr2
                 callout?.location = point
             }
@@ -975,9 +978,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
         super.onResume()
         map_view?.resume()
         gdMV?.onResume()
-        if (flag) {
-            mViewModel?.getSpaceDataAll()
-        }
+
 
         Log.e(TAG, "onResume")
     }
@@ -985,15 +986,14 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     override fun onDestroy() {
         super.onDestroy()
         gdMV?.onDestroy()
-        map_view?.pause()
+        System.gc()
         Log.e(TAG, "onDestroy")
     }
 
     companion object {
-        private var flag = false
-        var fragment = MapFragment()
+       lateinit  var fragment: MapFragment
         fun newInstace(): Fragment {
-            flag = true
+            fragment = MapFragment()
             return fragment
         }
     }

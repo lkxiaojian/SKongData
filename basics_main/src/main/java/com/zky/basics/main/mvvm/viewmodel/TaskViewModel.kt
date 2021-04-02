@@ -37,7 +37,7 @@ class TaskViewModel(application: Application, model: MainModel) :
     var att2Show=ObservableField<Boolean>() //true 日期  false edit
 
     override fun refreshData() {
-
+        setData()
     }
 
     override fun loadMore() {
@@ -51,7 +51,7 @@ class TaskViewModel(application: Application, model: MainModel) :
     }
 
     override fun enableLoadMore() = false
-    override fun enableRefresh() = false
+    override fun enableRefresh() = true
 
     fun setData() {
         launchUI({
@@ -63,6 +63,11 @@ class TaskViewModel(application: Application, model: MainModel) :
                 }
                 mList.addAll(it)
                 itemCount.set("当前共有${mList.size}条数据")
+            }
+            postStopRefreshEvent()
+        },object :NetError{
+            override fun getError(e: Exception) {
+                postStopRefreshEvent()
             }
 
         })

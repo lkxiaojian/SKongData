@@ -275,4 +275,8 @@ class MapViewModle(application: Application, model: MapModel) :
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
 }

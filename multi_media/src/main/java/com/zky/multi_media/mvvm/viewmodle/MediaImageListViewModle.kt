@@ -129,6 +129,7 @@ class MediaImageListViewModle(application: Application, mediaModel: MediaModel) 
                     index: Int,
                     fileTotalProgress: Int
                 ) {
+
                 }
 
                 override fun upLoadSuccess(failNum: Int) {
@@ -149,6 +150,7 @@ class MediaImageListViewModle(application: Application, mediaModel: MediaModel) 
                         showCustomDialog.setOnItemClickListener(object :
                             CustomDialog.SimpleClickListener() {
                             override fun onSure() {
+                                onShowDialogLoading.dismiss()
                                 uploadFile(view, uploadingList)
                             }
 

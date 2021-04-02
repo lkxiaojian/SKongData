@@ -69,6 +69,7 @@ class TaskMessageActivity : BaseActivity() {
                 titles.add("空间数据")
                 mListFragments.add(iMapProvider?.mapFragment!!)
             }
+
             titles.add("问卷信息")
             mListFragments.add(iQuestionProvider?.questionFragment!!)
 

@@ -104,16 +104,11 @@ class MediaImageFragment :
             val projectPhoto = arrayListOf<MediaBean>()
             mViewModel?.mList?.let { projectPhoto.addAll(it) }
             mViewModel?.mList?.size?.minus(1)?.let { projectPhoto.removeAt(it) }
-//            val params = Bundle()
-//            params.putSerializable("images", projectPhoto)
-//            params.putInt("position", position)
+
             ARouter.getInstance().build(ARouterPath.MEDIA_SHOW_IMAGE)
                 .withInt("position", position)
                 .withSerializable("images", projectPhoto).navigation()
-//            val intent = Intent(mActivity, ImageActivity::class.java)
-//            intent.putExtra("position", position)
-//            intent.putExtra("images",projectPhoto)
-//            mActivity.startActivity(intent)
+
         }
     }
 
