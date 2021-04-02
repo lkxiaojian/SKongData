@@ -23,7 +23,6 @@ class MainViewModel(application: Application, model: MainModel) :
     var imageHeard = ObservableField<String>()
 
     init {
-
         nameTop.set(application.getString(R.string.app_title))
         errorHeard.set(R.drawable.mine_tmp)
         imageHeard.set(API.ImageFolderPath + "".decode("headImgPath"))
@@ -46,9 +45,11 @@ class MainViewModel(application: Application, model: MainModel) :
                 mList.addAll(it)
             }
             postStopRefreshEvent()
+            getmVoidSingleLiveEvent().value = "disMiss"
         }, object : NetError {
             override fun getError(e: Exception) {
                 postStopRefreshEvent()
+                getmVoidSingleLiveEvent().value = "disMiss"
             }
         })
     }
@@ -62,5 +63,9 @@ class MainViewModel(application: Application, model: MainModel) :
 
     }
 
-
+    fun getmVoidSingleLiveEvent(): SingleLiveEvent<String> {
+        return createLiveData(mVoidSingleLiveEvent).also {
+            mVoidSingleLiveEvent = it
+        }
+    }
 }

@@ -43,6 +43,7 @@ import com.zky.zky_map.BR
 import com.zky.zky_map.R
 import com.zky.basics.api.common.entity.UploadAdressBean
 import com.zky.basics.common.constant.Constants.dataAttr2
+import com.zky.basics.common.constant.Constants.dxm
 import com.zky.zky_map.databinding.MapFragmentBinding
 import com.zky.zky_map.mvvm.factory.MapViewModelFactory
 import com.zky.zky_map.mvvm.viewmodle.MapViewModle
@@ -97,6 +98,19 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 
 
     override fun initViewObservable() {
+        dxm?.let {
+            if (it.contains("点")) {
+                mViewModel?.mapViewBean?.get()?.dianShow=true
+            }
+            if (it.contains("线")) {
+                mViewModel?.mapViewBean?.get()?.lineShow=true
+            }
+            if (it.contains("面")) {
+                mViewModel?.mapViewBean?.get()?.mianShow=true
+            }
+
+        }
+
 
         mViewModel?.getmVoidSingleLiveEvent()
             ?.observe(this, Observer { a: String? ->
@@ -245,6 +259,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 
     override fun initData() {
         try {
+
             showTransLoadingView(true)
             userinfo = decodeParcelable<Userinfo>("user")
             showInitLoadView(true)
@@ -281,9 +296,9 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 //启动定位
         mlocationClient.startLocation()
         var firstLocation = true
-        var firstMove=false
+        var firstMove = false
         mlocationClient.setLocationListener {
-            if(firstMove){
+            if (firstMove) {
                 return@setLocationListener
             }
             if (it != null && it.errorCode == 0 && firstLocation || mePoint == null) {
@@ -315,7 +330,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                     CameraUpdateFactory
                         .newLatLngZoom(latLng, 12f)
                 )
-                firstMove=true
+                firstMove = true
 
             }
 
@@ -326,8 +341,8 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
         //缩放按钮是否显示
         mBinding?.gdMV?.map?.uiSettings?.isZoomControlsEnabled = false
         mBinding?.gdMV?.map?.maxZoomLevel = 15f
-        mBinding?.gdMV?.map?.uiSettings?.isRotateGesturesEnabled=false
-        mBinding?.gdMV?.map?.uiSettings?.isTiltGesturesEnabled=false
+        mBinding?.gdMV?.map?.uiSettings?.isRotateGesturesEnabled = false
+        mBinding?.gdMV?.map?.uiSettings?.isTiltGesturesEnabled = false
 // gd 地图移动监听
         mBinding?.gdMV?.map?.setOnCameraChangeListener(object : AMap.OnCameraChangeListener {
             override fun onCameraChange(p0: CameraPosition) {
@@ -990,8 +1005,9 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
         Log.e(TAG, "onDestroy")
     }
 
+
     companion object {
-       lateinit  var fragment: MapFragment
+        lateinit var fragment: MapFragment
         fun newInstace(): Fragment {
             fragment = MapFragment()
             return fragment

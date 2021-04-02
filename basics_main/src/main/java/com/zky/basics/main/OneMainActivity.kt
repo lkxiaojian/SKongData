@@ -4,6 +4,7 @@ package com.zky.basics.main
 import BangUtli.setCJViewPading
 import BangUtli.setViewPading
 import android.content.Intent
+import androidx.lifecycle.Observer
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
@@ -23,6 +24,14 @@ class OneMainActivity : BaseMvvmRefreshActivity<ActivityOneMainBinding, MainView
     override fun onBindViewModelFactory() = MainViewModelFactory.getInstance(application)
 
     override fun initViewObservable() {
+        showInitLoadView(true)
+        mViewModel?.getmVoidSingleLiveEvent()
+            ?.observe(this, Observer { a: String? ->
+                if(a==  "disMiss"){
+                    showInitLoadView(false)
+                }
+
+            })
         val adapter = MainListAdapter(this, mViewModel?.mList)
         mViewModel?.mList?.addOnListChangedCallback(
             ObservableListUtil.getListChangedCallback(

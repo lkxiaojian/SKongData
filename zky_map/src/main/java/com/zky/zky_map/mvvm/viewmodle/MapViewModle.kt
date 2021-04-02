@@ -274,9 +274,4 @@ class MapViewModle(application: Application, model: MapModel) :
             getmVoidSingleLiveEvent().value = value
         }
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
 }

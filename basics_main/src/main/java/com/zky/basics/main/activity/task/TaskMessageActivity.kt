@@ -15,6 +15,7 @@ import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.adapter.FragmentPager2Adapter
 import com.zky.basics.common.constant.Constants
+import com.zky.basics.common.constant.Constants.dxm
 import com.zky.basics.common.constant.Constants.itemCode
 import com.zky.basics.common.constant.Constants.taskCode
 import com.zky.basics.common.mvvm.BaseActivity
@@ -63,11 +64,12 @@ class TaskMessageActivity : BaseActivity() {
             titles.clear()
             val taskBean = intent.extras["dataTask"] as TaskBean
             itemCode = intent.extras["itemCode"].toString()
-
+            dxm= taskBean.spaceDataType
             taskCode = taskBean.taskCode
             if (!taskBean.spaceDataType.isNullOrEmpty()) {
                 titles.add("空间数据")
-                mListFragments.add(iMapProvider?.mapFragment!!)
+                val mapFragment = iMapProvider?.mapFragment
+                mListFragments.add(mapFragment!!)
             }
 
             titles.add("问卷信息")

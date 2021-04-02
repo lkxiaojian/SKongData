@@ -27,7 +27,7 @@ class MapViewBean() : BaseObservable() {
 
     @get:Bindable
     @set:Bindable
-    var dianShow: Boolean = true
+    var dianShow: Boolean = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.dianShow)
@@ -35,7 +35,7 @@ class MapViewBean() : BaseObservable() {
 
     @get:Bindable
     @set:Bindable
-    var lineShow: Boolean = true
+    var lineShow: Boolean = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.lineShow)
@@ -43,7 +43,7 @@ class MapViewBean() : BaseObservable() {
 
     @get:Bindable
     @set:Bindable
-    var mianShow: Boolean = true
+    var mianShow: Boolean = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.mianShow)

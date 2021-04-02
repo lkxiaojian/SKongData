@@ -18,6 +18,6 @@ object Constants {
     var itemCode = "27093798379061255"
     var dataAttr2: String? = ""
     var taskCode: String? = "27102455388962819"
-
+    var dxm: String? =""
 
 }
