@@ -19,6 +19,7 @@ import com.zky.basics.common.util.reflec.instanceOf
 import com.zky.multi_media.R
 import com.zky.multi_media.mvvm.model.MediaModel
 import java.io.File
+import java.lang.Exception
 import java.util.*
 
 
@@ -85,39 +86,44 @@ class VoiceListViewModle(application: Application, mediaModel: MediaModel) :
 
     private fun getVoice() {
         launchUI({
-
-            val tmpList = arrayListOf<MediaBean>()
-            if (list.isEmpty()) {
-                val path = "${File.separator}mnt${File.separator}sdcard${File.separator}"
-                val files = FileUtil.getFiles(path, "voice")
-                files.forEach {
-                    val song = instanceOf<MediaBean>()
-                    song.file_name = it.name
-                    song.file_path = it.path
-                    song.code = UUID.randomUUID().toString().replace("-", "")
-                    song.file_type = "audio"
-                    song.isupload = false
-                    song.startIng = 1
-                    song.create_data = DateUtil.getCurrentTime(DateUtil.FormatType.yyyyMMddHHmm)
-                    list.add(song)
-                }
-            }
-            val seMessage = searchMessage.get()
-            if (seMessage.isNullOrEmpty()) {
-                tmpList.addAll(list)
-            } else {
-                list.forEach {
-                    if (it.file_name.contains(seMessage, true)) {
-                        tmpList.add(it)
+            try {
+                val tmpList = arrayListOf<MediaBean>()
+                if (list.isEmpty()) {
+                    val path = "${File.separator}mnt${File.separator}sdcard${File.separator}"
+                    val files = FileUtil.getFiles(path, "voice")
+                    files.forEach {
+                        val song = instanceOf<MediaBean>()
+                        song.file_name = it.name
+                        song.file_path = it.path
+                        song.code = UUID.randomUUID().toString().replace("-", "")
+                        song.file_type = "audio"
+                        song.isupload = false
+                        song.startIng = 1
+                        song.create_data = DateUtil.getCurrentTime(DateUtil.FormatType.yyyyMMddHHmm)
+                        list.add(song)
                     }
                 }
+                val seMessage = searchMessage.get()
+                if (seMessage.isNullOrEmpty()) {
+                    tmpList.addAll(list)
+                } else {
+                    list.forEach {
+                        if (it.file_name.contains(seMessage, true)) {
+                            tmpList.add(it)
+                        }
+                    }
+                }
+                mList.clear()
+                if (tmpList.isNotEmpty()) {
+                    mList.addAll(tmpList)
+                }
+                getmVoidSingleLiveEvent().value = "dismiss"
+            } catch (e: Exception) {
+                e.printStackTrace()
+                getmVoidSingleLiveEvent().value = "dismiss"
             }
-            mList.clear()
-            if (tmpList.isNotEmpty()) {
-                mList.addAll(tmpList)
-            }
-            getmVoidSingleLiveEvent().value = "dismiss"
         })
+
     }
 
     fun getmVoidSingleLiveEvent(): SingleLiveEvent<String> {

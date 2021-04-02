@@ -49,7 +49,10 @@ class CustomEditTextView(context: Context, attrs: AttributeSet?) :
             type: String
         ) {
             if("input_number"==type){
-                view.inputType= InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+                view.inputType= InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_TEXT_FLAG_MULTI_LINE
+                view.setSingleLine(false)
+                view.setHorizontallyScrolling(false)
+
             }
         }
 

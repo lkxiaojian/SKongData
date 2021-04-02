@@ -140,7 +140,7 @@ object FileUtil {
             }
         } else if (file.isAbsolute) {
             val listFiles = file.listFiles()
-            listFiles.forEach {
+            listFiles?.forEach {
                 getFile(it,type)
             }
         }

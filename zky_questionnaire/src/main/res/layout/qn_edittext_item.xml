@@ -54,6 +54,7 @@
                 android:background="@drawable/shape_ededed_3"
                 android:hint="请输入"
                 android:padding="5dp"
+                android:inputType="textMultiLine"
                 android:paddingBottom="10dp"
                 android:text="@={data.answer}"
                 android:textColor="@color/color_999999"
