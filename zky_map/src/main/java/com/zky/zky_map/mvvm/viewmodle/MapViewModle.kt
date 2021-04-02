@@ -13,6 +13,7 @@ import com.zky.basics.common.util.view.CustomDialog
 import com.zky.zky_map.bean.MapViewBean
 import com.zky.zky_map.R
 import com.zky.basics.api.common.entity.UploadAdressBean
+import com.zky.zky_map.fragment.MapFragment.Companion.fragment
 import com.zky.zky_map.mvvm.model.MapModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -32,6 +33,7 @@ class MapViewModle(application: Application, model: MapModel) :
     var netPoint = ObservableField<UploadAdressBean>()
     var netLine = ObservableField<List<UploadAdressBean>>()
     var netPlane = ObservableField<List<UploadAdressBean>>()
+
 
     init {
         val data = MapViewBean()
@@ -92,37 +94,54 @@ class MapViewModle(application: Application, model: MapModel) :
                     mapViewBean.get()?.dianShowWT = true
                     mapViewBean.get()?.showLineOrSurfaceModify = false
                 } else {
+                    mapViewBean.get()?.showTip = false
+                    mapViewBean.get()?.dianShowWT = false
                     mapViewBean.get()?.showLineOrSurfaceModify = true
-
                 }
+                mapViewBean.get()?.showSureModify=false
                 mapViewBean.get()?.lineOrSurfaceTipText = "修改点位"
+                getmVoidSingleLiveEvent().value = "move_dian"
+
             }
             R.id.cl_xian -> {
                 mapViewBean.get()?.tipText = tipList[1]
                 mapViewBean.get()?.lineTYpe = 1
-                if (mapViewBean.get()?.lineData == null) {
+
+                if (mapViewBean.get()?.lineData == null && fragment.pointCollection.isNullOrEmpty()) {
                     mapViewBean.get()?.showTip = true
-                    mapViewBean.get()?.dianShowWT = false
                     mapViewBean.get()?.showLineOrSurfaceModify = false
+                } else if (mapViewBean.get()?.lineData == null && !fragment.pointCollection.isNullOrEmpty()) {
+                    mapViewBean.get()?.showTip = false
+                    mapViewBean.get()?.showLineOrSurfaceModify = false
+                    mapViewBean.get()?.showSureModify = true
                 } else {
                     mapViewBean.get()?.showLineOrSurfaceModify = true
-
+                    mapViewBean.get()?.showSureModify = false
+                    mapViewBean.get()?.showTip = false
                 }
-
+                mapViewBean.get()?.dianShowWT = false
                 mapViewBean.get()?.lineOrSurfaceTipText = "修改线信息"
-
+                getmVoidSingleLiveEvent().value = "move_line"
             }
             R.id.cl_mian -> {
                 mapViewBean.get()?.tipText = tipList[2]
                 mapViewBean.get()?.lineTYpe = 2
-                if (mapViewBean.get()?.surfaceData == null) {
+                if (mapViewBean.get()?.surfaceData == null && fragment.polygonPoints.isNullOrEmpty()) {
                     mapViewBean.get()?.showTip = true
-                    mapViewBean.get()?.dianShowWT = false
                     mapViewBean.get()?.showLineOrSurfaceModify = false
+                } else if (mapViewBean.get()?.surfaceData == null && !fragment.polygonPoints.isNullOrEmpty()) {
+                    mapViewBean.get()?.showTip = false
+                    mapViewBean.get()?.showLineOrSurfaceModify = false
+                    mapViewBean.get()?.showSureModify = true
                 } else {
+                    mapViewBean.get()?.showTip = false
+                    mapViewBean.get()?.showSureModify = false
                     mapViewBean.get()?.showLineOrSurfaceModify = true
                 }
+
+                mapViewBean.get()?.dianShowWT = false
                 mapViewBean.get()?.lineOrSurfaceTipText = "修改面信息"
+                getmVoidSingleLiveEvent().value = "move_mian"
             }
             R.id.aiv_dw -> {
                 getmVoidSingleLiveEvent().value = "argisdingwei"
@@ -132,6 +151,8 @@ class MapViewModle(application: Application, model: MapModel) :
                 getmVoidSingleLiveEvent().value = "atv_dian_sure"
                 mapViewBean.get()?.dianShowWT = false
                 mapViewBean.get()?.showLineOrSurfaceModify = true
+                mapViewBean.get()?.showTip = false
+                mapViewBean.get()?.showSureModify = false
             }
 
             R.id.atv_dian_cancle -> {
@@ -144,6 +165,7 @@ class MapViewModle(application: Application, model: MapModel) :
                 // 线面 取消
                 getmVoidSingleLiveEvent().value = "atv_cancle"
                 mapViewBean.get()?.dianShowWT = false
+                mapViewBean.get()?.showSureModify = false
             }
 
             R.id.atv_sure -> {
@@ -231,7 +253,7 @@ class MapViewModle(application: Application, model: MapModel) :
                     getmVoidSingleLiveEvent().value = "netPlane"
                 }
             }
-        },object :NetError{
+        }, object : NetError {
             override fun getError(e: Exception) {
                 getmVoidSingleLiveEvent().value = "disShow"
             }

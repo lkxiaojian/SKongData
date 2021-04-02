@@ -59,6 +59,7 @@
                 android:textColor="@color/color_999999"
                 android:textSize="14sp"
                 app:dataValue="@{data.q_index}"
+                app:contentType="@{data.contentType}"
                 app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
 

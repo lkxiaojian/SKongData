@@ -66,7 +66,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     private var farmerSymbol: PictureMarkerSymbol? = null
     private var callout: Callout? = null
     private val graphicList = arrayListOf<Graphic>()
-    private var pointCollection: PointCollection = PointCollection(SpatialReferences.getWgs84())
+    var pointCollection: PointCollection = PointCollection(SpatialReferences.getWgs84())
     val polygonPoints = PointCollection(SpatialReferences.getWgs84())
     private val lineSymbol =
         SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.parseColor("#FF6C0F"), 5f)
@@ -148,12 +148,43 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                     "initGDDW" -> {
                         initGDDW()
                     }
-                    "disShow"->{
+                    "disShow" -> {
                         showTransLoadingView(false)
+                    }
+                    "move_dian" -> {
+
+                        movePoint(mViewModel?.mapViewBean?.get()?.dianData)
+
+                    }
+                    "move_line" -> {
+                        if(!pointCollection.isNullOrEmpty()){
+                            movePoint(pointCollection[0])
+                        }
+                    }
+                    "move_mian" -> {
+                        if(!polygonPoints.isNullOrEmpty()){
+                            movePoint(polygonPoints[0])
+                        }
                     }
                 }
             })
     }
+
+    private fun movePoint(dianData: Point?) {
+        if (dianData == null) {
+            return
+        }
+
+        map_view.setViewpointCenterAsync(dianData)
+        val latLng = LatLng(dianData!!.y, dianData!!.x)
+        val transfromGCJ = TransfromGCJ(latLng, mActivity)
+        mBinding?.gdMV?.map?.moveCamera(
+            CameraUpdateFactory
+                .newLatLngZoom(transfromGCJ, 14f)
+        )
+
+    }
+
 
     private fun dianSure() {
         try {
@@ -327,7 +358,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
         val markerOption = MarkerOptions()
         markerOption.position(la)
 
-        markerOption.title(userinfo?.username)
+        markerOption.title(dataAttr2)
         markerOption.draggable(true) //设置Marker可拖动
         markerOption.icon(
             BitmapDescriptorFactory.fromBitmap(
@@ -674,9 +705,11 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
             if (mViewModel?.mapViewBean?.get()?.showLineOrSurfaceModify == true) {
                 return
             }
-            mViewModel?.mapViewBean?.get()?.showSureModify = true
             val bean = mViewModel?.mapViewBean?.get() ?: return
             val lineTYpe = bean.lineTYpe
+            if(lineTYpe!=0){
+                mViewModel?.mapViewBean?.get()?.showSureModify = true
+            }
             var point: Point? = null
             var tmpLat: LatLng? = null
             var pointGraphic: Graphic? = null
@@ -872,15 +905,16 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                 val graphic = Graphic(mapCenterPoint, farmerSymbol)
                 graphic.isVisible = true
                 farmerOverlays.graphics.add(graphic)
-                ly.findViewById<TextView>(R.id.tv_calloutInfo).text = userinfo?.username
+                ly.findViewById<TextView>(R.id.tv_calloutInfo).text = dataAttr2
 //                callout?.location = mapCenterPoint
                 callout?.setGeoElement(graphic, mapCenterPoint)
             } else {
-                if (type.isNotEmpty()) {
-                    ly.findViewById<TextView>(R.id.tv_calloutInfo).text = userinfo?.username
-                } else {
-                    ly.findViewById<TextView>(R.id.tv_calloutInfo).text = dataAttr2
-                }
+//                if (type.isNotEmpty()) {
+//                    ly.findViewById<TextView>(R.id.tv_calloutInfo).text = userinfo?.username
+//                } else {
+//                    ly.findViewById<TextView>(R.id.tv_calloutInfo).text = dataAttr2
+//                }
+                ly.findViewById<TextView>(R.id.tv_calloutInfo).text = dataAttr2
                 callout?.location = point
             }
 
@@ -941,9 +975,9 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
         super.onResume()
         map_view?.resume()
         gdMV?.onResume()
-if(flag){
-    mViewModel?.getSpaceDataAll()
-}
+        if (flag) {
+            mViewModel?.getSpaceDataAll()
+        }
 
         Log.e(TAG, "onResume")
     }
@@ -956,10 +990,10 @@ if(flag){
     }
 
     companion object {
-        private var flag=false
-        private var fragment=MapFragment()
+        private var flag = false
+        var fragment = MapFragment()
         fun newInstace(): Fragment {
-            flag=true
+            flag = true
             return fragment
         }
     }

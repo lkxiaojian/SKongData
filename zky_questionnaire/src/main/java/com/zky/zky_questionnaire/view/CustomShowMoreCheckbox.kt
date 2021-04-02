@@ -49,7 +49,7 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
                     top += (getChildAt(i - 1).measuredHeight + marTop)
                 }
 
-                    v.layout(0, top, v.measuredWidth, heig)
+                v.layout(0, top, v.measuredWidth, heig)
             }
 
             if (!setSuucced) {
@@ -64,7 +64,7 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         for (i in 0 until childCount) {
             val childAt = getChildAt(i)
-            measureChild(childAt, childAt.measuredWidth, childAt.measuredHeight)
+            measureChild(childAt, widthMeasureSpec,heightMeasureSpec)
         }
         var height = 0
         if (childCount > 0) {
@@ -80,7 +80,7 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
 //                }
                 height += (measuredHeight + marTop)
             }
-            setMeasuredDimension(width, height)
+            setMeasuredDimension(width, height+marTop)
         }
     }
 
@@ -128,6 +128,17 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
             listContent.forEach {
                 val v: View = LayoutInflater.from(view.context).inflate(R.layout.checkbox_cus, null)
                 if (v !is CheckBox) return@forEach
+//                var a = ""
+//                val toList = it.toList()
+//                for ((index, value) in toList.withIndex()) {
+//                    if(index>0&&index%8==0){
+//                        a+=value+"\r\n"
+//                    }else{
+//                        a+=value
+//                    }
+//                }
+
+
                 v.text = it
                 view.addView(v)
             }
@@ -138,19 +149,6 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
         @BindingAdapter(value = ["selectValues"], requireAll = false)
         @JvmStatic
         fun setValue(view: CustomShowMoreCheckbox, value: String?) {
-//            try {
-//                if(view.childCount>0){
-//                    val split = value?.split(",")
-//                    split?.forEach {
-//                        if(it.isNotEmpty()){
-//                            (view.getChildAt(it.toInt()) as CheckBox) .isChecked=true
-//                        }
-//
-//                    }
-//                }
-//            }catch (e:Exception){
-//
-//            }
             view.setValue(value)
         }
 

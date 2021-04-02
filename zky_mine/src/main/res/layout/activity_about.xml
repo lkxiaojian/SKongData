@@ -1,41 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="240dp"
-            android:layout_height="78dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="38dp"
-            android:id="@+id/imageView"
-            android:src="@drawable/about_image"
-    />
-    <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            android:layout_marginTop="38dp"
-            android:layout_marginLeft="18dp"
-            android:layout_marginRight="18dp"
-            android:text="   三区三州专项资金大数据监控平台，是由教育部经费监管事务中心委托中国科学院地理科学与资源研究所开发，应用于三区三州深度贫困地区中央专项教育资金的监管事务。"
-            android:textSize="16sp"
-            android:textColor="@color/color_4a4a4a"
-            android:lineSpacingMultiplier="1.5"
-    />
+        android:id="@+id/imageView"
+        android:layout_width="107dp"
+        android:layout_height="107dp"
+        android:layout_marginTop="86dp"
+        android:src="@drawable/logo_about"
+        android:layout_marginStart="31dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:id="@+id/app_version"
-            android:textSize="10sp"
-            android:textColor="@color/color_9b9b9b"
-    />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_title_about"
+        android:layout_marginTop="94dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/imageView"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="@color/color_333"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="31dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="31dp"
+        android:lineSpacingMultiplier="1.5"
+        android:text="     本系统由中国科学院地理科学与资源研究所支持,应用于空间数据的采集与查询."
+        android:textColor="@color/color_666666"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/app_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_9b9b9b"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

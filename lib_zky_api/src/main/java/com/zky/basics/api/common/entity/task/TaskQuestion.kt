@@ -78,4 +78,13 @@ class TaskQuestion : BaseObservable() {
             field = value
             notifyPropertyChanged(BR.answer)
         }
+
+    @get:Bindable
+    @set:Bindable
+    var contentType: String? = "" //输入类型
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.contentType)
+        }
+
 }

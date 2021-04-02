@@ -36,7 +36,9 @@ class AddressDialogAdapter(context: Context, data: ArrayList<AccountLevel>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val accountLevel = list[position]
         if (accountLevel.value.isNullOrEmpty()) {
-            holder.atvAddress.text = accountLevel.attr_tip
+            holder.atvAddress.text = ""
+            holder.atvAddress.hint=accountLevel.attr_tip
+
         } else {
             holder.atvAddress.text = accountLevel.value
         }

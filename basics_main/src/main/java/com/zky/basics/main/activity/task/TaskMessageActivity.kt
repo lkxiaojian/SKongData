@@ -14,6 +14,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.adapter.FragmentPager2Adapter
+import com.zky.basics.common.constant.Constants
 import com.zky.basics.common.constant.Constants.itemCode
 import com.zky.basics.common.constant.Constants.taskCode
 import com.zky.basics.common.mvvm.BaseActivity
@@ -56,7 +57,7 @@ class TaskMessageActivity : BaseActivity() {
     override fun initView() {
     }
 
-    override val tootBarTitle= decodeParcelable<Userinfo>("user")?.username.toString()
+    override val tootBarTitle= "${Constants.dataAttr2}"
     override fun initData() {
         try {
             titles.clear()

@@ -47,7 +47,7 @@ class QnListAdapter(
         when (qType) {
             "radio" -> layout = R.layout.qn_radio_item
             "checkbox" -> layout = R.layout.qn_chebox_item
-            "input" -> layout = R.layout.qn_edittext_item
+            "blank" -> layout = R.layout.qn_edittext_item
             "select" -> layout = R.layout.qn_select_item
         }
         return layout
