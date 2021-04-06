@@ -6,12 +6,13 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import androidx.fragment.app.FragmentActivity
 import android.text.TextUtils
 import android.util.Log
+import androidx.fragment.app.FragmentActivity
 import com.alibaba.sdk.android.oss.*
 import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback
 import com.alibaba.sdk.android.oss.callback.OSSProgressCallback
+import com.alibaba.sdk.android.oss.common.HttpMethod
 import com.alibaba.sdk.android.oss.common.OSSLog
 import com.alibaba.sdk.android.oss.common.utils.IOUtils
 import com.alibaba.sdk.android.oss.model.*
@@ -73,14 +74,18 @@ class OssUploadingFileUtil(
             conf.socketTimeout = 15 * 1000 // socket超时，默认15秒
             conf.maxConcurrentRequest = 5 // 最大并发请求书，默认5个
             conf.maxErrorRetry = 2 // 失败后最大重试次数，默认2次
-            oss = OSSClient(mApplication, API.ImageAliFolderPath, Constants.ossStsTokenCredentialProvider, conf)
+            oss = OSSClient(
+                mApplication,
+                API.ImageAliFolderPath,
+                Constants.ossStsTokenCredentialProvider,
+                conf
+            )
             OSSLog.enableLog()
             val file = File("${mApplication.cacheDir}${File.separator}TempImage")
             if (!file.exists()) {
                 file.mkdirs()
             }
             initImageCompress = true
-
             object : Thread() {
                 override fun run() {
                     getImageCompress(uploadingFiles[index], file)
@@ -146,32 +151,36 @@ class OssUploadingFileUtil(
 
     private fun getImageCompress(uploadingFile: UploadingFile, targetDir: File) {
         if (MediaFileUtil.isImageFileType(uploadingFile.file?.path ?: "")) {
-            getImageCompress(mApplication!!, uploadingFile.file, targetDir, object : OnCompressListener {
-                override fun onStart() {}
+            getImageCompress(
+                mApplication!!,
+                uploadingFile.file,
+                targetDir,
+                object : OnCompressListener {
+                    override fun onStart() {}
 
-                override fun onSuccess(file: File) {
-                    fileTotal += file.length()
-                    uploadingFile.tempFilePath = file.path
-                    index++
-                    if (index >= uploadingFiles.size) {
-                        index = 0
-                        upLoadingFile(uploadingFiles[index])
-                    } else {
-                        getImageCompress(uploadingFiles[index], targetDir)
+                    override fun onSuccess(file: File) {
+                        fileTotal += file.length()
+                        uploadingFile.tempFilePath = file.path
+                        index++
+                        if (index >= uploadingFiles.size) {
+                            index = 0
+                            upLoadingFile(uploadingFiles[index])
+                        } else {
+                            getImageCompress(uploadingFiles[index], targetDir)
+                        }
                     }
-                }
 
-                override fun onError(e: Throwable) {
-                    fileTotal += uploadingFiles[index].file?.length() ?: 0
-                    index++
-                    if (index >= uploadingFiles.size) {
-                        index = 0
-                        upLoadingFile(uploadingFiles[index])
-                    } else {
-                        getImageCompress(uploadingFiles[index], targetDir)
+                    override fun onError(e: Throwable) {
+                        fileTotal += uploadingFiles[index].file?.length() ?: 0
+                        index++
+                        if (index >= uploadingFiles.size) {
+                            index = 0
+                            upLoadingFile(uploadingFiles[index])
+                        } else {
+                            getImageCompress(uploadingFiles[index], targetDir)
+                        }
                     }
-                }
-            })
+                })
         } else {
             fileTotal += uploadingFiles[index].file?.length() ?: 0
             index++
@@ -202,6 +211,7 @@ class OssUploadingFileUtil(
 //            asynBeginResumable(uploadingFile)
 //        }
         asynBeginMulti(uploadingFile)
+//        asynBeginMultiTmp(uploadingFile)
     }
 
     val fileLong = 5 * 1024 * 1024
@@ -223,18 +233,20 @@ class OssUploadingFileUtil(
         if (oss == null) {
             initOSS(mApplication!!)
         }
-       oss!!.asyncPutObject(request, object : OSSCompletedCallback<PutObjectRequest, PutObjectResult> {
-            override fun onSuccess(request: PutObjectRequest, result: PutObjectResult) {
-                deleteFile(File(filePath))
-            }
+        oss!!.asyncPutObject(
+            request,
+            object : OSSCompletedCallback<PutObjectRequest, PutObjectResult> {
+                override fun onSuccess(request: PutObjectRequest, result: PutObjectResult) {
+                    deleteFile(File(filePath))
+                }
 
-            override fun onFailure(
-                request: PutObjectRequest,
-                clientException: ClientException,
-                serviceException: ServiceException
-            ) {
-            }
-        })
+                override fun onFailure(
+                    request: PutObjectRequest,
+                    clientException: ClientException,
+                    serviceException: ServiceException
+                ) {
+                }
+            })
     }
 
     private fun beginMulti(uploadingFile: UploadingFile) {
@@ -261,7 +273,8 @@ class OssUploadingFileUtil(
             val partETags = ArrayList<PartETag>() // 保存分片上传的结果
             while (uploadedLength < fileLength) {
                 val partLength = min(partSize, fileLength - uploadedLength)
-                val partData = IOUtils.readStreamAsBytesArray(input, partLength.toInt()) // 按照分片大小读取文件的一段内容
+                val partData =
+                    IOUtils.readStreamAsBytesArray(input, partLength.toInt()) // 按照分片大小读取文件的一段内容
                 val uploadPart = UploadPartRequest(bucketName, objectKey, uploadId, currentIndex)
                 uploadPart.partContent = partData // 设置分片内容
                 uploadPart.progressCallback =
@@ -288,7 +301,12 @@ class OssUploadingFileUtil(
                 map[currentIndex] = 0L
                 currentIndex++
             }
-            val complete = CompleteMultipartUploadRequest(bucketName, objectKey, uploadId, partETags)
+            val complete = CompleteMultipartUploadRequest(
+                bucketName,
+                objectKey,
+                uploadId,
+                partETags
+            )
             callBackParam["callbackBody"] = getCallbackVars(params)
             if (uploadingFile.servicePath != null) {
                 complete.callbackParam = callBackParam
@@ -296,7 +314,11 @@ class OssUploadingFileUtil(
             val completeResult = oss!!.completeMultipartUpload(complete)
             val statusCode = completeResult.statusCode
             if (statusCode == 200) {
-                returnSuccess(uploadingFile, completeResult?.serverCallbackReturnBody ?: "", objectKey)
+                returnSuccess(
+                    uploadingFile,
+                    completeResult?.serverCallbackReturnBody ?: "",
+                    objectKey
+                )
             }
         } catch (e: ClientException) {
             sendMsg(OSSERROR, 0, 0)
@@ -311,7 +333,8 @@ class OssUploadingFileUtil(
     private fun asynBeginResumable(uploadingFile: UploadingFile) {
         val params = uploadingFile.params
 
-        val recordDirectory = Environment.getExternalStorageDirectory().absolutePath + "/oss_record/"
+        val recordDirectory =
+            Environment.getExternalStorageDirectory().absolutePath + "/oss_record/"
 
         val recordDir = File(recordDirectory)
 
@@ -339,7 +362,8 @@ class OssUploadingFileUtil(
             OSSProgressCallback<ResumableUploadRequest> { _, currentSize, totalSize ->
                 val millis = System.currentTimeMillis()
                 val progress = (100 * currentSize / totalSize).toInt()
-                val fileTotalProgress = ((fileCurrentProgress + totalSize * progress) * 100.0 / fileTotal).toInt()
+                val fileTotalProgress =
+                    ((fileCurrentProgress + totalSize * progress) * 100.0 / fileTotal).toInt()
                 if (millis - time > 2000) {
                     sendMsg(ONPROGRESS, progress, fileTotalProgress)
                     time = millis
@@ -352,9 +376,12 @@ class OssUploadingFileUtil(
         if (uploadingFile.servicePath != null) {
             request.callbackParam = callBackParam
         }
-       oss!!.asyncResumableUpload(request,
+        oss!!.asyncResumableUpload(request,
             object : OSSCompletedCallback<ResumableUploadRequest, ResumableUploadResult> {
-                override fun onSuccess(request: ResumableUploadRequest?, result: ResumableUploadResult?) {
+                override fun onSuccess(
+                    request: ResumableUploadRequest?,
+                    result: ResumableUploadResult?
+                ) {
                     returnSuccess(uploadingFile, result?.serverCallbackReturnBody ?: "", objectKey)
                 }
 
@@ -369,10 +396,34 @@ class OssUploadingFileUtil(
 //        resumableUpload.waitUntilFinished()
     }
 
+//    private fun asynBeginMultiTmp(uploadingFile: UploadingFile) {
+//        try {
+//            val generatePresignedUrlRequest = GeneratePresignedUrlRequest(bucketName, bucketName)
+//            val expiration = Date(Date().time + 3600 * 1000)
+//            generatePresignedUrlRequest.method = HttpMethod.PUT
+//            generatePresignedUrlRequest.contentType = "application/octet-stream";
+//            generatePresignedUrlRequest.expiration = expiration.time
+//            generatePresignedUrlRequest.process
+//            val presignConstrainedObjectURL =
+//                oss?.presignConstrainedObjectURL(generatePresignedUrlRequest)
+//
+//            val putObjectRequest = PutObjectRequest("", "", "")
+//            putObjectRequest.progressCallback
+//            oss?.putObject(putObjectRequest)
+//            Log.e("", "")
+//
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+//
+//
+//    }
+
     private fun asynBeginMulti(uploadingFile: UploadingFile) {
         val params = uploadingFile.params
 
-        val recordDirectory = Environment.getExternalStorageDirectory().absolutePath + "/oss_record/"
+        val recordDirectory =
+            Environment.getExternalStorageDirectory().absolutePath + "/oss_record/"
 
         val recordDir = File(recordDirectory)
 
@@ -398,7 +449,8 @@ class OssUploadingFileUtil(
             OSSProgressCallback<MultipartUploadRequest<*>> { _, currentSize, totalSize ->
                 val millis = System.currentTimeMillis()
                 val progress = (100 * currentSize / totalSize).toInt()
-                val fileTotalProgress = ((fileCurrentProgress + totalSize * progress) * 100.0 / fileTotal).toInt()
+                val fileTotalProgress =
+                    ((fileCurrentProgress + totalSize * progress) * 100.0 / fileTotal).toInt()
                 if (millis - time > 2000) {
                     sendMsg(ONPROGRESS, progress, fileTotalProgress)
                     time = millis
@@ -411,11 +463,19 @@ class OssUploadingFileUtil(
         if (uploadingFile.servicePath != null) {
             request.callbackParam = callBackParam
         }
-          oss?.asyncMultipartUpload(request,
-            object : OSSCompletedCallback<MultipartUploadRequest<*>, CompleteMultipartUploadResult> {
-                override fun onSuccess(request: MultipartUploadRequest<*>?, result: CompleteMultipartUploadResult?) {
+        oss?.asyncMultipartUpload(request,
+            object :
+                OSSCompletedCallback<MultipartUploadRequest<*>, CompleteMultipartUploadResult> {
+                override fun onSuccess(
+                    request: MultipartUploadRequest<*>?,
+                    result: CompleteMultipartUploadResult?
+                ) {
                     handler.post {
-                        returnSuccess(uploadingFile, result?.serverCallbackReturnBody ?: "", objectKey)
+                        returnSuccess(
+                            uploadingFile,
+                            result?.serverCallbackReturnBody ?: "",
+                            objectKey
+                        )
                     }
 
                 }
@@ -446,32 +506,32 @@ class OssUploadingFileUtil(
     private fun returnSuccess(uploadingFile: UploadingFile, body: String, objectKey: String) {
 
         Activity().runOnUiThread {
-        if (uploadingFile.servicePath != null) {
-            val data = Gson().fromJson(body, RespDTO::class.java)
-            data?.let {
-                (it.code == 200).yes {
-                    if (!TextUtils.isEmpty(uploadingFile.tempFilePath)) {
-                        File(uploadingFile.tempFilePath).delete()
+            if (uploadingFile.servicePath != null) {
+                val data = Gson().fromJson(body, RespDTO::class.java)
+                data?.let {
+                    (it.code == 200).yes {
+                        if (!TextUtils.isEmpty(uploadingFile.tempFilePath)) {
+                            File(uploadingFile.tempFilePath).delete()
+                        }
+                        uploadingFile.servicePath = "${it.data}"
+                        uploadingFile.tmpCode = uploadingFile.tmpCode
+                        uploadingFile.filePath = objectKey
+                        uploadingFile.success = true
+                        uploadingFile.tmpCode = "${it.data}"
+                        sendMsg(OSSUCCESS, 0, 0)
+                        upLoadingFileListener?.upLoadSuccessPostiion(uploadingFile)
+                    } otherwise {
+                        sendMsg(OSSERROR, 0, 0)
                     }
-                    uploadingFile.servicePath = "${it.data}"
-                    uploadingFile.tmpCode=uploadingFile.tmpCode
-                    uploadingFile.filePath = objectKey
-                    uploadingFile.success = true
-                    uploadingFile.tmpCode="${it.data}"
-                    sendMsg(OSSUCCESS, 0, 0)
-                    upLoadingFileListener?.upLoadSuccessPostiion(uploadingFile)
-                } otherwise {
-                    sendMsg(OSSERROR, 0, 0)
+                } ?: sendMsg(OSSERROR, 0, 0)
+            } else {
+                if (!TextUtils.isEmpty(uploadingFile.tempFilePath)) {
+                    File(uploadingFile.tempFilePath).delete()
                 }
-            } ?: sendMsg(OSSERROR, 0, 0)
-        } else {
-            if (!TextUtils.isEmpty(uploadingFile.tempFilePath)) {
-                File(uploadingFile.tempFilePath).delete()
+                uploadingFile.success = true
+                uploadingFile.filePath = objectKey
+                sendMsg(OSSUCCESS, 0, 0)
             }
-            uploadingFile.success = true
-            uploadingFile.filePath = objectKey
-            sendMsg(OSSUCCESS, 0, 0)
-        }
         }
     }
 
