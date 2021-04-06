@@ -44,21 +44,22 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/woDe_top"
             android:layout_width="match_parent"
-            android:layout_height="87dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:layout_marginBottom="10dp"
+            android:minHeight="93dp"
+            android:paddingBottom="10dp"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="6dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_top"
-
-
-            >
-
+            app:layout_constraintTop_toBottomOf="@+id/title_top">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingBottom="10dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/head_img"
@@ -67,11 +68,11 @@
                     android:layout_marginStart="18dp"
                     android:layout_marginTop="14dp"
                     android:layout_marginBottom="18dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
                     android:onClick="@{(view)-> mineViewModle.startClick(view)}"
                     app:circleImageUrl="@{mineViewModle.mineBean.imageHeard}"
                     app:errorDrawableId="@{mineViewModle.mineBean.errorHeard}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:placeDrawableId="@{mineViewModle.mineBean.errorHeard}" />
 
 
@@ -85,85 +86,98 @@
                     android:textColor="@color/color_4a4a4a"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toRightOf="@+id/head_img"
-                    />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="9dp"
-
                     android:text="@{@string/info_phone(mineViewModle.mineBean.phone)}"
                     android:textColor="@color/color_9b9b9b"
                     android:textSize="12sp"
                     app:layout_constraintLeft_toRightOf="@+id/head_img"
-                    app:layout_constraintTop_toBottomOf="@+id/username"
-                    />
+                    app:layout_constraintTop_toBottomOf="@+id/username" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/fzqu"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="9dp"
-
+                    android:layout_marginEnd="20dp"
+                    android:gravity="left"
                     android:text="@{@string/fzqy(mineViewModle.mineBean.fzqy)}"
                     android:textColor="@color/color_9b9b9b"
                     android:textSize="12sp"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:maxEms="16"
                     app:layout_constraintLeft_toRightOf="@+id/head_img"
-                    app:layout_constraintTop_toBottomOf="@+id/phone"
-                    />
+
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/phone" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/password"
+
+        <com.zyp.cardview.YcCardView
+            android:id="@+id/password_ycv"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="12dp"
-            android:background="@drawable/white_round_bg_shape"
-            android:drawableLeft="@drawable/password"
-            android:drawableRight="@drawable/task_right"
-            android:drawablePadding="6dp"
-            android:gravity="center_vertical"
-            android:onClick="@{(view)-> mineViewModle.startClick(view)}"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:text="密码修改"
-            android:textColor="@color/color_4a4a4a"
-            android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/woDe_top" />
+            app:layout_constraintTop_toBottomOf="@+id/woDe_top"
+            app:ycCardElevation="6dp"
+            app:ycStartShadowColor="#124B4B4B">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:drawableStart="@drawable/password"
+                android:drawableEnd="@drawable/task_right"
+                android:drawablePadding="6dp"
+                android:gravity="center_vertical"
+                android:onClick="@{(view)-> mineViewModle.startClick(view)}"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:text="密码修改"
+                android:textColor="@color/color_4a4a4a"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+        </com.zyp.cardview.YcCardView>
 
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/about"
+        <com.zyp.cardview.YcCardView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="12dp"
             android:layout_marginRight="12dp"
-            android:background="@drawable/white_round_bg_shape"
-            android:drawableLeft="@drawable/about"
-            android:drawableRight="@drawable/task_right"
-            android:drawablePadding="6dp"
-            android:gravity="center_vertical"
-            android:onClick="@{(view)-> mineViewModle.startClick(view)}"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:text="关于"
-            android:textColor="@color/color_4a4a4a"
-            android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password" />
+            app:layout_constraintTop_toBottomOf="@+id/password_ycv"
+            app:ycCardElevation="6dp"
+            app:ycStartShadowColor="#124B4B4B">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/about"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:drawableStart="@drawable/about"
+                android:drawableEnd="@drawable/task_right"
+                android:drawablePadding="6dp"
+                android:gravity="center_vertical"
+                android:onClick="@{(view)-> mineViewModle.startClick(view)}"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:text="关于"
+                android:textColor="@color/color_4a4a4a"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+        </com.zyp.cardview.YcCardView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

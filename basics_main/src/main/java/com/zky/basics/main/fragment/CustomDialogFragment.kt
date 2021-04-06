@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bigkoo.pickerview.view.OptionsPickerView
 import com.zky.basics.api.splash.entity.AccountLevel
+import com.zky.basics.api.splash.entity.RegionOrSchoolBean
 import com.zky.basics.common.adapter.MessageAdapter
 import com.zky.basics.common.mvvm.viewmodel.BaseViewModel
 import com.zky.basics.common.util.spread.showToast
@@ -23,6 +24,7 @@ import com.zky.basics.main.R
 import com.zky.basics.main.adapter.AddressDialogAdapter
 import com.zky.basics.main.mvvm.model.MainModel
 import kotlinx.android.synthetic.main.fragment_select_address_dialog.*
+import kotlinx.coroutines.launch
 import java.lang.Exception
 
 
@@ -87,42 +89,64 @@ class CustomDialogFragment : DialogFragment(), AddressDialogAdapter.itemOnClik {
     }
 
     private val levelList: ArrayList<String> = arrayListOf()
-
+    private var levelListNext: ArrayList<RegionOrSchoolBean>? = arrayListOf()
+    private var flag = true
+    private var currentIndex: Int = 1
     private fun setAd(view: View, index: Int, attr_idx: Int) {
-        baseViewModel?.launchUI({
-            val addr = mainModel?.getAddr(attr_idx)
-            levelList.clear()
-            addr?.let { it ->
-                levelList.add("请选择")
-                it.forEach {
-                    levelList.add(it.name!!)
+
+        try {
+            if (!flag) {
+                return
+            }
+            baseViewModel?.launchUI({
+                flag = false
+
+                if (levelListNext.isNullOrEmpty() || attr_idx == 1 || attr_idx < currentIndex) {
+                    levelListNext = mainModel?.getAddr(attr_idx) as ArrayList<RegionOrSchoolBean>?
+                }
+                levelList.clear()
+                levelListNext?.let { it ->
+                    levelList.add("请选择")
+                    it.forEach {
+                        levelList.add(it.name!!)
+                    }
+                    showRvListPopupWindow(view, levelList, object : MessageAdapter.ItemOnClick {
+                        override fun onClick(value: String, position: Int) {
+                            levelListT?.let {
+                                for ((tindex, _) in it.withIndex()) {
+                                    if (tindex >= index) {
+                                        levelListT!![tindex].valueCode = ""
+                                        levelListT!![tindex].value = ""
+                                    }
+                                }
+                                if (position != 0) {
+                                    levelListT!![index].valueCode =
+                                        levelListNext!![position - 1].code
+                                    levelListT!![index].value = value
+                                }
+                                adapter?.setList(levelListT!!)
+
+                                baseViewModel?.launchUI({
+                                    currentIndex = attr_idx + 1
+                                    if (currentIndex < 5) {
+                                        levelListNext =
+                                            mainModel?.getAddr(currentIndex) as ArrayList<RegionOrSchoolBean>?
+                                    }
+
+                                })
+
+                            }
+                            flag = true
+                        }
+                    })
                 }
 
-                showRvListPopupWindow(view, levelList, object : MessageAdapter.ItemOnClick {
-                    override fun onClick(value: String, position: Int) {
-
-                        levelListT?.let {
-                            for ((tindex, _) in it.withIndex()) {
-                                if (tindex >= index) {
-                                    levelListT!![index].valueCode = ""
-                                    levelListT!![index].value = ""
-                                }
-                            }
-                            if (position != 0) {
-                                levelListT!![index].valueCode = addr[position - 1].code
-                                levelListT!![index].value = value
-                            }
-
-                            adapter?.setList(levelListT!!)
-                        }
-
-
-                    }
-                })
-            }
-
-        })
+            })
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
+
 
     override fun itemClick(view: View, data: AccountLevel, positon: Int) {
         if (positon != 0 && levelListT?.get(positon - 1)?.valueCode.isNullOrEmpty()) {

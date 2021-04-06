@@ -4,6 +4,7 @@ import android.app.Application
 import com.zky.basics.api.RetrofitManager.Companion.instance
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.api.common.entity.task.TaskItem
+import com.zky.basics.api.room.bean.Areas
 import com.zky.basics.api.splash.entity.AccountLevel
 import com.zky.basics.api.splash.entity.ImageUrl
 import com.zky.basics.api.splash.entity.RegionOrSchoolBean
@@ -69,6 +70,11 @@ class MainModel(application: Application?) : BaseModel(application) {
 
     suspend fun insertOrUpdateItem(url: String):Any?=request {
         taskService.insertOrUpdateItem(url)
+    }
+
+
+    suspend fun getAddrAll(): Areas? = request {
+        splashService.getAddrAll()
     }
 
 }

@@ -18,6 +18,7 @@ import com.zky.basics.common.util.OKHttpUpdateHttpService
 import com.zky.basics.common.util.log.KLog
 import okhttp3.OkHttpClient
 import java.io.File
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -52,7 +53,7 @@ open class BaseApplication : MultiDexApplication() {
 //        }
         UMConfigure.init(this, "60653f5718b72d2d2440da79", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "")
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
-
+        UMConfigure.preInit(this,"60653f5718b72d2d2440da79","USkdata")
     }
 
     //app 更新

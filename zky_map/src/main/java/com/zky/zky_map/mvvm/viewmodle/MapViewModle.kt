@@ -28,7 +28,7 @@ class MapViewModle(application: Application, model: MapModel) :
     BaseViewModel<MapModel>(application, model) {
 
     private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
-    private val tipList = arrayListOf<String>("单机地图添加定位点", "单机地图添加多个点位以连线", "单机地图添加多个点位以连面")
+     val tipList = arrayListOf<String>("单机地图添加定位点", "单机地图添加多个点位以连线", "单机地图添加多个点位以连面")
     var mapViewBean = ObservableField<MapViewBean>()
     var netPoint = ObservableField<UploadAdressBean>()
     var netLine = ObservableField<List<UploadAdressBean>>()
@@ -40,7 +40,7 @@ class MapViewModle(application: Application, model: MapModel) :
         data.lineTYpe = 0
         data.tipText = tipList[0]
         data.showTip = true
-        data.dianShowWT = true
+//        data.dianShowWT = true
         data.lineOrSurfaceTipText = "修改点位"
         data.mapSelect = R.drawable.lx_xia
         mapViewBean.set(data)

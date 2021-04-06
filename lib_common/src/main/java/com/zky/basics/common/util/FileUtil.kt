@@ -130,7 +130,7 @@ object FileUtil {
       return  getFile(file,type)
     }
     private fun getFile(file: File, type: String=""): ArrayList<File> {
-        if (file.isFile) {
+        if (file.isFile&&(file.path.endsWith(".mp3",false)||file.path.endsWith(".m4a",false)||file.path.endsWith(".arm",false))) {
             if (type.isNotEmpty()) {
                 if (getFileType(type,file.name )) {
                     list.add(file)
@@ -138,7 +138,7 @@ object FileUtil {
             } else {
                 list.add(file)
             }
-        } else if (file.isAbsolute) {
+        } else if (file.isAbsolute&&!file.path.contains("com.",false)) {
             val listFiles = file.listFiles()
             listFiles?.forEach {
                 getFile(it,type)

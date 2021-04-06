@@ -1,6 +1,7 @@
 package com.zky.basics.api.splash.service
 
 import com.zky.basics.api.dto.RespDTO
+import com.zky.basics.api.room.bean.Areas
 import com.zky.basics.api.splash.entity.AccountLevel
 import com.zky.basics.api.splash.entity.ImageUrl
 import com.zky.basics.api.splash.entity.RegionOrSchoolBean
@@ -44,5 +45,11 @@ interface SplashService {
     suspend fun getRegion(
         @Query("regionLevel") regionLevel: Int?,
     ): RespDTO<List<RegionOrSchoolBean>>
+
+
+
+    @GET("getAddrAll.do")
+    suspend fun getAddrAll(): RespDTO<Areas>
+
 
 }

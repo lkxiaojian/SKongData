@@ -1,6 +1,7 @@
 package com.zky.zky_questionnaire.mvvm.viewmodle
 
 import android.app.Application
+import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableField
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener
@@ -87,6 +88,11 @@ class QNViewModle(application: Application, model: qnModel) :
             }
             wjTemplate?.let { mList.addAll(it) }
             needWrite.set("$needCout/${mList.size}")
+        },object :NetError{
+            override fun getError(e: Exception) {
+                Log.e("","")
+            }
+
         })
     }
 

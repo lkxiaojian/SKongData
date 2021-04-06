@@ -41,10 +41,7 @@ class OneMainActivity : BaseMvvmRefreshActivity<ActivityOneMainBinding, MainView
         adapter.setItemClickListener(this)
         mBinding?.recview?.adapter = adapter
         mViewModel?.getData()
-
     }
-
-
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         setCJViewPading(mBinding?.clTest)

@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
+import com.zky.basics.api.config.API
 import com.zky.basics.api.room.bean.MediaBean
 import com.zky.basics.common.mvvm.BaseActivity
 import com.zky.basics.common.util.ScreenUtils.getStatusHeight
@@ -31,13 +32,18 @@ class VideoActivity : BaseActivity() {
     }
 
     override fun initData() {
+        var  path=file.file_path
+        if(!path.startsWith("http",false)){
+            path=API.ImageFolderPath+path
+        }
 
-        video_player.setUp(file.file_path, true, file.file_name)
+
+        video_player.setUp(path, true, file.file_name)
         //增加封面
         val imageView = ImageView(this)
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
         Glide.with(this).applyDefaultRequestOptions(RequestOptions().frame(1)).asBitmap()
-            .load(file.file_path)
+            .load(path)
             .into(imageView)
         val topView =
             video_player.findViewById<LinearLayout?>(R.id.layout_top)

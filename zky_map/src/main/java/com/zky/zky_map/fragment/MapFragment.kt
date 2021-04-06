@@ -44,6 +44,7 @@ import com.zky.zky_map.R
 import com.zky.basics.api.common.entity.UploadAdressBean
 import com.zky.basics.common.constant.Constants.dataAttr2
 import com.zky.basics.common.constant.Constants.dxm
+import com.zky.basics.common.util.DisplayUtil
 import com.zky.zky_map.databinding.MapFragmentBinding
 import com.zky.zky_map.mvvm.factory.MapViewModelFactory
 import com.zky.zky_map.mvvm.viewmodle.MapViewModle
@@ -98,16 +99,42 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 
 
     override fun initViewObservable() {
+        var dians = false
+        var lines = false
         dxm?.let {
             if (it.contains("点")) {
-                mViewModel?.mapViewBean?.get()?.dianShow=true
+                dians = true
+                mViewModel?.mapViewBean?.get()?.dianShowWT = true
+                mViewModel?.mapViewBean?.get()?.dianShow = true
+            } else {
+                mViewModel?.mapViewBean?.get()?.dianShowWT = false
+                mViewModel?.mapViewBean?.get()?.dianShow = false
             }
+
             if (it.contains("线")) {
-                mViewModel?.mapViewBean?.get()?.lineShow=true
+                mViewModel?.mapViewBean?.get()?.lineShow = true
+                lines=true
+                if (!dians) {
+                    mViewModel?.mapViewBean?.get()?.tipText = mViewModel!!.tipList[1]
+                    mViewModel?.mapViewBean?.get()?.lineTYpe = 1
+                    mViewModel?.mapViewBean?.get()?.lineOrSurfaceTipText = "修改线信息"
+                }
+            } else {
+                mViewModel?.mapViewBean?.get()?.lineShow = false
             }
+
             if (it.contains("面")) {
-                mViewModel?.mapViewBean?.get()?.mianShow=true
+                mViewModel?.mapViewBean?.get()?.mianShow =true
+                if(!lines){
+                    mViewModel?.mapViewBean?.get()?.tipText = mViewModel!!.tipList[2]
+                    mViewModel?.mapViewBean?.get()?.lineTYpe = 2
+                    mViewModel?.mapViewBean?.get()?.lineOrSurfaceTipText = "修改面信息"
+                }
+            }else{
+                mViewModel?.mapViewBean?.get()?.mianShow =false
             }
+
+
 
         }
 
@@ -922,12 +949,14 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
             val inflater = LayoutInflater.from(mActivity)
             val ly = inflater.inflate(R.layout.callout, null, false)
             callout = map_view.callout
-            farmerSymbol?.offsetY = 20f
+//            val px2dip = DisplayUtil.px2dip(20f)
+//            farmerSymbol?.offsetY = 10f
             if (point == null) {
                 farmerOverlays.graphics.clear()
                 val graphic = Graphic(mapCenterPoint, farmerSymbol)
                 graphic.isVisible = true
                 farmerOverlays.graphics.add(graphic)
+
                 ly.findViewById<TextView>(R.id.tv_calloutInfo).text = dataAttr2
 //                callout?.location = mapCenterPoint
                 callout?.setGeoElement(graphic, mapCenterPoint)

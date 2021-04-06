@@ -17,6 +17,7 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener
 import com.bigkoo.pickerview.view.OptionsPickerView
 import com.zky.basics.api.RetrofitManager
 import com.zky.basics.api.config.API
+import com.zky.basics.api.room.AppDatabase
 import com.zky.basics.api.splash.entity.AccountLevel
 import com.zky.basics.api.splash.entity.SplashViewBean
 import com.zky.basics.api.splash.entity.Userinfo
@@ -46,7 +47,7 @@ class SplashViewModel(application: Application, model: SplashModel) :
     BaseViewModel<SplashModel>(application, model) {
     private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
     private var pickerBuilder: OptionsPickerBuilder? = null
-
+    var app = application
     var name = ObservableField<String>()
     var paw = ObservableField<String>()
     var levelListT = arrayListOf<AccountLevel>()
@@ -285,7 +286,7 @@ class SplashViewModel(application: Application, model: SplashModel) :
                 pickerView?.setPicker(levelList)
                 pickerView?.setSelectOptions(data.get()!!.levelIndel)
                 pickerView?.show()
-                pickerBuilder?.setOnOptionsSelectListener (OnOptionsSelectListener{ options1, _, _, _ ->
+                pickerBuilder?.setOnOptionsSelectListener(OnOptionsSelectListener { options1, _, _, _ ->
                     attr_idx = accountLevel[options1].attr_idx
                     levelListT.clear()
                     for ((index, value) in accountLevel.withIndex()) {
@@ -373,7 +374,7 @@ class SplashViewModel(application: Application, model: SplashModel) :
                 pickerView?.setPicker(levelList)
                 pickerView?.setSelectOptions(data.get()!!.levelIndel)
                 pickerView?.show()
-                pickerBuilder?.setOnOptionsSelectListener (OnOptionsSelectListener{ options1, _, _, _ ->
+                pickerBuilder?.setOnOptionsSelectListener(OnOptionsSelectListener { options1, _, _, _ ->
                     for ((index, _) in levelListT.withIndex()) {
                         if (index >= position) {
                             levelListT[index].value = ""
@@ -387,6 +388,32 @@ class SplashViewModel(application: Application, model: SplashModel) :
         })
 
     }
+
+//    fun createDataBase() {
+//        var areaDao =
+//            AppDatabase.getDatabase(app)?.areaDao()
+//        launchUI({
+//            try {
+//                val count = areaDao?.count()
+//                count?.let {
+//                    if(it>1){
+//                        getmVoidSingleLiveEvent().value = "loginNow"
+//                        return@launchUI
+//                    }
+//                }
+//                val addrAll = mModel.getAddrAll()
+//            }catch (e:java.lang.Exception){
+//                getmVoidSingleLiveEvent().value = "loginNow"
+//            }
+//
+//        },object :NetError{
+//            override fun getError(e: Exception) {
+//                getmVoidSingleLiveEvent().value = "loginNow"
+//            }
+//        })
+//
+//
+//    }
 
 
     /**

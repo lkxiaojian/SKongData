@@ -65,7 +65,11 @@ class MineViewModle(application: Application, model: MineModel) :
             API.ImageFolderPath + "".decode("headImgPath")
         mineModelBean.curName = userinfo?.username
         mineModelBean.phone = userinfo?.phone
-        mineModelBean.fzqy=userinfo?.province+userinfo?.city+userinfo?.county+userinfo?.town+userinfo?.village
+        mineModelBean.fzqy = if (userinfo?.province == null) "" else userinfo?.province +
+                if (userinfo?.city == null) "" else userinfo?.city +
+                        if (userinfo?.county == null) "" else userinfo?.county +
+                                if (userinfo?.town == null) "" else userinfo?.town +
+                                        if (userinfo?.village == null) "" else userinfo?.village
         mineBean.set(mineModelBean)
 
     }
@@ -119,6 +123,7 @@ class MineViewModle(application: Application, model: MineModel) :
                             })
                         }
                     }
+
                     override fun noPermission(denied: MutableList<String>?, never: Boolean) {
                         PermissionToSetting(viewToActivity, denied!!, never, "获取存储权限失败")
                     }
@@ -144,7 +149,7 @@ class MineViewModle(application: Application, model: MineModel) :
             val map = hashMapOf<String, String>()
             val filePath =
                 "user/headImg/${
-                    userinfo?.code
+                userinfo?.code
                 }/${uploadingFile.fileName}"
 
             map["filePath"] = filePath
@@ -247,7 +252,7 @@ class MineViewModle(application: Application, model: MineModel) :
         val oldMd5Paw = userinfo?.password
         val newPaw = SM3.encrypt(modifyPaw.get().toString())
 
-        if(oldMd5Paw!=SM3.encrypt(oldPaw.get().toString())){
+        if (oldMd5Paw != SM3.encrypt(oldPaw.get().toString())) {
             "原密码错误".showToast()
             return
         }

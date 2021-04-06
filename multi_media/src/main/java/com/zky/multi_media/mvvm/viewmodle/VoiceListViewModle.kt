@@ -18,6 +18,8 @@ import com.zky.basics.common.util.onShowDialogLoading
 import com.zky.basics.common.util.reflec.instanceOf
 import com.zky.multi_media.R
 import com.zky.multi_media.mvvm.model.MediaModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.lang.Exception
 import java.util.*
@@ -87,21 +89,33 @@ class VoiceListViewModle(application: Application, mediaModel: MediaModel) :
     private fun getVoice() {
         launchUI({
             try {
+//                123852
                 val tmpList = arrayListOf<MediaBean>()
                 if (list.isEmpty()) {
                     val path = "${File.separator}mnt${File.separator}sdcard${File.separator}"
-                    val files = FileUtil.getFiles(path, "voice")
-                    files.forEach {
-                        val song = instanceOf<MediaBean>()
-                        song.file_name = it.name
-                        song.file_path = it.path
-                        song.code = UUID.randomUUID().toString().replace("-", "")
-                        song.file_type = "audio"
-                        song.isupload = false
-                        song.startIng = 1
-                        song.create_data = DateUtil.getCurrentTime(DateUtil.FormatType.yyyyMMddHHmm)
-                        list.add(song)
+//                    val path1 = "${File.separator}mnt${File.separator}sdcard${File.separator}voice"
+//                    val path2 = "${File.separator}mnt${File.separator}sdcard${File.separator}Music"
+//                    val path3 = "${File.separator}mnt${File.separator}sdcard${File.separator}Sound"
+//                    val path4 = "${File.separator}mnt${File.separator}sdcard${File.separator}Record"
+                    withContext(Dispatchers.IO){
+                        val files = FileUtil.getFiles(path, "voice")
+//                        files.addAll( FileUtil.getFiles(path2, "voice"))
+//                        files.addAll( FileUtil.getFiles(path3, "voice"))
+//                        files.addAll( FileUtil.getFiles(path4, "voice"))
+                        files.forEach {
+                            val song = instanceOf<MediaBean>()
+                            song.file_name = it.name
+                            song.file_path = it.path
+                            song.code = UUID.randomUUID().toString().replace("-", "")
+                            song.file_type = "audio"
+                            song.isupload = false
+                            song.startIng = 1
+                            song.create_data = DateUtil.getCurrentTime(DateUtil.FormatType.yyyyMMddHHmm)
+                            list.add(song)
+                        }
                     }
+
+
                 }
                 val seMessage = searchMessage.get()
                 if (seMessage.isNullOrEmpty()) {

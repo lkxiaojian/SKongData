@@ -76,4 +76,7 @@ class SplashModel(application: Application?) : BaseModel(application) {
             regionLevel
         )
     }
+
+
+
 }

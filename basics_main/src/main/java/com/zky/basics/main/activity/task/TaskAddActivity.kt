@@ -1,13 +1,17 @@
 package com.zky.basics.main.activity.task
 
 
+import android.Manifest
 import android.text.method.DigitsKeyListener
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.hjq.permissions.OnPermission
+import com.hjq.permissions.XXPermissions
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.api.config.API
 import com.zky.basics.api.splash.entity.AccountLevel
 import com.zky.basics.common.mvvm.BaseMvvmActivity
+import com.zky.basics.common.util.PermissionToSetting
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.BR
 import com.zky.basics.main.R
@@ -66,6 +70,7 @@ class TaskAddActivity : BaseMvvmActivity<ActivityTaskAddBinding, TaskViewModel>(
                         }
                     }
                 })
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -73,8 +78,6 @@ class TaskAddActivity : BaseMvvmActivity<ActivityTaskAddBinding, TaskViewModel>(
     }
 
     private fun addSure() {
-
-
         var url = API.URL_HOST + "/insertOrUpdateItem.do?taskCode=${taskData.taskCode}" +
                 "&dataAttr1=${mViewModel?.attr1?.get()}" +
                 "&dataAttr2=${mViewModel?.attr2?.get()}"

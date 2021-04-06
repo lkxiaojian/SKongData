@@ -1,19 +1,28 @@
 package com.zky.basics.main.mvvm.viewmodel
 
+import android.Manifest
 import android.app.Application
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableField
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.bigkoo.pickerview.listener.OnTimeSelectListener
 import com.bigkoo.pickerview.view.TimePickerView
+import com.hjq.permissions.OnPermission
+import com.hjq.permissions.XXPermissions
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.api.common.entity.task.TaskItem
+import com.zky.basics.api.room.AppDatabase
+import com.zky.basics.api.room.Dao.AccountLevelDao
+import com.zky.basics.api.room.bean.Area
+import com.zky.basics.api.splash.entity.AccountLevel
 import com.zky.basics.common.event.SingleLiveEvent
 import com.zky.basics.common.mvvm.viewmodel.BaseRefreshViewModel
 import com.zky.basics.common.util.DateUtil
+import com.zky.basics.common.util.PermissionToSetting
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.R
 import com.zky.basics.main.mvvm.model.MainModel
@@ -33,8 +42,8 @@ class TaskViewModel(application: Application, model: MainModel) :
     var attr2 = ObservableField<String>()
     var attr3 = ObservableField<String>()
     var itemCount = ObservableField<String>()
-
-    var att2Show=ObservableField<Boolean>() //true 日期  false edit
+    var app = application
+    var att2Show = ObservableField<Boolean>() //true 日期  false edit
 
     override fun refreshData() {
         setData()
@@ -65,7 +74,7 @@ class TaskViewModel(application: Application, model: MainModel) :
                 itemCount.set("当前共有${mList.size}条数据")
             }
             postStopRefreshEvent()
-        },object :NetError{
+        }, object : NetError {
             override fun getError(e: Exception) {
                 postStopRefreshEvent()
             }
@@ -103,7 +112,7 @@ class TaskViewModel(application: Application, model: MainModel) :
                 getmVoidSingleLiveEvent().value = "abt_add"
             }
 
-            R.id.atv_se_time->{
+            R.id.atv_se_time -> {
                 TimePv(v)
                 pickerView?.show()
             }
@@ -118,6 +127,47 @@ class TaskViewModel(application: Application, model: MainModel) :
             getmVoidSingleLiveEvent().value = "finsh"
         })
 
+    }
+
+
+//    fun createDataBase() {
+//
+//        var areaDao =
+//            AppDatabase.getDatabase(app)?.accountLevelDao()
+//        launchUI({
+//            try {
+//                val count = areaDao?.count()
+//                count?.let {
+//                    if (it > 1) {
+//                        getmVoidSingleLiveEvent().value = "miss"
+//                        return@launchUI
+//                    }
+//                }
+//                val addrAll = mModel.getAddrAll()
+//
+//                insertAccount(addrAll?.province, areaDao, 1)
+//                insertAccount(addrAll?.town, areaDao, 2)
+//                insertAccount(addrAll?.city, areaDao, 3)
+//                insertAccount(addrAll?.county, areaDao, 4)
+//                insertAccount(addrAll?.village, areaDao, 5)
+//                Log.e("", "")
+//
+//            } catch (e: java.lang.Exception) {
+//                getmVoidSingleLiveEvent().value = "miss"
+//            }
+//        }, object : NetError {
+//            override fun getError(e: Exception) {
+//                getmVoidSingleLiveEvent().value = "miss"
+//            }
+//        })
+//    }
+
+    private fun insertAccount(data: List<Area>?, areaDao: AccountLevelDao?, type: Int) {
+        val list = arrayListOf<AccountLevel>()
+        data?.let {
+            it.forEach {
+            }
+        }
     }
 
 

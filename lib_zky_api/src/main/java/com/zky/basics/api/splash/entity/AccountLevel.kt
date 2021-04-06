@@ -2,6 +2,8 @@ package com.zky.basics.api.splash.entity
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.zky.basics.api.BR
 
 /**
@@ -13,13 +15,15 @@ import com.zky.basics.api.BR
 "attr_tip": "请选择县",
 "attr": "county"
  */
+@Entity(tableName = "AccountLevel")
 data class AccountLevel(
     @Bindable var attr_name: String?,
     @Bindable var attr_tip: String?,
     @Bindable var attr: String?,
     @Bindable var value: String?,
-    @Bindable var attr_code: String?,
-    @Bindable var valueCode: String?
+    @PrimaryKey @Bindable var attr_code: String,
+    @Bindable var valueCode: String?,
+    @Bindable var phone: String?,
 ) : BaseObservable() {
     @get:Bindable
     @set:Bindable

@@ -2,7 +2,6 @@ package com.zky.basics.main.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.graphics.Typeface
 import android.os.Handler
 import android.os.Message
 import androidx.databinding.ViewDataBinding
@@ -13,9 +12,6 @@ import com.alibaba.android.arouter.facade.callback.NavigationCallback
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hjq.permissions.OnPermission
 import com.hjq.permissions.XXPermissions
-import com.zky.basics.api.room.AppDatabase
-import com.zky.basics.api.room.Dao.TestRoomDbDao
-import com.zky.basics.common.BaseApplication
 import com.zky.basics.common.mvvm.BaseMvvmActivity
 import com.zky.basics.common.util.PermissionToSetting
 import com.zky.basics.main.R
@@ -27,12 +23,23 @@ import java.lang.ref.WeakReference
 class SplashActivity : BaseMvvmActivity<ViewDataBinding, SplashViewModel>() {
     override fun onBindLayout() = R.layout.activity_splash
     private var handler: CustomHandler? = null
-    lateinit var testRoomDbDao: TestRoomDbDao
+//    lateinit var areaDao: AreaDao
 
     @SuppressLint("CheckResult")
     override fun initView() {
         handler = WeakReference(CustomHandler()).get()
 //        handler?.sendEmptyMessageDelayed(1, 800)
+
+//        mViewModel?.getmVoidSingleLiveEvent()
+//            ?.observe(this, Observer { aVoid: String? ->
+//                if(aVoid=="loginNow"){
+//                    handler?.sendEmptyMessageDelayed(1, 800)
+//                }else if(aVoid=="loginNotNow"){
+//                    handler?.sendEmptyMessage(1)
+//                }
+//            })
+
+
         XXPermissions.with(this).permission(
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -40,14 +47,18 @@ class SplashActivity : BaseMvvmActivity<ViewDataBinding, SplashViewModel>() {
             OnPermission {
             override fun hasPermission(granted: MutableList<String>?, all: Boolean) {
                 if (all) {
-                testRoomDbDao =
-                    AppDatabase.getDatabase(this@SplashActivity)?.testRoomDbDao()!!
+//                    areaDao =
+//                    AppDatabase.getDatabase(this@SplashActivity)?.areaDao()!!
+
                     handler?.sendEmptyMessageDelayed(1, 800)
+
+//                    mViewModel?.createDataBase()
                 }
 
             }
+
             override fun noPermission(denied: MutableList<String>?, never: Boolean) {
-                PermissionToSetting( this@SplashActivity, denied!!, never, "获取存储权限失败")
+                PermissionToSetting(this@SplashActivity, denied!!, never, "获取存储权限失败")
             }
 
         })
