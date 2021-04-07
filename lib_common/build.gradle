@@ -172,6 +172,7 @@ android {
         api(rootProject.ext.dependencies["umeng"])
         api(rootProject.ext.dependencies["umengasms"])
         api(rootProject.ext.dependencies["umengaapm"])
+        api(rootProject.ext.dependencies["umengacrash"])
 
         api(rootProject.ext.dependencies["stetho"])
         api(rootProject.ext.dependencies.MultiImageSelector)

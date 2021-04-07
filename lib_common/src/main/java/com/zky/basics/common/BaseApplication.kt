@@ -53,7 +53,7 @@ open class BaseApplication : MultiDexApplication() {
 //        }
         UMConfigure.init(this, "60653f5718b72d2d2440da79", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "")
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
-        UMConfigure.preInit(this,"60653f5718b72d2d2440da79","USkdata")
+//        UMConfigure.preInit(this,"60653f5718b72d2d2440da79","USkdata")
     }
 
     //app 更新
