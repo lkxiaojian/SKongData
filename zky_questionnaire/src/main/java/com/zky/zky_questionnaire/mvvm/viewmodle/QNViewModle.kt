@@ -16,7 +16,11 @@ import com.zky.basics.common.util.spread.showToast
 import com.zky.zky_questionnaire.R
 import com.zky.zky_questionnaire.inter.itemChangeListener
 import com.zky.zky_questionnaire.mvvm.model.qnModel
+import io.reactivex.rxjava3.disposables.Disposable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import views.ViewOption.OptionsPickerBuilder
 
 /**
@@ -52,7 +56,7 @@ class QNViewModle(application: Application, model: qnModel) :
     fun startClick(view: View) {
         when (view.id) {
             R.id.abt_upload_wj -> {
-                var list= arrayListOf<TaskResult>()
+                var list = arrayListOf<TaskResult>()
                 mList.forEach {
                     if (it.answer.isNullOrEmpty() && it.nullable == 1) {
                         "第${it.q_index}题未填写".showToast()
@@ -60,7 +64,7 @@ class QNViewModle(application: Application, model: qnModel) :
                         getmVoidSingleLiveEvent().value = "scroll"
                         return
                     }
-                    list.add(TaskResult(it.q_code,it.answer))
+                    list.add(TaskResult(it.q_code, it.answer))
                 }
 
                 val toJson = Gson().toJson(list)
@@ -75,22 +79,32 @@ class QNViewModle(application: Application, model: qnModel) :
 
     fun getWjTemplate() {
         launchUI({
-            val wjTemplate = mModel.getWjTemplate(Constants.taskCode)
-            val wjInfo = mModel.getWjInfo()
-            if (wjInfo != null && wjTemplate != null) {
-                for ((indexwj, valuewj) in wjInfo.withIndex()) {
-                    for ((indexa, valuea) in wjInfo.withIndex()) {
-                        if(valuea.q_code==valuewj.q_code){
-                            wjTemplate[indexwj].answer=valuea.answer
+            val wjTemplatex = async {
+                mModel.getWjTemplate(Constants.taskCode)
+            }
+            val wjInfox = async {
+                mModel.getWjInfo()
+            }
+            val wjTemplate = wjTemplatex.await()
+            val wjInfo = wjInfox.await()
+            withContext(Dispatchers.Main) {
+                if (wjInfo != null && wjTemplate != null) {
+                    for ((indexwj, valuewj) in wjInfo.withIndex()) {
+                        for ((indexa, valuea) in wjInfo.withIndex()) {
+                            if (valuea.q_code == valuewj.q_code) {
+                                wjTemplate[indexwj].answer = valuea.answer
+                            }
                         }
                     }
                 }
+                wjTemplate?.let { mList.addAll(it) }
+                needWrite.set("$needCout/${mList.size}")
             }
-            wjTemplate?.let { mList.addAll(it) }
-            needWrite.set("$needCout/${mList.size}")
-        },object :NetError{
+
+
+        }, object : NetError {
             override fun getError(e: Exception) {
-                Log.e("","")
+                Log.e("", "")
             }
 
         })
@@ -109,7 +123,7 @@ class QNViewModle(application: Application, model: qnModel) :
         pickerView?.setPicker(list)
 //        pickerView?.setSelectOptions(data.get()!!.levelIndel)
         pickerView?.show()
-        pickerBuilder?.setOnOptionsSelectListener (OnOptionsSelectListener{ options1, _, _, _ ->
+        pickerBuilder?.setOnOptionsSelectListener(OnOptionsSelectListener { options1, _, _, _ ->
             mList[position].answer = list[options1]
             valueChangeWithIndex(position)
         })

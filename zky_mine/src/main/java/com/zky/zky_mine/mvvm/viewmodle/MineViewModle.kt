@@ -175,6 +175,7 @@ class MineViewModle(application: Application, model: MineModel) :
                     }
 
                     override fun upLoadSuccess(failNum: Int) {
+                        filePath.encode("headImgPath")
                         "上传头像成功".showToast()
                     }
 
