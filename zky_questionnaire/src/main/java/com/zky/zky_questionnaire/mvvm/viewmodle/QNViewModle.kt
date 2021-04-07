@@ -79,6 +79,7 @@ class QNViewModle(application: Application, model: qnModel) :
 
     fun getWjTemplate() {
         launchUI({
+            //同时进行请求问卷的内容和答案
             val wjTemplatex = async {
                 mModel.getWjTemplate(Constants.taskCode)
             }
@@ -90,7 +91,8 @@ class QNViewModle(application: Application, model: qnModel) :
             withContext(Dispatchers.Main) {
                 if (wjInfo != null && wjTemplate != null) {
                     for ((indexwj, valuewj) in wjInfo.withIndex()) {
-                        for ((indexa, valuea) in wjInfo.withIndex()) {
+                        for ((_, valuea) in wjInfo.withIndex()) {
+                            //根据问卷的code 判断是否想等
                             if (valuea.q_code == valuewj.q_code) {
                                 wjTemplate[indexwj].answer = valuea.answer
                             }
@@ -100,22 +102,17 @@ class QNViewModle(application: Application, model: qnModel) :
                 wjTemplate?.let { mList.addAll(it) }
                 needWrite.set("$needCout/${mList.size}")
             }
-
-
-        }, object : NetError {
-            override fun getError(e: Exception) {
-                Log.e("", "")
-            }
-
         })
     }
 
+    /**
+     * 下拉框选择
+     */
     fun setSelect(position: Int) {
         var list = mList[position].q_option
         list?.let {
             showPicker(it, position)
         }
-
     }
 
 

@@ -102,7 +102,7 @@ class CustomDialogFragment : DialogFragment(), AddressDialogAdapter.itemOnClik {
                 flag = false
 
                 if (levelListNext.isNullOrEmpty() || attr_idx == 1 || attr_idx < currentIndex) {
-                    levelListNext = mainModel?.getAddr(attr_idx) as ArrayList<RegionOrSchoolBean>?
+                    levelListNext = mainModel?.getAddr(attr_idx,"") as ArrayList<RegionOrSchoolBean>?
                 }
                 levelList.clear()
                 levelListNext?.let { it ->
@@ -128,9 +128,9 @@ class CustomDialogFragment : DialogFragment(), AddressDialogAdapter.itemOnClik {
 
                                 baseViewModel?.launchUI({
                                     currentIndex = attr_idx + 1
-                                    if (currentIndex < 5) {
+                                    if (currentIndex <= levelListT!!.size) {
                                         levelListNext =
-                                            mainModel?.getAddr(currentIndex) as ArrayList<RegionOrSchoolBean>?
+                                            mainModel?.getAddr(currentIndex,  levelListNext!![position - 1].code) as ArrayList<RegionOrSchoolBean>?
                                     }
 
                                 })

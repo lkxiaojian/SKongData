@@ -23,13 +23,13 @@ data class MediaBean(
     var file_type: String,
     @Bindable
     var file_path: String,
-     var file_name: String,
+    var file_name: String,
     var create_data: String,
     var isupload: Boolean,
     var videoImagePath: String?,
     var user_code: String?,
     var uploader: String? = ""
-) :  Parcelable, BaseObservable() {
+) : Parcelable, BaseObservable() {
 
     //true 上传 false 缓存
     @get:Bindable

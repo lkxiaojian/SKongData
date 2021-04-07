@@ -24,7 +24,7 @@ interface TaskService {
     suspend fun getAddrLevel(): RespDTO<List<AccountLevel>>
 
     @GET("getAddr.do")
-    suspend fun getAddr(@Query("regionLevel") regionLevel: Int?): RespDTO<List<RegionOrSchoolBean>>
+    suspend fun getAddr(@Query("regionLevel") regionLevel: Int?,@Query("regionCode") regionCode: String?): RespDTO<List<RegionOrSchoolBean>>
 
 
 

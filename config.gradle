@@ -6,8 +6,8 @@ ext {
             applicationId    : "com.zky.sk.data",
             minSdkVersion    : 21,
             targetSdkVersion : 28,
-            versionCode      : 9,
-            versionName      : "1.0.5.3",
+            versionCode      : 10,
+            versionName      : "1.0.5.4",
     ]
     //version配置
     versions = [

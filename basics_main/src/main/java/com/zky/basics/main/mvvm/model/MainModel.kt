@@ -64,8 +64,8 @@ class MainModel(application: Application?) : BaseModel(application) {
         taskService.getAddrLevel()
     }
 
-    suspend fun getAddr(regionLevel: Int?):List<RegionOrSchoolBean>?=request {
-        taskService.getAddr(regionLevel)
+    suspend fun getAddr(regionLevel: Int?,code: String?):List<RegionOrSchoolBean>?=request {
+        taskService.getAddr(regionLevel,code)
     }
 
     suspend fun insertOrUpdateItem(url: String):Any?=request {
