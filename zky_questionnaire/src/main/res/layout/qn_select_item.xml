@@ -56,8 +56,9 @@
                 android:padding="5dp"
                 android:paddingBottom="10dp"
                 android:hint="请选择"
+                android:textColorHint="@color/color_999999"
+                android:textColor="@color/black"
                 android:text="@={data.answer}"
-                android:textColor="@color/color_999999"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
