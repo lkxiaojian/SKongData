@@ -116,7 +116,7 @@ android {
 
 
     dependencies {
-        api fileTree(include: ['*.jar'], dir: 'libs')
+        api fileTree(include: ['*.jar','*.aar'], dir: 'libs')
         api(rootProject.ext.support["design"]) {
             exclude group: 'androidx.annotation'
             exclude group: 'androidx.arch.core'
@@ -169,10 +169,11 @@ android {
         api(rootProject.ext.dependencies["dagger-android-support"])
         kapt(rootProject.ext.dependencies["dagger-android-processor"])
         api(rootProject.ext.dependencies["yxcardview"])
-        api(rootProject.ext.dependencies["umeng"])
-        api(rootProject.ext.dependencies["umengasms"])
-        api(rootProject.ext.dependencies["umengaapm"])
-        api(rootProject.ext.dependencies["umengacrash"])
+
+//        api(rootProject.ext.dependencies["umeng"])
+//        api(rootProject.ext.dependencies["umengasms"])
+//        api(rootProject.ext.dependencies["umengaapm"])
+//        api(rootProject.ext.dependencies["umengacrash"])
 
         api(rootProject.ext.dependencies["stetho"])
         api(rootProject.ext.dependencies.MultiImageSelector)
