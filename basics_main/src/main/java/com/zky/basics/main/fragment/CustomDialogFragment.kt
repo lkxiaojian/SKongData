@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.PopupWindow
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -92,17 +93,22 @@ class CustomDialogFragment : DialogFragment(), AddressDialogAdapter.itemOnClik {
     private var levelListNext: ArrayList<RegionOrSchoolBean>? = arrayListOf()
     private var flag = true
     private var currentIndex: Int = 1
-    private fun setAd(view: View, index: Int, attr_idx: Int) {
+    private var  showWindow : PopupWindow?=null
+
+        private fun setAd(view: View, index: Int, attr_idx: Int) {
 
         try {
-            if (!flag) {
+            if (showWindow?.isShowing==true) {
                 return
             }
             baseViewModel?.launchUI({
                 flag = false
-
                 if (levelListNext.isNullOrEmpty() || attr_idx == 1 || attr_idx < currentIndex) {
-                    levelListNext = mainModel?.getAddr(attr_idx,"") as ArrayList<RegionOrSchoolBean>?
+                    levelListNext = if(attr_idx==1){
+                        mainModel?.getAddr(attr_idx,"") as ArrayList<RegionOrSchoolBean>?
+                    }else{
+                        mainModel?.getAddr(attr_idx, levelListT!![attr_idx - 2].valueCode) as ArrayList<RegionOrSchoolBean>?
+                    }
                 }
                 levelList.clear()
                 levelListNext?.let { it ->
@@ -110,35 +116,41 @@ class CustomDialogFragment : DialogFragment(), AddressDialogAdapter.itemOnClik {
                     it.forEach {
                         levelList.add(it.name!!)
                     }
-                    showRvListPopupWindow(view, levelList, object : MessageAdapter.ItemOnClick {
-                        override fun onClick(value: String, position: Int) {
-                            levelListT?.let {
-                                for ((tindex, _) in it.withIndex()) {
-                                    if (tindex >= index) {
-                                        levelListT!![tindex].valueCode = ""
-                                        levelListT!![tindex].value = ""
+
+                    showWindow= showRvListPopupWindow(view, levelList, object : MessageAdapter.ItemOnClick {
+                            override fun onClick(value: String, position: Int) {
+                                levelListT?.let {
+                                    for ((tindex, _) in it.withIndex()) {
+                                        if (tindex >= index) {
+                                            levelListT!![tindex].valueCode = ""
+                                            levelListT!![tindex].value = ""
+                                        }
                                     }
-                                }
-                                if (position != 0) {
-                                    levelListT!![index].valueCode =
-                                        levelListNext!![position - 1].code
-                                    levelListT!![index].value = value
-                                }
-                                adapter?.setList(levelListT!!)
-
-                                baseViewModel?.launchUI({
-                                    currentIndex = attr_idx + 1
-                                    if (currentIndex <= levelListT!!.size) {
-                                        levelListNext =
-                                            mainModel?.getAddr(currentIndex,  levelListNext!![position - 1].code) as ArrayList<RegionOrSchoolBean>?
+                                    if (position != 0) {
+                                        levelListT!![index].valueCode = levelListNext!![position - 1].code
+                                        levelListT!![index].value = value
                                     }
+                                    adapter?.setList(levelListT!!)
+                                    currentIndex=attr_idx+1
+                                    baseViewModel?.launchUI({
+                                        if (currentIndex <= levelListT!!.size&& ! levelListNext!![position - 1].code.isNullOrEmpty()) {
+                                            if(currentIndex>levelListT!!.size){
+                                                currentIndex=levelListT!!.size
+                                            }
+                                            levelListNext =
+                                                mainModel?.getAddr(
+                                                    currentIndex,
+                                                    levelListNext!![position - 1].code
+                                                ) as ArrayList<RegionOrSchoolBean>?
+                                        }
 
-                                })
+                                    })
 
+                                }
+                                flag = true
                             }
-                            flag = true
-                        }
-                    })
+                        })
+
                 }
 
             })
