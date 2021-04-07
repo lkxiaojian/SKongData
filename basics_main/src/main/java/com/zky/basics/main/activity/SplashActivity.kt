@@ -27,7 +27,6 @@ class SplashActivity : BaseMvvmActivity<ViewDataBinding, SplashViewModel>() {
 
     @SuppressLint("CheckResult")
     override fun initView() {
-        1/0
         handler = WeakReference(CustomHandler()).get()
 //        handler?.sendEmptyMessageDelayed(1, 800)
 
