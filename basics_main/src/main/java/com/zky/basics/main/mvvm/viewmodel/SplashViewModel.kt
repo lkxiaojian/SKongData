@@ -365,7 +365,12 @@ class SplashViewModel(application: Application, model: SplashModel) :
     fun getRegion(regionLevel: Int?, position: Int, adapter: LevelAdapter) {
         levelAdapter = adapter
         launchUI({
-            val region = mModel.getRegion(regionLevel)
+            var code:String?=""
+            if(position!=0){
+                code=levelListT[position-1].valueCode
+            }
+
+            val region = mModel.getRegion(regionLevel,code)
             levelList.clear()
             region?.let { it ->
                 it.forEach {

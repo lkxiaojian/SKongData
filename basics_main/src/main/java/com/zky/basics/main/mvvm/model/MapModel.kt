@@ -1,4 +1,4 @@
-package com.zky.zky_map.mvvm.model
+package com.zky.basics.main.mvvm.model
 
 import android.app.Application
 import com.zky.basics.api.RetrofitManager.Companion.instance

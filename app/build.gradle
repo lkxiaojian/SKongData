@@ -13,8 +13,8 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
-//            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a" , "x86", "x86_64"
-            abiFilters "armeabi", "armeabi-v7a"
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a" , "x86", "x86_64"
+//            abiFilters "armeabi", "armeabi-v7a"
         }
 
     }
@@ -34,9 +34,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-//    dataBinding {
-//        enabled true
-//    }
+
+
+
     buildFeatures{
         dataBinding true
     }
@@ -53,7 +53,7 @@ dependencies {
 
     if (!isModule.toBoolean()) {
         implementation project(':basics_main')
-        implementation project(':zky_map')
+//        implementation project(':zky_map')
         implementation project(':zky_mine')
         implementation project(':multi_media')
         implementation project(':zky_questionnaire')

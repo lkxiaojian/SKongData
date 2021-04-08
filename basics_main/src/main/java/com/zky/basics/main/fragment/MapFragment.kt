@@ -1,4 +1,4 @@
-package com.zky.zky_map.fragment
+package com.zky.basics.main.fragment
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -27,7 +27,6 @@ import com.esri.arcgisruntime.layers.ArcGISTiledLayer
 import com.esri.arcgisruntime.layers.Layer
 import com.esri.arcgisruntime.mapping.ArcGISMap
 import com.esri.arcgisruntime.mapping.Basemap
-import com.esri.arcgisruntime.mapping.GeoElement
 import com.esri.arcgisruntime.mapping.view.*
 import com.esri.arcgisruntime.symbology.PictureMarkerSymbol
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol
@@ -39,19 +38,20 @@ import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.mvvm.BaseMvvmFragment
 import com.zky.basics.common.util.PermissionToSetting
 import com.zky.basics.common.util.spread.decodeParcelable
-import com.zky.zky_map.BR
-import com.zky.zky_map.R
+
 import com.zky.basics.api.common.entity.UploadAdressBean
 import com.zky.basics.common.constant.Constants.dataAttr2
 import com.zky.basics.common.constant.Constants.dxm
-import com.zky.basics.common.util.DisplayUtil
-import com.zky.zky_map.databinding.MapFragmentBinding
-import com.zky.zky_map.mvvm.factory.MapViewModelFactory
-import com.zky.zky_map.mvvm.viewmodle.MapViewModle
-import com.zky.zky_map.utils.LocationUtils
-import com.zky.zky_map.utils.MapUtlis
-import com.zky.zky_map.utils.MapUtlis.TransfromGCJ
-import com.zky.zky_map.utils.MapUtlis.TransfromGps
+import com.zky.basics.common.util.mapUtils.MapUtlis
+import com.zky.basics.common.util.mapUtils.MapUtlis.TransfromGCJ
+import com.zky.basics.common.util.mapUtils.MapUtlis.TransfromGps
+import com.zky.basics.main.BR
+import com.zky.basics.main.R
+import com.zky.basics.main.databinding.MapFragmentBinding
+import com.zky.basics.main.entity.TGeometry
+import com.zky.basics.main.mapUtils.LocationUtils
+import com.zky.basics.main.mvvm.factory.MainViewModelFactory
+import com.zky.basics.main.mvvm.viewmodel.MapViewModle
 import kotlinx.android.synthetic.main.map_fragment.*
 import java.text.DecimalFormat
 
@@ -95,7 +95,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     private var addPolygon: com.amap.api.maps.model.Polygon? = null
     private var userinfo: Userinfo? = null
     override fun onBindViewModel() = MapViewModle::class.java
-    override fun onBindViewModelFactory() = MapViewModelFactory.getInstance(activity!!.application)
+    override fun onBindViewModelFactory() = MainViewModelFactory.getInstance(activity!!.application)
 
 
     override fun initViewObservable() {
@@ -505,7 +505,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                                         val toJson = data.geometry.toJson()
                                         val geometry = Gson().fromJson(
                                             toJson,
-                                            com.zky.zky_map.bean.TGeometry::class.java
+                                           TGeometry::class.java
                                         )
                                         for (itemData in pointList) {
                                             if (geometry.paths.isNullOrEmpty()) {

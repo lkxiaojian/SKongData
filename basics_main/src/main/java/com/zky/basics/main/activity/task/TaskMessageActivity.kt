@@ -9,10 +9,10 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Autowired
+
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.zky.basics.api.common.entity.task.TaskBean
-import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.adapter.FragmentPager2Adapter
 import com.zky.basics.common.constant.Constants
 import com.zky.basics.common.constant.Constants.dxm
@@ -20,8 +20,8 @@ import com.zky.basics.common.constant.Constants.itemCode
 import com.zky.basics.common.constant.Constants.taskCode
 import com.zky.basics.common.mvvm.BaseActivity
 import com.zky.basics.common.provider.*
-import com.zky.basics.common.util.spread.decodeParcelable
 import com.zky.basics.main.R
+import com.zky.basics.main.fragment.MapFragment
 import kotlinx.android.synthetic.main.activity_task_message.*
 import java.util.*
 
@@ -30,9 +30,9 @@ class TaskMessageActivity : BaseActivity() {
     @Autowired(name = ARouterPath.MEDIA)
     var mMineProvider: IMediaProvider? = null
 
-    @JvmField
-    @Autowired(name = ARouterPath.MAP_SHOW)
-    var iMapProvider: IMapProvider? = null
+//    @JvmField
+//    @Autowired(name = ARouterPath.MAP_SHOW)
+//    var iMapProvider: IMapProvider? = null
 
     // 音频选择
     @JvmField
@@ -68,8 +68,8 @@ class TaskMessageActivity : BaseActivity() {
             taskCode = taskBean.taskCode
             if (!taskBean.spaceDataType.isNullOrEmpty()) {
                 titles.add("空间数据")
-                val mapFragment = iMapProvider?.mapFragment
-                mListFragments.add(mapFragment!!)
+                val mapFragment = MapFragment()
+                mListFragments.add(mapFragment)
             }
 
             titles.add("问卷信息")

@@ -52,6 +52,11 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+
+        <service android:name="com.amap.api.location.APSService"></service>
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="9f6c9dfd06afeb529285faa1c33aa89d">
+        </meta-data>
     </application>
 
 </manifest>

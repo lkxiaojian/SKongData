@@ -1,4 +1,4 @@
-package com.zky.zky_map.bean
+package com.zky.basics.main.entity
 
 /**
  *create_time : 21-3-22 上午10:17

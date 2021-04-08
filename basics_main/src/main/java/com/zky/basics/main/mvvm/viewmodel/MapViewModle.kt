@@ -1,4 +1,4 @@
-package com.zky.zky_map.mvvm.viewmodle
+package com.zky.basics.main.mvvm.viewmodel
 
 import android.app.Application
 import android.view.View
@@ -10,11 +10,12 @@ import com.zky.basics.common.mvvm.viewmodel.BaseViewModel
 import com.zky.basics.common.util.showCustomDialog
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.common.util.view.CustomDialog
-import com.zky.zky_map.bean.MapViewBean
-import com.zky.zky_map.R
+
 import com.zky.basics.api.common.entity.UploadAdressBean
-import com.zky.zky_map.fragment.MapFragment.Companion.fragment
-import com.zky.zky_map.mvvm.model.MapModel
+import com.zky.basics.main.R
+import com.zky.basics.main.entity.MapViewBean
+import com.zky.basics.main.fragment.MapFragment.Companion.fragment
+import com.zky.basics.main.mvvm.model.MapModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

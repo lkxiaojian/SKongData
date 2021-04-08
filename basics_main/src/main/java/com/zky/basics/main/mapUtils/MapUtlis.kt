@@ -1,12 +1,11 @@
-package com.zky.zky_map.utils
+package com.zky.basics.common.util.mapUtils
 
 import android.content.Context
 import com.amap.api.maps.CoordinateConverter
 import com.amap.api.maps.model.LatLng
 import com.esri.arcgisruntime.geometry.Point
 import com.esri.arcgisruntime.geometry.SpatialReferences
-import com.zky.zky_map.utils.TransformUtil.gcJo2toWGS84Point
-import com.zky.zky_map.utils.TransformUtil.wsG84toGCJ02Point
+import com.zky.basics.main.mapUtils.LocationUtils
 
 /**
  *create_time : 21-3-17 上午8:34

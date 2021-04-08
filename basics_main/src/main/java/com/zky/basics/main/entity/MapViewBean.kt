@@ -1,10 +1,10 @@
-package com.zky.zky_map.bean
+package com.zky.basics.main.entity
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.esri.arcgisruntime.geometry.Point
 import com.esri.arcgisruntime.geometry.PointCollection
-import com.zky.zky_map.BR
+import com.zky.basics.main.BR
 
 /**
  *create_time : 21-3-10 下午2:15

@@ -162,13 +162,13 @@ class TaskViewModel(application: Application, model: MainModel) :
 //        })
 //    }
 
-    private fun insertAccount(data: List<Area>?, areaDao: AccountLevelDao?, type: Int) {
-        val list = arrayListOf<AccountLevel>()
-        data?.let {
-            it.forEach {
-            }
-        }
-    }
+//    private fun insertAccount(data: List<Area>?, areaDao: AccountLevelDao?, type: Int) {
+//        val list = arrayListOf<AccountLevel>()
+//        data?.let {
+//            it.forEach {
+//            }
+//        }
+//    }
 
 
     fun TimePv(view: View) {
@@ -181,7 +181,7 @@ class TaskViewModel(application: Application, model: MainModel) :
         //时间选择器
         pickerView =
             TimePickerBuilder(view.context,
-                OnTimeSelectListener { date, v ->
+                OnTimeSelectListener { date, _ ->
                     attr2.set(DateUtil.formatDate(date, DateUtil.FormatType.yyyyMMdd))
                 })
                 .setCancelText("取消")//取消按钮文字

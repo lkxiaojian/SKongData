@@ -71,9 +71,11 @@ class SplashModel(application: Application?) : BaseModel(application) {
 
     suspend fun getRegion(
         regionLevel: Int?,
+        regionCode:String?
     ): List<RegionOrSchoolBean>? = request {
         splashService.getRegion(
-            regionLevel
+            regionLevel,
+            regionCode
         )
     }
 

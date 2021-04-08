@@ -6,8 +6,10 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.zky.basics.main.mvvm.model.MainModel
+import com.zky.basics.main.mvvm.model.MapModel
 import com.zky.basics.main.mvvm.model.SplashModel
 import com.zky.basics.main.mvvm.viewmodel.MainViewModel
+import com.zky.basics.main.mvvm.viewmodel.MapViewModle
 import com.zky.basics.main.mvvm.viewmodel.SplashViewModel
 import com.zky.basics.main.mvvm.viewmodel.TaskViewModel
 
@@ -27,6 +29,10 @@ class MainViewModelFactory private constructor(private val mApplication: Applica
             modelClass.isAssignableFrom(TaskViewModel::class.java) -> {
                 val mainModel = MainModel(mApplication)
                 TaskViewModel(mApplication, mainModel) as T
+            }
+            modelClass.isAssignableFrom(MapViewModle::class.java) -> {
+                val mainModel = MapModel(mApplication)
+                MapViewModle(mApplication, mainModel) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

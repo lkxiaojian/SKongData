@@ -44,6 +44,7 @@ interface SplashService {
     @GET("getRegion.do")
     suspend fun getRegion(
         @Query("regionLevel") regionLevel: Int?,
+        @Query("regionCode") regionCode: String?,
     ): RespDTO<List<RegionOrSchoolBean>>
 
 

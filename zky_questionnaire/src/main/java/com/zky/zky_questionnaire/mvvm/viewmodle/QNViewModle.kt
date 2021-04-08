@@ -79,6 +79,7 @@ class QNViewModle(application: Application, model: qnModel) :
 
     fun getWjTemplate() {
         launchUI({
+            try {
             //同时进行请求问卷的内容和答案
             val wjTemplatex = async {
                 mModel.getWjTemplate(Constants.taskCode)
@@ -101,6 +102,9 @@ class QNViewModle(application: Application, model: qnModel) :
                 }
                 wjTemplate?.let { mList.addAll(it) }
                 needWrite.set("$needCout/${mList.size}")
+            }
+            }catch (e:java.lang.Exception){
+                e.printStackTrace()
             }
         })
     }
