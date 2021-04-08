@@ -75,7 +75,7 @@ class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
                 val measuredHeight = childAt.measuredHeight
                 height += measuredHeight + marTop
             }
-            setMeasuredDimension(width, height+marTop)
+            setMeasuredDimension(width, height)
         }
     }
     private var value: String? = ""

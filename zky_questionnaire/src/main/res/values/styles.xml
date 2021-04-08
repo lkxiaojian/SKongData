@@ -13,12 +13,17 @@
         <item name="android:layout_marginEnd">8dp</item>
     </style>
 
+    <style name="qnTopPad" parent="qnTop">
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+
+
     <style name="qnCardView">
         <item name="android:layout_marginStart">12dp</item>
         <item name="android:layout_marginEnd">12dp</item>
         <item name="android:layout_marginBottom">20dp</item>
         <item name="android:background">@drawable/shape_fff_3</item>
-        <item name="android:minHeight">124dp</item>
 
     </style>
 

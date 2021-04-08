@@ -80,7 +80,7 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
 //                }
                 height += (measuredHeight + marTop)
             }
-            setMeasuredDimension(width, height+marTop)
+            setMeasuredDimension(width, height)
         }
     }
 
