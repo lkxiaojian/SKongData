@@ -42,11 +42,6 @@ class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
                 val height = v.measuredHeight
 
                 if (i > 0) {
-//                    heig += if (i == childCount - 1) {
-//                        (height + marTop)
-//                    } else {
-//                        (height + top + marTop)
-//                    }
                     heig +=(height + marTop)
                     top += (getChildAt(i - 1).measuredHeight + marTop)
                 }
@@ -63,20 +58,15 @@ class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        for (i in 0 until childCount) {
-            val childAt = getChildAt(i)
-            measureChild(childAt, widthMeasureSpec, heightMeasureSpec)
-        }
         var height = 0
-        if (childCount > 0) {
-            for (i in 0 until childCount) {
-                val childAt = getChildAt(i) as AppCompatRadioButton
-                childAt.setOnCheckedChangeListener(this)
-                val measuredHeight = childAt.measuredHeight
-                height += measuredHeight + marTop
-            }
-            setMeasuredDimension(width, height)
+        for (i in 0 until childCount) {
+            val childAt = getChildAt(i) as AppCompatRadioButton
+            measureChild(childAt, widthMeasureSpec, heightMeasureSpec)
+            childAt.setOnCheckedChangeListener(this)
+            val measuredHeight = childAt.measuredHeight
+            height += measuredHeight + marTop
         }
+        setMeasuredDimension(width, height)
     }
     private var value: String? = ""
     private var setSuucced=true
@@ -119,14 +109,6 @@ class CustomShowMoreRadio : RadioGroup, CompoundButton.OnCheckedChangeListener {
         @BindingAdapter(value = ["selectValues"], requireAll = false)
         @JvmStatic
         fun setValue(view: CustomShowMoreRadio, value: String?) {
-//            try {
-//                val childCount = view.childCount
-//                if(childCount>0&&value.isNullOrEmpty()){
-//                    value?.toInt()?.let { (view.getChildAt(it) as SingTopRadioButton).isChecked=true }
-//                }
-//            }catch (e:Exception){
-//
-//            }
             view.setValue(value)
         }
 

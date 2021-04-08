@@ -38,13 +38,7 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
             for (i: Int in 0 until childCount) {
                 val v = getChildAt(i)
                 val height = v.measuredHeight
-
                 if (i > 0) {
-//                    heig += if (i == childCount - 1) {
-//                        (height + marTop)
-//                    } else {
-//                        (height + top + marTop)
-//                    }
                     heig += (height + marTop)
                     top += (getChildAt(i - 1).measuredHeight + marTop)
                 }
@@ -62,26 +56,15 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        for (i in 0 until childCount) {
-            val childAt = getChildAt(i)
-            measureChild(childAt, widthMeasureSpec,heightMeasureSpec)
-        }
         var height = 0
-        if (childCount > 0) {
-            for (i in 0 until childCount) {
-                val childAt = getChildAt(i) as CheckBox
-                childAt.setOnCheckedChangeListener(this)
-                val measuredHeight = childAt.measuredHeight
-//                if(i<childCount-1){
-//                    height += measuredHeight + marTop
-//                }
-//                else{
-//                    height += measuredHeight
-//                }
-                height += (measuredHeight + marTop)
-            }
-            setMeasuredDimension(width, height)
+        for (i in 0 until childCount) {
+            val childAt = getChildAt(i) as CheckBox
+            measureChild(childAt, widthMeasureSpec,heightMeasureSpec)
+            childAt.setOnCheckedChangeListener(this)
+            val measuredHeight = childAt.measuredHeight
+            height += (measuredHeight + marTop)
         }
+        setMeasuredDimension(width, height)
     }
 
     private var value: String? = ""
@@ -128,17 +111,6 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
             listContent.forEach {
                 val v: View = LayoutInflater.from(view.context).inflate(R.layout.checkbox_cus, null)
                 if (v !is CheckBox) return@forEach
-//                var a = ""
-//                val toList = it.toList()
-//                for ((index, value) in toList.withIndex()) {
-//                    if(index>0&&index%8==0){
-//                        a+=value+"\r\n"
-//                    }else{
-//                        a+=value
-//                    }
-//                }
-
-
                 v.text = it
                 view.addView(v)
             }

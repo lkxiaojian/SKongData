@@ -16,7 +16,7 @@ class AboutActivity : BaseActivity() {
 
     @RequiresApi(Build.VERSION_CODES.P)
     override fun initView() {
-        app_version.text = "资金监管  版本号：${getVersionCode(application)}"
+        app_version.text = "版本号：${getVersionCode(application)}"
     }
 
     override fun initData() {
