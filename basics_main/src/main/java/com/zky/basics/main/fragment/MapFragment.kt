@@ -1037,7 +1037,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 
     companion object {
         lateinit var fragment: MapFragment
-        fun newInstace(): Fragment {
+        fun mapNewInstance(): Fragment {
             fragment = MapFragment()
             return fragment
         }

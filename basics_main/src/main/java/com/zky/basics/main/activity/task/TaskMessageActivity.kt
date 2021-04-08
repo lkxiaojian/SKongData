@@ -22,6 +22,7 @@ import com.zky.basics.common.mvvm.BaseActivity
 import com.zky.basics.common.provider.*
 import com.zky.basics.main.R
 import com.zky.basics.main.fragment.MapFragment
+import com.zky.basics.main.fragment.MapFragment.Companion.mapNewInstance
 import kotlinx.android.synthetic.main.activity_task_message.*
 import java.util.*
 
@@ -68,7 +69,7 @@ class TaskMessageActivity : BaseActivity() {
             taskCode = taskBean.taskCode
             if (!taskBean.spaceDataType.isNullOrEmpty()) {
                 titles.add("空间数据")
-                val mapFragment = MapFragment()
+                val mapFragment =mapNewInstance()
                 mListFragments.add(mapFragment)
             }
 

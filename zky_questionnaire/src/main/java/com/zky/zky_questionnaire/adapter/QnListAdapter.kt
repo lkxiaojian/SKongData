@@ -1,7 +1,6 @@
 package com.zky.zky_questionnaire.adapter
 
 import android.content.Context
-import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ViewDataBinding
 import com.zky.basics.api.common.entity.task.TaskQuestion
