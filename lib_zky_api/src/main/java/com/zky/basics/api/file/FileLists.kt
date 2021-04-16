@@ -7,5 +7,19 @@ import com.zky.basics.api.room.bean.MediaBean
  *author: lk
  *description： FileLists
  */
-class FileDataS(dataS: List<FileData>?)
-data class FileData(var title: String?, var subTile: String?, var type: String?,var  files: List<MediaBean>?)
+
+data class FileData(
+    var title: String,
+    var subTile: String,
+    var type: String,
+    var files: ArrayList<MediaBean>?,
+    var showTile:Boolean
+)
+
+data class MediaJson(
+    var title: String,
+    val title_id: String,
+    var classifyList: ArrayList<SubTitle>
+)
+
+data class SubTitle(var subtitle: String, var type_id: String)

@@ -65,11 +65,11 @@ class MineViewModle(application: Application, model: MineModel) :
             API.ImageFolderPath + "".decode("headImgPath")
         mineModelBean.curName = userinfo?.username
         mineModelBean.phone = userinfo?.phone
-        mineModelBean.fzqy = if (userinfo?.province == null) "" else userinfo?.province +
-                if (userinfo?.city == null) "" else userinfo?.city +
-                        if (userinfo?.county == null) "" else userinfo?.county +
-                                if (userinfo?.town == null) "" else userinfo?.town +
-                                        if (userinfo?.village == null) "" else userinfo?.village
+        mineModelBean.fzqy = if (userinfo?.province == null) "" else userinfo.province +
+                if (userinfo.city == null) "" else userinfo.city +
+                        if (userinfo.county == null) "" else userinfo.county +
+                                if (userinfo.town == null) "" else userinfo.town +
+                                        if (userinfo.village == null) "" else userinfo.village
         mineBean.set(mineModelBean)
 
     }
@@ -113,11 +113,11 @@ class MineViewModle(application: Application, model: MineModel) :
                                     Log.e("tag", "path")
                                     var list = mutableListOf<String>()
                                     list.add(path)
-                                    upLoad(list, viewToActivity)
+                                    upLoad(list)
                                 }
 
                                 override fun onSelectPhotoClick(list: MutableList<String>?) {
-                                    upLoad(list, viewToActivity)
+                                    upLoad(list)
                                 }
 
                             })
@@ -135,7 +135,7 @@ class MineViewModle(application: Application, model: MineModel) :
 
     }
 
-    private fun upLoad(list: MutableList<String>?, viewToActivity: FragmentActivity) {
+    private fun upLoad(list: MutableList<String>?) {
 
         val userinfo = decodeParcelable<Userinfo>("user")
         if (list != null && list.size > 0) {

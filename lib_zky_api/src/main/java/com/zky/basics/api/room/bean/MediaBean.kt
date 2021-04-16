@@ -28,7 +28,9 @@ data class MediaBean(
     var isupload: Boolean,
     var videoImagePath: String?,
     var user_code: String?,
-    var uploader: String? = ""
+    var uploader: String? = "",
+    var mediaType2:String,
+    var mediaType3:String,
 ) : Parcelable, BaseObservable() {
 
     //true 上传 false 缓存
@@ -84,6 +86,8 @@ data class MediaBean(
         parcel.readByte() != 0.toByte(),
         parcel.readString(),
         parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
         parcel.readString()
     ) {
     }
@@ -98,6 +102,8 @@ data class MediaBean(
         parcel.writeString(videoImagePath)
         parcel.writeString(user_code)
         parcel.writeString(uploader)
+        parcel.writeString(mediaType2)
+        parcel.writeString(mediaType3)
     }
 
     override fun describeContents(): Int {

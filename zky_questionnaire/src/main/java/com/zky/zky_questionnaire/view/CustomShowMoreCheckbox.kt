@@ -64,7 +64,7 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
             val measuredHeight = childAt.measuredHeight
             height += (measuredHeight + marTop)
         }
-        setMeasuredDimension(width, height)
+        setMeasuredDimension(width, height+10)
     }
 
     private var value: String? = ""
