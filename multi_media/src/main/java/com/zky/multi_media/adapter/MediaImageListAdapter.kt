@@ -20,8 +20,6 @@ class MediaImageListAdapter(context: Context, items: ObservableArrayList<MediaBe
 
     override fun onBindItem(binding: MediaItemBinding?, item: MediaBean, position: Int) {
         binding?.data = item
-
-
         binding?.clClick?.setOnClickListener {
             mItemClickListener?.onItemClick(item, position)
         }

@@ -48,17 +48,17 @@ class MediaVideoFragment :
         MediaViewModelFactory.getInstance(activity!!.application)
 
     override fun initViewObservable() {
-        mediaListAdapter = MediaVideoListAdapter(activity!!, mViewModel?.mList)
-        mViewModel?.mList?.addOnListChangedCallback(
-            ObservableListUtil.getListChangedCallback(
-                mediaListAdapter
-            )
-        )
-        mBinding?.recview?.layoutManager = GridLayoutManager(activity, 3)
-        mediaListAdapter.setItemClickListener(this)
-        mediaListAdapter?.setOnItemLongClickListener(this)
-        mBinding?.recview?.adapter = mediaListAdapter
-        mViewModel?.mList?.add(instanceOf<MediaBean>())
+//        mediaListAdapter = MediaVideoListAdapter(activity!!, mViewModel?.mList)
+//        mViewModel?.mList?.addOnListChangedCallback(
+//            ObservableListUtil.getListChangedCallback(
+//                mediaListAdapter
+//            )
+//        )
+//        mBinding?.recview?.layoutManager = GridLayoutManager(activity, 3)
+//        mediaListAdapter.setItemClickListener(this)
+//        mediaListAdapter?.setOnItemLongClickListener(this)
+//        mBinding?.recview?.adapter = mediaListAdapter
+//        mViewModel?.mList?.add(instanceOf<MediaBean>())
 
     }
 
@@ -103,7 +103,7 @@ class MediaVideoFragment :
 
         } else {
             val params = Bundle()
-            params.putParcelable("file", mViewModel?.mList?.get(position))
+//            params.putParcelable("file", mViewModel?.mList?.get(position))
             ARouter.getInstance().build(ARouterPath.MEDIA_SHOW_VIDEO).with(params).navigation()
         }
     }
@@ -158,7 +158,7 @@ class MediaVideoFragment :
                 tmpList.add(bean)
             }
             val minus = mViewModel?.mList?.size?.minus(1)
-            mViewModel?.mList?.addAll(minus!!, tmpList)
+//            mViewModel?.mList?.addAll(minus!!, tmpList)
             mediaListAdapter.notifyDataSetChanged()
         }
 

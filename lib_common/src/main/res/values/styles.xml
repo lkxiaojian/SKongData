@@ -101,12 +101,16 @@
         <item name="colorControlNormal">@color/color_cccccc</item>
         <item name="colorControlActivated">@color/color_009688</item>
     </style>
+    <style name="bb14">
+    <item name="android:textSize">14sp</item>
+    <item name="android:textColor">@color/color_black</item>
+    <item name="android:textStyle">bold</item>
+    </style>
 
-
-    <style name="qnTitle">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/color_black</item>
-        <item name="android:textStyle">bold</item>
+    <style name="qnTitle" parent="bb14">
+<!--        <item name="android:textSize">14sp</item>-->
+<!--        <item name="android:textColor">@color/color_black</item>-->
+<!--        <item name="android:textStyle">bold</item>-->
         <item name="android:layout_marginTop">10dp</item>
     </style>
 

@@ -14,7 +14,7 @@ class TestMediaActivity : RxAppCompatActivity() {
         setContentView(R.layout.activity_test_media)
 //        MediaImageFragment()  MediaVoiceFragment()
         val mediaVideoFragment = MediaVideoFragment()
-        supportFragmentManager.beginTransaction().add(R.id.fl,  MediaVoiceFragment() ).commit()
+        supportFragmentManager.beginTransaction().add(R.id.fl,  MediaImageFragment() ).commit()
 
     }
 

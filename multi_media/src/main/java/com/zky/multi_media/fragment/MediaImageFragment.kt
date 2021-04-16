@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hjq.permissions.OnPermission
 import com.hjq.permissions.XXPermissions
+import com.zky.basics.api.file.FileData
 import com.zky.basics.api.room.bean.MediaBean
 import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.adapter.BaseBindAdapter
@@ -20,8 +21,8 @@ import com.zky.basics.common.util.spread.decodeParcelable
 import com.zky.basics.common.util.view.CustomDialog
 import com.zky.multi_media.BR
 import com.zky.multi_media.R
-import com.zky.multi_media.activity.ImageActivity
 import com.zky.multi_media.adapter.MediaImageListAdapter
+import com.zky.multi_media.adapter.MediaImageTypeListAdapter
 import com.zky.multi_media.databinding.MediaFragmentBinding
 import com.zky.multi_media.mvvm.factory.MediaViewModelFactory
 import com.zky.multi_media.mvvm.viewmodle.MediaImageListViewModle
@@ -37,7 +38,7 @@ class MediaImageFragment :
     BaseMvvmRefreshFragment<MediaBean, MediaFragmentBinding, MediaImageListViewModle>(),
     BaseBindAdapter.OnItemClickListener<Any>, BaseBindAdapter.OnItemLongClickListener<Any> {
 
-    private lateinit var mediaListAdapter: MediaImageListAdapter
+    private lateinit var mediaListAdapter: MediaImageTypeListAdapter
     private val userinfo = decodeParcelable<Userinfo>("user")
     override fun refreshLayout() = mBinding?.drlMedia
     override fun onBindViewModel() = MediaImageListViewModle::class.java
@@ -46,7 +47,7 @@ class MediaImageFragment :
         MediaViewModelFactory.getInstance(activity!!.application)
 
     override fun initViewObservable() {
-        mediaListAdapter = MediaImageListAdapter(activity!!, mViewModel?.mList)
+        mediaListAdapter = MediaImageTypeListAdapter(activity!!, mViewModel?.mList)
         mViewModel?.mList?.addOnListChangedCallback(
             ObservableListUtil.getListChangedCallback(
                 mediaListAdapter
@@ -56,7 +57,9 @@ class MediaImageFragment :
         mediaListAdapter.setItemClickListener(this)
         mediaListAdapter.setOnItemLongClickListener(this)
         mBinding?.recview?.adapter = mediaListAdapter
-        mViewModel?.mList?.add(instanceOf<MediaBean>())
+//        mViewModel?.mList?.add(instanceOf<MediaBean>())
+        val fileData = FileData("大标题", "小标题", "1232", arrayListOf())
+        mViewModel?.mList?.add(fileData)
 
     }
 
@@ -79,37 +82,37 @@ class MediaImageFragment :
     }
 
     override fun onItemClick(e: Any, position: Int) {
-        val bean = e as MediaBean
-        if (e.create_data.isNullOrEmpty()) {
-            XXPermissions.with(activity).permission(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA
-            ).request(object :
-                OnPermission {
-                override fun hasPermission(granted: MutableList<String>?, all: Boolean) {
-                    if (all) {
-                        selectMedia( position)
-                    }
-                }
-
-                override fun noPermission(denied: MutableList<String>?, never: Boolean) {
-                    PermissionToSetting(activity!!, denied!!, never, "获取存储权限失败")
-                }
-
-            })
-
-        } else {
-
-            val projectPhoto = arrayListOf<MediaBean>()
-            mViewModel?.mList?.let { projectPhoto.addAll(it) }
-            mViewModel?.mList?.size?.minus(1)?.let { projectPhoto.removeAt(it) }
-
-            ARouter.getInstance().build(ARouterPath.MEDIA_SHOW_IMAGE)
-                .withInt("position", position)
-                .withSerializable("images", projectPhoto).navigation()
-
-        }
+//        val bean = e as MediaBean
+//        if (e.create_data.isNullOrEmpty()) {
+//            XXPermissions.with(activity).permission(
+//                Manifest.permission.READ_EXTERNAL_STORAGE,
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                Manifest.permission.CAMERA
+//            ).request(object :
+//                OnPermission {
+//                override fun hasPermission(granted: MutableList<String>?, all: Boolean) {
+//                    if (all) {
+//                        selectMedia( position)
+//                    }
+//                }
+//
+//                override fun noPermission(denied: MutableList<String>?, never: Boolean) {
+//                    PermissionToSetting(activity!!, denied!!, never, "获取存储权限失败")
+//                }
+//
+//            })
+//
+//        } else {
+//
+//            val projectPhoto = arrayListOf<MediaBean>()
+//            mViewModel?.mList?.let { projectPhoto.addAll(it) }
+//            mViewModel?.mList?.size?.minus(1)?.let { projectPhoto.removeAt(it) }
+//
+//            ARouter.getInstance().build(ARouterPath.MEDIA_SHOW_IMAGE)
+//                .withInt("position", position)
+//                .withSerializable("images", projectPhoto).navigation()
+//
+//        }
     }
 
     private fun selectMedia( position: Int) {
@@ -161,7 +164,7 @@ class MediaImageFragment :
                 tmpList.add(bean)
             }
             val minus = mViewModel?.mList?.size?.minus(1)
-            mViewModel?.mList?.addAll(minus!!, tmpList)
+//            mViewModel?.mList?.addAll(minus!!, tmpList)
             mediaListAdapter.notifyDataSetChanged()
         }
 
