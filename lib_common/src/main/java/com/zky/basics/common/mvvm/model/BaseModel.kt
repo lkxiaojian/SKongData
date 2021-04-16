@@ -22,28 +22,34 @@ abstract class BaseModel(protected var mApplication: Application?) : IBaseModel 
     }
 
     suspend fun <T : Any> request(call: suspend () -> RespDTO<T>): T? {
-        return withContext(Dispatchers.IO) { call.invoke() }.run {
-            when {
-                ExceptionHandler.SYSTEM_ERROR.LONG_TIME_NO_ACTION == code -> {
-                    R.string.long_time.showToast()
-                    ARouter.getInstance().build(ARouterPath.LOGIN).navigation()
-                    null
-                }
-                ExceptionHandler.SYSTEM_ERROR.INTERNAL_SERVER_ERROR == code -> {
-                    R.string.server_error.showToast()
-                    throw Exception(msg)
-                }
-                code != ExceptionHandler.APP_ERROR.SUCC -> {
-                    if (!msg.isNullOrEmpty()) {
-                        ToastUtil.showToast(msg)
-                        msg.showToast()
+        try {
+            return withContext(Dispatchers.IO) { call.invoke() }.run {
+                when {
+                    ExceptionHandler.SYSTEM_ERROR.LONG_TIME_NO_ACTION == code -> {
+                        R.string.long_time.showToast()
+                        ARouter.getInstance().build(ARouterPath.LOGIN).navigation()
+                        null
                     }
-                    throw Exception(msg)
-                }
-                else -> {
-                    data
+                    ExceptionHandler.SYSTEM_ERROR.INTERNAL_SERVER_ERROR == code -> {
+                        R.string.server_error.showToast()
+                        throw Exception(msg)
+                    }
+                    code != ExceptionHandler.APP_ERROR.SUCC -> {
+                        if (!msg.isNullOrEmpty()) {
+                            ToastUtil.showToast(msg)
+                            msg.showToast()
+                        }
+                        throw Exception(msg)
+                    }
+                    else -> {
+                        data
+                    }
                 }
             }
+        } catch (e: Exception) {
+            R.string.server_error_data.showToast()
+            e.printStackTrace()
+            return null
         }
     }
 
