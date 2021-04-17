@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.zky.basics.api.file.FileData
 import com.zky.basics.api.room.bean.MediaBean
 import com.zky.basics.common.adapter.BaseBindAdapter
+import com.zky.basics.common.util.ObservableListUtil
 import com.zky.basics.common.util.reflec.instanceOf
 import com.zky.multi_media.R
 import com.zky.multi_media.databinding.RecycleItemTypeBinding
@@ -41,6 +42,11 @@ class MediaImageTypeListAdapter(
         adapter.setOnItemLongClickListener(this)
         binding?.rvType?.layoutManager = GridLayoutManager(context, 3)
         binding?.rvType?.adapter = adapter
+        observableArrayList.addOnListChangedCallback(
+                ObservableListUtil.getListChangedCallback(
+                        adapter
+                )
+        )
     }
 
 

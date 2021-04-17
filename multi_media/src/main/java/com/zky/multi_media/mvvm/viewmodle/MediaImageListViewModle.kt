@@ -6,12 +6,14 @@ import androidx.databinding.ObservableField
 import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider
 import com.zky.basics.api.config.API
 import com.zky.basics.api.file.FileData
+import com.zky.basics.api.room.bean.MediaBean
 import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.constant.Constants
 import com.zky.basics.common.constant.Constants.itemCode
 import com.zky.basics.common.event.SingleLiveEvent
 import com.zky.basics.common.mvvm.viewmodel.BaseRefreshViewModel
 import com.zky.basics.common.util.*
+import com.zky.basics.common.util.reflec.instanceOf
 import com.zky.basics.common.util.spread.decodeParcelable
 import com.zky.basics.common.util.uploadFile.OSSAuthCredentialsProvider
 import com.zky.basics.common.util.uploadFile.OssUploadingFileUtil
@@ -45,25 +47,31 @@ class MediaImageListViewModle(application: Application, mediaModel: MediaModel) 
     override fun enableRefresh() = false
 
     fun getFileData() {
-//        launchUI({
-//            val fileList = mModel.getFileList(itemCode,fileType.get() )
-//            val tmpFile = arrayListOf<MediaBean>()
-//            fileList?.forEach {
-//
-//                val bean = instanceOf<MediaBean>()
-//                bean.code = it.code
-//                bean.file_name = it.fileName
-//                bean.file_path = it.filePath
-//                bean.upload = true
-//                bean.file_type=it.mediaType
-//                bean.uploader=it.userName
-//                bean.create_data = it.createDate
-//                bean.videoImagePath = it.filePath
-//                tmpFile.add(bean)
-//            }
+        launchUI({
+            val fileList = mModel.getFileList(itemCode, fileType.get())
+            for ((index, value) in mList.withIndex()) {
+
+                fileList?.forEach {
+                    if(value.title==it.mediaType2&&value.subTile==it.mediaType3){
+                        val bean = instanceOf<MediaBean>()
+                        bean.code = it.code
+                        bean.file_name = it.fileName
+                        bean.file_path = it.filePath
+                        bean.upload = true
+                        bean.file_type = it.mediaType
+                        bean.uploader = it.userName
+                        bean.create_data = it.createDate
+                        bean.videoImagePath = it.filePath
+                        bean.mediaType2 = it.mediaType2
+                        bean.mediaType3 = it.mediaType3
+                        mList[index].files?.add(bean)
+                    }
+                }
+            }
+            getmVoidSingleLiveEvent().value = "notify"
 //            mList.addAll(0, tmpFile)
-////            mediaListAdapter
-//        })
+//            mediaListAdapter
+        })
     }
 
     fun startClick(view: View) {
@@ -127,11 +135,11 @@ class MediaImageListViewModle(application: Application, mediaModel: MediaModel) 
                     for ((index, value) in mList.withIndex()) {
                         for ((i, data) in value.files!!.withIndex())
                             if (data.code == tmpCode) {
-                                mList[index].files?.get(i)?.isupload = true
+                                mList[index].files?.get(i)?.upload = true
                             }
                     }
 
-                    getmVoidSingleLiveEvent().value="notify"
+                    getmVoidSingleLiveEvent().value = "notify"
                 }
 
                 override fun upLoadingProgress(
@@ -225,6 +233,7 @@ class MediaImageListViewModle(application: Application, mediaModel: MediaModel) 
             mVoidSingleLiveEvent = it
         }
     }
+
     companion object {
         var videoSelectType = ""
         var imageSelectType = ""

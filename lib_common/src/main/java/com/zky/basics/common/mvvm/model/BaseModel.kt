@@ -47,7 +47,7 @@ abstract class BaseModel(protected var mApplication: Application?) : IBaseModel 
                 }
             }
         } catch (e: Exception) {
-            R.string.server_error_data.showToast()
+//            R.string.server_error_data.showToast()
             e.printStackTrace()
             return null
         }

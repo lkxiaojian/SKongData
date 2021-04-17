@@ -12,4 +12,7 @@ data class ShowFileBean(var code:String,
                         var filePath:String,
                         var userName:String,
                         var userPhone:String,
-                        var createDate:String)
+                        var createDate:String,
+                        var mediaType2:String,
+                        var mediaType3:String,
+)
