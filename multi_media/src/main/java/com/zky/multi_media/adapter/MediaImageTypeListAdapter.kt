@@ -8,6 +8,7 @@ import com.zky.basics.api.room.bean.MediaBean
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.util.ObservableListUtil
 import com.zky.basics.common.util.reflec.instanceOf
+import com.zky.basics.common.view.MarginDecoration
 import com.zky.multi_media.R
 import com.zky.multi_media.databinding.RecycleItemTypeBinding
 import com.zky.multi_media.fragment.MediaVideoFragment
@@ -27,6 +28,7 @@ class MediaImageTypeListAdapter(
     BaseBindAdapter.OnItemClickListener<Any>, BaseBindAdapter.OnItemLongClickListener<Any> {
     private val mListener = listener
     private val mType = type
+
     override fun getLayoutItemId(viewType: Int) = R.layout.recycle_item_type
     override fun onBindItem(binding: RecycleItemTypeBinding?, item: FileData, position: Int) {
         binding?.data = item
@@ -44,7 +46,6 @@ class MediaImageTypeListAdapter(
                 MediaVoiceListAdapter(context, observableArrayList,item.type)
             }
         }
-
         adapter.setItemClickListener(this)
         adapter.setOnItemLongClickListener(this)
         binding?.rvType?.layoutManager = GridLayoutManager(context, 3)
@@ -54,6 +55,9 @@ class MediaImageTypeListAdapter(
                 adapter
             )
         )
+
+
+
     }
 
 

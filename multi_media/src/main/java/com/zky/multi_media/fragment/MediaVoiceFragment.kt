@@ -37,6 +37,7 @@ import com.zky.multi_media.adapter.MediaVoiceListAdapter
 import com.zky.multi_media.databinding.MediaVoiceFragmentBinding
 import com.zky.multi_media.mvvm.factory.MediaViewModelFactory
 import com.zky.multi_media.mvvm.viewmodle.MediaVoiceListViewModle
+import java.lang.Exception
 
 
 /**
@@ -55,37 +56,22 @@ class MediaVoiceFragment :
         MediaViewModelFactory.getInstance(mActivity.application)
 
     override fun initViewObservable() {
-        mViewModel?.getmVoidSingleLiveEvent()?.observe(this, Observer { a: String? ->
-            if (a == "notify") {
-                adapter.notifyDataSetChanged()
-            }
-        })
-//        adapter = MediaVoiceListAdapter(mActivity, mViewModel?.mList)
-        adapter = MediaImageTypeListAdapter(activity!!, mViewModel?.mList, this, "voice")
 
-        mViewModel?.mList?.addOnListChangedCallback(
-            ObservableListUtil.getListChangedCallback(
-                adapter
-            )
-        )
-        mBinding?.recview?.layoutManager = LinearLayoutManager(context)
-        mBinding?.recview?.adapter = adapter
-        val type = object : TypeToken<ArrayList<MediaJson>>() {}.type
-        val list = Gson().fromJson<ArrayList<MediaJson>>(Constants.mediaDataTypeAudio, type)
-        var listAd = arrayListOf<FileData>()
-        list?.forEach {
-            for ((index, value) in it.classifyList.withIndex()) {
-                val fileData = if (index == 0) {
-                    FileData(it.title, value.subtitle, value.type_id, arrayListOf(), true)
-                } else {
-                    FileData("", value.subtitle, value.type_id, arrayListOf(), false)
+            mViewModel?.getmVoidSingleLiveEvent()?.observe(this, Observer { a: String? ->
+                if (a == "notify") {
+                    adapter.notifyDataSetChanged()
                 }
-                listAd.add(fileData)
-            }
-        }
+            })
+            adapter = MediaImageTypeListAdapter(activity!!, mViewModel?.mList, this, "voice")
 
-        mViewModel?.mList?.addAll(listAd)
-
+            mViewModel?.mList?.addOnListChangedCallback(
+                ObservableListUtil.getListChangedCallback(
+                    adapter
+                )
+            )
+            mBinding?.recview?.layoutManager = LinearLayoutManager(context)
+            mBinding?.recview?.adapter = adapter
+            mViewModel?.mList?.addAll( MediaJsonToData.getMediaList("voice"))
 
     }
 
@@ -148,7 +134,7 @@ class MediaVoiceFragment :
                             }
 
                             AudioUtlis.getAudioUtlis().setAudioClick(mediaClick())
-                                .startAudio(filePath,index,position)
+                                .startAudio(filePath, index, position)
 
                         }
 
@@ -192,15 +178,15 @@ class MediaVoiceFragment :
     inner class mediaClick : AudioUtlis.AudioClick {
 
         override fun completionListener(dataIndex: Int, fileIndex: Int, path: String) {
-            mViewModel?.setTime(dataIndex,fileIndex,path, 0)
+            mViewModel?.setTime(dataIndex, fileIndex, path, 0)
         }
 
         override fun startListener(dataIndex: Int, fileIndex: Int, path: String, length: Int) {
-            mViewModel?.setTime(dataIndex,fileIndex,path, length)
+            mViewModel?.setTime(dataIndex, fileIndex, path, length)
         }
 
         override fun pauseListener(dataIndex: Int, fileIndex: Int, path: String, length: Int) {
-            mViewModel?.setTime(dataIndex,fileIndex,path, length)
+            mViewModel?.setTime(dataIndex, fileIndex, path, length)
             mViewModel?.vioceStop()
         }
 

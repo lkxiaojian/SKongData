@@ -19,7 +19,7 @@ data class FileData(
 data class MediaJson(
     var title: String,
     val title_id: String,
-    var classifyList: ArrayList<SubTitle>
+    var sortList: ArrayList<SubTitle>
 )
 
-data class SubTitle(var subtitle: String, var type_id: String)
+data class SubTitle(var subTitle: String, var subTitle_id: String)

@@ -30,6 +30,7 @@ import com.zky.multi_media.databinding.MediaFragmentBinding
 import com.zky.multi_media.mvvm.factory.MediaViewModelFactory
 import com.zky.multi_media.mvvm.viewmodle.MediaImageListViewModle
 import me.bzcoder.mediapicker.config.MediaPickerEnum
+import java.lang.Exception
 import kotlin.collections.ArrayList
 import java.util.*
 
@@ -53,35 +54,21 @@ class MediaImageFragment :
         MediaViewModelFactory.getInstance(activity!!.application)
 
     override fun initViewObservable() {
-        mViewModel?.getmVoidSingleLiveEvent()?.observe(this, Observer { a: String? ->
-            if (a == "notify") {
-                mediaListAdapter.notifyDataSetChanged()
-            }
-        })
-        mediaListAdapter = MediaImageTypeListAdapter(activity!!, mViewModel?.mList, this, "image")
-        mViewModel?.mList?.addOnListChangedCallback(
-            ObservableListUtil.getListChangedCallback(
-                mediaListAdapter
-            )
-        )
-        mBinding?.recview?.layoutManager = LinearLayoutManager(context)
-        mBinding?.recview?.adapter = mediaListAdapter
-        val type = object : TypeToken<ArrayList<MediaJson>>() {}.type
-        val list = Gson().fromJson<ArrayList<MediaJson>>(mediaDataTypePhoto, type)
-        var listAd = arrayListOf<FileData>()
-        list?.forEach {
-            for ((index, value) in it.classifyList.withIndex()) {
-                val fileData = if (index == 0) {
-                    FileData(it.title, value.subtitle, value.type_id, arrayListOf(), true)
-                } else {
-                    FileData("", value.subtitle, value.type_id, arrayListOf(), false)
+            mViewModel?.getmVoidSingleLiveEvent()?.observe(this, Observer { a: String? ->
+                if (a == "notify") {
+                    mediaListAdapter.notifyDataSetChanged()
                 }
-                listAd.add(fileData)
-            }
-
-        }
-
-        mViewModel?.mList?.addAll(listAd)
+            })
+            mediaListAdapter =
+                MediaImageTypeListAdapter(activity!!, mViewModel?.mList, this, "image")
+            mViewModel?.mList?.addOnListChangedCallback(
+                ObservableListUtil.getListChangedCallback(
+                    mediaListAdapter
+                )
+            )
+            mBinding?.recview?.layoutManager = LinearLayoutManager(context)
+            mBinding?.recview?.adapter = mediaListAdapter
+            mViewModel?.mList?.addAll(MediaJsonToData.getMediaList("image"))
     }
 
     override fun onBindVariableId() = BR.mediaListViewModel

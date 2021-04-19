@@ -30,6 +30,7 @@ import com.zky.multi_media.databinding.MediaFragmentBinding
 import com.zky.multi_media.mvvm.factory.MediaViewModelFactory
 import com.zky.multi_media.mvvm.viewmodle.MediaImageListViewModle
 import me.bzcoder.mediapicker.config.MediaPickerEnum
+import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -64,28 +65,9 @@ class MediaVideoFragment :
             )
         )
         mBinding?.recview?.layoutManager = LinearLayoutManager(context)
-
         mBinding?.recview?.adapter = mediaListAdapter
+        mViewModel?.mList?.addAll(MediaJsonToData.getMediaList("video"))
 
-        val type = object : TypeToken<ArrayList<MediaJson>>() {}.type
-        val list = Gson().fromJson<ArrayList<MediaJson>>(Constants.mediaDataTypeVideo, type)
-        var listAd = arrayListOf<FileData>()
-        list?.forEach {
-            for ((index, value) in it.classifyList.withIndex()) {
-                val fileData = if (index == 0) {
-                    FileData(it.title, value.subtitle, value.type_id, arrayListOf(), true)
-                } else {
-                    FileData("", value.subtitle, value.type_id, arrayListOf(), false)
-                }
-                listAd.add(fileData)
-            }
-
-        }
-
-        mViewModel?.mList?.addAll(listAd)
-
-
-//        mViewModel?.mList?.add(instanceOf<MediaBean>())
 
     }
 
@@ -129,7 +111,7 @@ class MediaVideoFragment :
 
         } else {
             val index = mViewModel?.getIndex()
-            if(index==null||index==-1){
+            if (index == null || index == -1) {
                 return
             }
             val params = Bundle()

@@ -25,7 +25,6 @@
             android:background="@color/color_E6E6E6"
             android:scaleType="centerCrop"
             android:src="@{data.file_path==null?@drawable/add_media:null}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
