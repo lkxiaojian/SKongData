@@ -69,8 +69,6 @@ class MediaImageListViewModle(application: Application, mediaModel: MediaModel) 
                 }
             }
             getmVoidSingleLiveEvent().value = "notify"
-//            mList.addAll(0, tmpFile)
-//            mediaListAdapter
         })
     }
 

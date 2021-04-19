@@ -13,7 +13,8 @@ data class FileData(
     var subTile: String,
     var type: String,
     var files: ArrayList<MediaBean>?,
-    var showTile:Boolean
+    var showTile:Boolean,
+    var showSubTile:Boolean
 )
 
 data class MediaJson(

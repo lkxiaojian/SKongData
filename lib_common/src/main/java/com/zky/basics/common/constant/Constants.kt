@@ -19,97 +19,31 @@ object Constants {
     var dataAttr2: String? = ""
     var taskCode: String? = "27102455388962819"
     var dxm: String? = ""
-    var mediaDataTypePhoto:String? = "[\n" +
-            "    {\n" +
-            "        \"title\": \"家庭照片\",\n" +
-            "        \"title_id\": \"111\",\n" +
-            "        \"classifyList\": [\n" +
-            "            {\n" +
-            "                \"subtitle\": \"户主头像\",\n" +
-            "                \"type_id\": \"1\"\n" +
-            "            },\n" +
-            "            {\n" +
-            "                \"subtitle\": \"户主身份证\",\n" +
-            "                \"type_id\": \"2\"\n" +
-            "            }\n" +
-            "        ]\n" +
-            "    },\n" +
-            "    {\n" +
-            "        \"title\": \"家庭照片2\",\n" +
-            "        \"title_id\": \"222\",\n" +
-            "        \"classifyList\": [\n" +
-            "            {\n" +
-            "                \"subtitle\": \"户主头像2\",\n" +
-            "                \"type_id\": \"12\"\n" +
-            "            },\n" +
-            "            {\n" +
-            "                \"subtitle\": \"户主身份证2\",\n" +
-            "                \"type_id\": \"22\"\n" +
-            "            }\n" +
-            "        ]\n" +
-            "    }\n" +
-            "]"
+    var mediaDataTypePhoto:String? = ""
 
 
-    var mediaDataTypeVideo:String?="[\n" +
-            "    {\n" +
-            "        \"title\": \"视频1\",\n" +
-            "        \"title_id\": \"111\",\n" +
-            "        \"classifyList\": [\n" +
-            "            {\n" +
-            "                \"subtitle\": \"户主头像\",\n" +
-            "                \"type_id\": \"1\"\n" +
-            "            },\n" +
-            "            {\n" +
-            "                \"subtitle\": \"户主身份证\",\n" +
-            "                \"type_id\": \"2\"\n" +
-            "            }\n" +
-            "        ]\n" +
-            "    },\n" +
-            "    {\n" +
-            "        \"title\": \"视频2\",\n" +
-            "        \"title_id\": \"222\",\n" +
-            "        \"classifyList\": [\n" +
-            "            {\n" +
-            "                \"subtitle\": \"户主头像2\",\n" +
-            "                \"type_id\": \"12\"\n" +
-            "            },\n" +
-            "            {\n" +
-            "                \"subtitle\": \"户主身份证2\",\n" +
-            "                \"type_id\": \"22\"\n" +
-            "            }\n" +
-            "        ]\n" +
-            "    }\n" +
-            "]"
+    var mediaDataTypeVideo:String?=""
 
     var mediaDataTypeAudio:String?="[\n" +
             "    {\n" +
-            "        \"title\": \"音频1\",\n" +
-            "        \"title_id\": \"111\",\n" +
-            "        \"classifyList\": [\n" +
+            "        \"title\": \"房子\",\n" +
+            "        \"title_id\": \"ndu2h50\",\n" +
+            "        \"sortType\": \"video\",\n" +
+            "        \"sortList\": [\n" +
             "            {\n" +
-            "                \"subtitle\": \"户主头像\",\n" +
-            "                \"type_id\": \"1\"\n" +
+            "                \"subTitle\": \"前面\",\n" +
+            "                \"subTitle_id\": \"fecn2b02\"\n" +
             "            },\n" +
             "            {\n" +
-            "                \"subtitle\": \"户主身份证\",\n" +
-            "                \"type_id\": \"2\"\n" +
+            "                \"subTitle\": \"后面\",\n" +
+            "                \"subTitle_id\": \"onak7201\"\n" +
             "            }\n" +
             "        ]\n" +
             "    },\n" +
             "    {\n" +
-            "        \"title\": \"音频2\",\n" +
-            "        \"title_id\": \"222\",\n" +
-            "        \"classifyList\": [\n" +
-            "            {\n" +
-            "                \"subtitle\": \"户主头像2\",\n" +
-            "                \"type_id\": \"12\"\n" +
-            "            },\n" +
-            "            {\n" +
-            "                \"subtitle\": \"户主身份证2\",\n" +
-            "                \"type_id\": \"22\"\n" +
-            "            }\n" +
-            "        ]\n" +
+            "        \"title\": \"房子2\",\n" +
+            "        \"title_id\": \"ndu2h50\",\n" +
+            "        \"sortType\": \"video\"\n" +
             "    }\n" +
             "]"
 

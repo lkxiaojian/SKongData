@@ -32,14 +32,19 @@ object MediaJsonToData {
 
             var listAd = arrayListOf<FileData>()
             list?.forEach {
-                for ((index, value) in it.sortList.withIndex()) {
-                    val fileData = if (index == 0) {
-                        FileData(it.title, value.subTitle, value.subTitle_id, arrayListOf(), true)
-                    } else {
-                        FileData("", value.subTitle, value.subTitle_id, arrayListOf(), false)
+                if(it.sortList.isNullOrEmpty()){
+                    listAd.add(FileData(it.title, "", "", arrayListOf(), true,false))
+                }else{
+                    for ((index, value) in it.sortList.withIndex()) {
+                        val fileData = if (index == 0) {
+                            FileData(it.title, value.subTitle, value.subTitle_id, arrayListOf(), true,true)
+                        } else {
+                            FileData("", value.subTitle, value.subTitle_id, arrayListOf(), false,true)
+                        }
+                        listAd.add(fileData)
                     }
-                    listAd.add(fileData)
                 }
+
             }
             return listAd
         } catch (e: Exception) {
