@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:background="#fff5f5f5"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp">
 
         <View
             android:id="@+id/view"
