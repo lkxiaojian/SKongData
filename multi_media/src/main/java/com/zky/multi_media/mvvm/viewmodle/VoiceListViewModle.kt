@@ -17,6 +17,7 @@ import com.zky.basics.common.util.PermissionToSetting
 import com.zky.basics.common.util.onShowDialogLoading
 import com.zky.basics.common.util.reflec.instanceOf
 import com.zky.multi_media.R
+import com.zky.multi_media.activity.SearchVoiceActivity
 import com.zky.multi_media.mvvm.model.MediaModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -35,6 +36,8 @@ class VoiceListViewModle(application: Application, mediaModel: MediaModel) :
     BaseRefreshViewModel<MediaBean, MediaModel>(application, mediaModel) {
     lateinit var activity: Activity
     var searchMessage = ObservableField<String>()
+    var mediaType2= ObservableField<String>()
+    var mediaType3= ObservableField<String>()
     private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
 
     val list = arrayListOf<MediaBean>()
@@ -93,15 +96,8 @@ class VoiceListViewModle(application: Application, mediaModel: MediaModel) :
                 val tmpList = arrayListOf<MediaBean>()
                 if (list.isEmpty()) {
                     val path = "${File.separator}mnt${File.separator}sdcard${File.separator}"
-//                    val path1 = "${File.separator}mnt${File.separator}sdcard${File.separator}voice"
-//                    val path2 = "${File.separator}mnt${File.separator}sdcard${File.separator}Music"
-//                    val path3 = "${File.separator}mnt${File.separator}sdcard${File.separator}Sound"
-//                    val path4 = "${File.separator}mnt${File.separator}sdcard${File.separator}Record"
                     withContext(Dispatchers.IO){
                         val files = FileUtil.getFiles(path, "voice")
-//                        files.addAll( FileUtil.getFiles(path2, "voice"))
-//                        files.addAll( FileUtil.getFiles(path3, "voice"))
-//                        files.addAll( FileUtil.getFiles(path4, "voice"))
                         files.forEach {
                             val song = instanceOf<MediaBean>()
                             song.file_name = it.name
@@ -110,6 +106,8 @@ class VoiceListViewModle(application: Application, mediaModel: MediaModel) :
                             song.file_type = "audio"
                             song.isupload = false
                             song.startIng = 1
+                            song.mediaType2= mediaType2.get().toString()
+                            song.mediaType3= mediaType3.get().toString()
                             song.create_data = DateUtil.getCurrentTime(DateUtil.FormatType.yyyyMMddHHmm)
                             list.add(song)
                         }

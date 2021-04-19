@@ -17,9 +17,15 @@ data class TaskBean(
     var dataAttr2: String?,
     var dataAttr3: String?,
     var spaceDataType: String?,
-    var mediaDataType: String?
+    var mediaDataType: String?,
+    var mediaDataTypePhoto:String?,
+    var mediaDataTypeAudio:String?,
+    var mediaDataTypeVideo:String?
 ): Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -42,6 +48,9 @@ data class TaskBean(
         parcel.writeString(dataAttr3)
         parcel.writeString(spaceDataType)
         parcel.writeString(mediaDataType)
+        parcel.writeString(mediaDataTypePhoto)
+        parcel.writeString(mediaDataTypeAudio)
+        parcel.writeString(mediaDataTypeVideo)
     }
 
     override fun describeContents(): Int {

@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.api.config.API
 import com.zky.basics.common.adapter.BaseBindAdapter
+import com.zky.basics.common.constant.Constants
 import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
 import com.zky.basics.common.util.ObservableListUtil
 import com.zky.basics.common.util.spread.decode
@@ -59,6 +60,9 @@ class OneMainActivity : BaseMvvmRefreshActivity<ActivityOneMainBinding, MainView
     override fun onItemClick(e: Any, position: Int) {
         val intent = Intent(this, TaskActivity::class.java)
         val taskBean = e as TaskBean
+        Constants.mediaDataTypeAudio=taskBean.mediaDataTypeAudio
+        Constants.mediaDataTypePhoto=taskBean.mediaDataTypePhoto
+        Constants.mediaDataTypeVideo=taskBean.mediaDataTypeVideo
         intent.putExtra("data", taskBean)
         startActivity(intent)
     }

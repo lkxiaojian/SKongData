@@ -17,17 +17,16 @@ class AudioUtlis private constructor() {
 
 
     private var click: AudioClick? = null
-    fun startAudio(path: String) {
-        var di=1
+    fun startAudio(path: String,dataIndex:Int,fileIndex:Int) {
         try {
-            var player = mapList[path]
+            var player = mapList["$dataIndex$fileIndex"]
             if (player == null) {
                 player = MediaPlayer()
             }
 
             if (player.isPlaying) {
                 player.pause()
-                click?.pauseListener(
+                click?.pauseListener(dataIndex,fileIndex,
                     path,
                     ((player.duration - player.currentPosition) / 1000).toInt()
                 )
@@ -37,10 +36,10 @@ class AudioUtlis private constructor() {
 //                click?.pauseListener(path,((player.duration- player.currentPosition)/1000).toInt())
                 it.value.pause()
             }
-            val contains = mapList.contains(path)
+            val contains = mapList.contains("$dataIndex$fileIndex")
             if (contains) {
                 player.start()
-                click?.startListener(
+                click?.startListener(dataIndex,fileIndex,
                     path,
                     ((player.duration - player.currentPosition) / 1000).toInt()
                 )
@@ -51,10 +50,10 @@ class AudioUtlis private constructor() {
             player.setDataSource(path)
             player.prepare()
             player.start()
-            click?.startListener(path, (player.duration / 1000).toInt())
+            click?.startListener(dataIndex,fileIndex,path, (player.duration / 1000))
 
             player.setOnCompletionListener {
-                click?.completionListener(path)
+                click?.completionListener(dataIndex,fileIndex,path)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -68,9 +67,9 @@ class AudioUtlis private constructor() {
     }
 
     interface AudioClick {
-        fun completionListener(path: String)
-        fun startListener(path: String, length: Int)
-        fun pauseListener(path: String, length: Int)
+        fun completionListener(dataIndex:Int,fileIndex:Int,path: String)
+        fun startListener(dataIndex:Int,fileIndex:Int,path: String, length: Int)
+        fun pauseListener(dataIndex:Int,fileIndex:Int,path: String, length: Int)
     }
 
 

@@ -7,17 +7,18 @@
         <variable
             name="data"
             type="com.zky.basics.api.room.bean.MediaBean" />
-        <import type="com.zky.multi_media.R"/>
-        <import type="android.view.View"/>
+
+        <import type="com.zky.multi_media.R" />
+
+        <import type="android.view.View" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_click"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-
+        android:layout_margin="4dp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/aiv_media_v"
@@ -25,11 +26,11 @@
             android:layout_height="66dp"
             android:scaleType="centerCrop"
             app:imageMediaUrl="@{data.videoImagePath}"
-            app:placeMediaDrawableId="@{R.drawable.add_media}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:placeMediaDrawableId="@{R.drawable.add_media}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/atv_hc_state"
@@ -43,7 +44,5 @@
             app:layout_constraintLeft_toLeftOf="@id/aiv_media_v"
             app:layout_constraintRight_toRightOf="@id/aiv_media_v"
             app:layout_constraintTop_toBottomOf="@id/aiv_media_v" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

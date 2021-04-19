@@ -4,6 +4,7 @@ package com.zky.multi_media.activity
 import android.content.Intent
 import android.os.Parcelable
 import androidx.lifecycle.Observer
+import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.zky.basics.api.room.bean.MediaBean
 import com.zky.basics.common.adapter.BaseBindAdapter
@@ -19,14 +20,28 @@ import com.zky.multi_media.mvvm.viewmodle.VoiceListViewModle
 class SearchVoiceActivity :
     BaseMvvmRefreshActivity<ActivitySearchVoiceBinding, VoiceListViewModle>(),
     BaseBindAdapter.OnItemClickListener<Any> {
+
+    @Autowired
+    @JvmField
+    var mediaType2: String? = ""
+    @Autowired
+    @JvmField
+    var mediaType3: String? = ""
+
     private lateinit var voiceSearchListAdapter: VoiceSearchListAdapter
 
     override fun refreshLayout() = mBinding?.drlVoice
     override fun onBindViewModel() = VoiceListViewModle::class.java
     override fun onBindViewModelFactory() = MediaViewModelFactory.getInstance(application)
-
+    override fun initData() {
+        super.initData()
+        mViewModel?.mediaType2?.set(mediaType2)
+        mViewModel?.mediaType3?.set(mediaType3)
+        mViewModel?.search()
+    }
     override fun initViewObservable() {
         showInitLoadView(true)
+
         voiceSearchListAdapter = VoiceSearchListAdapter(this, mViewModel?.mList)
         mViewModel?.mList?.addOnListChangedCallback(
             ObservableListUtil.getListChangedCallback(
@@ -36,7 +51,7 @@ class SearchVoiceActivity :
         voiceSearchListAdapter.setItemClickListener(this)
         mBinding?.recview?.adapter = voiceSearchListAdapter
         mViewModel?.activity = this
-        mViewModel?.search()
+
 
         mViewModel?.getmVoidSingleLiveEvent()?.observe(this,
             Observer { it ->

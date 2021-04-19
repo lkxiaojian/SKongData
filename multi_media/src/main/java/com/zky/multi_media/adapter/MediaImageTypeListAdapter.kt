@@ -33,19 +33,26 @@ class MediaImageTypeListAdapter(
         val observableArrayList = ObservableArrayList<MediaBean>()
         item.files?.let { observableArrayList.addAll(it) }
         observableArrayList.add(instanceOf<MediaBean>())
-        val adapter = if (mType == "image") {
-            MediaImageListAdapter(context, observableArrayList, item.type)
-        } else {
-            MediaVideoListAdapter(context, observableArrayList,item.type)
+        val adapter = when (mType) {
+            "image" -> {
+                MediaImageListAdapter(context, observableArrayList, item.type)
+            }
+            "video" -> {
+                MediaVideoListAdapter(context, observableArrayList, item.type)
+            }
+            else -> {
+                MediaVoiceListAdapter(context, observableArrayList,item.type)
+            }
         }
+
         adapter.setItemClickListener(this)
         adapter.setOnItemLongClickListener(this)
         binding?.rvType?.layoutManager = GridLayoutManager(context, 3)
         binding?.rvType?.adapter = adapter
         observableArrayList.addOnListChangedCallback(
-                ObservableListUtil.getListChangedCallback(
-                        adapter
-                )
+            ObservableListUtil.getListChangedCallback(
+                adapter
+            )
         )
     }
 
@@ -53,6 +60,7 @@ class MediaImageTypeListAdapter(
     override fun getItemViewType(position: Int): Int {
         return position
     }
+
     override fun onItemClick(e: Any, position: Int) {
         mListener.onItemClick(e, position)
     }

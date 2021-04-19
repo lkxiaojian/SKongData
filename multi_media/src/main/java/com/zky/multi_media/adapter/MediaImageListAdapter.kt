@@ -2,6 +2,8 @@ package com.zky.multi_media.adapter
 
 import android.content.Context
 import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.databinding.ObservableArrayList
 import com.bumptech.glide.Glide
 import com.zky.basics.api.room.bean.MediaBean
@@ -26,6 +28,10 @@ class MediaImageListAdapter(
 
     override fun onBindItem(binding: MediaItemBinding?, item: MediaBean, position: Int) {
         binding?.data = item
+        val layoutParams = binding?.clClick?.layoutParams
+        layoutParams?.height=ViewGroup.LayoutParams.WRAP_CONTENT
+        layoutParams?.width=ViewGroup.LayoutParams.MATCH_PARENT
+        binding?.clClick?.layoutParams =layoutParams
         binding?.clClick?.setOnClickListener {
             var type = mType
             imageSelectType=type
@@ -41,7 +47,6 @@ class MediaImageListAdapter(
             if (position == items?.size!! -1) {
                 type = "del"
             }
-
             mOnItemLongClickListener?.onItemLongClick(type, position)!!
         }
 

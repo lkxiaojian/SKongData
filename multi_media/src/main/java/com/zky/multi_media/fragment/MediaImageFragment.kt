@@ -58,7 +58,7 @@ class MediaImageFragment :
                 mediaListAdapter.notifyDataSetChanged()
             }
         })
-        mediaListAdapter = MediaImageTypeListAdapter(activity!!, mViewModel?.mList, this,"image")
+        mediaListAdapter = MediaImageTypeListAdapter(activity!!, mViewModel?.mList, this, "image")
         mViewModel?.mList?.addOnListChangedCallback(
             ObservableListUtil.getListChangedCallback(
                 mediaListAdapter
@@ -69,7 +69,7 @@ class MediaImageFragment :
         val type = object : TypeToken<ArrayList<MediaJson>>() {}.type
         val list = Gson().fromJson<ArrayList<MediaJson>>(mediaDataTypePhoto, type)
         var listAd = arrayListOf<FileData>()
-        list.forEach {
+        list?.forEach {
             for ((index, value) in it.classifyList.withIndex()) {
                 val fileData = if (index == 0) {
                     FileData(it.title, value.subtitle, value.type_id, arrayListOf(), true)
@@ -125,14 +125,10 @@ class MediaImageFragment :
 
         } else {
             mViewModel?.mList?.let {
-                var index = -1
-                for ((i, item) in it.withIndex()) {
-                    if (item.type == e.toString()) {
-                        index = i
-                    }
-                }
+                var index = mViewModel?.getIndex()
 
-                if (index == -1) {
+
+                if (index == null || index == -1) {
                     return
                 }
                 val projectPhoto = arrayListOf<MediaBean>()
@@ -244,7 +240,7 @@ class MediaImageFragment :
                         val bean = it.files?.get(postion)
                         if (bean != null) {
                             if (bean.upload) {
-                                mViewModel?.deleFile(bean.code,index ,postion,mediaListAdapter)
+                                mViewModel?.deleFile(bean.code, index, postion, mediaListAdapter)
                             } else {
                                 mViewModel?.mList?.get(index)?.files?.removeAt(postion)
                                 mediaListAdapter.notifyDataSetChanged()

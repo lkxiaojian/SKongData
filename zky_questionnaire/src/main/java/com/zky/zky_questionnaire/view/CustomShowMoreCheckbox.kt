@@ -74,7 +74,7 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
             if (!v.isNullOrEmpty()) {
                 if (childCount > 0) {
                     setSuucced = true
-                    val split = v?.split(",")
+                    val split = v.split(",")
                     for (i in 0 until childCount) {
                         split?.forEach {
                             if (i == it.toInt()) {

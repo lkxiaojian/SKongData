@@ -10,25 +10,37 @@ import com.zky.multi_media.R
 import com.zky.multi_media.databinding.MediaItemBinding
 import com.zky.multi_media.databinding.MediaVideoItemBinding
 import com.zky.multi_media.databinding.MediaVoiceItemBinding
+import com.zky.multi_media.mvvm.viewmodle.MediaImageListViewModle
 
 /**
  *create_time : 21-3-5 上午9:34
  *author: lk
  *description： MediavoiceListAdapter
  */
-class MediaVoiceListAdapter(context: Context, items: ObservableArrayList<MediaBean>?) :
+class MediaVoiceListAdapter(context: Context, items: ObservableArrayList<MediaBean>?,type:String) :
     BaseBindAdapter<MediaBean, MediaVoiceItemBinding>(context, items) {
+    private val mType = type
     override fun getLayoutItemId(viewType: Int) = R.layout.media_voice_item
 
     override fun onBindItem(binding: MediaVoiceItemBinding?, item: MediaBean, position: Int) {
         binding?.data = item
 
         binding?.clClick?.setOnClickListener {
-            mItemClickListener?.onItemClick(item, position)
+            var type = mType
+            MediaImageListViewModle.imageSelectType =type
+            if (position == items?.size!! -1) {
+                type = "add"
+            }
+            mItemClickListener?.onItemClick(type, position)
         }
 
         binding?.clClick?.setOnLongClickListener {
-            mOnItemLongClickListener?.onItemLongClick(item,position)!!
+            var type = mType
+            MediaImageListViewModle.imageSelectType =type
+            if (position == items?.size!! -1) {
+                type = "del"
+            }
+            mOnItemLongClickListener?.onItemLongClick(type,position)!!
         }
 
     }

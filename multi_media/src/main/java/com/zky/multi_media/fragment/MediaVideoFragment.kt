@@ -70,7 +70,7 @@ class MediaVideoFragment :
         val type = object : TypeToken<ArrayList<MediaJson>>() {}.type
         val list = Gson().fromJson<ArrayList<MediaJson>>(Constants.mediaDataTypeVideo, type)
         var listAd = arrayListOf<FileData>()
-        list.forEach {
+        list?.forEach {
             for ((index, value) in it.classifyList.withIndex()) {
                 val fileData = if (index == 0) {
                     FileData(it.title, value.subtitle, value.type_id, arrayListOf(), true)
@@ -128,8 +128,12 @@ class MediaVideoFragment :
             })
 
         } else {
+            val index = mViewModel?.getIndex()
+            if(index==null||index==-1){
+                return
+            }
             val params = Bundle()
-//            params.putParcelable("file", mViewModel?.mList?.get(position))
+            params.putParcelable("file", mViewModel?.mList?.get(index)?.files?.get(position))
             ARouter.getInstance().build(ARouterPath.MEDIA_SHOW_VIDEO).with(params).navigation()
         }
     }

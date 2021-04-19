@@ -219,7 +219,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
         }
 
         map_view.setViewpointCenterAsync(dianData)
-        val latLng = LatLng(dianData!!.y, dianData!!.x)
+        val latLng = LatLng(dianData.y, dianData.x)
         val transfromGCJ = TransfromGCJ(latLng, mActivity)
         mBinding?.gdMV?.map?.moveCamera(
             CameraUpdateFactory

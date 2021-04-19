@@ -19,7 +19,7 @@ object Constants {
     var dataAttr2: String? = ""
     var taskCode: String? = "27102455388962819"
     var dxm: String? = ""
-    var mediaDataTypePhoto = "[\n" +
+    var mediaDataTypePhoto:String? = "[\n" +
             "    {\n" +
             "        \"title\": \"家庭照片\",\n" +
             "        \"title_id\": \"111\",\n" +
@@ -51,7 +51,7 @@ object Constants {
             "]"
 
 
-    var mediaDataTypeVideo="[\n" +
+    var mediaDataTypeVideo:String?="[\n" +
             "    {\n" +
             "        \"title\": \"视频1\",\n" +
             "        \"title_id\": \"111\",\n" +
@@ -82,6 +82,35 @@ object Constants {
             "    }\n" +
             "]"
 
-    var mediaDataTypeAudio=""
+    var mediaDataTypeAudio:String?="[\n" +
+            "    {\n" +
+            "        \"title\": \"音频1\",\n" +
+            "        \"title_id\": \"111\",\n" +
+            "        \"classifyList\": [\n" +
+            "            {\n" +
+            "                \"subtitle\": \"户主头像\",\n" +
+            "                \"type_id\": \"1\"\n" +
+            "            },\n" +
+            "            {\n" +
+            "                \"subtitle\": \"户主身份证\",\n" +
+            "                \"type_id\": \"2\"\n" +
+            "            }\n" +
+            "        ]\n" +
+            "    },\n" +
+            "    {\n" +
+            "        \"title\": \"音频2\",\n" +
+            "        \"title_id\": \"222\",\n" +
+            "        \"classifyList\": [\n" +
+            "            {\n" +
+            "                \"subtitle\": \"户主头像2\",\n" +
+            "                \"type_id\": \"12\"\n" +
+            "            },\n" +
+            "            {\n" +
+            "                \"subtitle\": \"户主身份证2\",\n" +
+            "                \"type_id\": \"22\"\n" +
+            "            }\n" +
+            "        ]\n" +
+            "    }\n" +
+            "]"
 
 }

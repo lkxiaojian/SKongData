@@ -6,9 +6,11 @@ import android.view.View
 import androidx.databinding.ObservableField
 import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider
 import com.zky.basics.api.config.API
+import com.zky.basics.api.file.FileData
 import com.zky.basics.api.room.bean.MediaBean
 import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.constant.Constants
+import com.zky.basics.common.event.SingleLiveEvent
 import com.zky.basics.common.mvvm.viewmodel.BaseRefreshViewModel
 import com.zky.basics.common.util.*
 import com.zky.basics.common.util.reflec.instanceOf
@@ -18,6 +20,7 @@ import com.zky.basics.common.util.uploadFile.OssUploadingFileUtil
 import com.zky.basics.common.util.uploadFile.UploadingFile
 import com.zky.basics.common.util.view.CustomDialog
 import com.zky.multi_media.R
+import com.zky.multi_media.adapter.MediaImageTypeListAdapter
 import com.zky.multi_media.mvvm.model.MediaModel
 import java.util.*
 
@@ -28,9 +31,10 @@ import java.util.*
  * Detail:
  */
 class MediaVoiceListViewModle(application: Application, mediaModel: MediaModel) :
-    BaseRefreshViewModel<MediaBean, MediaModel>(application, mediaModel) {
-    var fileType= ObservableField<String>()
+    BaseRefreshViewModel<FileData, MediaModel>(application, mediaModel) {
+    var fileType = ObservableField<String>()
     private val applicatio = application
+    private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
 
     override fun refreshData() {
     }
@@ -40,24 +44,29 @@ class MediaVoiceListViewModle(application: Application, mediaModel: MediaModel) 
     }
 
 
-
     fun getFileData() {
         launchUI({
-            val fileList = mModel.getFileList(Constants.itemCode,fileType.get() )
-            val tmpFile = arrayListOf<MediaBean>()
-            fileList?.forEach {
-
-                val bean = instanceOf<MediaBean>()
-                bean.code = it.code
-                bean.file_name = it.fileName
-                bean.file_path = it.filePath
-                bean.upload = true
-                bean.startIng=1
-                bean.filePathIsNUll= bean.file_path.isEmpty()
-                bean.create_data = it.createDate
-                tmpFile.add(bean)
+            val fileList = mModel.getFileList(Constants.itemCode, fileType.get())
+//            val tmpFile = arrayListOf<MediaBean>()
+            for ((index, value) in mList.withIndex()) {
+                fileList?.forEach {
+                    if (value.title == it.mediaType2 && value.subTile == it.mediaType3) {
+                        val bean = instanceOf<MediaBean>()
+                        bean.code = it.code
+                        bean.file_name = it.fileName
+                        bean.file_path = it.filePath
+                        bean.upload = true
+                        bean.startIng = 1
+                        bean.filePathIsNUll = bean.file_path.isEmpty()
+                        bean.create_data = it.createDate
+                        bean.mediaType2 = it.mediaType2
+                        bean.mediaType3 = it.mediaType3
+                        mList[index].files?.add(bean)
+                    }
+                }
             }
-            mList.addAll(0, tmpFile)
+            getmVoidSingleLiveEvent().value = "notify"
+//            mList.addAll(0, tmpFile)
 
         })
     }
@@ -71,30 +80,35 @@ class MediaVoiceListViewModle(application: Application, mediaModel: MediaModel) 
                 val userinfo = decodeParcelable<Userinfo>("user")
                 var uploadingList = arrayListOf<UploadingFile>()
 
-                mList.forEach { it ->
-                    if (!it.upload &&it.file_path!=null) {
-                        val uploadingFile = UploadingFile()
-                        uploadingFile.servicePath = API.URL_UPLOAD_NEW
-                        uploadingFile.filePath = it.file_path
-                        uploadingFile.fileName = it.file_name
-                        uploadingFile.tmpCode = it.code
-                        val map = hashMapOf<String, String>()
-                        val filePath =
-                            "skData/${Constants.itemCode}/${it.file_type}/${it.code}/${it.file_name}"
-                        map["filePath"] = filePath
-                        map["mediaType"] = it.file_type
-                        map["fileName"] = it.file_name
-                        map["createTime"] = it.create_data
-                        map["itemCode"] = Constants.itemCode
-                        map["code"] = it.code
-                        userinfo?.username?.let {
-                            map["userName"] = it
+                for ((index, value) in mList.withIndex()) {
+                    value.files?.forEach { it ->
+
+                        if (!it.upload && it.file_path != null) {
+                            val uploadingFile = UploadingFile()
+                            uploadingFile.servicePath = API.URL_UPLOAD_NEW
+                            uploadingFile.filePath = it.file_path
+                            uploadingFile.fileName = it.file_name
+                            uploadingFile.tmpCode = it.code
+                            val map = hashMapOf<String, String>()
+                            val filePath =
+                                "skData/${Constants.itemCode}/${it.file_type}/${it.code}/${it.file_name}"
+                            map["filePath"] = filePath
+                            map["mediaType"] = it.file_type
+                            map["fileName"] = it.file_name
+                            map["createTime"] = it.create_data
+                            map["itemCode"] = Constants.itemCode
+                            map["code"] = it.code
+                            map["mediaType2"] = it.mediaType2
+                            map["mediaType3"] = it.mediaType3
+                            userinfo?.username?.let {
+                                map["userName"] = it
+                            }
+                            userinfo?.phone?.let {
+                                map["userPhone"] = it
+                            }
+                            uploadingFile.params = map
+                            uploadingList.add(uploadingFile)
                         }
-                        userinfo?.phone?.let {
-                            map["userPhone"] = it
-                        }
-                        uploadingFile.params = map
-                        uploadingList.add(uploadingFile)
                     }
                 }
                 if (uploadingList.size == 0) {
@@ -116,11 +130,13 @@ class MediaVoiceListViewModle(application: Application, mediaModel: MediaModel) 
                 override fun upLoadSuccessPostiion(file: UploadingFile) {
                     val tmpCode = file.params?.get("code")
                     for ((index, value) in mList.withIndex()) {
-                        if (value.code == tmpCode) {
-                            mList[index].upload = true
-                        }
+                        for ((i, data) in value.files!!.withIndex())
+                            if (data.code == tmpCode) {
+                                mList[index].files?.get(i)?.upload = true
+                            }
                     }
-                    Log.e("", "")
+
+                    getmVoidSingleLiveEvent().value = "notify"
                 }
 
                 override fun upLoadingProgress(
@@ -188,34 +204,60 @@ class MediaVoiceListViewModle(application: Application, mediaModel: MediaModel) 
         })
     }
 
-    fun deleFile(code: String, postion: Int) {
+//    fun deleFile(code: String, postion: Int) {
+//        launchUI({
+//            mModel.deleteFileInfo(code)
+//            mList.removeAt(postion)
+//        })
+//
+//    }
+
+    fun deleFile(
+        code: String,
+        index: Int,
+        postion: Int,
+        adapter: MediaImageTypeListAdapter
+    ) {
         launchUI({
             mModel.deleteFileInfo(code)
-            mList.removeAt(postion)
+            mList[index].files?.removeAt(postion)
+            adapter.notifyDataSetChanged()
         })
-
     }
 
     override fun enableLoadMore() = false
     override fun enableRefresh() = false
-    private var timer: Timer? = null
-    private var task: tTask? = null
-    private var length = 0
 
-    fun setTime(path: String, _length: Int) {
+    private
+    var timer: Timer? = null
+
+    private
+    var task: tTask? = null
+
+    private
+    var length = 0
+
+    fun setTime(dataIndex: Int, fileIndex: Int,path: String, _length: Int) {
         length = _length
         var position = -1
 
-        for ((index, bean) in mList.withIndex()) {
-            if (bean.create_data.isNullOrEmpty()) {
+        for ((index, data) in mList.withIndex()) {
+            if (data.files.isNullOrEmpty()) {
                 continue
             }
-            if (path.contains(bean.file_path)) {
-                position = index
-                mList[index].startIng = 2
-            } else {
-                mList[index].startIng = 1
+            for ((i, bean) in data.files!!.withIndex()) {
+                if (bean.create_data.isNullOrEmpty()) {
+                    continue
+                }
+                if (dataIndex==index&&i==fileIndex) {
+                    position = index
+                    mList[index].files?.get(i)?.startIng = 2
+                } else {
+                    mList[index].files?.get(i)?.startIng = 1
+                }
             }
+
+
         }
 
         if (timer != null) {
@@ -224,15 +266,15 @@ class MediaVoiceListViewModle(application: Application, mediaModel: MediaModel) 
             timer?.cancel()
             timer = null
         }
-        if(position==-1){
+        if (position == -1 || fileIndex == -1) {
             return
         }
         if (_length == 0) {
-            mList[position].startIng = 1
+            mList[position].files?.get(fileIndex)?.startIng = 1
             return
         }
         timer = Timer()
-        task = tTask(position)
+        task = tTask(position, fileIndex)
         timer?.schedule(task, 0, 1000)
     }
 
@@ -252,21 +294,40 @@ class MediaVoiceListViewModle(application: Application, mediaModel: MediaModel) 
     }
 
 
-    inner class tTask(index: Int) : TimerTask() {
+    inner class tTask(index: Int, fileIndex: Int) : TimerTask() {
         private val position = index
+        private val mFileIndex = fileIndex
         override fun run() {
             if (position != -1) {
                 var i = --length
-                if(i<0){
-                    i=0
+                if (i < 0) {
+                    i = 0
                 }
-                mList[position].lastTime = "$i 秒"
+                mList[position].files?.get(mFileIndex)?.lastTime = "$i 秒"
+//                getmVoidSingleLiveEvent().value="notify"
             }
 
 
         }
 
     }
+
+    fun getIndex(): Int {
+        var index = -1
+        for ((i, item) in mList.withIndex()) {
+            if (item.type == MediaImageListViewModle.imageSelectType) {
+                index = i
+            }
+        }
+        return index
+    }
+
+    fun getmVoidSingleLiveEvent(): SingleLiveEvent<String> {
+        return createLiveData(mVoidSingleLiveEvent).also {
+            mVoidSingleLiveEvent = it
+        }
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
