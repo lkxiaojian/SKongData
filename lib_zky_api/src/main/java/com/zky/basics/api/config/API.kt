@@ -7,7 +7,7 @@ object API {
     const val URL_HOST = IP + "zkydls_shikong/"
 
     //ali image
-    const val ImageFolderPath = "https://zkydls-test.oss-cn-beijing.aliyuncs.com/"
+    const val ImageFolderPath = "https://zjcp.oss-cn-beijing.aliyuncs.com/"
 
     //ali upload file
     const val ImageAliFolderPath = "oss-cn-beijing.aliyuncs.com"

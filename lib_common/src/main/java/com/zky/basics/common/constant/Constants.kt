@@ -13,7 +13,7 @@ object Constants {
     var isNet = true
 
     const val providePath = "com.zky.sk.zjcp.fileProvider"
-    const val bucketName = "zkydls-test"
+    const val bucketName = "zjcp"
     const val appCode = "27104114940837888"
     var itemCode = ""
     var dataAttr2: String? = ""
