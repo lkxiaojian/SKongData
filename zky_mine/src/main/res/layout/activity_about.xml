@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="@id/imageView"
         android:textStyle="bold"
-        android:textSize="21sp"
+        android:textSize="24sp"
         android:textColor="@color/color_333"
         />
 
