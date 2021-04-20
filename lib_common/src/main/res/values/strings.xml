@@ -11,6 +11,8 @@
     <string name="app_title" translatable="false">黄土高原小流域生态安全\n专家测评系统</string>
     <string name="app_title_about" translatable="false">黄土高原小流域生态\n安全专家测评系统</string>
 
+
+
     <string name="address" translatable="false">地址：%s </string>
     <string name="hzxm" translatable="false">户主名称：%s </string>
     <string name="idcard" translatable="false">身份证号码：%s </string>
