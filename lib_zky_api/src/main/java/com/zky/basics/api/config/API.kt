@@ -3,9 +3,7 @@ package com.zky.basics.api.config
 object API {
 
 
-    const val IP = "http://47.104.136.79:2021/";
-
-    //    const val IP = "https://www.qsdsj.net/"
+    const val IP = "http://47.104.136.79:2021/"
     const val URL_HOST = IP + "zkydls_shikong/"
 
     //ali image
@@ -13,9 +11,6 @@ object API {
 
     //ali upload file
     const val ImageAliFolderPath = "oss-cn-beijing.aliyuncs.com"
-
-    //uploadUserHeadImg
-    const val uploadProjectFile = "uploadProjectFile.do"
     const val URL_APP_UPDATE = URL_HOST+"getAppInfo.do"
     const val PAGE_SIZE = 10
     const val URL_UPLOAD_NEW = URL_HOST + "savaFileInfo.do"
