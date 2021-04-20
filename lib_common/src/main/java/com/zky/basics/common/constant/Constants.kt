@@ -14,7 +14,7 @@ object Constants {
 
     const val providePath = "com.zky.sk.zjcp.fileProvider"
     const val bucketName = "zjcp"
-    const val appCode = "27104114940837888"
+    const val appCode = "27093798379061450"
     var itemCode = ""
     var dataAttr2: String? = ""
     var taskCode: String? = ""
