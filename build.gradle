@@ -5,7 +5,7 @@ buildscript {
     ext.clayout_version='2.0.4'
     repositories {
         google()
-        jcenter()
+//        jcenter()
         mavenCentral()
 
 
@@ -24,7 +24,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+//        jcenter()
         mavenCentral()
         maven { url 'https://dl.bintray.com/umsdk/release' }
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public'}
