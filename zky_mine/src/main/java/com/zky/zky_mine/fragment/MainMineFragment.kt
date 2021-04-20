@@ -6,19 +6,15 @@ import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.zky.basics.api.room.bean.MediaBean
 import com.zky.basics.common.mvvm.BaseMvvmFragment
-import com.zky.basics.common.util.DateUtil
 import com.zky.basics.common.util.FileUtil
 import com.zky.basics.common.util.Glide4Engine
 import com.zky.basics.common.util.SmartMediaPickerComsur
-import com.zky.basics.common.util.reflec.instanceOf
 import com.zky.zky_mine.BR
 import com.zky.zky_mine.R
 import com.zky.zky_mine.mvvm.factory.MineViewModelFactory
 import com.zky.zky_mine.mvvm.viewmodle.MineViewModle
 import me.bzcoder.mediapicker.config.MediaPickerEnum
-import java.util.*
 
 /**
  * Created by lk
