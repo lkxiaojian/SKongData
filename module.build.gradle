@@ -47,7 +47,7 @@ android {
         release {
             keyAlias 'skong'
             keyPassword '123qaz'
-            storeFile file('skong.jks')
+            storeFile file('skong_zjcp.jks')
             storePassword '123qaz'
         }
     }

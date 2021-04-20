@@ -1,4 +1,4 @@
-package com.zky.sk.data
+package com.zky.sk.zjcp
 
 import androidx.multidex.MultiDex
 import com.zky.basics.api.RetrofitManager.Companion.init

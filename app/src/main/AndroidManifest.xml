@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.zky.sk.data">
+    package="com.zky.sk.zjcp">
 
     <application
-        android:name=".Application"
+        android:name="com.zky.sk.zjcp.Application"
         android:allowBackup="true"
         android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
         android:icon="@mipmap/ic_launcher"
@@ -17,7 +17,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.zky.sk.data.fileProvider"
+            android:authorities="com.zky.sk.zjcp.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

@@ -7,8 +7,7 @@
     <string name="register_fail">注册失败</string>
     <string name="acountorpaw">账号密码错误</string>
     <string name="net_error">网络未连接，请检查网络</string>
-<!--    <string name="app_title" translatable="false">某某县时空大数据采集\n与查询系统</string>-->
-<!--    <string name="app_title_about" translatable="false">某某县时空大数据\n采集与查询系统</string>-->
+
     <string name="app_title" translatable="false">黄土高原小流域生态安全\n专家测评系统</string>
     <string name="app_title_about" translatable="false">黄土高原小流域生态\n安全专家测评系统</string>
 
