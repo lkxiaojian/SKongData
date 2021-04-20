@@ -52,7 +52,6 @@ class CustomEditTextView(context: Context, attrs: AttributeSet?) :
                 view.inputType= InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_TEXT_FLAG_MULTI_LINE
                 view.setSingleLine(false)
                 view.setHorizontallyScrolling(false)
-                //test
             }
         }
 
