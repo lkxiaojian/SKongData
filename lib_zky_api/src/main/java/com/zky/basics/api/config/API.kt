@@ -4,7 +4,7 @@ object API {
 
 
     const val IP = "http://47.104.136.79:2021/"
-    const val URL_HOST = IP + "zkydls_shikong/"
+    const val URL_HOST = IP + "zjcp/"
 
     //ali image
     const val ImageFolderPath = "https://zjcp.oss-cn-beijing.aliyuncs.com/"
