@@ -11,6 +11,8 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
+import java.net.SocketTimeoutException
 
 
 abstract class BaseModel(protected var mApplication: Application?) : IBaseModel {
@@ -47,9 +49,17 @@ abstract class BaseModel(protected var mApplication: Application?) : IBaseModel 
                 }
             }
         } catch (e: Exception) {
-//            R.string.server_error_data.showToast()
-            e.printStackTrace()
-            return null
+            if(e is HttpException){
+                when(e.code()){
+                    ExceptionHandler.SYSTEM_ERROR.INTERNAL_SERVER_ERROR->{
+                        R.string.server_error.showToast()
+                    }
+                }
+            } else if(e is SocketTimeoutException){
+                e.message?.showToast()
+            }
+
+            throw Exception(e)
         }
     }
 

@@ -83,6 +83,7 @@ class OneMainActivity : BaseMvvmRefreshActivity<ActivityOneMainBinding, MainView
         }
     }
 
+
     companion object {
         private const val TIME_EXIT = 2000
     }

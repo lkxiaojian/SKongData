@@ -104,23 +104,7 @@ class MineViewModle(application: Application, model: MineModel) :
                     OnPermission {
                     override fun hasPermission(granted: MutableList<String>?, all: Boolean) {
                         if (all) {
-                            val photoSelectDialog = PhotoSelectDialog.newInstance()
-                            photoSelectDialog.show(viewToActivity.supportFragmentManager, "选择照片")
-                            photoSelectDialog.setCount(1)
-                            photoSelectDialog.setOnClickLisener(object :
-                                PhotoSelectDialog.OnPhotoClickLisener {
-                                override fun onTakePhototClick(path: String) {
-                                    Log.e("tag", "path")
-                                    var list = mutableListOf<String>()
-                                    list.add(path)
-                                    upLoad(list)
-                                }
-
-                                override fun onSelectPhotoClick(list: MutableList<String>?) {
-                                    upLoad(list)
-                                }
-
-                            })
+                            getmVoidSingleLiveEvent()?.value="selectImage"
                         }
                     }
 
@@ -135,8 +119,7 @@ class MineViewModle(application: Application, model: MineModel) :
 
     }
 
-    private fun upLoad(list: MutableList<String>?) {
-
+     fun upLoad(list: MutableList<String>?) {
         val userinfo = decodeParcelable<Userinfo>("user")
         if (list != null && list.size > 0) {
             mineBean.get()?.imageHeard = list[0]
