@@ -330,7 +330,7 @@
 -keep class com.zky.zky_questionnaire.view**
 -keep class com.zky.zky_questionnaire.view** { *; }
 
--keep public class com.zky.sk.data.R$*{
+-keep public class com.zky.sk.zjcp.R$*{
 public static final int *;
 }
 
