@@ -20,5 +20,5 @@
     <string name="yscwj" translatable="false">已上传问卷信息</string>
     <string name="idcard_mf" translatable="false">身份证</string>
     <string name="idcard_xz" translatable="false">0123456789xX</string>
-
+    <string name="create_user" translatable="false">创建者：%s </string>
 </resources>
