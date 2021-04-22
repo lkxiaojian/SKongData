@@ -8,14 +8,12 @@ import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.constant.Constants
 import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
 import com.zky.basics.common.util.ObservableListUtil
-import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.BR
 import com.zky.basics.main.R
 import com.zky.basics.main.adapter.TaskListAdapter
 import com.zky.basics.main.databinding.ActivityTaskctivityBinding
 import com.zky.basics.main.mvvm.factory.MainViewModelFactory
 import com.zky.basics.main.mvvm.viewmodel.TaskViewModel
-import kotlin.system.exitProcess
 
 class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskViewModel>(),
     BaseBindAdapter.OnItemClickListener<Any> {
@@ -50,15 +48,16 @@ class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskVie
 
     }
 
+    override fun onBindToolbarLayout()= R.layout.blue_common_right_image_toolbar
+
     override fun onResume() {
         super.onResume()
         if( TaskAddActivity.uploadSuc){
             TaskAddActivity.uploadSuc=false
             mViewModel?.setData()
-
         }
-
     }
+
 
     override fun onBindVariableId() = BR.taskViewModel
     override val tootBarTitle: String
