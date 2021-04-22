@@ -1,31 +1,23 @@
 package com.zky.basics.main.fragment
 
-import android.app.Activity
-import android.app.Application
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.PopupWindow
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bigkoo.pickerview.view.OptionsPickerView
 import com.zky.basics.api.splash.entity.AccountLevel
 import com.zky.basics.api.splash.entity.RegionOrSchoolBean
 import com.zky.basics.common.adapter.MessageAdapter
 import com.zky.basics.common.mvvm.viewmodel.BaseViewModel
 import com.zky.basics.common.util.spread.showToast
-import com.zky.basics.common.util.view.showListPopupWindow
 import com.zky.basics.common.util.view.showRvListPopupWindow
 import com.zky.basics.main.R
 import com.zky.basics.main.adapter.AddressDialogAdapter
 import com.zky.basics.main.mvvm.model.MainModel
 import kotlinx.android.synthetic.main.fragment_select_address_dialog.*
-import kotlinx.coroutines.launch
 import java.lang.Exception
 
 

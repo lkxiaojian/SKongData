@@ -3,11 +3,8 @@ package com.zky.zky_mine.mvvm.viewmodle
 import android.Manifest
 import android.app.Application
 import android.content.Intent
-
-import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableField
-import androidx.fragment.app.FragmentActivity
 import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider
 import com.hjq.permissions.OnPermission
 import com.hjq.permissions.XXPermissions
@@ -26,7 +23,6 @@ import com.zky.basics.common.util.spread.encode
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.common.util.uploadFile.OSSAuthCredentialsProvider
 import com.zky.basics.common.util.uploadFile.UploadingFile
-import com.zky.basics.common.view.PhotoSelectDialog
 
 import com.zky.zky_mine.R
 import com.zky.zky_mine.activity.AboutActivity
