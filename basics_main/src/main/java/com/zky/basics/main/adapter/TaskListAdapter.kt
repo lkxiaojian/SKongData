@@ -29,6 +29,9 @@ class TaskListAdapter(context: Context, items: ObservableArrayList<TaskItem>?) :
         binding?.cvClick?.setOnClickListener {
             mItemClickListener?.onItemClick(item, position)
         }
+        binding?.cvClick?.setOnLongClickListener {
+            mOnItemLongClickListener?.onItemLongClick(item, position)!!
+        }
     }
 
 

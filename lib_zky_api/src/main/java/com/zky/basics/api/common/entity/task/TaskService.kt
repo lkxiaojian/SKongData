@@ -15,17 +15,22 @@ interface TaskService {
 
     @GET("getTaskList.do")
     suspend fun getTaskList(@Query("appCode") code: String?): RespDTO<List<TaskBean>>
-    @GET("getItemList.do")
-    suspend fun getItemList(@Query("taskCode") taskCode: String?,@Query("dataAttr1") message: String?): RespDTO<List<TaskItem>>
 
+    @GET("getItemList.do")
+    suspend fun getItemList(
+        @Query("taskCode") taskCode: String?,
+        @Query("dataAttr1") message: String?
+    ): RespDTO<List<TaskItem>>
 
 
     @GET("getAddrLevel.do")
     suspend fun getAddrLevel(): RespDTO<List<AccountLevel>>
 
     @GET("getAddr.do")
-    suspend fun getAddr(@Query("regionLevel") regionLevel: Int?,@Query("regionCode") regionCode: String?): RespDTO<List<RegionOrSchoolBean>>
-
+    suspend fun getAddr(
+        @Query("regionLevel") regionLevel: Int?,
+        @Query("regionCode") regionCode: String?
+    ): RespDTO<List<RegionOrSchoolBean>>
 
 
     @POST()
@@ -41,5 +46,11 @@ interface TaskService {
     suspend fun getWjInfo(@Query("itemCode") taskCode: String?): RespDTO<List<TaskResult>>
 
     @POST("insertOrUpdateWjInfo.do")
-    suspend fun insertOrUpdateWjInfo(@Query("itemCode") taskCode: String?,@Query("wjInfoString") wjInfoString: String?): RespDTO<Any>
+    suspend fun insertOrUpdateWjInfo(
+        @Query("itemCode") taskCode: String?,
+        @Query("wjInfoString") wjInfoString: String?
+    ): RespDTO<Any>
+
+    @GET("getTaskChart.do")
+    suspend fun getTaskChart(@Query("taskCode") taskCode: String?): RespDTO<Any>
 }

@@ -12,21 +12,22 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
         <activity
+            android:name=".activity.task.StatisticsActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity
             android:name=".activity.task.TaskAddActivity"
             android:windowSoftInputMode="adjustPan|stateHidden">
-
-            <!-- android:theme="@style/AppThemeBlack" -->
         </activity>
         <activity
             android:name=".activity.task.TaskMessageActivity"
             android:windowSoftInputMode="adjustPan|stateHidden">
-
-            <!-- android:theme="@style/AppThemeBlack" -->
-
         </activity>
         <activity
             android:name=".activity.task.TaskActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+
+
+
         <activity android:name=".OneMainActivity" />
         <activity
             android:name=".activity.SplashActivity"
@@ -55,6 +56,9 @@
             android:resource="@array/preloaded_fonts" />
 
         <service android:name="com.amap.api.location.APSService" />
+
+
+        <service android:name="com.amap.api.location.APSService"></service>
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
