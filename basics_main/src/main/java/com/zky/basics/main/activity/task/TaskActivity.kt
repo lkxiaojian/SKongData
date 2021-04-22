@@ -8,6 +8,7 @@ import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.constant.Constants
 import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
 import com.zky.basics.common.util.ObservableListUtil
+import com.zky.basics.common.util.ToastUtil
 import com.zky.basics.main.BR
 import com.zky.basics.main.R
 import com.zky.basics.main.adapter.TaskListAdapter
@@ -56,6 +57,10 @@ class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskVie
             TaskAddActivity.uploadSuc=false
             mViewModel?.setData()
         }
+    }
+
+    override fun onBindToolbarRightClick() {
+
     }
 
 

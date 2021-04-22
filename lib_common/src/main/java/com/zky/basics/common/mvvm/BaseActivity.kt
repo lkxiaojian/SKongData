@@ -6,12 +6,11 @@ import HasNotch
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.LayoutRes
@@ -101,7 +100,7 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
             val option = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
             window.decorView.systemUiVisibility = option
-            if (onBindToolbarLayout() != R.layout.blue_common_toolbar) {
+            if (onBindToolbarLayout() != R.layout.blue_common_toolbar && onBindToolbarLayout() != R.layout.blue_common_right_image_toolbar) {
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             }
         }
@@ -134,7 +133,7 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
             if (isFullScreen) {
                 BangUtli.setViewPading(mToolbar, window)
             } else {
-                if (onBindToolbarLayout() == R.layout.blue_common_toolbar) {
+                if (onBindToolbarLayout() == R.layout.blue_common_toolbar || onBindToolbarLayout() == R.layout.blue_common_right_image_toolbar) {
                     setCJViewPading(mToolbar)
                 }
             }
@@ -170,6 +169,9 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
             setSupportActionBar(mToolbar)
             supportActionBar?.setDisplayShowTitleEnabled(false)
             mToolbar?.setNavigationOnClickListener { onBackPressed() }
+            view?.findViewById<ImageView>(R.id.iv_tj)?.setOnClickListener {
+                onBindToolbarRightClick()
+            }
         }
     }
 
@@ -193,6 +195,9 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
 
     open fun onBindToolbarLayout(): Int {
         return R.layout.blue_common_toolbar
+    }
+    open fun onBindToolbarRightClick(){
+
     }
 
     abstract fun onBindLayout(): Int
@@ -254,8 +259,6 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun <T> onEvent(@Suppress("UNUSED_PARAMETER") event: BaseActivityEvent<T>?) {
     }
-
-
 
 
     open val isFullScreen: Boolean
