@@ -53,6 +53,10 @@ class MainModel(application: Application?) : BaseModel(application) {
     suspend fun getTaskList(code: String?):List<TaskBean>?=request {
         taskService.getTaskList(code)
     }
+    suspend fun getTaskChart(code: String?):Any?=request {
+        taskService.getTaskChart(code)
+    }
+
 
 
 

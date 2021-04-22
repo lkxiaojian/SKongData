@@ -49,17 +49,17 @@ abstract class BaseModel(protected var mApplication: Application?) : IBaseModel 
                 }
             }
         } catch (e: Exception) {
-            if(e is HttpException){
-                when(e.code()){
-                    ExceptionHandler.SYSTEM_ERROR.INTERNAL_SERVER_ERROR->{
+            if (e is HttpException) {
+                when (e.code()) {
+                    ExceptionHandler.SYSTEM_ERROR.INTERNAL_SERVER_ERROR -> {
                         R.string.server_error.showToast()
                     }
                 }
-            } else if(e is SocketTimeoutException){
+            } else if (e is SocketTimeoutException) {
                 e.message?.showToast()
             }
-
-            throw Exception(e)
+            return null
+//            throw Exception(e)
         }
     }
 

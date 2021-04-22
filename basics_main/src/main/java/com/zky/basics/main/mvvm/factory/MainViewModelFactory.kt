@@ -8,10 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.zky.basics.main.mvvm.model.MainModel
 import com.zky.basics.main.mvvm.model.MapModel
 import com.zky.basics.main.mvvm.model.SplashModel
-import com.zky.basics.main.mvvm.viewmodel.MainViewModel
-import com.zky.basics.main.mvvm.viewmodel.MapViewModle
-import com.zky.basics.main.mvvm.viewmodel.SplashViewModel
-import com.zky.basics.main.mvvm.viewmodel.TaskViewModel
+import com.zky.basics.main.mvvm.viewmodel.*
 
 class MainViewModelFactory private constructor(private val mApplication: Application) :
     ViewModelProvider.NewInstanceFactory() {
@@ -33,6 +30,11 @@ class MainViewModelFactory private constructor(private val mApplication: Applica
             modelClass.isAssignableFrom(MapViewModle::class.java) -> {
                 val mainModel = MapModel(mApplication)
                 MapViewModle(mApplication, mainModel) as T
+            }
+
+            modelClass.isAssignableFrom(StatisticsModel::class.java) -> {
+                val mainModel = MainModel(mApplication)
+                StatisticsModel(mApplication, mainModel) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

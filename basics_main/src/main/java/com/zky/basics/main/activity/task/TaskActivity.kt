@@ -8,17 +8,17 @@ import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.constant.Constants
 import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
 import com.zky.basics.common.util.ObservableListUtil
-import com.zky.basics.common.util.spread.showToast
+import com.zky.basics.common.util.showCustomDialog
+import com.zky.basics.common.util.view.CustomDialog
 import com.zky.basics.main.BR
 import com.zky.basics.main.R
 import com.zky.basics.main.adapter.TaskListAdapter
 import com.zky.basics.main.databinding.ActivityTaskctivityBinding
 import com.zky.basics.main.mvvm.factory.MainViewModelFactory
 import com.zky.basics.main.mvvm.viewmodel.TaskViewModel
-import kotlin.system.exitProcess
 
 class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskViewModel>(),
-    BaseBindAdapter.OnItemClickListener<Any> {
+    BaseBindAdapter.OnItemClickListener<Any>, BaseBindAdapter.OnItemLongClickListener<Any> {
 
 
     override fun onBindLayout() = R.layout.activity_taskctivity
@@ -28,6 +28,11 @@ class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskVie
     override fun onBindViewModel() = TaskViewModel::class.java
 
     override fun onBindViewModelFactory() = MainViewModelFactory.getInstance(application)
+    override fun onBindToolbarRightClick() {
+        val intent = Intent(this, StatisticsActivity::class.java)
+        intent.putExtra("taskCode", mViewModel?.taskBean?.taskCode)
+        startActivity(intent)
+    }
 
     override fun initViewObservable() {
         try {
@@ -40,6 +45,7 @@ class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskVie
                 )
             )
             adapter.setItemClickListener(this)
+            adapter.setOnItemLongClickListener(this)
             mBinding?.recview?.adapter = adapter
             mViewModel?.taskBean = bean
 
@@ -52,14 +58,15 @@ class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskVie
 
     override fun onResume() {
         super.onResume()
-        if( TaskAddActivity.uploadSuc){
-            TaskAddActivity.uploadSuc=false
+        if (TaskAddActivity.uploadSuc) {
+            TaskAddActivity.uploadSuc = false
             mViewModel?.setData()
 
         }
 
     }
 
+    override fun onBindToolbarLayout() = R.layout.blue_common_right_image_toolbar
     override fun onBindVariableId() = BR.taskViewModel
     override val tootBarTitle: String
         get() = "任务"
@@ -72,6 +79,27 @@ class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskVie
         Constants.dataAttr2 = taskItem.dataAttr1
         startActivity(intent)
 
+    }
+
+    override fun onItemLongClick(e: Any, postion: Int): Boolean {
+        showCustomDialog(
+            this,
+            "要删除此数据吗",
+            "删除后上传的数据将不可恢复",
+            "",
+            "取消",
+            "确定"
+        ).setOnItemClickListener(object :
+            CustomDialog.OnItemClickListener {
+            override fun onSure() {
+            val taskItem=    e as  TaskItem
+
+            }
+            override fun onDismiss() {
+            }
+
+        })
+        return true
     }
 
 }

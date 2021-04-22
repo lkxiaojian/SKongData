@@ -1,0 +1,31 @@
+package com.zky.basics.main.activity.task
+
+import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
+import com.zky.basics.main.BR
+import com.zky.basics.main.R
+import com.zky.basics.main.databinding.ActivityStatisticsBinding
+import com.zky.basics.main.mvvm.factory.MainViewModelFactory
+import com.zky.basics.main.mvvm.viewmodel.StatisticsModel
+
+
+class StatisticsActivity : BaseMvvmRefreshActivity<ActivityStatisticsBinding, StatisticsModel>() {
+    override fun refreshLayout() = mBinding?.drlStatistics
+
+    override fun onBindViewModel() = StatisticsModel::class.java
+    override fun onBindViewModelFactory() = MainViewModelFactory.getInstance(application)
+
+    override fun initViewObservable() {
+        val stringExtra = intent.getStringExtra("taskCode")
+        mViewModel?.taskCode?.set(stringExtra)
+        mViewModel?.getData()
+
+    }
+
+    override val tootBarTitle="数据统计"
+    override fun onBindToolbarLayout()=R.layout.white_common_toolbar
+
+    override fun onBindVariableId() = BR.statisticsModel
+
+    override fun onBindLayout() = R.layout.activity_statistics
+
+}
