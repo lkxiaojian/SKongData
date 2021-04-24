@@ -10,12 +10,14 @@ import com.zky.basics.api.common.entity.task.TaskChartAdBean
 import com.zky.basics.api.common.entity.task.TaskItem
 import com.zky.basics.common.event.SingleLiveEvent
 import com.zky.basics.common.mvvm.viewmodel.BaseRefreshViewModel
+import com.zky.basics.common.util.SoftInputUtil
 import com.zky.basics.common.util.reflec.instanceOf
 import com.zky.basics.main.R
 import com.zky.basics.main.mvvm.model.MainModel
 
 class StatisticsModel(application: Application, model: MainModel) :
     BaseRefreshViewModel<TaskChartAdBean, MainModel>(application, model) {
+    private val mApplication=application
 
     private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
     var searchMessage = ObservableField<String>()
@@ -97,6 +99,7 @@ class StatisticsModel(application: Application, model: MainModel) :
             }
             R.id.acb_search -> {
                 getData()
+                SoftInputUtil.hideSoftInput(mApplication,v)
             }
         }
 
