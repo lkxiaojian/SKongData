@@ -49,5 +49,9 @@ class TaskStatisticListAdapter(context: Context, items: ObservableArrayList<Task
         })
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
 
 }

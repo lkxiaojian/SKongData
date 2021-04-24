@@ -91,7 +91,7 @@ class StatisticsModel(application: Application, model: MainModel) :
                     mList.addAll(mListTmp)
                 } else {
                     mList.sortBy { bean -> bean.avgData }
-
+//                    mList.sortByDescending { bean -> bean.avgData }
                 }
                 getmVoidSingleLiveEvent().value = "dismiss"
             }
