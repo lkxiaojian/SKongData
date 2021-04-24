@@ -171,7 +171,7 @@ public class LBarChartView extends FrameLayout {
         avgLeft=AutoSizeUtils.dp2px(context, 93);
         barChartView = new BarChart(context, attrs);
         LayoutParams parames = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        parames.setMargins(mLeftTextSpace, mTopTextSpace, mLeftTextSpace, 0);
+        parames.setMargins(mLeftTextSpace+AutoSizeUtils.dp2px(context, 4), mTopTextSpace, mLeftTextSpace, 0);
         barChartView.setLayoutParams(parames);
         barChartView.setBootomDrawPadding(mBottomTextSpace);
         barChartView.setLeftDrawPadding(mLeftTextSpace);
