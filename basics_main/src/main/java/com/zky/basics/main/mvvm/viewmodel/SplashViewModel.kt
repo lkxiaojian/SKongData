@@ -27,6 +27,7 @@ import com.zky.basics.common.util.DisplayUtil.dip2px
 import com.zky.basics.common.util.InfoVerify
 import com.zky.basics.common.util.NetUtil.checkNet
 import com.zky.basics.common.util.SPUtils
+import com.zky.basics.common.util.SoftInputUtil
 import com.zky.basics.common.util.ToastUtil.showToast
 import com.zky.basics.common.util.security.SM3
 import com.zky.basics.common.util.spread.decodeParcelable
@@ -116,7 +117,11 @@ class SplashViewModel(application: Application, model: SplashModel) :
         getmVoidSingleLiveEvent().call()
         launchUI({
             val userinfo = mModel.login(sName, sPaw)
-            userinfo?.let { it ->
+            if (userinfo == null) {
+                getmVoidSingleLiveEvent().value = "miss"
+                return@launchUI
+            }
+            userinfo.let { it ->
                 it.token?.let {
                     RetrofitManager.TOKEN = it
 
@@ -132,7 +137,6 @@ class SplashViewModel(application: Application, model: SplashModel) :
         }, object : NetError {
             override fun getError(e: Exception) {
                 getmVoidSingleLiveEvent().value = "miss"
-                getmVoidSingleLiveEvent().call()
             }
 
         })
@@ -272,6 +276,7 @@ class SplashViewModel(application: Application, model: SplashModel) :
 
         } else if (i == R.id.login) {
             login()
+            SoftInputUtil.hideSoftInput(app,view)
         }
     }
 
@@ -365,12 +370,12 @@ class SplashViewModel(application: Application, model: SplashModel) :
     fun getRegion(regionLevel: Int?, position: Int, adapter: LevelAdapter) {
         levelAdapter = adapter
         launchUI({
-            var code:String?=""
-            if(position!=0){
-                code=levelListT[position-1].valueCode
+            var code: String? = ""
+            if (position != 0) {
+                code = levelListT[position - 1].valueCode
             }
 
-            val region = mModel.getRegion(regionLevel,code)
+            val region = mModel.getRegion(regionLevel, code)
             levelList.clear()
             region?.let { it ->
                 it.forEach {

@@ -23,6 +23,7 @@ import com.zky.basics.common.event.SingleLiveEvent
 import com.zky.basics.common.mvvm.viewmodel.BaseRefreshViewModel
 import com.zky.basics.common.util.DateUtil
 import com.zky.basics.common.util.PermissionToSetting
+import com.zky.basics.common.util.SoftInputUtil
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.R
 import com.zky.basics.main.mvvm.model.MainModel
@@ -32,6 +33,7 @@ import java.util.*
 
 class TaskViewModel(application: Application, model: MainModel) :
     BaseRefreshViewModel<TaskItem, MainModel>(application, model) {
+    private val mApplication = application
     var taskBean: TaskBean? = null
     private var pickerView: TimePickerView? = null
     private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
@@ -83,9 +85,9 @@ class TaskViewModel(application: Application, model: MainModel) :
 
     }
 
-    fun delItem(itemCode:String?,positon:Int) {
+    fun delItem(itemCode: String?, positon: Int) {
         launchUI({
-            mModel.delItem(taskBean?.taskCode,itemCode)
+            mModel.delItem(taskBean?.taskCode, itemCode)
             mList.removeAt(positon)
         })
     }
@@ -98,6 +100,7 @@ class TaskViewModel(application: Application, model: MainModel) :
             R.id.acb_search -> {
                 mList.clear()
                 setData()
+                SoftInputUtil.hideSoftInput(mApplication, v)
             }
             R.id.aiv_add_task -> {
                 ARouter.getInstance().build(ARouterPath.ADDTASK)
@@ -122,6 +125,7 @@ class TaskViewModel(application: Application, model: MainModel) :
             R.id.atv_se_time -> {
                 TimePv(v)
                 pickerView?.show()
+                SoftInputUtil.hideSoftInput(mApplication, v)
             }
         }
 
