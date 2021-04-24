@@ -33,7 +33,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginRight="31dp"
         android:lineSpacingMultiplier="1.5"
-        android:text="     本系统由中国科学院地理科学与资源研究所支持,应用于空间数据的采集与查询."
+        android:text="     本系统由中国科学院地理科学与资源研究所支持."
         android:textColor="@color/color_666666"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
