@@ -33,7 +33,6 @@ import java.util.*
 
 class TaskViewModel(application: Application, model: MainModel) :
     BaseRefreshViewModel<TaskItem, MainModel>(application, model) {
-    private val mApplication = application
     var taskBean: TaskBean? = null
     private var pickerView: TimePickerView? = null
     private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
@@ -100,7 +99,7 @@ class TaskViewModel(application: Application, model: MainModel) :
             R.id.acb_search -> {
                 mList.clear()
                 setData()
-                SoftInputUtil.hideSoftInput(mApplication, v)
+                SoftInputUtil.hideSoftInput(app,v)
             }
             R.id.aiv_add_task -> {
                 ARouter.getInstance().build(ARouterPath.ADDTASK)
@@ -125,7 +124,7 @@ class TaskViewModel(application: Application, model: MainModel) :
             R.id.atv_se_time -> {
                 TimePv(v)
                 pickerView?.show()
-                SoftInputUtil.hideSoftInput(mApplication, v)
+                SoftInputUtil.hideSoftInput(app,v)
             }
         }
 

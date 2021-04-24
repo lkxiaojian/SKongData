@@ -63,6 +63,7 @@ abstract class BaseModel(protected var mApplication: Application?) : IBaseModel 
                 }
                 is CustomException -> {
                     throw CustomException(e.message)
+
                 }
             }
             return null
