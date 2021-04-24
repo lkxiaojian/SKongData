@@ -6,8 +6,8 @@ ext {
             applicationId    : "com.zky.sk.zjcp",
             minSdkVersion    : 21,
             targetSdkVersion : 28,
-            versionCode      : 19,
-            versionName      : "1.0.6.4",
+            versionCode      : 20,
+            versionName      : "1.0.6.5",
 
     ]
     //version配置
