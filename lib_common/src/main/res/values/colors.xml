@@ -33,6 +33,8 @@
     <color name="color_999999">#999999</color>
     <color name="color_cccccc">#cccccc</color>
     <color name="color_E02020">#E02020</color>
+    <color name="color_0096FF">#ff0096FF</color>
+    <color name="color_31C2EE">#ff31C2EE</color>
 
 
     <color name="transparent">@android:color/transparent</color>
