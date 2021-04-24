@@ -317,9 +317,10 @@ public class BarChart extends LBaseView {
         }
         this.mAvgData = avgData;
         setDataLineWidth();
-//        if (mDatas.size() == 1) {
-//            scrollBy(-barGesture.preScrollX, 0);
-//        }
+        if (barGesture.preScrollX > 0) {
+            scrollBy(-barGesture.preScrollX, 0);
+            barGesture.preScrollX = 0;
+        }
 
         if (isAnimation) {
             animator.start();
