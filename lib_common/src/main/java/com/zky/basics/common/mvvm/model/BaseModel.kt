@@ -55,11 +55,13 @@ abstract class BaseModel(protected var mApplication: Application?) : IBaseModel 
                     when (e.code()) {
                         ExceptionHandler.SYSTEM_ERROR.INTERNAL_SERVER_ERROR -> {
                             R.string.server_error.showToast()
+                            throw  CustomException(e.message)
                         }
                     }
                 }
                 is SocketTimeoutException -> {
                     e.message?.showToast()
+                    throw  CustomException(e.message)
                 }
                 is CustomException -> {
                     throw  CustomException(e.message)
