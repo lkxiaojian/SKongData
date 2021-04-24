@@ -23,6 +23,7 @@ import com.zky.basics.common.event.SingleLiveEvent
 import com.zky.basics.common.mvvm.viewmodel.BaseRefreshViewModel
 import com.zky.basics.common.util.DateUtil
 import com.zky.basics.common.util.PermissionToSetting
+import com.zky.basics.common.util.SoftInputUtil
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.R
 import com.zky.basics.main.mvvm.model.MainModel
@@ -98,6 +99,7 @@ class TaskViewModel(application: Application, model: MainModel) :
             R.id.acb_search -> {
                 mList.clear()
                 setData()
+                SoftInputUtil.hideSoftInput(app,v)
             }
             R.id.aiv_add_task -> {
                 ARouter.getInstance().build(ARouterPath.ADDTASK)
@@ -122,6 +124,7 @@ class TaskViewModel(application: Application, model: MainModel) :
             R.id.atv_se_time -> {
                 TimePv(v)
                 pickerView?.show()
+                SoftInputUtil.hideSoftInput(app,v)
             }
         }
 

@@ -27,6 +27,7 @@ import com.zky.basics.common.util.DisplayUtil.dip2px
 import com.zky.basics.common.util.InfoVerify
 import com.zky.basics.common.util.NetUtil.checkNet
 import com.zky.basics.common.util.SPUtils
+import com.zky.basics.common.util.SoftInputUtil
 import com.zky.basics.common.util.ToastUtil.showToast
 import com.zky.basics.common.util.security.SM3
 import com.zky.basics.common.util.spread.decodeParcelable
@@ -272,6 +273,7 @@ class SplashViewModel(application: Application, model: SplashModel) :
 
         } else if (i == R.id.login) {
             login()
+            SoftInputUtil.hideSoftInput(app,view)
         }
     }
 

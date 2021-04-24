@@ -7,6 +7,7 @@ import com.zky.basics.api.http.ExceptionHandler
 import com.zky.basics.common.R
 import com.zky.basics.common.util.ToastUtil
 import com.zky.basics.common.util.spread.showToast
+import com.zky.basics.common.util.view.CustomException
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
@@ -34,14 +35,14 @@ abstract class BaseModel(protected var mApplication: Application?) : IBaseModel 
                     }
                     ExceptionHandler.SYSTEM_ERROR.INTERNAL_SERVER_ERROR == code -> {
                         R.string.server_error.showToast()
-                        throw Exception(msg)
+                        throw CustomException(msg)
                     }
                     code != ExceptionHandler.APP_ERROR.SUCC -> {
                         if (!msg.isNullOrEmpty()) {
                             ToastUtil.showToast(msg)
                             msg.showToast()
                         }
-                        throw Exception(msg)
+                        throw CustomException(msg)
                     }
                     else -> {
                         data
@@ -49,14 +50,20 @@ abstract class BaseModel(protected var mApplication: Application?) : IBaseModel 
                 }
             }
         } catch (e: Exception) {
-            if (e is HttpException) {
-                when (e.code()) {
-                    ExceptionHandler.SYSTEM_ERROR.INTERNAL_SERVER_ERROR -> {
-                        R.string.server_error.showToast()
+            when (e) {
+                is HttpException -> {
+                    when (e.code()) {
+                        ExceptionHandler.SYSTEM_ERROR.INTERNAL_SERVER_ERROR -> {
+                            R.string.server_error.showToast()
+                        }
                     }
                 }
-            } else if (e is SocketTimeoutException) {
-                e.message?.showToast()
+                is SocketTimeoutException -> {
+                    e.message?.showToast()
+                }
+                is CustomException -> {
+                    throw  CustomException(e.message)
+                }
             }
             return null
 //            throw Exception(e)
