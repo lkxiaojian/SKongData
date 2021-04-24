@@ -73,6 +73,7 @@ public class LBarChartView extends FrameLayout {
 
     private BarChart barChartView;
     private int dp24 = 70;
+    private int avgLeft=70;
     private int mShowNumber = 6;
     private float perBarW;
 
@@ -134,7 +135,7 @@ public class LBarChartView extends FrameLayout {
         mTextPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         mTextPaint.setColor(labelTextColor);
         mTextPaint.setTextSize(mLabelTextSize);
-        mTextPaint.setStrokeWidth(2);
+        mTextPaint.setStrokeWidth(1);
 
         mTitleTextPaint = generatePaint();
         mTitleTextPaint.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -167,6 +168,7 @@ public class LBarChartView extends FrameLayout {
         blueProgressBar.setStrokeCap(Paint.Cap.ROUND);
 
         dp24 = AutoSizeUtils.dp2px(context, 24);
+        avgLeft=AutoSizeUtils.dp2px(context, 93);
         barChartView = new BarChart(context, attrs);
         LayoutParams parames = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         parames.setMargins(mLeftTextSpace, mTopTextSpace, mLeftTextSpace, 0);
@@ -196,10 +198,10 @@ public class LBarChartView extends FrameLayout {
         perBarW = mWidth / mShowNumber;
         if (mTitle != null) {
             canvas.drawText(mTitle, dp24 / 2 - 10,
-                    mTopTextSpace - mTitleTextSize + mBottomTextSpace / 2, mTitleTextPaint);
+                    mTopTextSpace - mTitleTextSize + mBottomTextSpace / 2-mTitleTextSize+10, mTitleTextPaint);
         }
         if (mAvgTitle != null) {
-            canvas.drawText(mAvgTitle, mWidth - mLeftTextSpace * 3,
+            canvas.drawText(mAvgTitle, mWidth - avgLeft,
                     mTopTextSpace - mTitleTextSize + mBottomTextSpace / 2, mAvgTextPaint);
         }
 
@@ -207,7 +209,8 @@ public class LBarChartView extends FrameLayout {
         canvas.translate(mLeftTextSpace, mHeight - mBottomTextSpace);
         mTextPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         for (int i = 0; i <= 5; i++) {
-            String v = String.valueOf(maxData / 5 * i);
+//            String v = String.valueOf(maxData / 5 * i);
+            String v=""+(int)(maxData / 5 * i);
             int y = (-mHeight + mBottomTextSpace + mTopTextSpace) / 6 * i;
             canvas.drawText(v,
                     -mLeftTextSpace,
@@ -220,6 +223,7 @@ public class LBarChartView extends FrameLayout {
         }
         int withX = mWidth - mLeftTextSpace * 2;
         canvas.drawLine(0, dp24, withX, dp24, progressBar);
+
         if (mDatas.size() <= mShowNumber) {
             canvas.drawLine(-10, dp24, withX + 10, dp24, blueProgressBar);
         } else {
@@ -250,7 +254,10 @@ public class LBarChartView extends FrameLayout {
         this.mAvgTitle = "平均分数:" + avgData;
         if (mDatas.size() < 6) {
             mShowNumber = mDatas.size();
+        }else {
+            mShowNumber=6;
         }
+;
         postInvalidate();
         barChartView.setDatas(mDatas, mDesciption, avgData, isAnimation);
     }

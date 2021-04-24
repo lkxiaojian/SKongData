@@ -5,7 +5,6 @@ import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
 import com.zky.basics.common.util.ObservableListUtil
 import com.zky.basics.main.BR
 import com.zky.basics.main.R
-import com.zky.basics.main.adapter.TaskListAdapter
 import com.zky.basics.main.adapter.TaskStatisticListAdapter
 import com.zky.basics.main.databinding.ActivityStatisticsBinding
 import com.zky.basics.main.mvvm.factory.MainViewModelFactory
