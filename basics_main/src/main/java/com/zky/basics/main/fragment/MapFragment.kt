@@ -113,7 +113,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 
             if (it.contains("线")) {
                 mViewModel?.mapViewBean?.get()?.lineShow = true
-                lines=true
+                lines = true
                 if (!dians) {
                     mViewModel?.mapViewBean?.get()?.tipText = mViewModel!!.tipList[1]
                     mViewModel?.mapViewBean?.get()?.lineTYpe = 1
@@ -124,16 +124,15 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
             }
 
             if (it.contains("面")) {
-                mViewModel?.mapViewBean?.get()?.mianShow =true
-                if(!lines){
+                mViewModel?.mapViewBean?.get()?.mianShow = true
+                if (!lines) {
                     mViewModel?.mapViewBean?.get()?.tipText = mViewModel!!.tipList[2]
                     mViewModel?.mapViewBean?.get()?.lineTYpe = 2
                     mViewModel?.mapViewBean?.get()?.lineOrSurfaceTipText = "修改面信息"
                 }
-            }else{
-                mViewModel?.mapViewBean?.get()?.mianShow =false
+            } else {
+                mViewModel?.mapViewBean?.get()?.mianShow = false
             }
-
 
 
         }
@@ -505,7 +504,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                                         val toJson = data.geometry.toJson()
                                         val geometry = Gson().fromJson(
                                             toJson,
-                                           TGeometry::class.java
+                                            TGeometry::class.java
                                         )
                                         for (itemData in pointList) {
                                             if (geometry.paths.isNullOrEmpty()) {
@@ -975,31 +974,37 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
     }
 
     private fun dingwei() {
-        XXPermissions.with(activity).permission(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        ).request(object :
-            OnPermission {
-            override fun hasPermission(granted: MutableList<String>?, all: Boolean) {
-                if (all) {
-                    val mLocationDisplay = map_view?.locationDisplay
-                    mLocationDisplay?.autoPanMode = LocationDisplay.AutoPanMode.OFF
-                    mLocationDisplay?.startAsync()
-                    mLocationDisplay?.addLocationChangedListener { event ->
-                        // 查看返回的定位信息
-                        mLocationDisplay.defaultSymbol = meCampsiteSymbol
-                        mePoint = event.location.position
+        try {
+
+
+            XXPermissions.with(activity).permission(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ).request(object :
+                OnPermission {
+                override fun hasPermission(granted: MutableList<String>?, all: Boolean) {
+                    if (all) {
+                        val mLocationDisplay = map_view?.locationDisplay
+                        mLocationDisplay?.autoPanMode = LocationDisplay.AutoPanMode.OFF
+                        mLocationDisplay?.startAsync()
+                        mLocationDisplay?.addLocationChangedListener { event ->
+                            // 查看返回的定位信息
+                            mLocationDisplay.defaultSymbol = meCampsiteSymbol
+                            mePoint = event.location.position
+                        }
                     }
                 }
-            }
 
-            override fun noPermission(denied: MutableList<String>?, never: Boolean) {
-                PermissionToSetting(activity!!, denied!!, never, "获取存储权限失败")
-            }
+                override fun noPermission(denied: MutableList<String>?, never: Boolean) {
+                    PermissionToSetting(activity!!, denied!!, never, "获取存储权限失败")
+                }
 
-        })
+            })
+        } catch (e: java.lang.Exception) {
+
+        }
     }
 
     private fun getMapCenterPoint(): Point? {
