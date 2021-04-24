@@ -52,5 +52,12 @@ interface TaskService {
     ): RespDTO<Any>
 
     @GET("getTaskChart.do")
-    suspend fun getTaskChart(@Query("taskCode") taskCode: String?): RespDTO<Any>
+    suspend fun getTaskChart(@Query("taskCode") taskCode: String?,@Query("itemName") itemName: String?): RespDTO<List<List<TaskChart>>>
+
+    @POST("deleteItem.do")
+    suspend fun delItem(
+        @Query("taskCode") taskCode: String?,
+        @Query("itemCode") itemCode: String?,
+    ): RespDTO<Any>
+
 }

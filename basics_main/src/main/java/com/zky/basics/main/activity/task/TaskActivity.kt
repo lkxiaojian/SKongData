@@ -92,9 +92,11 @@ class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskVie
         ).setOnItemClickListener(object :
             CustomDialog.OnItemClickListener {
             override fun onSure() {
-            val taskItem=    e as  TaskItem
+                val taskItem = e as TaskItem
+                mViewModel?.delItem(taskItem.itemCode, postion)
 
             }
+
             override fun onDismiss() {
             }
 
