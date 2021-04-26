@@ -15,6 +15,14 @@ import java.io.File
  * Date 2019-12-25
  * Time 15:45
  * Detail:
+ *             //数据库使用 用例
+//          var  testRoomDbDao =
+//                AppDatabase.getDatabase(getApplication())?.testRoomDbDao()!!
+//            val testRoomDb = TestRoomDb(2231, "name", 3, "1", "3")
+//            val list= arrayListOf<TestRoomDb>()
+//            list.add(testRoomDb)
+//            testRoomDbDao.insertOrUpdate(list)
+//            val users = testRoomDbDao.users()
  */
 @Database(entities = [AccountLevel::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {

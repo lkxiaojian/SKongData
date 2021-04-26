@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Message
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,19 +16,16 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener
 import com.bigkoo.pickerview.view.OptionsPickerView
 import com.zky.basics.api.RetrofitManager
 import com.zky.basics.api.config.API
-import com.zky.basics.api.room.AppDatabase
 import com.zky.basics.api.splash.entity.AccountLevel
 import com.zky.basics.api.splash.entity.SplashViewBean
-import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.event.SingleLiveEvent
 import com.zky.basics.common.mvvm.viewmodel.BaseViewModel
 import com.zky.basics.common.util.DisplayUtil.dip2px
 import com.zky.basics.common.util.InfoVerify
-import com.zky.basics.common.util.NetUtil.checkNet
 import com.zky.basics.common.util.SPUtils
+import com.zky.basics.common.util.SoftInputUtil
 import com.zky.basics.common.util.ToastUtil.showToast
 import com.zky.basics.common.util.security.SM3
-import com.zky.basics.common.util.spread.decodeParcelable
 import com.zky.basics.common.util.spread.encode
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.common.view.showFullPopupWindow
@@ -95,28 +91,15 @@ class SplashViewModel(application: Application, model: SplashModel) :
             return
         }
         val sPaw = SM3.encrypt(sTmpPaw!!)
-        //离线登入
-//        if (!checkNet()) {
-//            val userinfo = decodeParcelable<Userinfo>("user")
-//            if (userinfo?.accountLevel == 5) {
-//                val phone = userinfo.phone
-//                val pwd = userinfo.password
-//                if (phone != name.get() || pwd != paw.get()) {
-//                    R.string.acountorpaw.showToast()
-//                    return
-//                }
-//                getmVoidSingleLiveEvent().value = "noNet"
-//                mVoidSingleLiveEvent!!.call()
-//            } else {
-//                R.string.net_error.showToast()
-//            }
-//            return
-//        }
         getmVoidSingleLiveEvent().value = "loadShow"
         getmVoidSingleLiveEvent().call()
         launchUI({
             val userinfo = mModel.login(sName, sPaw)
-            userinfo?.let { it ->
+            if (userinfo == null) {
+                getmVoidSingleLiveEvent().value = "miss"
+                return@launchUI
+            }
+            userinfo.let { it ->
                 it.token?.let {
                     RetrofitManager.TOKEN = it
 
@@ -132,7 +115,6 @@ class SplashViewModel(application: Application, model: SplashModel) :
         }, object : NetError {
             override fun getError(e: Exception) {
                 getmVoidSingleLiveEvent().value = "miss"
-                getmVoidSingleLiveEvent().call()
             }
 
         })
@@ -272,6 +254,7 @@ class SplashViewModel(application: Application, model: SplashModel) :
 
         } else if (i == R.id.login) {
             login()
+            SoftInputUtil.hideSoftInput(app,view)
         }
     }
 
@@ -343,15 +326,6 @@ class SplashViewModel(application: Application, model: SplashModel) :
 
     fun captcha() {
         launchUI({
-            //数据库使用 用例
-//          var  testRoomDbDao =
-//                AppDatabase.getDatabase(getApplication())?.testRoomDbDao()!!
-//            val testRoomDb = TestRoomDb(2231, "name", 3, "1", "3")
-//            val list= arrayListOf<TestRoomDb>()
-//            list.add(testRoomDb)
-//            testRoomDbDao.insertOrUpdate(list)
-//            val users = testRoomDbDao.users()
-
             val captcha = mModel.captcha()
             captcha?.let {
                 data.get()?.rgImageUrl =
@@ -365,12 +339,12 @@ class SplashViewModel(application: Application, model: SplashModel) :
     fun getRegion(regionLevel: Int?, position: Int, adapter: LevelAdapter) {
         levelAdapter = adapter
         launchUI({
-            var code:String?=""
-            if(position!=0){
-                code=levelListT[position-1].valueCode
+            var code: String? = ""
+            if (position != 0) {
+                code = levelListT[position - 1].valueCode
             }
 
-            val region = mModel.getRegion(regionLevel,code)
+            val region = mModel.getRegion(regionLevel, code)
             levelList.clear()
             region?.let { it ->
                 it.forEach {

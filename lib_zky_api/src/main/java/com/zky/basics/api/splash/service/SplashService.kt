@@ -52,5 +52,4 @@ interface SplashService {
     @GET("getAddrAll.do")
     suspend fun getAddrAll(): RespDTO<Areas>
 
-
 }

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="statisticsModel"
+            type="com.zky.basics.main.mvvm.viewmodel.StatisticsModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_f5f5f5">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_task_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_f5f5f5"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/art_serarch"
+                android:layout_width="210dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/shape_fff_3"
+                android:drawableStart="@drawable/task_search"
+                android:drawablePadding="7dp"
+                android:hint="按名称搜索"
+                android:text="@={statisticsModel.searchMessage}"
+                android:textColor="#ff9b9b9b"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/acb_search"
+                android:layout_width="55dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/shape_fff_3"
+                android:onClick="@{statisticsModel::startClick}"
+                android:text="搜索"
+                android:textColor="@color/color_3388EF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/art_serarch"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/aiv_rank"
+                android:layout_width="55dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:onClick="@{statisticsModel::startClick}"
+                android:src="@{statisticsModel.paisu?@drawable/no_paosu:@drawable/yes_paisu}"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <com.refresh.lib.DaisyRefreshLayout
+            android:id="@+id/drl_statistics"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="60dp"
+            app:enableLoadMore="@{safeUnbox(statisticsModel.enableLoadMore)}"
+            app:enableRefresh="@{safeUnbox(statisticsModel.enableRefresh)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:onAutoRefreshCommand="@{statisticsModel.onAutoRefreshCommand}"
+            app:onLoadMoreCommand="@{statisticsModel.onLoadMoreCommand}"
+            app:onRefreshCommand="@{statisticsModel.onRefreshCommand}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_f5f5f5"
+                app:linearLayoutManager="@{safeUnbox(statisticsModel.orientation)}" />
+
+        </com.refresh.lib.DaisyRefreshLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

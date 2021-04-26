@@ -22,22 +22,20 @@ import java.lang.ref.WeakReference
 
 class SplashActivity : BaseMvvmActivity<ViewDataBinding, SplashViewModel>() {
     override fun onBindLayout() = R.layout.activity_splash
-    private var handler: CustomHandler? = null
+//    private var handler: CustomHandler? = null
 //    lateinit var areaDao: AreaDao
 
     @SuppressLint("CheckResult")
     override fun initView() {
-        handler = WeakReference(CustomHandler()).get()
-//        handler?.sendEmptyMessageDelayed(1, 800)
+//        handler = WeakReference(CustomHandler()).get()
 
-//        mViewModel?.getmVoidSingleLiveEvent()
-//            ?.observe(this, Observer { aVoid: String? ->
-//                if(aVoid=="loginNow"){
-//                    handler?.sendEmptyMessageDelayed(1, 800)
-//                }else if(aVoid=="loginNotNow"){
-//                    handler?.sendEmptyMessage(1)
-//                }
-//            })
+
+        mViewModel?.getmVoidSingleLiveEvent()
+            ?.observe(this, Observer { aVoid: String? ->
+                if(aVoid=="loginNow"){
+
+                }
+            })
 
 
         XXPermissions.with(this).permission(
@@ -50,7 +48,7 @@ class SplashActivity : BaseMvvmActivity<ViewDataBinding, SplashViewModel>() {
 //                    areaDao =
 //                    AppDatabase.getDatabase(this@SplashActivity)?.areaDao()!!
 
-                    handler?.sendEmptyMessageDelayed(1, 800)
+//                    handler?.sendEmptyMessageDelayed(1, 800)
 
 //                    mViewModel?.createDataBase()
                 }
@@ -68,7 +66,9 @@ class SplashActivity : BaseMvvmActivity<ViewDataBinding, SplashViewModel>() {
 //        )
 //        atv_test.typeface=createFromAssetBold
 
-
+        abt_login.setOnClickListener {
+            startMainActivity()
+        }
     }
 
 
@@ -129,17 +129,18 @@ class SplashActivity : BaseMvvmActivity<ViewDataBinding, SplashViewModel>() {
 
     override fun onDestroy() {
         super.onDestroy()
-        handler?.removeCallbacksAndMessages(null)
-        handler = null
+        finish()
+//        handler?.removeCallbacksAndMessages(null)
+//        handler = null
     }
 
     override val isFullScreen = true
 
-    inner class CustomHandler : Handler() {
-        override fun handleMessage(msg: Message?) {
-            super.handleMessage(msg)
-            startMainActivity()
-        }
-    }
+//    inner class CustomHandler : Handler() {
+//        override fun handleMessage(msg: Message?) {
+//            super.handleMessage(msg)
+//            startMainActivity()
+//        }
+//    }
 
 }

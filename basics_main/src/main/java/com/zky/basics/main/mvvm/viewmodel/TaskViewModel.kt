@@ -23,6 +23,7 @@ import com.zky.basics.common.event.SingleLiveEvent
 import com.zky.basics.common.mvvm.viewmodel.BaseRefreshViewModel
 import com.zky.basics.common.util.DateUtil
 import com.zky.basics.common.util.PermissionToSetting
+import com.zky.basics.common.util.SoftInputUtil
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.R
 import com.zky.basics.main.mvvm.model.MainModel
@@ -83,6 +84,13 @@ class TaskViewModel(application: Application, model: MainModel) :
 
     }
 
+    fun delItem(itemCode: String?, positon: Int) {
+        launchUI({
+            mModel.delItem(taskBean?.taskCode, itemCode)
+            mList.removeAt(positon)
+        })
+    }
+
     fun startClick(v: View) {
         when (v.id) {
             R.id.iv_mine -> {
@@ -91,6 +99,7 @@ class TaskViewModel(application: Application, model: MainModel) :
             R.id.acb_search -> {
                 mList.clear()
                 setData()
+                SoftInputUtil.hideSoftInput(app,v)
             }
             R.id.aiv_add_task -> {
                 ARouter.getInstance().build(ARouterPath.ADDTASK)
@@ -115,6 +124,7 @@ class TaskViewModel(application: Application, model: MainModel) :
             R.id.atv_se_time -> {
                 TimePv(v)
                 pickerView?.show()
+                SoftInputUtil.hideSoftInput(app,v)
             }
         }
 
@@ -128,47 +138,6 @@ class TaskViewModel(application: Application, model: MainModel) :
         })
 
     }
-
-
-//    fun createDataBase() {
-//
-//        var areaDao =
-//            AppDatabase.getDatabase(app)?.accountLevelDao()
-//        launchUI({
-//            try {
-//                val count = areaDao?.count()
-//                count?.let {
-//                    if (it > 1) {
-//                        getmVoidSingleLiveEvent().value = "miss"
-//                        return@launchUI
-//                    }
-//                }
-//                val addrAll = mModel.getAddrAll()
-//
-//                insertAccount(addrAll?.province, areaDao, 1)
-//                insertAccount(addrAll?.town, areaDao, 2)
-//                insertAccount(addrAll?.city, areaDao, 3)
-//                insertAccount(addrAll?.county, areaDao, 4)
-//                insertAccount(addrAll?.village, areaDao, 5)
-//                Log.e("", "")
-//
-//            } catch (e: java.lang.Exception) {
-//                getmVoidSingleLiveEvent().value = "miss"
-//            }
-//        }, object : NetError {
-//            override fun getError(e: Exception) {
-//                getmVoidSingleLiveEvent().value = "miss"
-//            }
-//        })
-//    }
-
-//    private fun insertAccount(data: List<Area>?, areaDao: AccountLevelDao?, type: Int) {
-//        val list = arrayListOf<AccountLevel>()
-//        data?.let {
-//            it.forEach {
-//            }
-//        }
-//    }
 
 
     fun TimePv(view: View) {

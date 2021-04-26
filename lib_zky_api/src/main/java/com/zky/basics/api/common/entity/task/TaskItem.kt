@@ -11,13 +11,15 @@ import com.zky.basics.api.BR
  *author: lk
  *description： TaskItem
  */
- class TaskItem(
+class TaskItem(
     var taskCode: String?,
     var itemCode: String?,
     var dataAttr1: String?,
     var dataAttr2: String?,
-    var dataAttr3: String?
-): BaseObservable() , Parcelable {
+    var dataAttr3: String?,
+    var uname: String? = "",
+    var phone: String? = "",
+) : BaseObservable(), Parcelable {
     var fData: TaskBean? = null
 
     @get:Bindable
@@ -33,6 +35,8 @@ import com.zky.basics.api.BR
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
         parcel.readString()
     ) {
         fData = parcel.readParcelable(TaskBean::class.java.classLoader)
@@ -44,6 +48,8 @@ import com.zky.basics.api.BR
         parcel.writeString(dataAttr1)
         parcel.writeString(dataAttr2)
         parcel.writeString(dataAttr3)
+        parcel.writeString(uname)
+        parcel.writeString(phone)
         parcel.writeParcelable(fData, flags)
     }
 

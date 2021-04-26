@@ -10,8 +10,10 @@ import com.hjq.permissions.XXPermissions
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.api.config.API
 import com.zky.basics.api.splash.entity.AccountLevel
+import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.mvvm.BaseMvvmActivity
 import com.zky.basics.common.util.PermissionToSetting
+import com.zky.basics.common.util.spread.decodeParcelable
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.BR
 import com.zky.basics.main.R
@@ -78,10 +80,11 @@ class TaskAddActivity : BaseMvvmActivity<ActivityTaskAddBinding, TaskViewModel>(
     }
 
     private fun addSure() {
+        val userinfo = decodeParcelable<Userinfo>("user")
         var url = API.URL_HOST + "/insertOrUpdateItem.do?taskCode=${taskData.taskCode}" +
                 "&dataAttr1=${mViewModel?.attr1?.get()}" +
                 "&dataAttr2=${mViewModel?.attr2?.get()}"
-        url += "&dataAttr3=$addres"
+        url += "&dataAttr3=$addres&uname=${userinfo?.username}&phone=${userinfo?.phone}"
         mViewModel?.insertOrUpdateItem(url)
     }
 

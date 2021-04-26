@@ -11,10 +11,9 @@ import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider
 object Constants {
     var ossStsTokenCredentialProvider: OSSStsTokenCredentialProvider? = null
     var isNet = true
-
     const val providePath = "com.zky.sk.zjcp.fileProvider"
     const val bucketName = "zjcp"
-    const val appCode = "27093798379061450"
+    const val appCode = ""
     var itemCode = ""
     var dataAttr2: String? = ""
     var taskCode: String? = ""

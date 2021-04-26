@@ -10,8 +10,8 @@ import com.zky.basics.api.config.API
 import com.zky.basics.common.BR
 import com.zky.basics.common.constant.Constants
 import com.zky.basics.common.mvvm.BaseMvvmActivity
-import com.zky.basics.common.util.Handset.HandsetMakers.checkPhoneMasker
-import com.zky.basics.common.util.spread.showToast
+import com.zky.basics.common.util.spread.decode
+import com.zky.basics.common.util.spread.encode
 import com.zky.basics.main.OneMainActivity
 import com.zky.basics.main.R
 import com.zky.basics.main.databinding.ActivityLoginBinding
@@ -25,6 +25,12 @@ class LoginActivity :
     override fun onBindViewModelFactory(): ViewModelProvider.Factory? = getInstance(application)
 
     override fun initViewObservable() {
+        val phone = "".decode("loginPhone")
+        phone?.let {
+            mViewModel?.name?.set(it.toString())
+        }
+
+
         //check app versionCode if versionCode less than server versionCode  then  app update
         XUpdate.newBuild(this)
             .updateUrl(API.URL_APP_UPDATE)
@@ -37,6 +43,7 @@ class LoginActivity :
                 //online login
                 when (aVoid) {
                     "login" -> {
+                        mViewModel?.name?.get()?.encode("loginPhone")
                         Constants.isNet = true
                         startActivity(Intent(this@LoginActivity, OneMainActivity::class.java))
                         showTransLoadingView(false)

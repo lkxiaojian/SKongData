@@ -3,6 +3,7 @@ package com.zky.basics.main.mvvm.model
 import android.app.Application
 import com.zky.basics.api.RetrofitManager.Companion.instance
 import com.zky.basics.api.common.entity.task.TaskBean
+import com.zky.basics.api.common.entity.task.TaskChart
 import com.zky.basics.api.common.entity.task.TaskItem
 import com.zky.basics.api.room.bean.Areas
 import com.zky.basics.api.splash.entity.AccountLevel
@@ -53,6 +54,10 @@ class MainModel(application: Application?) : BaseModel(application) {
     suspend fun getTaskList(code: String?):List<TaskBean>?=request {
         taskService.getTaskList(code)
     }
+    suspend fun getTaskChart(code: String?,itemName:String?):List<List<TaskChart>>?=request {
+        taskService.getTaskChart(code,itemName)
+    }
+
 
 
 
@@ -75,6 +80,11 @@ class MainModel(application: Application?) : BaseModel(application) {
 
     suspend fun getAddrAll(): Areas? = request {
         splashService.getAddrAll()
+    }
+
+
+    suspend fun delItem(taskCode: String?,itemCode:String?):Any?=request {
+        taskService.delItem(taskCode,itemCode)
     }
 
 }

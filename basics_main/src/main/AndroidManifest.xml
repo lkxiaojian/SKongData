@@ -11,22 +11,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".activity.task.TaskAddActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-           >
-<!--            android:theme="@style/AppThemeBlack"-->
+        <activity
+            android:name=".activity.task.StatisticsActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity
+            android:name=".activity.task.TaskAddActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
         <activity
             android:name=".activity.task.TaskMessageActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-           >
-<!--            android:theme="@style/AppThemeBlack"-->
-
-
+            android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
-        <activity android:name=".activity.task.TaskActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            ></activity>
+        <activity
+            android:name=".activity.task.TaskActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+
+
+
         <activity android:name=".OneMainActivity" />
         <activity
             android:name=".activity.SplashActivity"
@@ -36,6 +37,7 @@
             android:theme="@style/Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -53,10 +55,14 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
+        <service android:name="com.amap.api.location.APSService" />
+
 
         <service android:name="com.amap.api.location.APSService"></service>
-        <meta-data android:name="com.amap.api.v2.apikey" android:value="9f6c9dfd06afeb529285faa1c33aa89d">
-        </meta-data>
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="9f6c9dfd06afeb529285faa1c33aa89d"></meta-data>
     </application>
 
 </manifest>
