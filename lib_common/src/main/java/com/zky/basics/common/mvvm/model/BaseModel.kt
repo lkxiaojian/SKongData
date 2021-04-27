@@ -39,10 +39,7 @@ abstract class BaseModel(protected var mApplication: Application?) : IBaseModel 
                         throw CustomException(msg)
                     }
                     code != ExceptionHandler.APP_ERROR.SUCC -> {
-                        if (!msg.isNullOrEmpty()) {
-                            ToastUtil.showToast(msg)
-                            msg.showToast()
-                        }
+                        msg.showToast()
                         throw CustomException(msg)
                     }
                     else -> {
