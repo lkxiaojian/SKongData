@@ -13,6 +13,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
+import java.net.ConnectException
 import java.net.SocketTimeoutException
 
 
@@ -66,6 +67,10 @@ abstract class BaseModel(protected var mApplication: Application?) : IBaseModel 
                 is CustomException -> {
                     throw CustomException(e.message)
 
+                }
+                is ConnectException->{
+                    e.message?.showToast()
+                    throw  CustomException(e.message)
                 }
             }
             return null
