@@ -11,10 +11,8 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.HttpException
 import java.lang.RuntimeException
-import java.net.ConnectException
-import java.net.SocketTimeoutException
+
 
 
 abstract class BaseModel(protected var mApplication: Application?) : IBaseModel {
