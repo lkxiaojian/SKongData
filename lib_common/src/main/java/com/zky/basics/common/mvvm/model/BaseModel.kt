@@ -3,11 +3,10 @@ package com.zky.basics.common.mvvm.model
 import android.app.Application
 import com.alibaba.android.arouter.launcher.ARouter
 import com.zky.basics.api.dto.RespDTO
+import com.zky.basics.api.http.CustomException
 import com.zky.basics.api.http.ExceptionHandler
 import com.zky.basics.common.R
-import com.zky.basics.common.util.ToastUtil
 import com.zky.basics.common.util.spread.showToast
-import com.zky.basics.common.util.view.CustomException
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
@@ -48,29 +47,33 @@ abstract class BaseModel(protected var mApplication: Application?) : IBaseModel 
                 }
             }
         } catch (e: Exception) {
-            when (e) {
-                is HttpException -> {
-                    when (e.code()) {
-                        ExceptionHandler.SYSTEM_ERROR.INTERNAL_SERVER_ERROR -> {
-                            R.string.server_error.showToast()
-                            throw  CustomException(e.message)
-                        }
-                    }
-                }
-                is SocketTimeoutException -> {
-                    e.message?.showToast()
-                    throw  CustomException(e.message)
-                }
-                is CustomException -> {
-                    throw  CustomException(e.message)
-                }
-                is ConnectException->{
-                    e.message?.showToast()
-                    throw  CustomException(e.message)
-                }
-            }
-            return null
-//            throw Exception(e)
+            val handleException = ExceptionHandler.handleException(e)
+            handleException.message?.showToast()
+            throw  CustomException(handleException.message)
+
+
+//            when (e) {
+//                is HttpException -> {
+//                    when (e.code()) {
+//                        ExceptionHandler.SYSTEM_ERROR.INTERNAL_SERVER_ERROR -> {
+//                            R.string.server_error.showToast()
+//                            throw  CustomException(e.message)
+//                        }
+//                    }
+//                }
+//                is SocketTimeoutException -> {
+//                    e.message?.showToast()
+//                    throw  CustomException(e.message)
+//                }
+//                is CustomException -> {
+//                    throw  CustomException(e.message)
+//                }
+//                is ConnectException->{
+//                    e.message?.showToast()
+//                    throw  CustomException(e.message)
+//                }
+//            }
+//            return null
         }
     }
 
