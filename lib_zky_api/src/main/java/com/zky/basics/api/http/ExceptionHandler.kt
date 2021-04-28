@@ -42,7 +42,7 @@ object ExceptionHandler {
             ex
         } else if (e is ConnectException) {
             ex = ResponseThrowable(e, SYSTEM_ERROR.NETWORD_ERROR)
-            ex.message = "连接失败"
+            ex.message = "服务器连接失败"
             ex
         } else if (e is SSLException) {
             ex = ResponseThrowable(e, SYSTEM_ERROR.SSL_ERROR)
@@ -50,15 +50,19 @@ object ExceptionHandler {
             ex
         } else if (e is ConnectTimeoutException) {
             ex = ResponseThrowable(e, SYSTEM_ERROR.TIMEOUT_ERROR)
-            ex.message = "连接超时"
+            ex.message = "服务器连接超时"
             ex
         } else if (e is SocketTimeoutException) {
             ex = ResponseThrowable(e, SYSTEM_ERROR.TIMEOUT_ERROR)
-            ex.message = "连接超时"
+            ex.message = "服务器连接超时"
             ex
         } else if (e is UnknownHostException) {
             ex = ResponseThrowable(e, SYSTEM_ERROR.TIMEOUT_ERROR)
             ex.message = "主机地址未知"
+            ex
+        } else if (e is CustomException) {
+            ex = ResponseThrowable(e, SYSTEM_ERROR.TIMEOUT_ERROR)
+            ex.message = e.message
             ex
         } else {
             ex = ResponseThrowable(e, SYSTEM_ERROR.UNKNOWN)
@@ -75,30 +79,41 @@ object ExceptionHandler {
         const val LONG_TIME_NO_ACTION = 408
         const val INTERNAL_SERVER_ERROR = 500
         const val SERVICE_UNAVAILABLE = 503
+
         /**
          * 未知错误
          */
         const val UNKNOWN = 1000
+
         /**
          * 解析错误
          */
         const val PARSE_ERROR = 1001
+
         /**
          * SSL_ERROR         * 网络错误
          */
         const val NETWORD_ERROR = 1002
+
         /**
          * 协议出错
          */
         const val HTTP_ERROR = 1003
+
         /**
          * 证书出错
          */
         const val SSL_ERROR = 1005
+
         /**
          * 连接超时
          */
         const val TIMEOUT_ERROR = 1006
+
+        /**
+         * 自定义异常
+         */
+        const val CUSTOM_ERROR = 1007
     }
 
     interface APP_ERROR {
