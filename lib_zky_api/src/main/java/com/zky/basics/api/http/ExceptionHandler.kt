@@ -10,6 +10,7 @@ import com.zky.basics.api.RetrofitManager
 import org.apache.http.conn.ConnectTimeoutException
 import org.json.JSONException
 import retrofit2.HttpException
+import java.lang.RuntimeException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -39,6 +40,8 @@ object ExceptionHandler {
         } else if (e is JsonParseException || e is JSONException || e is ParseException || e is MalformedJsonException) {
             ex = ResponseThrowable(e, SYSTEM_ERROR.PARSE_ERROR)
             ex.message = "解析错误"
+            Toast.makeText(RetrofitManager.mContext, "解析错误", Toast.LENGTH_SHORT)
+                .show()
             ex
         } else if (e is ConnectException) {
             ex = ResponseThrowable(e, SYSTEM_ERROR.NETWORD_ERROR)
