@@ -48,9 +48,11 @@ abstract class BaseModel(protected var mApplication: Application?) : IBaseModel 
             }
         } catch (e: Exception) {
             val handleException = ExceptionHandler.handleException(e)
+            if(handleException.message=="未知错误"){
+                return null
+            }
             handleException.message?.showToast()
             throw  CustomException(handleException.message)
-
 
 //            when (e) {
 //                is HttpException -> {
