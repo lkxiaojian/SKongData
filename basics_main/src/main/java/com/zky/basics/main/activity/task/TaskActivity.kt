@@ -66,7 +66,7 @@ class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskVie
 
     }
 
-    override fun onBindToolbarLayout() = R.layout.blue_common_right_image_toolbar
+//    override fun onBindToolbarLayout() = R.layout.blue_common_right_image_toolbar
     override fun onBindVariableId() = BR.taskViewModel
     override val tootBarTitle: String
         get() = "任务"
