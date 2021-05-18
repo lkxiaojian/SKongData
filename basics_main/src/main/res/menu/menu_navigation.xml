@@ -7,6 +7,11 @@
         android:title="@string/title_home"/>
 
     <item
+        android:id="@+id/navigation_task"
+        android:icon="@drawable/rw_task"
+        android:title="@string/title_task"/>
+
+    <item
         android:id="@+id/navigation_me"
         android:icon="@drawable/ic_bottom_my"
         android:title="@string/title_my"/>

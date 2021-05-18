@@ -32,7 +32,7 @@ class MainMineFragment : BaseMvvmFragment<ViewDataBinding, MineViewModle>() {
 
     override fun onBindViewModel() = MineViewModle::class.java
 
-    override fun onBindViewModelFactory() = MineViewModelFactory.getInstance(activity!!.application)
+    override fun onBindViewModelFactory() = MineViewModelFactory.getInstance(mActivity.application)
 
     override fun initViewObservable() {
         mViewModel?.getmVoidSingleLiveEvent()?.observe(this, Observer {

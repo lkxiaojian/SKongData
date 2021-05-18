@@ -38,4 +38,6 @@ object ARouterPath {
     const val MAP_SHOW = "/map/showMap"
     const val QUESTION = "/question/naire"
 
+    const val TASK_CHAIN="/task_chain/tasklist"
+
 }

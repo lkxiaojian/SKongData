@@ -7,20 +7,23 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.zky.basics.common.mvvm.BaseActivity
 import com.zky.basics.common.provider.ILiveProvider
 import com.zky.basics.common.provider.IMineProvider
+import com.zky.basics.common.provider.ITaskChainProvider
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.entity.MainChannel
+import com.zky.basics.main.fragment.CollectFragment
 import kotlinx.android.synthetic.main.commot_activity_main.*
 
 class MainActivity : BaseActivity() {
     @JvmField
-    @Autowired(name = ARouterPath.LIVE_MAIN)
-    var iLiveProvider: ILiveProvider? = null
+    @Autowired(name = ARouterPath.TASK_CHAIN)
+    var iTaskChainProvider: ITaskChainProvider? = null
 
     @JvmField
     @Autowired(name = ARouterPath.MINE_MAIN_FRGMENT)
     var mMineProvider: IMineProvider? = null
-    private var mFlayFragment: Fragment? = null
+    private var mFlayFragment: Fragment = CollectFragment()
     private var mMeFragment: Fragment? = null
+    private var mTaskFragment: Fragment? = null
     private var mCurrFragment: Fragment? = null
     private var mBackPressed: Long = 0
     override fun onBindLayout() = R.layout.commot_activity_main
@@ -34,6 +37,13 @@ class MainActivity : BaseActivity() {
                     mCurrFragment = mFlayFragment
                     return@setOnNavigationItemSelectedListener true
                 }
+
+                R.id.navigation_task -> {
+                    switchContent(mCurrFragment, mTaskFragment, MainChannel.ME.name)
+                    mCurrFragment = mTaskFragment
+                    return@setOnNavigationItemSelectedListener true
+                }
+
                 R.id.navigation_me -> {
                     switchContent(mCurrFragment, mMeFragment, MainChannel.ME.name)
                     mCurrFragment = mMeFragment
@@ -42,17 +52,16 @@ class MainActivity : BaseActivity() {
             }
             false
         }
-        mFlayFragment = iLiveProvider?.mainLiveFragment
         mMeFragment = mMineProvider?.mainMineFragment
-
+        mTaskFragment=iTaskChainProvider?.taskChainFragment
         mCurrFragment = mFlayFragment
-        iLiveProvider.let {
-            supportFragmentManager.beginTransaction().replace(
-                R.id.frame_content,
-                mFlayFragment!!,
-                MainChannel.NEWS.name
-            ).commit()
-        }
+
+
+        supportFragmentManager.beginTransaction().replace(
+            R.id.frame_content,
+            mFlayFragment!!,
+            MainChannel.NEWS.name
+        ).commit()
     }
 
     override fun initData() {

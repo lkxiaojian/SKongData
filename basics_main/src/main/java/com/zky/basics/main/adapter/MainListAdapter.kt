@@ -11,6 +11,7 @@ import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.main.R
 import com.zky.basics.main.databinding.MainListBinding
+import com.zky.basics.main.fragment.CollectFragment
 
 
 /**
@@ -25,10 +26,10 @@ class MainListAdapter(context: Context, items: ObservableArrayList<TaskBean>?) :
     @SuppressLint("SetTextI18n")
     override fun onBindItem(binding: MainListBinding?, item: TaskBean, position: Int) {
         binding?.data = item
-        val string: Spannable = SpannableString("任务名称: ${item.taskName}")
+        val string: Spannable = SpannableString("行动名称: ${item.taskName}")
         string.setSpan(StyleSpan(Typeface.BOLD), 0, 5, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         binding?.atvTaskName?.text = string
-        binding?.atvTaskNum?.text = "任务${position + 1}"
+        binding?.atvTaskNum?.text = "行动${position + 1}"
         binding?.atvTime?.text = "时间：${item.startDate} - ${item.endDate}"
 
         binding?.cvClick?.setOnClickListener {

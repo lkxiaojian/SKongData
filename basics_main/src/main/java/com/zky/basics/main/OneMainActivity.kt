@@ -2,7 +2,6 @@ package com.zky.basics.main
 
 
 import BangUtli.setCJViewPading
-import BangUtli.setViewPading
 import android.content.Intent
 import androidx.lifecycle.Observer
 import com.zky.basics.api.common.entity.task.TaskBean
@@ -12,7 +11,6 @@ import com.zky.basics.common.constant.Constants
 import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
 import com.zky.basics.common.util.ObservableListUtil
 import com.zky.basics.common.util.spread.decode
-import com.zky.basics.common.util.spread.encode
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.activity.task.TaskActivity
 import com.zky.basics.main.adapter.MainListAdapter

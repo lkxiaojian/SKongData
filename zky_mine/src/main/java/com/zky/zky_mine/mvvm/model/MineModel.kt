@@ -1,15 +1,11 @@
 package com.zky.zky_mine.mvvm.model
 
 import android.app.Application
-import com.zky.basics.api.RetrofitManager
 import com.zky.basics.api.RetrofitManager.Companion.instance
-import com.zky.basics.api.apiservice.CommonService
 import com.zky.basics.api.apiservice.MineService
 import com.zky.basics.api.common.entity.OssToken
-import com.zky.basics.api.dto.RespDTO
 import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.mvvm.model.BaseModel
-import okhttp3.MultipartBody
 
 /**
  * Created by lk

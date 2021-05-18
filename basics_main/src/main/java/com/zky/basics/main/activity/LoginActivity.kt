@@ -12,6 +12,7 @@ import com.zky.basics.common.constant.Constants
 import com.zky.basics.common.mvvm.BaseMvvmActivity
 import com.zky.basics.common.util.spread.decode
 import com.zky.basics.common.util.spread.encode
+import com.zky.basics.main.MainActivity
 import com.zky.basics.main.OneMainActivity
 import com.zky.basics.main.R
 import com.zky.basics.main.databinding.ActivityLoginBinding
@@ -45,7 +46,8 @@ class LoginActivity :
                     "login" -> {
                         mViewModel?.name?.get()?.encode("loginPhone")
                         Constants.isNet = true
-                        startActivity(Intent(this@LoginActivity, OneMainActivity::class.java))
+//                        startActivity(Intent(this@LoginActivity, OneMainActivity::class.java))
+                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                         showTransLoadingView(false)
                         finishActivity()
                     }
