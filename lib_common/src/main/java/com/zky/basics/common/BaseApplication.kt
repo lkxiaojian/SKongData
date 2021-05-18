@@ -11,6 +11,8 @@ import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 import com.umeng.message.IUmengRegisterCallback
 import com.umeng.message.PushAgent
+import com.umeng.message.common.inter.ITagManager
+import com.umeng.message.tag.TagManager
 import com.xuexiang.xupdate.XUpdate
 import com.xuexiang.xupdate.entity.UpdateError
 import com.xuexiang.xupdate.entity.UpdateError.ERROR
@@ -71,6 +73,11 @@ open class BaseApplication : MultiDexApplication() {
             }
 
         })
+
+        pushAgent.tagManager.addTags({ p0, p1 ->
+            Log.e("","")
+
+        },"user")
 
 
     }
