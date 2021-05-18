@@ -18,6 +18,7 @@ object Constants {
 
     var itemCode = ""
     var taskName: String? = ""
+    var wjCode: String? = ""
     var dataAttr2: String? = ""
     var taskCode: String? = ""
     var dxm: String? = ""

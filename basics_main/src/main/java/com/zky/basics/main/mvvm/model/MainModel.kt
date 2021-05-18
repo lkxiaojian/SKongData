@@ -5,6 +5,7 @@ import com.zky.basics.api.RetrofitManager.Companion.instance
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.api.common.entity.task.TaskChart
 import com.zky.basics.api.common.entity.task.TaskItem
+import com.zky.basics.api.common.entity.task.TaskWjBean
 import com.zky.basics.api.room.bean.Areas
 import com.zky.basics.api.splash.entity.AccountLevel
 import com.zky.basics.api.splash.entity.ImageUrl
@@ -58,7 +59,9 @@ class MainModel(application: Application?) : BaseModel(application) {
         taskService.getTaskChart(code,itemName)
     }
 
-
+    suspend fun getTaskWjList(code: String?):List<TaskWjBean>?=request {
+        taskService.getTaskWjList(code)
+    }
 
 
     suspend fun getItemList(taskCode: String?,message:String?):List<TaskItem>?=request {

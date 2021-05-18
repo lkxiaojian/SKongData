@@ -20,4 +20,7 @@
     <string name="idcard_mf" translatable="false">身份证</string>
     <string name="idcard_xz" translatable="false">0123456789xX</string>
     <string name="create_user" translatable="false">创建者：%s </string>
+    <string name="emtry" translatable="false">""</string>
+    <string name="wj_ycj" translatable="false">已采集</string>
+    <string name="wj_wcj" translatable="false">未采集</string>
 </resources>

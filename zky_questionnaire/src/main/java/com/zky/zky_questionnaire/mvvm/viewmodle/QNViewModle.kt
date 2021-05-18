@@ -82,7 +82,7 @@ class QNViewModle(application: Application, model: qnModel) :
             try {
             //同时进行请求问卷的内容和答案
             val wjTemplatex = async {
-                mModel.getWjTemplate(Constants.taskCode)
+                mModel.getWjTemplate(Constants.taskCode,Constants.wjCode)
             }
             val wjInfox = async {
                 mModel.getWjInfo()

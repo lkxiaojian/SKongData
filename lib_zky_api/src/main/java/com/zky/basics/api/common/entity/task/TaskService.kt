@@ -40,15 +40,16 @@ interface TaskService {
 
 
     @GET("getWjTemplate.do")
-    suspend fun getWjTemplate(@Query("taskCode") taskCode: String?): RespDTO<List<TaskQuestion>>
+    suspend fun getWjTemplate(@Query("taskCode") taskCode: String?,@Query("wjCode") wjCode: String?): RespDTO<List<TaskQuestion>>
 
     @GET("getWjInfo.do")
-    suspend fun getWjInfo(@Query("itemCode") taskCode: String?): RespDTO<List<TaskResult>>
+    suspend fun getWjInfo(@Query("itemCode") taskCode: String?,@Query("wjCode") wjCode: String?): RespDTO<List<TaskResult>>
 
     @POST("insertOrUpdateWjInfo.do")
     suspend fun insertOrUpdateWjInfo(
         @Query("itemCode") taskCode: String?,
-        @Query("wjInfoString") wjInfoString: String?
+        @Query("wjInfoString") wjInfoString: String?,
+        @Query("wjCode") wjCode: String?
     ): RespDTO<Any>
 
     @GET("getTaskChart.do")
@@ -59,5 +60,10 @@ interface TaskService {
         @Query("taskCode") taskCode: String?,
         @Query("itemCode") itemCode: String?,
     ): RespDTO<Any>
+
+
+    @GET("getTaskWjList.do")
+    suspend fun getTaskWjList(@Query("taskCode") taskCode: String?): RespDTO<List<TaskWjBean>>
+
 
 }

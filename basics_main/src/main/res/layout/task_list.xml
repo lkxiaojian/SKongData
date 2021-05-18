@@ -101,7 +101,7 @@
                 android:layout_marginTop="10dp"
                 android:paddingBottom="10dp"
                 android:layout_marginEnd="70dp"
-                android:text="@{@string/create_user(data.uname)}"
+                android:text="@{data.uname==null?@string/create_user(@string/emtry):@string/create_user(data.uname)}"
                 android:textColor="@color/color_666666"
                 android:textSize="14sp"
                 app:layout_constraintLeft_toLeftOf="parent"

@@ -9,6 +9,7 @@ import android.text.style.StyleSpan
 import androidx.databinding.ObservableArrayList
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.api.common.entity.task.TaskItem
+import com.zky.basics.api.common.entity.task.TaskWjBean
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.main.R
 import com.zky.basics.main.databinding.MainListBinding
@@ -21,11 +22,11 @@ import com.zky.basics.main.databinding.TaskListBinding
  *author: lk
  *description： MainListAdapter
  */
-class QStateListAdapter(context: Context, items: ObservableArrayList<String>?) :
-    BaseBindAdapter<String, QStateItemListBinding>(context, items) {
+class QStateListAdapter(context: Context, items: ObservableArrayList<TaskWjBean>?) :
+    BaseBindAdapter<TaskWjBean, QStateItemListBinding>(context, items) {
     override fun getLayoutItemId(viewType: Int) = R.layout.q_state_item_list
 
-    override fun onBindItem(binding: QStateItemListBinding?, item: String, position: Int) {
+    override fun onBindItem(binding: QStateItemListBinding?, item: TaskWjBean, position: Int) {
         binding?.data = item
         binding?.cvClick?.setOnClickListener {
             mItemClickListener?.onItemClick(item, position)

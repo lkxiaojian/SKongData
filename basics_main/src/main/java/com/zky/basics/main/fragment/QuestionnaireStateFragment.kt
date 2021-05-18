@@ -2,8 +2,10 @@ package com.zky.basics.main.fragment
 
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
+import com.zky.basics.api.common.entity.task.TaskWjBean
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.constant.Constants.taskName
+import com.zky.basics.common.constant.Constants.wjCode
 import com.zky.basics.common.mvvm.BaseMvvmRefreshFragment
 import com.zky.basics.common.util.ObservableListUtil
 import com.zky.basics.main.BR
@@ -19,7 +21,7 @@ import com.zky.basics.main.mvvm.viewmodel.QStateViewModel
  *description： QuestionnaireStateFragment
  */
 class QuestionnaireStateFragment :
-    BaseMvvmRefreshFragment<Any, QuestionnaireStateFragmentBinding, QStateViewModel>(),
+    BaseMvvmRefreshFragment<TaskWjBean, QuestionnaireStateFragmentBinding, QStateViewModel>(),
     BaseBindAdapter.OnItemClickListener<Any> {
     override fun refreshLayout() = mBinding?.drlQ
 
@@ -54,8 +56,9 @@ class QuestionnaireStateFragment :
     }
 
     override fun onItemClick(e: Any, position: Int) {
-//        withString("taskName","${position}")
-        taskName="$position"
+        val data = e as TaskWjBean
+        taskName = data.wjName
+        wjCode=data.wjCode
         ARouter.getInstance().build(ARouterPath.QUESTION_ACTIVITY).navigation()
     }
 
