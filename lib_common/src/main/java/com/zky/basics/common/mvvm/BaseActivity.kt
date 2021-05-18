@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import com.alibaba.android.arouter.launcher.ARouter
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity
+import com.umeng.message.PushAgent
 import com.zky.basics.common.R
 import com.zky.basics.common.event.common.BaseActivityEvent
 import com.zky.basics.common.manager.ActivityManager.Companion.instance
@@ -54,6 +55,7 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         if (isFullScreen) {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -83,6 +85,7 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
         initData()
         EventBus.getDefault().register(this)
         instance?.addActivity(this)
+        PushAgent.getInstance(this).onAppStart()
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

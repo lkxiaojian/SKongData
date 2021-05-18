@@ -1,9 +1,9 @@
 package com.zky.basics.main.activity.task
 
 
-import com.refresh.lib.DaisyRefreshLayout
 import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
 import com.zky.basics.common.util.ObservableListUtil
+import com.zky.basics.main.BR
 import com.zky.basics.main.R
 import com.zky.basics.main.adapter.DepartemntDataActivityAdapter
 import com.zky.basics.main.databinding.ActivityDepartemntDataBinding
@@ -29,7 +29,7 @@ class DepartemntDataActivity :
         mViewModel?.getData()
     }
 
-    override fun onBindVariableId() = BR.departmentDataItemViewModel
+    override fun onBindVariableId() =BR.departmentDataItemViewModel
 
     override fun onBindLayout() = R.layout.activity_departemnt_data
     override val tootBarTitle: String = "详情"

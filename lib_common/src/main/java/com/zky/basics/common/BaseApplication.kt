@@ -1,7 +1,7 @@
 package com.zky.basics.common
 
 import android.content.Context
-import android.graphics.Typeface
+import android.util.Log
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import com.alibaba.android.arouter.launcher.ARouter
@@ -9,6 +9,8 @@ import com.facebook.stetho.Stetho
 import com.tencent.mmkv.MMKV.initialize
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
+import com.umeng.message.IUmengRegisterCallback
+import com.umeng.message.PushAgent
 import com.xuexiang.xupdate.XUpdate
 import com.xuexiang.xupdate.entity.UpdateError
 import com.xuexiang.xupdate.entity.UpdateError.ERROR
@@ -17,8 +19,6 @@ import com.zhy.http.okhttp.OkHttpUtils
 import com.zky.basics.common.util.OKHttpUpdateHttpService
 import com.zky.basics.common.util.log.KLog
 import okhttp3.OkHttpClient
-import java.io.File
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -51,9 +51,28 @@ open class BaseApplication : MultiDexApplication() {
 //        } catch (e: Exception) {
 //            e.printStackTrace()
 //        }
-        UMConfigure.init(this, "60653f5718b72d2d2440da79", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "")
+        UMConfigure.init(this, "60653f5718b72d2d2440da79", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "e57550ad1240792294aab163ea08c03e")
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
+
 //        UMConfigure.preInit(this,"60653f5718b72d2d2440da79","USkdata")
+
+
+        val pushAgent = PushAgent.getInstance(this)
+
+        pushAgent.register(object : IUmengRegisterCallback{
+            override fun onSuccess(deviceToken: String?) {
+                Log.i("TAG", "注册成功：deviceToken：--> " + deviceToken);
+
+            }
+
+            override fun onFailure(p0: String?, p1: String?) {
+                Log.e("TAG", "注册失败：--> " + "s:" + p0 + ",s1:" + p1);
+
+            }
+
+        })
+
+
     }
 
     //app 更新
