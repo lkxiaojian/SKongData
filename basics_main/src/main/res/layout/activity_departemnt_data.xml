@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="departmentDataItemViewModel"
+            type="com.zky.basics.main.mvvm.viewmodel.DepartmentDataItemViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_f5f5f5">
+
+
+        <com.refresh.lib.DaisyRefreshLayout
+            android:id="@+id/drl_departmentDataItemViewModel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"
+            app:enableLoadMore="@{safeUnbox(departmentDataItemViewModel.enableLoadMore)}"
+            app:enableRefresh="@{safeUnbox(departmentDataItemViewModel.enableRefresh)}"
+            app:onAutoRefreshCommand="@{departmentDataItemViewModel.onAutoRefreshCommand}"
+            app:onLoadMoreCommand="@{departmentDataItemViewModel.onLoadMoreCommand}"
+            app:onRefreshCommand="@{departmentDataItemViewModel.onRefreshCommand}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:linearLayoutManager="@{safeUnbox(departmentDataItemViewModel.orientation)}" />
+
+        </com.refresh.lib.DaisyRefreshLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

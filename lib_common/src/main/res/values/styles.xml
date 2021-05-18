@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/color_126FB7</item>
         <item name="colorPrimaryDark">@color/color_126FB7</item>
@@ -83,6 +83,13 @@
 
     <style name="TabLayoutTextStyleC" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">14sp</item>
+    </style>
+
+
+    <style name="TabLayoutTextStyleC16" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+
     </style>
 
     <style name="TabLayoutTextStyleB" parent="TextAppearance.Design.Tab">

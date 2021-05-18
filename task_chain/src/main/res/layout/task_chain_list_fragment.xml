@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="chainViewModle"
+            type="com.zky.task_chain.mvvm.viewmodle.ChainViewModle" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_test"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_fkzt"
+            android:layout_width="103dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_fff_3"
+            android:drawableRight="@drawable/down_fk"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:hint="反馈状态"
+            android:paddingRight="6dp"
+            android:textColor="@color/color_9b9b9b"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_fk_type"
+            android:layout_width="103dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_fff_3"
+            android:drawableEnd="@drawable/down_fk"
+            android:drawablePadding="5dp"
+            android:paddingRight="6dp"
+            android:gravity="center"
+            android:hint="类型"
+            android:textColor="@color/color_9b9b9b"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toRightOf="@id/atv_fkzt"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="103dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="21dp"
+            android:background="@drawable/shape_fff_3"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/search_button"
+                android:layout_width="73dp"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="接受人"
+                android:paddingLeft="8dp"
+                android:textColor="@color/color_9b9b9b"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/search_bar"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/renwu_round_bg_shape"
+                android:src="@drawable/renwu_white_sou"
+                app:layout_constraintRight_toRightOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <com.refresh.lib.DaisyRefreshLayout
+            android:id="@+id/drl_chain"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="12dp"
+            app:enableLoadMore="@{safeUnbox(chainViewModle.enableLoadMore)}"
+            app:enableRefresh="@{safeUnbox(chainViewModle.enableRefresh)}"
+            app:layout_constraintTop_toBottomOf="@+id/atv_fkzt"
+            app:onAutoRefreshCommand="@{chainViewModle.onAutoRefreshCommand}"
+            app:onLoadMoreCommand="@{chainViewModle.onLoadMoreCommand}"
+            app:onRefreshCommand="@{chainViewModle.onRefreshCommand}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:linearLayoutManager="@{safeUnbox(chainViewModle.orientation)}" />
+
+        </com.refresh.lib.DaisyRefreshLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

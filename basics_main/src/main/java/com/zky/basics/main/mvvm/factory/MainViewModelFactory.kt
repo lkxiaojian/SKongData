@@ -36,6 +36,21 @@ class MainViewModelFactory private constructor(private val mApplication: Applica
                 val mainModel = MainModel(mApplication)
                 StatisticsModel(mApplication, mainModel) as T
             }
+            modelClass.isAssignableFrom(QStateViewModel::class.java) -> {
+                val mainModel = MainModel(mApplication)
+                QStateViewModel(mApplication, mainModel) as T
+            }
+            modelClass.isAssignableFrom(DepartmentDataViewModel::class.java) -> {
+                val mainModel = MainModel(mApplication)
+                DepartmentDataViewModel(mApplication, mainModel) as T
+            }
+            modelClass.isAssignableFrom(DepartmentDataItemViewModel::class.java) -> {
+                val mainModel = MainModel(mApplication)
+                DepartmentDataItemViewModel(mApplication, mainModel) as T
+            }
+
+
+
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }

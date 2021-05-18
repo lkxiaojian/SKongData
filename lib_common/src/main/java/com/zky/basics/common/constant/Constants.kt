@@ -17,6 +17,7 @@ object Constants {
     const val appCode = "27104114940837888"
 
     var itemCode = ""
+    var taskName: String? = ""
     var dataAttr2: String? = ""
     var taskCode: String? = ""
     var dxm: String? = ""

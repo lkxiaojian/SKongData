@@ -1,11 +1,11 @@
 package com.zky.basics.main
 
+import android.graphics.Color
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.zky.basics.common.mvvm.BaseActivity
-import com.zky.basics.common.provider.ILiveProvider
 import com.zky.basics.common.provider.IMineProvider
 import com.zky.basics.common.provider.ITaskChainProvider
 import com.zky.basics.common.util.spread.showToast
@@ -65,11 +65,16 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initData() {
+     val badge=   common_navigation.getOrCreateBadge(R.id.navigation_task)
+        badge.number=20
+        badge.backgroundColor=Color.RED
         try {
             val menuView = common_navigation.getChildAt(0) as BottomNavigationMenuView
             for (i in 0 until menuView.childCount) {
                 menuView.getChildAt(i).setOnLongClickListener { true }
+
             }
+
         } catch (e: Exception) {
             e.printStackTrace()
         }

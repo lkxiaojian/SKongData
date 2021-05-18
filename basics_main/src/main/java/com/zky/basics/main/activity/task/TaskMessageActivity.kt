@@ -21,8 +21,10 @@ import com.zky.basics.common.constant.Constants.taskCode
 import com.zky.basics.common.mvvm.BaseActivity
 import com.zky.basics.common.provider.*
 import com.zky.basics.main.R
+import com.zky.basics.main.fragment.DepartmentDataFragment
 import com.zky.basics.main.fragment.MapFragment
 import com.zky.basics.main.fragment.MapFragment.Companion.mapNewInstance
+import com.zky.basics.main.fragment.QuestionnaireStateFragment
 import kotlinx.android.synthetic.main.activity_task_message.*
 import java.util.*
 
@@ -45,9 +47,9 @@ class TaskMessageActivity : BaseActivity() {
     @Autowired(name = ARouterPath.MEDIA_SELECT_VIDEO)
     var iMediaSelectVideoProvider: IMediaSelectVideoProvider? = null
 
-    @JvmField
-    @Autowired(name = ARouterPath.QUESTION)
-    var iQuestionProvider: IQuestionProvider? = null
+//    @JvmField
+//    @Autowired(name = ARouterPath.QUESTION)
+//    var iQuestionProvider: IQuestionProvider? = null
 
 
     //    "空间数据", "问卷信息", "照片信息", "视频信息", "音频信息"
@@ -74,7 +76,7 @@ class TaskMessageActivity : BaseActivity() {
             }
 
             titles.add("问卷信息")
-            mListFragments.add(iQuestionProvider?.questionFragment!!)
+            mListFragments.add(QuestionnaireStateFragment())
 
             taskBean.mediaDataType?.let {
 
@@ -92,6 +94,8 @@ class TaskMessageActivity : BaseActivity() {
                     mListFragments.add(iMediaSelectVoiceProvider?.mediaVoiceFragment(itemCode)!!)
                 }
             }
+            titles.add("部门数据")
+            mListFragments.add(DepartmentDataFragment())
 
             val fragmentPager2Adapter = FragmentPager2Adapter(this, mListFragments)
 

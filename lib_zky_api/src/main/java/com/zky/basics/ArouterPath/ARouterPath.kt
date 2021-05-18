@@ -36,7 +36,10 @@ object ARouterPath {
 
     const val MEDIA_SELECT_SHOW_VOICE= "/multi_media/selectShowVoice"
     const val MAP_SHOW = "/map/showMap"
+
+    const val GROUP_QUESTION = "question"
     const val QUESTION = "/question/naire"
+    const val QUESTION_ACTIVITY = "/question/naireActivity"
 
     const val TASK_CHAIN="/task_chain/tasklist"
 
