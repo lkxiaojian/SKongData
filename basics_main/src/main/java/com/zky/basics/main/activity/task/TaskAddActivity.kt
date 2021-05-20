@@ -1,18 +1,20 @@
 package com.zky.basics.main.activity.task
 
 
-import android.Manifest
+import ARouterPath
+import android.text.InputFilter
+import android.text.InputFilter.LengthFilter
 import android.text.method.DigitsKeyListener
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.hjq.permissions.OnPermission
-import com.hjq.permissions.XXPermissions
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.api.config.API
 import com.zky.basics.api.splash.entity.AccountLevel
 import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.mvvm.BaseMvvmActivity
-import com.zky.basics.common.util.PermissionToSetting
+import com.zky.basics.common.util.InfoVerify.ID_CARD
+import com.zky.basics.common.util.InfoVerify.NUMANDCHAR
+import com.zky.basics.common.util.InfoVerify.ONLY_NUM
 import com.zky.basics.common.util.spread.decodeParcelable
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.BR
@@ -38,14 +40,42 @@ class TaskAddActivity : BaseMvvmActivity<ActivityTaskAddBinding, TaskViewModel>(
         try {
             taskData = intent.getParcelableExtra("taskData") as TaskBean
             mViewModel?.taskBean = taskData
-            if (taskData.dataAttr2?.contains("日期") == true) {
-                mViewModel?.att2Show?.set(true)
-            } else {
-                mViewModel?.att2Show?.set(false)
-                mBinding?.aetIdcatd?.keyListener= DigitsKeyListener.getInstance("0123456789xX")
+//            if (taskData.dataAttr2?.contains("日期") == true) {
+//                mViewModel?.att2Show?.set(true)
+//            } else {
+//                mViewModel?.att2Show?.set(false)
+//                mBinding?.aetIdcatd?.keyListener = DigitsKeyListener.getInstance("0123456789xX")
+//            }
+
+            when (taskData.dataAttr2Type) {
+
+                1 -> {
+                    mViewModel?.att2Show?.set(false)
+                    mBinding?.aetIdcatd?.keyListener = DigitsKeyListener.getInstance(ID_CARD)
+                    mBinding?.aetIdcatd?.filters = arrayOf<InputFilter>(LengthFilter(18))
+
+                }
+                2 -> {
+                    mViewModel?.att2Show?.set(false)
+                    mBinding?.aetIdcatd?.keyListener = DigitsKeyListener.getInstance(ONLY_NUM)
+                    mBinding?.aetIdcatd?.filters = arrayOf<InputFilter>(LengthFilter(11))
+                }
+                3 -> {
+                    mViewModel?.att2Show?.set(true)
+                }
+                4 -> {
+                    mViewModel?.att2Show?.set(false)
+                }
+                5 -> {
+                    mViewModel?.att2Show?.set(false)
+                    mBinding?.aetIdcatd?.keyListener =
+                        DigitsKeyListener.getInstance(NUMANDCHAR)
+                }
             }
+
+
             mViewModel?.getmVoidSingleLiveEvent()
-                ?.observe(this, Observer{ aVoid: String? ->
+                ?.observe(this, Observer { aVoid: String? ->
                     when (aVoid) {
                         "dialogShow" -> {
                             val customDialogFragment = CustomDialogFragment()
@@ -66,7 +96,7 @@ class TaskAddActivity : BaseMvvmActivity<ActivityTaskAddBinding, TaskViewModel>(
                         "abt_add" -> {
                             if (levelList.isNullOrEmpty()) {
                                 "地址未选择".showToast()
-                               return@Observer
+                                return@Observer
                             }
                             addSure()
                         }

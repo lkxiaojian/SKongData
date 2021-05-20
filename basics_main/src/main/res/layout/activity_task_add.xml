@@ -89,7 +89,6 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/shape_ed_3"
-                android:maxEms="18"
                 android:maxLines="1"
                 android:paddingStart="4dp"
                 android:singleLine="true"

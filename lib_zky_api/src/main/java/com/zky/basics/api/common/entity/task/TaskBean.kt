@@ -20,7 +20,8 @@ data class TaskBean(
     var mediaDataType: String?,
     var mediaDataTypePhoto:String?,
     var mediaDataTypeAudio:String?,
-    var mediaDataTypeVideo:String?
+    var mediaDataTypeVideo:String?,
+    var dataAttr2Type: Int?,
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -34,7 +35,8 @@ data class TaskBean(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readString()
+        parcel.readString(),
+        parcel.readValue(Int::class.java.classLoader) as? Int
     ) {
     }
 
@@ -51,6 +53,7 @@ data class TaskBean(
         parcel.writeString(mediaDataTypePhoto)
         parcel.writeString(mediaDataTypeAudio)
         parcel.writeString(mediaDataTypeVideo)
+        parcel.writeValue(dataAttr2Type)
     }
 
     override fun describeContents(): Int {
@@ -66,5 +69,6 @@ data class TaskBean(
             return arrayOfNulls(size)
         }
     }
+
 
 }

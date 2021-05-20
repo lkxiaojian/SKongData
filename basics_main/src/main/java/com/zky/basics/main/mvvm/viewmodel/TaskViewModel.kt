@@ -55,6 +55,7 @@ class TaskViewModel(application: Application, model: MainModel) :
     }
 
     init {
+        att2Show.set(false)
         itemCount.set("当前共有0条数据")
         sfMessage.set("身份证")
         sfMessageDigits.set("0123456789xX")
