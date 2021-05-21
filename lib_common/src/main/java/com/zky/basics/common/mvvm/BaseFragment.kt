@@ -165,7 +165,7 @@ abstract class BaseFragment : Fragment(), IBaseView {
 
     override fun initListener() {}
     override fun finishActivity() {
-        mActivity?.finish()
+        mActivity.finish()
     }
 
     open fun enableToolbar(): Boolean {

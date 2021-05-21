@@ -1,5 +1,6 @@
 package com.zky.task_chain.fragment
 
+import android.content.Intent
 import android.view.View
 import com.zky.basics.common.adapter.BaseBindAdapter
 
@@ -7,6 +8,7 @@ import com.zky.basics.common.mvvm.BaseMvvmRefreshFragment
 import com.zky.basics.common.util.ObservableListUtil
 import com.zky.task_chain.BR
 import com.zky.task_chain.R
+import com.zky.task_chain.activity.DealMessageActivity
 import com.zky.task_chain.adapter.TaskChainListAdapter
 import com.zky.task_chain.databinding.TaskChainListFragmentBinding
 import com.zky.task_chain.mvvm.factory.TaskChineViewModelFactory
@@ -51,6 +53,7 @@ class TaskChainListFragment(type: String) :
     }
 
     override fun onItemClick(e: Any, position: Int) {
+        mActivity.startActivity(Intent(mActivity,DealMessageActivity::class.java))
 
     }
 }

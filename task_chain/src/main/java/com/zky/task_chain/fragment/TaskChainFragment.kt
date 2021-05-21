@@ -1,6 +1,7 @@
 package com.zky.task_chain.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Build
 import android.util.Log
@@ -8,6 +9,7 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
@@ -16,6 +18,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.zky.basics.common.adapter.FragmentPager2Adapter
 import com.zky.basics.common.mvvm.BaseFragment
 import com.zky.task_chain.R
+import com.zky.task_chain.activity.AddDealMessageActivity
 import kotlinx.android.synthetic.main.task_chain_fragment.*
 import java.lang.Exception
 
@@ -42,8 +45,11 @@ class TaskChainFragment : BaseFragment() {
 
             val viewPage = view?.findViewById<ViewPager2>(R.id.pager_tour_task)
             val tabLayout = view?.findViewById<TabLayout>(R.id.layout_tour)
-
-
+            val aivAddTaskMessage =
+                view?.findViewById<AppCompatImageView>(R.id.aiv_add_task_message)
+            aivAddTaskMessage?.setOnClickListener {
+                mActivity.startActivity(Intent(mActivity, AddDealMessageActivity::class.java))
+            }
             mListFragments.add(TaskChainListFragment("1"))
             mListFragments.add(TaskChainListFragment("2"))
             val fragmentPager2Adapter = FragmentPager2Adapter(mActivity, mListFragments)
@@ -59,7 +65,7 @@ class TaskChainFragment : BaseFragment() {
                     tabLayout!!, it
                 ) { tab, position ->
                     tab.text = titles[position]
-                }?.attach()
+                }.attach()
             }
 
 
@@ -98,7 +104,7 @@ class TaskChainFragment : BaseFragment() {
         val selectedSize = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_SP,
             7f,
-            resources?.displayMetrics
+            resources.displayMetrics
         )
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, selectedSize)
         textView.setTextColor(

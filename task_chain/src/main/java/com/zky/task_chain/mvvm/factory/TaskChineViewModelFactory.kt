@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
 import com.zky.task_chain.mvvm.model.ChainModel
+import com.zky.task_chain.mvvm.viewmodle.AddDealMessageViewModle
 import com.zky.task_chain.mvvm.viewmodle.ChainViewModle
+import com.zky.task_chain.mvvm.viewmodle.DealMessageViewModle
 
 class TaskChineViewModelFactory private constructor(private val mApplication: Application) :
     ViewModelProvider.NewInstanceFactory() {
@@ -16,7 +18,16 @@ class TaskChineViewModelFactory private constructor(private val mApplication: Ap
         if (modelClass.isAssignableFrom(ChainViewModle::class.java)) {
             val splashModel = ChainModel(mApplication)
             return ChainViewModle(mApplication, splashModel) as T
+        } else if (modelClass.isAssignableFrom(DealMessageViewModle::class.java)) {
+            val splashModel = ChainModel(mApplication)
+            return DealMessageViewModle(mApplication, splashModel) as T
+        } else if (modelClass.isAssignableFrom(AddDealMessageViewModle::class.java)) {
+            val splashModel = ChainModel(mApplication)
+            return AddDealMessageViewModle(mApplication, splashModel) as T
         }
+
+
+
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }
 

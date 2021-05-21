@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="dealMessageViewModle"
+            type="com.zky.task_chain.mvvm.viewmodle.DealMessageViewModle" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.refresh.lib.DaisyRefreshLayout
+            android:id="@+id/drl_del"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:enableLoadMore="@{safeUnbox(dealMessageViewModle.enableLoadMore)}"
+            app:enableRefresh="@{safeUnbox(dealMessageViewModle.enableRefresh)}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:onAutoRefreshCommand="@{dealMessageViewModle.onAutoRefreshCommand}"
+            app:onLoadMoreCommand="@{dealMessageViewModle.onLoadMoreCommand}"
+            app:onRefreshCommand="@{dealMessageViewModle.onRefreshCommand}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_f5f5f5"
+                app:linearLayoutManager="@{safeUnbox(dealMessageViewModle.orientation)}" />
+
+        </com.refresh.lib.DaisyRefreshLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

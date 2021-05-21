@@ -2,7 +2,7 @@ package com.zky.basics.common.view
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
-import android.animation.ValueAnimator.AnimatorUpdateListener
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Matrix
 import android.graphics.RectF
@@ -17,6 +17,7 @@ import android.view.animation.AccelerateInterpolator
 import android.widget.OverScroller
 import androidx.appcompat.widget.AppCompatImageView
 import kotlin.math.abs
+import kotlin.math.roundToInt
 
 /**
  * create_time : 21-3-8 下午1:59
@@ -101,7 +102,7 @@ class ZoomImageView @JvmOverloads constructor(
                 scale = height * 1.0f / dh
             }
             if (dw <= width && dh <= height || dw >= width && dh >= height) {
-                scale = Math.min(width * 1.0f / dw, height * 1.0f / dh)
+                scale = (width * 1.0f / dw).coerceAtMost(height * 1.0f / dh)
             }
 
             //图片原始比例，图片回复原始大小时使用
@@ -121,6 +122,7 @@ class ZoomImageView @JvmOverloads constructor(
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         return mScaleGestureDetector.onTouchEvent(event) or
                 gestureDetector.onTouchEvent(event)
@@ -128,7 +130,7 @@ class ZoomImageView @JvmOverloads constructor(
 
     //手势操作（缩放）
     fun scale(detector: ScaleGestureDetector) {
-        val drawable = drawable ?: return
+        drawable ?: return
 //        val scale = scale
         //获取手势操作的值,scaleFactor>1说明放大，<1则说明缩小
         val scaleFactor = detector.scaleFactor
@@ -141,7 +143,7 @@ class ZoomImageView @JvmOverloads constructor(
     //手势操作结束
     fun scaleEnd(detector: ScaleGestureDetector) {
         var scale = scale
-        scale = detector.scaleFactor * scale
+        scale *= detector.scaleFactor
         if (scale < mInitScale) {
             scaleAnimation(mInitScale, width / 2.toFloat(), height / 2.toFloat())
         } else if (scale > mMaxScale) {
@@ -150,9 +152,9 @@ class ZoomImageView @JvmOverloads constructor(
     }
 
     //手势操作（移动）
-    private fun onTranslationImage(dx: Float, dy: Float) {
-        var dx = dx
-        var dy = dy
+    private fun onTranslationImage(dx_: Float, dy_: Float) {
+        var dx = dx_
+        var dy = dy_
         if (drawable == null) return
         val rect = matrixRectF
 
@@ -248,14 +250,14 @@ class ZoomImageView @JvmOverloads constructor(
     private fun scaleAnimation(drowScale: Float, x: Float, y: Float) {
         if (mAnimator != null && mAnimator!!.isRunning) return
         mAnimator = ObjectAnimator.ofFloat(scale, drowScale)
-        mAnimator?.setDuration(300)
-        mAnimator?.setInterpolator(AccelerateInterpolator())
-        mAnimator?.addUpdateListener(AnimatorUpdateListener { animation ->
+        mAnimator?.duration = 300
+        mAnimator?.interpolator = AccelerateInterpolator()
+        mAnimator?.addUpdateListener { animation ->
             val value = animation.animatedValue as Float / scale
             mScaleMatrix.postScale(value, value, x, y)
             imageMatrix = mScaleMatrix
             removeBorderAndTranslationCenter()
-        })
+        }
         mAnimator?.start()
     }//缩小//放大//如果等于mMidScale，则判断放大或者缩小
 
@@ -265,8 +267,8 @@ class ZoomImageView @JvmOverloads constructor(
     private val doubleDrowScale: Float
          get() {
             val deviation = 0.05f
-            var drowScale = 1.0f
-            var scale = scale
+             val drowScale: Float
+             var scale = scale
             if (abs(mInitScale - scale) < deviation) scale = mInitScale
             if (abs(mMidScale - scale) < deviation) scale = mMidScale
             if (abs(mMaxScale - scale) < deviation) scale = mMaxScale
@@ -290,7 +292,7 @@ class ZoomImageView @JvmOverloads constructor(
 
     //获取图片宽高以及左右上下边界
     private val matrixRectF: RectF?
-        private get() {
+        get() {
             val drawable = drawable ?: return null
             val rectF = RectF(
                 0f, 0f, drawable.minimumWidth.toFloat(), drawable.minimumHeight
@@ -390,20 +392,20 @@ class ZoomImageView @JvmOverloads constructor(
             ): Boolean {
 
                 //滑动惯性处理
-                mCurrentX = e2.x.toInt()
+                this@ZoomImageView.mCurrentX = e2.x.toInt()
                 mCurrentY = e2.y.toInt()
                 val rectF = matrixRectF ?: return false
                 //startX为当前图片左边界的x坐标
                 val startX = mCurrentX
                 val startY = mCurrentY
 //                val minX = 0
-                var maxX = 0
+                val maxX: Int
 //                val minY = 0
-                var maxY = 0
-                val vX = Math.round(velocityX)
-                val vY = Math.round(velocityY)
-                maxX = Math.round(rectF.width())
-                maxY = Math.round(rectF.height())
+                val maxY: Int
+                val vX = velocityX.roundToInt()
+                val vY = velocityY.roundToInt()
+                maxX = rectF.width().roundToInt()
+                maxY = rectF.height().roundToInt()
                 if (startX != maxX || startY != maxY) {
                     //调用fling方法，然后我们可以通过调用getCurX和getCurY来获得当前的x和y坐标
                     //这个坐标的计算是模拟一个惯性滑动来计算出来的，我们根据这个x和y的变化可以模拟
@@ -413,12 +415,12 @@ class ZoomImageView @JvmOverloads constructor(
                 if (translationAnimation != null && translationAnimation!!.isStarted) translationAnimation!!.end()
                 translationAnimation = ObjectAnimator.ofFloat(0f, 1f)
                 translationAnimation?.duration = 500
-                translationAnimation?.addUpdateListener(AnimatorUpdateListener {
+                translationAnimation?.addUpdateListener {
                     if (scroller.computeScrollOffset()) {
                         //获得当前的x坐标
                         val newX = scroller.currX
                         val dx = newX - mCurrentX
-                        mCurrentX = newX
+                        this@ZoomImageView.mCurrentX = newX
                         //获得当前的y坐标
                         val newY = scroller.currY
                         val dy = newY - mCurrentY
@@ -426,7 +428,7 @@ class ZoomImageView @JvmOverloads constructor(
                         //进行平移操作
                         if (dx != 0 && dy != 0) onTranslationImage(dx.toFloat(), dy.toFloat())
                     }
-                })
+                }
                 translationAnimation?.start()
                 return super.onFling(e1, e2, velocityX, velocityY)
             }
