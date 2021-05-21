@@ -53,7 +53,7 @@ class MainActivity : BaseActivity() {
             false
         }
         mMeFragment = mMineProvider?.mainMineFragment
-        mTaskFragment=iTaskChainProvider?.taskChainFragment
+        mTaskFragment = iTaskChainProvider?.taskChainFragment
         mCurrFragment = mFlayFragment
 
 
@@ -65,14 +65,13 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initData() {
-     val badge=   common_navigation.getOrCreateBadge(R.id.navigation_task)
-        badge.number=20
-        badge.backgroundColor=Color.RED
+//     val badge=   common_navigation.getOrCreateBadge(R.id.navigation_task)
+//        badge.number=20
+//        badge.backgroundColor=Color.RED
         try {
             val menuView = common_navigation.getChildAt(0) as BottomNavigationMenuView
             for (i in 0 until menuView.childCount) {
                 menuView.getChildAt(i).setOnLongClickListener { true }
-
             }
 
         } catch (e: Exception) {
@@ -80,7 +79,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
-   private fun switchContent(from: Fragment?, to: Fragment?, tag: String?) {
+    private fun switchContent(from: Fragment?, to: Fragment?, tag: String?) {
         if (from == null || to == null) {
             return
         }

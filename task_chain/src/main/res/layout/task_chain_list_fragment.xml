@@ -86,11 +86,12 @@
         <com.refresh.lib.DaisyRefreshLayout
             android:id="@+id/drl_chain"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingTop="12dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="130dp"
+            android:layout_marginTop="47dp"
+            app:layout_constraintTop_toTopOf="parent"
             app:enableLoadMore="@{safeUnbox(chainViewModle.enableLoadMore)}"
             app:enableRefresh="@{safeUnbox(chainViewModle.enableRefresh)}"
-            app:layout_constraintTop_toBottomOf="@+id/atv_fkzt"
             app:onAutoRefreshCommand="@{chainViewModle.onAutoRefreshCommand}"
             app:onLoadMoreCommand="@{chainViewModle.onLoadMoreCommand}"
             app:onRefreshCommand="@{chainViewModle.onRefreshCommand}">
@@ -98,7 +99,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/color_f5f5f5"
                 app:linearLayoutManager="@{safeUnbox(chainViewModle.orientation)}" />
 
         </com.refresh.lib.DaisyRefreshLayout>

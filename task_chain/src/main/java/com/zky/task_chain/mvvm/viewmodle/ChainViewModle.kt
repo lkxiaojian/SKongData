@@ -13,11 +13,26 @@ import com.zky.task_chain.mvvm.model.ChainModel
  * Detail:
  */
 class ChainViewModle(application: Application, model: ChainModel) :
-    BaseRefreshViewModel<Any,ChainModel>(application, model) {
+    BaseRefreshViewModel<String,ChainModel>(application, model) {
     override fun refreshData() {
+        postStopLoadMoreEvent()
+        postStopRefreshEvent()
     }
 
     override fun loadMore() {
+        postStopLoadMoreEvent()
+        postStopRefreshEvent()
+    }
+
+    fun getData() {
+        mList.add("1")
+        mList.add("1")
+        mList.add("1")
+        mList.add("1")
+        mList.add("1")
+        mList.add("1")
+        mList.add("1")
+        mList.add("1")
     }
 
 
