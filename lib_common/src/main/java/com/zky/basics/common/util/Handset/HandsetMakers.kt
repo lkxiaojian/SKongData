@@ -114,7 +114,7 @@ object HandsetMakers {
     }
 
     private fun getProp(name: String): String? {
-        var line: String? = null
+        var line: String?
         var input: BufferedReader? = null
         try {
             val p = Runtime.getRuntime().exec("getprop $name")

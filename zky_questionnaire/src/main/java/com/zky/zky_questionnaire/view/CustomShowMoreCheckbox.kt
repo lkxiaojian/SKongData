@@ -76,7 +76,7 @@ class CustomShowMoreCheckbox : RadioGroup, CompoundButton.OnCheckedChangeListene
                     setSuucced = true
                     val split = v.split(",")
                     for (i in 0 until childCount) {
-                        split?.forEach {
+                        split.forEach {
                             if (i == it.toInt()) {
                                 val childAt = getChildAt(i) as CheckBox
                                 childAt.isChecked = true

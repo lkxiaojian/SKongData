@@ -36,6 +36,16 @@ class AddDealMessageActivity :
     override fun onBindViewModelFactory() = TaskChineViewModelFactory.getInstance(application)
 
     override fun initViewObservable() {
+        mViewModel?.getmVoidSingleLiveEvent()?.observe(this, androidx.lifecycle.Observer {
+            when(it){
+                "startSelectPeople"->{
+                    startActivity(Intent(this,SelectPeopleActivity::class.java))
+                }
+            }
+
+        })
+
+
         observableArrayList.add(instanceOf<MediaBean>())
         imageViewListAdapter = ImageViewListAdapter(this, observableArrayList)
         imageViewListAdapter.setItemClickListener(this)

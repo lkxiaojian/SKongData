@@ -73,11 +73,11 @@ abstract class BaseMvvmFragment<V : ViewDataBinding?, VM : BaseViewModel<*>?> :
             })
         mViewModel?.uc()?.finishActivityEvent
             ?.observe(this, Observer {
-                mActivity?.finish()
+                mActivity.finish()
             })
         mViewModel?.uc()?.onBackPressedEvent
             ?.observe(this, Observer {
-                mActivity?.onBackPressed()
+                mActivity.onBackPressed()
             })
     }
 

@@ -132,7 +132,7 @@ class QNViewModle(application: Application, model: qnModel) :
 
     fun valueChangeWithIndex(position: Int?) {
         try {
-            val taskQuestion = mList[(position!! - 1)]
+//            val taskQuestion = mList[(position!! - 1)]
             needCout = 0
             mList.forEach {
                 if (!it.answer.isNullOrEmpty()) {

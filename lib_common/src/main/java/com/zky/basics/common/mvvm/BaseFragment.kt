@@ -136,9 +136,9 @@ abstract class BaseFragment : Fragment(), IBaseView {
         mToolbar = view?.findViewById(R.id.toolbar_root)
         mTxtTitle = view?.findViewById(R.id.toolbar_title)
         mToolbar.let {
-            mActivity?.setSupportActionBar(mToolbar)
-            mActivity?.supportActionBar?.setDisplayShowTitleEnabled(false)
-            mToolbar?.setNavigationOnClickListener { mActivity?.onBackPressed() }
+            mActivity.setSupportActionBar(mToolbar)
+            mActivity.supportActionBar?.setDisplayShowTitleEnabled(false)
+            mToolbar?.setNavigationOnClickListener { mActivity.onBackPressed() }
         }
         mTxtTitle?.text = getToolbarTitle()
 

@@ -13,7 +13,7 @@ import com.zky.multi_media.fragment.MediaVoiceFragment.Companion.mediaSelctVoice
 @Route(path = ARouterPath.MEDIA_SELECT_SHOW_VOICE)
 class MediaSelectVioceProvider : IMediaSelectVoiceProvider {
     override fun mediaVoiceFragment(type: String): Fragment? {
-      return  mediaSelctVoiceInstance(type)
+      return  mediaSelctVoiceInstance()
     }
 
 

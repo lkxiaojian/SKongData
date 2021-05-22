@@ -4,8 +4,6 @@ import ARouterPath
 import AudioUtlis
 import android.Manifest
 import android.content.Intent
-import android.media.MediaPlayer
-import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -202,7 +200,7 @@ class MediaVoiceFragment :
         private var fileType: String = "audio"
 
         @JvmStatic
-        fun mediaSelctVoiceInstance(_type: String): Fragment {
+        fun mediaSelctVoiceInstance(): Fragment {
             return MediaVoiceFragment()
         }
     }

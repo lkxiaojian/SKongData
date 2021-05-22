@@ -31,7 +31,7 @@ object HasNotch {
     fun hasNotchAtGoogle(context: Context?): Boolean {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                return (context as Activity)?.window?.decorView?.rootWindowInsets?.displayCutout == null
+                return (context as Activity).window?.decorView?.rootWindowInsets?.displayCutout == null
             }
         } catch (e: Exception) {
             e.printStackTrace()

@@ -82,7 +82,7 @@ class MediaImageListViewModle(application: Application, mediaModel: MediaModel) 
                 var uploadingList = arrayListOf<UploadingFile>()
 
 
-                for ((index, value) in mList.withIndex()) {
+                for ((_, value) in mList.withIndex()) {
                     value.files?.forEach { it ->
                         if (!it.upload && it.videoImagePath != null) {
                             val uploadingFile = UploadingFile()
