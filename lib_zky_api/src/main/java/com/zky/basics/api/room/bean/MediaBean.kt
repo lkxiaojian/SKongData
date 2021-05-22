@@ -4,11 +4,9 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.zky.basics.annotation.AllowNoArg
 import com.zky.basics.api.BR
-import java.io.Serializable
+
 
 /**
  *create_time : 21-3-5 上午9:45
@@ -16,7 +14,6 @@ import java.io.Serializable
  *description： MediaBean
  *   @ColumnInfo(name = "user_name")
  */
-
 @AllowNoArg
 data class MediaBean(
     var code: String,
