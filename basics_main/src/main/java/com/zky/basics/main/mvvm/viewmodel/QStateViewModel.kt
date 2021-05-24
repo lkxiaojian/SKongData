@@ -18,7 +18,7 @@ class QStateViewModel(application: Application, model: MainModel) :
 
 
     override fun refreshData() {
-
+        getData()
     }
 
     override fun loadMore() {
@@ -27,16 +27,23 @@ class QStateViewModel(application: Application, model: MainModel) :
 
     fun getData() {
         launchUI({
+            mList.clear()
             val taskWjList = mModel.getTaskWjList(Constants.taskCode)
             taskWjList?.let {
                 mList.addAll(it)
             }
+            postStopRefreshEvent()
+        }, object : NetError {
+            override fun getError(e: Exception) {
+                postStopRefreshEvent()
+            }
+
         })
     }
 
 
     override fun enableLoadMore() = false
-    override fun enableRefresh() = false
+//    override fun enableRefresh() = false
 
 
     fun getmVoidSingleLiveEvent(): SingleLiveEvent<String> {

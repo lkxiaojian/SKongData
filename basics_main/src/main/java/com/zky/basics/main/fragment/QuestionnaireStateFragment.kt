@@ -39,7 +39,7 @@ class QuestionnaireStateFragment :
         )
         adapter.setItemClickListener(this)
         mBinding?.recview?.adapter = adapter
-        mViewModel?.getData()
+//        mViewModel?.getData()
 
     }
 
@@ -60,6 +60,11 @@ class QuestionnaireStateFragment :
         taskName = data.wjName
         wjCode=data.wjCode
         ARouter.getInstance().build(ARouterPath.QUESTION_ACTIVITY).navigation()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mViewModel?.getData()
     }
 
 }
