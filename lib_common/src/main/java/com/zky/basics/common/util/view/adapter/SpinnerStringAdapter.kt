@@ -112,6 +112,6 @@ class SpinnerStringAdapter(context: Context):AbsListBaseAdapter<String>(context)
         tv.setBackgroundResource(viewBgColor)
         tv.layoutParams =
             AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT)
-        return convertViewTmp!!
+        return convertViewTmp
     }
 }

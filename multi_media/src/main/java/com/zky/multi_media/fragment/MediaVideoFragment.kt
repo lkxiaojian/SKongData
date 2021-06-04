@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
-import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.hjq.permissions.OnPermission
 import com.hjq.permissions.XXPermissions
@@ -159,11 +158,11 @@ class MediaVideoFragment :
                 if (index == -1 || index == null) {
                     return
                 }
-                val data = it[index]
+                val dataBean = it[index]
 
                 var tmpList = arrayListOf<MediaBean>()
                 for (item in resultData) {
-                    var bean = instanceOf<MediaBean>()
+                    val bean = instanceOf<MediaBean>()
                     bean.code = UUID.randomUUID().toString().replace("-", "")
 
                     bean.create_data = DateUtil.getCurrentTime(DateUtil.FormatType.yyyyMMddHHmm)
@@ -173,8 +172,8 @@ class MediaVideoFragment :
                     bean.uploader = userinfo?.username
                     bean.file_name = FileUtil.getNameByPath(item)
                     bean.upload = false
-                    bean.mediaType2 = data.title
-                    bean.mediaType3 = data.subTile
+                    bean.mediaType2 = dataBean.title
+                    bean.mediaType3 = dataBean.subTile
                     tmpList.add(bean)
                 }
                 mViewModel?.mList?.get(index)?.files?.addAll(tmpList)
@@ -194,8 +193,8 @@ class MediaVideoFragment :
         }
     }
 
-    override fun onItemLongClick(e: Any, postion: Int): Boolean {
-        if (postion + 1 != mViewModel?.mList?.size) {
+    override fun onItemLongClick(e: Any, position: Int): Boolean {
+        if (position + 1 != mViewModel?.mList?.size) {
             showCustomDialog(
                 mActivity,
                 "删除",
@@ -212,12 +211,12 @@ class MediaVideoFragment :
                     }
                     val fileData = mViewModel?.mList?.get(index)
                     fileData?.let {
-                        val bean = it.files?.get(postion)
+                        val bean = it.files?.get(position)
                         if (bean != null) {
                             if (bean.upload) {
-                                mViewModel?.deleFile(bean.code, index, postion, mediaListAdapter)
+                                mViewModel?.deleFile(bean.code, index, position, mediaListAdapter)
                             } else {
-                                mViewModel?.mList?.get(index)?.files?.removeAt(postion)
+                                mViewModel?.mList?.get(index)?.files?.removeAt(position)
                                 mediaListAdapter.notifyDataSetChanged()
                             }
                         }
@@ -232,4 +231,6 @@ class MediaVideoFragment :
         }
         return true
     }
+
+    override fun enableLazyData()=true
 }

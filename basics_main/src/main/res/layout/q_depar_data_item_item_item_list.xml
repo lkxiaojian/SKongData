@@ -8,7 +8,7 @@
 
         <variable
             name="data"
-            type="String" />
+            type="com.zky.basics.api.common.entity.task.KeyAndValue" />
 
         <import type="com.zky.basics.main.R" />
     </data>
@@ -26,7 +26,7 @@
             android:layout_marginStart="12dp"
             android:maxEms="10"
             android:singleLine="true"
-            android:text="表头一dddddddddddddddddddddddqqq2121"
+            android:text="@{data.key}"
             android:textColor="@color/color_666666"
             android:textSize="14sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:text="2017-03-25"
+            android:text="@{data.value}"
             android:textColor="@color/color_FF6300"
             android:textSize="14sp"
             app:layout_constraintRight_toRightOf="parent"

@@ -8,16 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.hjq.permissions.OnPermission
 import com.hjq.permissions.XXPermissions
-import com.zky.basics.api.file.FileData
-import com.zky.basics.api.file.MediaJson
 import com.zky.basics.api.room.bean.MediaBean
 import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.constant.Constants.itemCode
-import com.zky.basics.common.constant.Constants.mediaDataTypePhoto
 import com.zky.basics.common.mvvm.BaseMvvmRefreshFragment
 import com.zky.basics.common.util.*
 import com.zky.basics.common.util.reflec.instanceOf
@@ -30,8 +25,6 @@ import com.zky.multi_media.databinding.MediaFragmentBinding
 import com.zky.multi_media.mvvm.factory.MediaViewModelFactory
 import com.zky.multi_media.mvvm.viewmodle.MediaImageListViewModle
 import me.bzcoder.mediapicker.config.MediaPickerEnum
-import java.lang.Exception
-import kotlin.collections.ArrayList
 import java.util.*
 
 
@@ -54,21 +47,21 @@ class MediaImageFragment :
         MediaViewModelFactory.getInstance(activity!!.application)
 
     override fun initViewObservable() {
-            mViewModel?.getmVoidSingleLiveEvent()?.observe(this, Observer { a: String? ->
-                if (a == "notify") {
-                    mediaListAdapter.notifyDataSetChanged()
-                }
-            })
-            mediaListAdapter =
-                MediaImageTypeListAdapter(activity!!, mViewModel?.mList, this, "image")
-            mViewModel?.mList?.addOnListChangedCallback(
-                ObservableListUtil.getListChangedCallback(
-                    mediaListAdapter
-                )
+        mViewModel?.getmVoidSingleLiveEvent()?.observe(this, Observer { a: String? ->
+            if (a == "notify") {
+                mediaListAdapter.notifyDataSetChanged()
+            }
+        })
+        mediaListAdapter =
+            MediaImageTypeListAdapter(activity!!, mViewModel?.mList, this, "image")
+        mViewModel?.mList?.addOnListChangedCallback(
+            ObservableListUtil.getListChangedCallback(
+                mediaListAdapter
             )
-            mBinding?.recview?.layoutManager = LinearLayoutManager(context)
-            mBinding?.recview?.adapter = mediaListAdapter
-            mViewModel?.mList?.addAll(MediaJsonToData.getMediaList("image"))
+        )
+        mBinding?.recview?.layoutManager = LinearLayoutManager(context)
+        mBinding?.recview?.adapter = mediaListAdapter
+        mViewModel?.mList?.addAll(MediaJsonToData.getMediaList("image"))
     }
 
     override fun onBindVariableId() = BR.mediaListViewModel
@@ -100,7 +93,7 @@ class MediaImageFragment :
                 OnPermission {
                 override fun hasPermission(granted: MutableList<String>?, all: Boolean) {
                     if (all) {
-                        selectMedia(position)
+                        selectMedia()
                     }
                 }
 
@@ -128,7 +121,7 @@ class MediaImageFragment :
         }
     }
 
-    private fun selectMedia(position: Int) {
+    private fun selectMedia() {
 //        if (position == mViewModel?.mList?.size?.minus(1)) {
         var imageCount = 9
         var videoCount = 0
@@ -168,7 +161,7 @@ class MediaImageFragment :
                 if (index == -1 || index == null) {
                     return
                 }
-                val data = it[index]
+                val dataB = it[index]
                 var tmpList = arrayListOf<MediaBean>()
 
                 for (item in resultData) {
@@ -182,8 +175,8 @@ class MediaImageFragment :
                     bean.file_name = FileUtil.getNameByPath(item)
                     bean.mediaType2 = item
                     bean.upload = false
-                    bean.mediaType2 = data.title
-                    bean.mediaType3 = data.subTile
+                    bean.mediaType2 = dataB.title
+                    bean.mediaType3 = dataB.subTile
                     tmpList.add(bean)
                 }
                 mViewModel?.mList?.get(index)?.files?.addAll(tmpList)
@@ -247,4 +240,5 @@ class MediaImageFragment :
 
         return true
     }
+    override fun enableLazyData() = true
 }

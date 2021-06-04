@@ -134,7 +134,7 @@ object HasNotch {
      * @return
      */
     @SuppressLint("PrivateApi")
-    fun hasNotchVIVO(context: Context?): Boolean {
+    fun hasNotchVIVO(): Boolean {
         return try {
             val c = Class.forName("android.util.FtFeature")
             val get = c.getMethod("isFeatureSupport", Int::class.java)

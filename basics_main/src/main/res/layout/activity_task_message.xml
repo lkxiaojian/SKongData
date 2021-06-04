@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="taskMessageViewModel"
+            type="com.zky.basics.main.mvvm.viewmodel.SplashViewModel" />
         <import type="android.view.View" />
     </data>
 

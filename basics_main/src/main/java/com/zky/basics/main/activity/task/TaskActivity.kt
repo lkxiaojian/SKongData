@@ -77,6 +77,7 @@ class TaskActivity : BaseMvvmRefreshActivity<ActivityTaskctivityBinding, TaskVie
         intent.putExtra("itemCode", taskItem.itemCode)
         intent.putExtra("dataTask", mViewModel?.taskBean)
         Constants.dataAttr2 = taskItem.dataAttr1
+        Constants.id_card=taskItem.dataAttr2
         startActivity(intent)
 
     }

@@ -59,7 +59,7 @@ class MainActivity : BaseActivity() {
 
         supportFragmentManager.beginTransaction().replace(
             R.id.frame_content,
-            mFlayFragment!!,
+            mFlayFragment,
             MainChannel.NEWS.name
         ).commit()
     }

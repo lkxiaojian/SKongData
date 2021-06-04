@@ -1,10 +1,13 @@
 package com.zky.basics.main.adapter
 
 import android.content.Context
+import android.content.Intent
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ViewDataBinding
+import com.zky.basics.api.common.entity.task.KeyAndValue
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.main.R
+import com.zky.basics.main.activity.task.DepartemntDataActivity
 import com.zky.basics.main.databinding.QDeparDataItemItemItemListBinding
 import com.zky.basics.main.databinding.QDeparDataItemItemListBinding
 import com.zky.basics.main.databinding.QDeparDataItemListBinding
@@ -17,8 +20,10 @@ import java.math.BigDecimal
  *author: lk
  *description： DepartemntDataItemAdapter
  */
-class DepartemntDataItemItemAdapter(context: Context, items: ObservableArrayList<String>?) :
-    BaseBindAdapter<String, ViewDataBinding>(context, items) {
+class DepartemntDataItemItemAdapter(context: Context, items: ObservableArrayList<KeyAndValue>?) :
+    BaseBindAdapter<KeyAndValue, ViewDataBinding>(context, items) {
+    private val mContext=context
+    private var mDatas=items
     override fun getLayoutItemId(viewType: Int): Int {
         return if (viewType == 4) {
             R.layout.q_depar_data_meessage
@@ -27,13 +32,23 @@ class DepartemntDataItemItemAdapter(context: Context, items: ObservableArrayList
         }
     }
 
-    override fun onBindItem(binding: ViewDataBinding?, item: String, position: Int) {
+    override fun onBindItem(binding: ViewDataBinding?, item: KeyAndValue, position: Int) {
 
         when(binding){
             is QDeparDataItemItemItemListBinding->{
                 binding.data = item
             }
+            is QDeparDataMeessageBinding->{
+                binding.clMessage.setOnClickListener {
+                    val intent = Intent(mContext, DepartemntDataActivity::class.java)
+                    intent.putExtra("data",mDatas)
+                    mContext.startActivity(intent)
+                }
+            }
+
         }
+
+
 
 
     }

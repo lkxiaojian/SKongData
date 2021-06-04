@@ -2,15 +2,13 @@ package com.zky.basics.main.mvvm.model
 
 import android.app.Application
 import com.zky.basics.api.RetrofitManager.Companion.instance
-import com.zky.basics.api.common.entity.task.TaskBean
-import com.zky.basics.api.common.entity.task.TaskChart
-import com.zky.basics.api.common.entity.task.TaskItem
-import com.zky.basics.api.common.entity.task.TaskWjBean
+import com.zky.basics.api.common.entity.task.*
 import com.zky.basics.api.room.bean.Areas
 import com.zky.basics.api.splash.entity.AccountLevel
 import com.zky.basics.api.splash.entity.ImageUrl
 import com.zky.basics.api.splash.entity.RegionOrSchoolBean
 import com.zky.basics.api.splash.entity.Userinfo
+import com.zky.basics.common.constant.Constants
 import com.zky.basics.common.mvvm.model.BaseModel
 
 class MainModel(application: Application?) : BaseModel(application) {
@@ -90,4 +88,12 @@ class MainModel(application: Application?) : BaseModel(application) {
         taskService.delItem(taskCode,itemCode)
     }
 
+
+    suspend fun getDatasetTableList(code: String?):List<DepartmentDataList>?=request {
+        taskService.getDatasetTableList(code,Constants.id_card)
+    }
+
+    suspend fun getDatasetTableInfo(code: String?,tableName:String?,dataAttr2:String?,importDate: String?):DepartmentDataList?=request {
+        taskService.getDatasetTableInfo(code,tableName,dataAttr2,importDate)
+    }
 }

@@ -124,7 +124,7 @@ class MediaVoiceFragment :
                             if (filePath.isNullOrEmpty()) {
                                 return
                             }
-                            if (!filePath?.contains("/mnt") && !filePath?.contains("/storage/emulated/0") && !filePath.startsWith(
+                            if (!filePath.contains("/mnt") && !filePath.contains("/storage/emulated/0") && !filePath.startsWith(
                                     "http"
                                 )
                             ) {
@@ -246,4 +246,6 @@ class MediaVoiceFragment :
         }
         return true
     }
+
+    override fun enableLazyData()=true
 }

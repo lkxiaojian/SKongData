@@ -3,11 +3,13 @@ package com.zky.basics.main.activity.task
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Build
+import android.util.Log
 import android.util.TypedValue
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.facade.annotation.Autowired
 
 import com.google.android.material.tabs.TabLayout
@@ -19,24 +21,29 @@ import com.zky.basics.common.constant.Constants.dxm
 import com.zky.basics.common.constant.Constants.itemCode
 import com.zky.basics.common.constant.Constants.taskCode
 import com.zky.basics.common.mvvm.BaseActivity
+import com.zky.basics.common.mvvm.BaseMvvmActivity
 import com.zky.basics.common.provider.*
+import com.zky.basics.main.BR
 import com.zky.basics.main.R
+import com.zky.basics.main.databinding.ActivityTaskMessageBinding
 import com.zky.basics.main.fragment.DepartmentDataFragment
 import com.zky.basics.main.fragment.MapFragment
 import com.zky.basics.main.fragment.MapFragment.Companion.mapNewInstance
 import com.zky.basics.main.fragment.QuestionnaireStateFragment
+import com.zky.basics.main.mvvm.factory.MainViewModelFactory
+import com.zky.basics.main.mvvm.viewmodel.SplashViewModel
 import kotlinx.android.synthetic.main.activity_task_message.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import java.util.*
 
-class TaskMessageActivity : BaseActivity() {
+class TaskMessageActivity : BaseMvvmActivity<ActivityTaskMessageBinding, SplashViewModel>() {
+    private var isFirstLoad=true
     @JvmField
     @Autowired(name = ARouterPath.MEDIA)
     var mMineProvider: IMediaProvider? = null
-
-//    @JvmField
-//    @Autowired(name = ARouterPath.MAP_SHOW)
-//    var iMapProvider: IMapProvider? = null
-
     // 音频选择
     @JvmField
     @Autowired(name = ARouterPath.MEDIA_SELECT_SHOW_VOICE)
@@ -46,10 +53,6 @@ class TaskMessageActivity : BaseActivity() {
     @JvmField
     @Autowired(name = ARouterPath.MEDIA_SELECT_VIDEO)
     var iMediaSelectVideoProvider: IMediaSelectVideoProvider? = null
-
-//    @JvmField
-//    @Autowired(name = ARouterPath.QUESTION)
-//    var iQuestionProvider: IQuestionProvider? = null
 
 
     //    "空间数据", "问卷信息", "照片信息", "视频信息", "音频信息"
@@ -63,6 +66,42 @@ class TaskMessageActivity : BaseActivity() {
 
     override val tootBarTitle= "${Constants.dataAttr2}"
     override fun initData() {
+
+//        mViewModel?.launchUI({
+//            Log.e("tag","tag----")
+//            addFragemet()
+//            Log.e("tag","tag----")
+//        })
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("tag","tag----")
+        mViewModel?.launchUI({
+
+            if(isFirstLoad){
+                delay(1000)
+               val add= async {
+                    addFragemet()
+                }
+                add.await()
+
+                withContext(Dispatchers.Main) {
+
+                    showInitLoadView(false)
+                    isFirstLoad=false
+                    Log.e("tag","tag----")
+                }
+            }
+        })
+
+
+
+    }
+
+    private fun addFragemet(){
         try {
             titles.clear()
             val taskBean = intent.extras["dataTask"] as TaskBean
@@ -94,14 +133,23 @@ class TaskMessageActivity : BaseActivity() {
                     mListFragments.add(iMediaSelectVoiceProvider?.mediaVoiceFragment(itemCode)!!)
                 }
             }
-            titles.add("部门数据")
-            mListFragments.add(DepartmentDataFragment())
+
+
+            Constants.dataList?.let { it ->
+                it.forEach {
+                    titles.add(it.datasetName)
+                    mListFragments.add(DepartmentDataFragment(it.datasetCode))
+                }
+
+            }
+
 
             val fragmentPager2Adapter = FragmentPager2Adapter(this, mListFragments)
 
             pager_tour_task?.adapter = fragmentPager2Adapter
             pager_tour_task.currentItem = 0
             pager_tour_task.isUserInputEnabled = false
+//            pager_tour_task.offscreenPageLimit=mListFragments.size
             //添加动画
 //        pager_tour_task.setPageTransformer(ZoomOutPageTransformer())
             //切换tab页
@@ -167,4 +215,14 @@ class TaskMessageActivity : BaseActivity() {
             }
         }
     }
+
+    override fun onBindViewModel()=SplashViewModel::class.java
+
+    override fun onBindViewModelFactory()=MainViewModelFactory.getInstance(application)
+
+    override fun initViewObservable() {
+        showInitLoadView(true)
+    }
+
+    override fun onBindVariableId()=BR.taskMessageViewModel
 }

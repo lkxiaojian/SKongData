@@ -18,11 +18,12 @@ data class TaskBean(
     var dataAttr3: String?,
     var spaceDataType: String?,
     var mediaDataType: String?,
-    var mediaDataTypePhoto:String?,
-    var mediaDataTypeAudio:String?,
-    var mediaDataTypeVideo:String?,
+    var mediaDataTypePhoto: String?,
+    var mediaDataTypeAudio: String?,
+    var mediaDataTypeVideo: String?,
     var dataAttr2Type: Int?,
-): Parcelable {
+    var datasetList: ArrayList<DepartmentDataBean>?
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
@@ -36,7 +37,8 @@ data class TaskBean(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readValue(Int::class.java.classLoader) as? Int
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readArrayList(DepartmentDataBean::class.java.classLoader) as ArrayList<DepartmentDataBean>
     ) {
     }
 

@@ -40,10 +40,16 @@ interface TaskService {
 
 
     @GET("getWjTemplate.do")
-    suspend fun getWjTemplate(@Query("taskCode") taskCode: String?,@Query("wjCode") wjCode: String?): RespDTO<List<TaskQuestion>>
+    suspend fun getWjTemplate(
+        @Query("taskCode") taskCode: String?,
+        @Query("wjCode") wjCode: String?
+    ): RespDTO<List<TaskQuestion>>
 
     @GET("getWjInfo.do")
-    suspend fun getWjInfo(@Query("itemCode") taskCode: String?,@Query("wjCode") wjCode: String?): RespDTO<List<TaskResult>>
+    suspend fun getWjInfo(
+        @Query("itemCode") taskCode: String?,
+        @Query("wjCode") wjCode: String?
+    ): RespDTO<List<TaskResult>>
 
     @POST("insertOrUpdateWjInfo.do")
     suspend fun insertOrUpdateWjInfo(
@@ -53,7 +59,10 @@ interface TaskService {
     ): RespDTO<Any>
 
     @GET("getTaskChart.do")
-    suspend fun getTaskChart(@Query("taskCode") taskCode: String?,@Query("itemName") itemName: String?): RespDTO<List<List<TaskChart>>>
+    suspend fun getTaskChart(
+        @Query("taskCode") taskCode: String?,
+        @Query("itemName") itemName: String?
+    ): RespDTO<List<List<TaskChart>>>
 
     @POST("deleteItem.do")
     suspend fun delItem(
@@ -64,6 +73,18 @@ interface TaskService {
 
     @GET("getTaskWjList.do")
     suspend fun getTaskWjList(@Query("taskCode") taskCode: String?): RespDTO<List<TaskWjBean>>
+
+
+    @GET("getDatasetTableList.do")
+    suspend fun getDatasetTableList(@Query("datasetCode") datasetCode: String?,  @Query("dataAttr2") dataAttr2: String?,): RespDTO<List<DepartmentDataList>>
+
+    @GET("getDatasetTableInfo.do")
+    suspend fun getDatasetTableInfo(
+        @Query("datasetCode") datasetCode: String?,
+        @Query("tableName") tableName: String?,
+        @Query("dataAttr2") dataAttr2: String?,
+        @Query("importDate") importDate: String?
+    ): RespDTO<DepartmentDataList>
 
 
 }

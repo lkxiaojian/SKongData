@@ -34,7 +34,7 @@ class VideoActivity : BaseActivity() {
     override fun initData() {
         var  path=file.file_path
 
-        if (path != null && !path.startsWith("/storage/emulated/0") && !path.startsWith("http")) {
+        if (!path.startsWith("/storage/emulated/0") && !path.startsWith("http")) {
             path = API.ImageFolderPath + path
         }
 

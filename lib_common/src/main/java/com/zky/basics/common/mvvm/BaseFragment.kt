@@ -44,6 +44,7 @@ abstract class BaseFragment : Fragment(), IBaseView {
     private var mViewStubError: ViewStub? = null
     private var isViewCreated = false
     private var isViewVisable = false
+    private var isFirstLoad=true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mActivity = activity as RxAppCompatActivity
@@ -122,8 +123,16 @@ abstract class BaseFragment : Fragment(), IBaseView {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if(enableLazyData()&&isFirstLoad){
+            initData()
+        }
+        isFirstLoad=false
+    }
+
     //默认不启用懒加载
-    fun enableLazyData(): Boolean {
+  open  fun enableLazyData(): Boolean {
         return false
     }
 

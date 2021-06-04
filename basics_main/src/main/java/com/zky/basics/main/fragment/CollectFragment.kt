@@ -22,8 +22,8 @@ import com.zky.basics.main.mvvm.viewmodel.MainViewModel
  *author: lk
  *description： CollectFragment
  */
-class CollectFragment:BaseMvvmRefreshFragment<MediaBean, ActivityOneMainBinding, MainViewModel>() ,
-    BaseBindAdapter.OnItemClickListener<Any>{
+class CollectFragment : BaseMvvmRefreshFragment<MediaBean, ActivityOneMainBinding, MainViewModel>(),
+    BaseBindAdapter.OnItemClickListener<Any> {
     override fun refreshLayout() = mBinding?.drlMain
     override fun onBindViewModel() = MainViewModel::class.java
     override fun onBindViewModelFactory() = MainViewModelFactory.getInstance(mActivity.application)
@@ -32,7 +32,7 @@ class CollectFragment:BaseMvvmRefreshFragment<MediaBean, ActivityOneMainBinding,
         showInitLoadView(true)
         mViewModel?.getmVoidSingleLiveEvent()
             ?.observe(this, Observer { a: String? ->
-                if(a==  "disMiss"){
+                if (a == "disMiss") {
                     showInitLoadView(false)
                 }
 
@@ -60,9 +60,10 @@ class CollectFragment:BaseMvvmRefreshFragment<MediaBean, ActivityOneMainBinding,
     override fun onItemClick(e: Any, position: Int) {
         val intent = Intent(mActivity, TaskActivity::class.java)
         val taskBean = e as TaskBean
-        Constants.mediaDataTypeAudio=taskBean.mediaDataTypeAudio
-        Constants.mediaDataTypePhoto=taskBean.mediaDataTypePhoto
-        Constants.mediaDataTypeVideo=taskBean.mediaDataTypeVideo
+        Constants.mediaDataTypeAudio = taskBean.mediaDataTypeAudio
+        Constants.mediaDataTypePhoto = taskBean.mediaDataTypePhoto
+        Constants.mediaDataTypeVideo = taskBean.mediaDataTypeVideo
+        Constants.dataList = taskBean.datasetList
         intent.putExtra("data", taskBean)
         startActivity(intent)
     }

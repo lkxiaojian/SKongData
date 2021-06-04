@@ -80,7 +80,7 @@ class MediaVoiceListViewModle(application: Application, mediaModel: MediaModel) 
                 val userinfo = decodeParcelable<Userinfo>("user")
                 var uploadingList = arrayListOf<UploadingFile>()
 
-                for ((index, value) in mList.withIndex()) {
+                for (value in mList) {
                     value.files?.forEach { it ->
 
                         if (!it.upload && it.file_path != null) {

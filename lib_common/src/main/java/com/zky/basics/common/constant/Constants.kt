@@ -1,6 +1,7 @@
 package com.zky.basics.common.constant
 
 import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider
+import com.zky.basics.api.common.entity.task.DepartmentDataBean
 
 /**
  * Created by lk
@@ -20,10 +21,12 @@ object Constants {
     var taskName: String? = ""
     var wjCode: String? = ""
     var dataAttr2: String? = ""
+    var id_card: String? = ""
     var taskCode: String? = ""
     var dxm: String? = ""
-    var mediaDataTypePhoto:String? = ""
-    var mediaDataTypeVideo:String?=""
-    var mediaDataTypeAudio:String?=""
+    var mediaDataTypePhoto: String? = ""
+    var mediaDataTypeVideo: String? = ""
+    var mediaDataTypeAudio: String? = ""
+    var dataList: ArrayList<DepartmentDataBean>? = arrayListOf()
 
 }

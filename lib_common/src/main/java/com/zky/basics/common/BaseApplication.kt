@@ -74,10 +74,10 @@ open class BaseApplication : MultiDexApplication() {
 
         })
 
-        pushAgent.tagManager.addTags({ p0, p1 ->
-            Log.e("","")
-
-        },"user")
+//        pushAgent.tagManager.addTags({ _, _ ->
+//            Log.e("","")
+//
+//        },"user")
 
 
     }
