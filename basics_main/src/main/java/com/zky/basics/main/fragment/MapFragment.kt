@@ -324,10 +324,10 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
         var firstLocation = true
         var firstMove = false
         mlocationClient.setLocationListener {
-            if (firstMove&&!firstLocation) {
+            if (firstMove && !firstLocation) {
                 return@setLocationListener
             }
-            if (it != null && it.errorCode == 0 && firstLocation || mePoint == null) {
+            if (it != null && it.errorCode == 0 && firstLocation || mePoint == null && !firstLocation) {
                 val latitude = it.latitude
                 val longitude = it.longitude
                 if (longitude > 0) {
