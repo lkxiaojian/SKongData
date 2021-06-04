@@ -82,7 +82,6 @@
             android:visibility="@{data.showRv? View.VISIBLE:View.GONE}"
             app:layout_constraintTop_toBottomOf="@id/cv_click"
             app:ycCardBackgroundColor="@color/color_3388EF"
-            app:ycCardElevation="6dp"
             app:ycStartShadowColor="#124B4B4B">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -124,32 +123,42 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.zyp.cardview.YcCardView>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/atv_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:background="@drawable/shape_eee_3"
-            android:padding="4dp"
-            android:text="@{data.dataTime}"
-            android:textColor="@color/color_4a4a4a"
-            android:textSize="10sp"
-            android:drawablePadding="4dp"
-            android:drawableEnd="@drawable/ri_9"
-            android:visibility="@{data.showRv? View.VISIBLE:View.GONE}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cv_click2"
-            tools:ignore="SmallSp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:visibility="@{data.showRv? View.VISIBLE:View.GONE}"
-            app:layout_constraintTop_toBottomOf="@id/atv_time" />
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/cv_click2">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/atv_time"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/shape_eee_3"
+                android:padding="4dp"
+                android:text="@{data.dataTime}"
+                android:textColor="@color/color_4a4a4a"
+                android:textSize="10sp"
+                android:drawablePadding="4dp"
+                android:drawableEnd="@drawable/ri_9"
+                android:visibility="@{data.showRv? View.VISIBLE:View.GONE}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="SmallSp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:visibility="@{data.showRv? View.VISIBLE:View.GONE}"
+                app:layout_constraintTop_toBottomOf="@id/atv_time" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

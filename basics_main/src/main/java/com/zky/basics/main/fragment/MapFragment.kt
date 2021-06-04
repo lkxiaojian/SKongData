@@ -315,7 +315,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
         mLocationOption.locationMode = AMapLocationClientOption.AMapLocationMode.Battery_Saving
 //设置定位间隔,单位毫秒,默认为2000ms
-        mLocationOption.interval = 5000
+//        mLocationOption.interval = 2000
 //设置定位参数
         mlocationClient.setLocationOption(mLocationOption)
 
@@ -324,7 +324,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
         var firstLocation = true
         var firstMove = false
         mlocationClient.setLocationListener {
-            if (firstMove) {
+            if (firstMove&&!firstLocation) {
                 return@setLocationListener
             }
             if (it != null && it.errorCode == 0 && firstLocation || mePoint == null) {
