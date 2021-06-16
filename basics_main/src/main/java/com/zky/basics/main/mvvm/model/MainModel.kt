@@ -93,7 +93,7 @@ class MainModel(application: Application?) : BaseModel(application) {
         taskService.getDatasetTableList(code,Constants.id_card)
     }
 
-    suspend fun getDatasetTableInfo(code: String?,tableName:String?,dataAttr2:String?,importDate: String?):DepartmentDataList?=request {
-        taskService.getDatasetTableInfo(code,tableName,dataAttr2,importDate)
+    suspend fun getDatasetTableInfo(code: String?,tableName:String?,dataAttr2:String?,importDate: String?,tableCode:String?):DepartmentDataList?=request {
+        taskService.getDatasetTableInfo(code,tableName,dataAttr2,importDate,tableCode)
     }
 }

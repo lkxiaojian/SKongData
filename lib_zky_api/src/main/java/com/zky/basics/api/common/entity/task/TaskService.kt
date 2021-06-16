@@ -76,14 +76,15 @@ interface TaskService {
 
 
     @GET("getDatasetTableList.do")
-    suspend fun getDatasetTableList(@Query("datasetCode") datasetCode: String?,  @Query("dataAttr2") dataAttr2: String?,): RespDTO<List<DepartmentDataList>>
+    suspend fun getDatasetTableList(@Query("datasetCode") datasetCode: String?,  @Query("dataAttr2") dataAttr2: String?): RespDTO<List<DepartmentDataList>>
 
     @GET("getDatasetTableInfo.do")
     suspend fun getDatasetTableInfo(
         @Query("datasetCode") datasetCode: String?,
         @Query("tableName") tableName: String?,
         @Query("dataAttr2") dataAttr2: String?,
-        @Query("importDate") importDate: String?
+        @Query("importDate") importDate: String?,
+        @Query("tableCode") tableCode: String?
     ): RespDTO<DepartmentDataList>
 
 

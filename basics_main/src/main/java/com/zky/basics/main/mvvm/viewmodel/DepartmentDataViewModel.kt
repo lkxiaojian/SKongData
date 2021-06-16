@@ -59,7 +59,8 @@ class DepartmentDataViewModel(application: Application, model: MainModel) :
                     dataCode.get(),
                     departmentDataList.tableName,
                     Constants.id_card,
-                    importDate
+                    importDate,
+                    departmentDataList.tableCode
                 )
             val dataS = arrayListOf<ArrayList<KeyAndValue>>()
 
