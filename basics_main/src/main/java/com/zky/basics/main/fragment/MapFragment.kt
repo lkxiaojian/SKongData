@@ -262,12 +262,22 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
      */
     private fun netPoint() {
         val netPoint = mViewModel?.netPoint?.get()
-        netPoint?.let {
-            mapCenterPoint = Point(it.latitude, it.longitude, wgs)
+        try {
+
+
+            netPoint?.let {
+                mapCenterPoint = Point(
+                    it.latitude,
+                    it.longitude,
+                    wgs
+                )
             mViewModel?.mapViewBean?.get()?.dianData = mapCenterPoint
             initCallout(null)
             drawGDPoint(LatLng(mapCenterPoint!!.y, mapCenterPoint!!.x))
 
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
 
     }
@@ -955,10 +965,9 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                 val graphic = Graphic(mapCenterPoint, farmerSymbol)
                 graphic.isVisible = true
                 farmerOverlays.graphics.add(graphic)
-
                 ly.findViewById<TextView>(R.id.tv_calloutInfo).text = dataAttr2
 //                callout?.location = mapCenterPoint
-                callout?.setGeoElement(graphic, mapCenterPoint)
+                callout?.setGeoElement(graphic,mapCenterPoint)
             } else {
                 ly.findViewById<TextView>(R.id.tv_calloutInfo).text = dataAttr2
                 callout?.location = point
@@ -975,8 +984,6 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 
     private fun dingwei() {
         try {
-
-
             XXPermissions.with(activity).permission(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
