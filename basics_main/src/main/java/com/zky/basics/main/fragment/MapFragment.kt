@@ -236,7 +236,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                     mapCenterPoint = getMapCenterPoint()
                     mViewModel?.mapViewBean?.get()?.dianData = mapCenterPoint
                     initCallout(null)
-                    drawGDPoint(LatLng(mapCenterPoint!!.y, mapCenterPoint!!.x))
+                    drawGDPoint(LatLng(mapCenterPoint!!.x, mapCenterPoint!!.y))
                 } else {
                     val target = mBinding?.gdMV?.map?.cameraPosition?.target
                     val toGPSPoint = LocationUtils.toGPSPoint(target!!.latitude, target.longitude)
@@ -246,7 +246,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                     drawGDPoint(LatLng(target.latitude, target.longitude))
                 }
                 val list = arrayListOf<UploadAdressBean>()
-                list.add(UploadAdressBean(mapCenterPoint!!.y, mapCenterPoint!!.x))
+                list.add(UploadAdressBean(mapCenterPoint!!.x, mapCenterPoint!!.y))
                 mViewModel?.insertOrUpdateSpaceData("point", list)
 
             }
@@ -267,8 +267,8 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 
             netPoint?.let {
                 mapCenterPoint = Point(
-                    it.latitude,
                     it.longitude,
+                    it.latitude,
                     wgs
                 )
             mViewModel?.mapViewBean?.get()?.dianData = mapCenterPoint
@@ -411,13 +411,6 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
 
         var la = latLng
         if (mViewModel?.mapViewBean?.get()?.wxOrLx == true) {
-//            val converter = CoordinateConverter(mActivity)
-//            // CoordType.GPS 待转换坐标类型 WGS-84坐标系
-//            converter.from(CoordinateConverter.CoordType.GPS)
-//            // sourceLatLng待转换坐标点 LatLng类型
-//            converter.coord(latLng)
-//            // 执行转换操作
-//            la = converter.convert()
             la = TransfromGCJ(latLng, mActivity)
         }
         val markerOption = MarkerOptions()
@@ -590,10 +583,6 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                 list.add(UploadAdressBean(it.x, it.y))
             }
         }
-
-//        mViewModel?.mapViewBean?.get()?.lineData?.forEach {
-//            list.add(UploadAdressBean(it.x, it.y))
-//        }
         mViewModel?.insertOrUpdateSpaceData(type, list)
     }
 

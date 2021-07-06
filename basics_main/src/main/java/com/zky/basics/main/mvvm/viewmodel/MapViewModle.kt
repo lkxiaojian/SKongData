@@ -233,7 +233,8 @@ class MapViewModle(application: Application, model: MapModel) :
 
             bean?.let {
                 if (!bean.point.isNullOrEmpty()) {
-                    netPoint.set(it.point[0])
+                    val uploadAdressBean = it.point[0]
+                    netPoint.set(uploadAdressBean)
                     mapViewBean.get()?.dianShowWT = false
                     mapViewBean.get()?.showLineOrSurfaceModify = true
                     getmVoidSingleLiveEvent().value = "netPoint"
