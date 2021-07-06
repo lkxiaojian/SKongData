@@ -63,12 +63,12 @@ open class BaseApplication : MultiDexApplication() {
 
         pushAgent.register(object : IUmengRegisterCallback{
             override fun onSuccess(deviceToken: String?) {
-                Log.i("TAG", "注册成功：deviceToken：--> " + deviceToken);
+                Log.i("TAG", "注册成功：deviceToken：--> $deviceToken");
 
             }
 
             override fun onFailure(p0: String?, p1: String?) {
-                Log.e("TAG", "注册失败：--> " + "s:" + p0 + ",s1:" + p1);
+                Log.e("TAG", "注册失败：--> s:$p0,s1:$p1");
 
             }
 

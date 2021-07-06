@@ -9,6 +9,7 @@
             name="data"
             type="com.zky.basics.api.common.entity.task.TaskQuestion" />
         <import type="android.view.View"/>
+        <import type="com.zky.zky_questionnaire.R" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

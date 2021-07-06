@@ -21,6 +21,7 @@ class TaskQuestion : BaseObservable() {
     @get:Bindable
     @set:Bindable
     var nullable: Int? = -1  // 1 不能为空  2 能为空
+
         set(value) {
             field = value
             notifyPropertyChanged(BR.nullable)
@@ -32,6 +33,7 @@ class TaskQuestion : BaseObservable() {
     @get:Bindable
     @set:Bindable
     var q_title: String? = ""
+        get() = "、$field"
         set(value) {
             field = value
             notifyPropertyChanged(BR.q_title)

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,40 +9,43 @@
             name="data"
             type="com.zky.basics.api.common.entity.task.TaskQuestion" />
 
+
+
         <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cv_click"
         style="@style/qnCardView"
-        android:visibility="@{data.display? View.VISIBLE:View.GONE}"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="@{data.display? View.VISIBLE:View.GONE}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             style="@style/qnTopPad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent">
+
             <TextView
                 android:id="@+id/tv_bt"
                 style="@style/qnTitle"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="@{data.nullable==1?View.VISIBLE:View.GONE}"
                 android:text="*"
                 android:textColor="@color/color_E02020"
-                />
+                android:visibility="@{data.nullable==1?View.VISIBLE:View.GONE}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/tv_title"
                 style="@style/qnTitle"
-                android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@{data.q_index +  data.q_title}"
                 app:layout_constraintLeft_toRightOf="@+id/tv_bt"
-                android:text="@{data.q_index+data.q_title}"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -53,12 +56,12 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_ededed_3"
                 android:drawableRight="@drawable/qn_xl"
+                android:hint="请选择"
                 android:padding="5dp"
                 android:paddingBottom="10dp"
-                android:hint="请选择"
-                android:textColorHint="@color/color_999999"
-                android:textColor="@color/black"
                 android:text="@={data.answer}"
+                android:textColor="@color/black"
+                android:textColorHint="@color/color_999999"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/tv_title" />
 

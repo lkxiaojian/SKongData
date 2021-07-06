@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="com.zky.zky_questionnaire.R" />
         <variable
             name="data"
             type="com.zky.basics.api.common.entity.task.TaskQuestion" />
