@@ -1,33 +1,25 @@
 package com.zky.basics.main.mvvm.viewmodel
 
-import android.Manifest
 import android.app.Application
 import android.graphics.Color
-import android.os.Bundle
-import android.util.Log
+
 import android.view.View
 import androidx.databinding.ObservableField
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.bigkoo.pickerview.listener.OnTimeSelectListener
 import com.bigkoo.pickerview.view.TimePickerView
-import com.hjq.permissions.OnPermission
-import com.hjq.permissions.XXPermissions
+
 import com.zky.basics.api.common.entity.task.TaskBean
 import com.zky.basics.api.common.entity.task.TaskItem
-import com.zky.basics.api.room.AppDatabase
-import com.zky.basics.api.room.Dao.AccountLevelDao
-import com.zky.basics.api.room.bean.Area
-import com.zky.basics.api.splash.entity.AccountLevel
+
 import com.zky.basics.common.event.SingleLiveEvent
 import com.zky.basics.common.mvvm.viewmodel.BaseRefreshViewModel
 import com.zky.basics.common.util.DateUtil
-import com.zky.basics.common.util.PermissionToSetting
 import com.zky.basics.common.util.SoftInputUtil
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.R
 import com.zky.basics.main.mvvm.model.MainModel
-import views.ViewOption.OptionsPickerBuilder
 import java.util.*
 
 
@@ -45,13 +37,16 @@ class TaskViewModel(application: Application, model: MainModel) :
     var itemCount = ObservableField<String>()
     var app = application
     var att2Show = ObservableField<Boolean>() //true 日期  false edit
+    var pageIndex = 1
 
     override fun refreshData() {
+        pageIndex = 1
         setData()
     }
 
     override fun loadMore() {
-
+        pageIndex += 1
+        setData()
     }
 
     init {
@@ -61,33 +56,40 @@ class TaskViewModel(application: Application, model: MainModel) :
         sfMessageDigits.set("0123456789xX")
     }
 
-    override fun enableLoadMore() = false
+    override fun enableLoadMore() = true
     override fun enableRefresh() = true
 
     fun setData() {
         launchUI({
-            mList.clear()
-            val itemList = mModel.getItemList(taskBean?.taskCode, searchMessage.get())
+
+            val itemList = mModel.getItemList(taskBean?.taskCode, searchMessage.get(), pageIndex)
             itemList?.let { it ->
-                itemList.forEach {
-                    it.fData = taskBean
+                if (it.totalNum > mList.size) {
+                    it.pageList.forEach {
+                        it.fData = taskBean
+                    }
+                    if(pageIndex==1){
+                        mList.clear()
+                    }
+                    mList.addAll( it.pageList)
+                    itemCount.set("当前共有${mList.size}条数据")
                 }
-                mList.addAll(it)
-                itemCount.set("当前共有${mList.size}条数据")
+                postStopRefreshEvent()
+                postStopLoadMoreEvent()
             }
-            postStopRefreshEvent()
         }, object : NetError {
             override fun getError(e: Exception) {
                 postStopRefreshEvent()
+                postStopLoadMoreEvent()
             }
 
         })
 
     }
 
-    fun delItem(itemCode:String?,positon:Int) {
+    fun delItem(itemCode: String?, positon: Int) {
         launchUI({
-            mModel.delItem(taskBean?.taskCode,itemCode)
+            mModel.delItem(taskBean?.taskCode, itemCode)
             mList.removeAt(positon)
         })
     }
@@ -100,7 +102,7 @@ class TaskViewModel(application: Application, model: MainModel) :
             R.id.acb_search -> {
                 mList.clear()
                 setData()
-                SoftInputUtil.hideSoftInput(app,v)
+                SoftInputUtil.hideSoftInput(app, v)
             }
             R.id.aiv_add_task -> {
                 ARouter.getInstance().build(ARouterPath.ADDTASK)
@@ -125,7 +127,7 @@ class TaskViewModel(application: Application, model: MainModel) :
             R.id.atv_se_time -> {
                 TimePv(v)
                 pickerView?.show()
-                SoftInputUtil.hideSoftInput(app,v)
+                SoftInputUtil.hideSoftInput(app, v)
             }
         }
 
