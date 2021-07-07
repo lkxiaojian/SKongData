@@ -236,7 +236,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                     mapCenterPoint = getMapCenterPoint()
                     mViewModel?.mapViewBean?.get()?.dianData = mapCenterPoint
                     initCallout(null)
-                    drawGDPoint(LatLng(mapCenterPoint!!.x, mapCenterPoint!!.y))
+                    drawGDPoint(LatLng(mapCenterPoint!!.y, mapCenterPoint!!.x))
                 } else {
                     val target = mBinding?.gdMV?.map?.cameraPosition?.target
                     val toGPSPoint = LocationUtils.toGPSPoint(target!!.latitude, target.longitude)
@@ -271,10 +271,9 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                     it.latitude,
                     wgs
                 )
-            mViewModel?.mapViewBean?.get()?.dianData = mapCenterPoint
-            initCallout(null)
-            drawGDPoint(LatLng(mapCenterPoint!!.y, mapCenterPoint!!.x))
-
+                mViewModel?.mapViewBean?.get()?.dianData = mapCenterPoint
+                initCallout(null)
+                drawGDPoint(LatLng(mapCenterPoint!!.y, mapCenterPoint!!.x))
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -956,7 +955,7 @@ class MapFragment : BaseMvvmFragment<MapFragmentBinding, MapViewModle>() {
                 farmerOverlays.graphics.add(graphic)
                 ly.findViewById<TextView>(R.id.tv_calloutInfo).text = dataAttr2
 //                callout?.location = mapCenterPoint
-                callout?.setGeoElement(graphic,mapCenterPoint)
+                callout?.setGeoElement(graphic, mapCenterPoint)
             } else {
                 ly.findViewById<TextView>(R.id.tv_calloutInfo).text = dataAttr2
                 callout?.location = point
