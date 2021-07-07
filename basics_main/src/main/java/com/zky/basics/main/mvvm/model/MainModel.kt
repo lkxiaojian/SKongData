@@ -2,7 +2,9 @@ package com.zky.basics.main.mvvm.model
 
 import android.app.Application
 import com.zky.basics.api.RetrofitManager.Companion.instance
+import com.zky.basics.api.common.entity.PageListItem
 import com.zky.basics.api.common.entity.task.*
+import com.zky.basics.api.config.API
 import com.zky.basics.api.room.bean.Areas
 import com.zky.basics.api.splash.entity.AccountLevel
 import com.zky.basics.api.splash.entity.ImageUrl
@@ -62,8 +64,8 @@ class MainModel(application: Application?) : BaseModel(application) {
     }
 
 
-    suspend fun getItemList(taskCode: String?,message:String?):List<TaskItem>?=request {
-        taskService.getItemList(taskCode,message)
+    suspend fun getItemList(taskCode: String?,message:String?,pageIndex:Int): PageListItem?=request {
+        taskService.getItemList(taskCode,message,pageIndex,API.PAGE_SIZE)
     }
 
     suspend fun getAddrLevel():List<AccountLevel>?=request {

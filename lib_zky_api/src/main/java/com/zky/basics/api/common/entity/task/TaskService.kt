@@ -1,6 +1,7 @@
 package com.zky.basics.api.common.entity.task
 
 
+import com.zky.basics.api.common.entity.PageListItem
 import com.zky.basics.api.dto.RespDTO
 import com.zky.basics.api.splash.entity.AccountLevel
 import com.zky.basics.api.splash.entity.RegionOrSchoolBean
@@ -19,8 +20,10 @@ interface TaskService {
     @GET("getItemList.do")
     suspend fun getItemList(
         @Query("taskCode") taskCode: String?,
-        @Query("dataAttr1") message: String?
-    ): RespDTO<List<TaskItem>>
+        @Query("dataAttr1") message: String?,
+        @Query("pageIndex") pageIndex: Int?,
+        @Query("pageSize") pageSize: Int?
+    ): RespDTO<PageListItem>
 
 
     @GET("getAddrLevel.do")
