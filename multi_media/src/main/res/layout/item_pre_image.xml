@@ -6,6 +6,7 @@
         <variable
             name="item"
             type="com.zky.basics.api.room.bean.MediaBean" />
+        <import type="com.zky.multi_media.R"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -24,7 +25,7 @@
             android:layout_marginStart="12dp"
             android:textColor="@color/white"
             android:textSize="14sp"
-            android:text="@{@string/uploader(item.uploader)}"
+            android:text="@{@string/uploader(item.uploader==null?@string/empty: item.uploader)}"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/atv_create_time"
             app:layout_constraintLeft_toLeftOf="parent" />

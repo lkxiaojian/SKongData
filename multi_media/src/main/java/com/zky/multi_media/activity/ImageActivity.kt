@@ -26,6 +26,7 @@ class ImageActivity : BaseActivity() {
     }
 
     override fun initData() {
+
         try {
             val adapter = ImagePrePagerAdapter(this)
 //            val position = intent.extras["position"].toString().toInt()

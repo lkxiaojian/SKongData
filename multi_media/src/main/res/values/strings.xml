@@ -3,6 +3,7 @@
     <string name="uploaded" translatable="false">已上传</string>
     <string name="cached" translatable="false">未上传</string>
     <string name="uploader" translatable="false">上传者：%s </string>
+    <string name="empty" translatable="false">""</string>
     <string name="upload_time" translatable="false">上传时间：%s </string>
 
 </resources>

@@ -10,6 +10,7 @@ import com.zky.basics.api.room.bean.MediaBean
 
 data class FileData(
     var title: String,
+    var titleTmp: String,
     var subTile: String,
     var type: String,
     var files: ArrayList<MediaBean>?,
