@@ -48,9 +48,19 @@ class MediaImageFragment :
 
     override fun initViewObservable() {
         mViewModel?.getmVoidSingleLiveEvent()?.observe(this, Observer { a: String? ->
-            if (a == "notify") {
-                mediaListAdapter.notifyDataSetChanged()
+            when(a){
+                "notify"->{
+                    mediaListAdapter.notifyDataSetChanged()
+                    showTransLoadingView(false)
+                }
+                "showLoading"->{
+                    showTransLoadingView(true)
+                }
+                "dimssLoding"->{
+                    showTransLoadingView(false)
+                }
             }
+
         })
         mediaListAdapter =
             MediaImageTypeListAdapter(activity!!, mViewModel?.mList, this, "image")

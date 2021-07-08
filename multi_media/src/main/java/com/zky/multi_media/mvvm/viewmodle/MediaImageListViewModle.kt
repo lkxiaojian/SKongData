@@ -47,12 +47,12 @@ class MediaImageListViewModle(application: Application, mediaModel: MediaModel) 
     override fun enableRefresh() = false
 
     fun getFileData() {
+        getmVoidSingleLiveEvent().value = "showLoading"
         launchUI({
             val fileList = mModel.getFileList(itemCode, fileType.get())
             for ((index, value) in mList.withIndex()) {
-
                 fileList?.forEach {
-                    if(value.title==it.mediaType2&&value.subTile==it.mediaType3){
+                    if(value.titleTmp==it.mediaType2&&value.subTile==it.mediaType3){
                         val bean = instanceOf<MediaBean>()
                         bean.code = it.code
                         bean.file_name = it.fileName
@@ -69,6 +69,10 @@ class MediaImageListViewModle(application: Application, mediaModel: MediaModel) 
                 }
             }
             getmVoidSingleLiveEvent().value = "notify"
+        },object :NetError{
+            override fun getError(e: Exception) {
+                getmVoidSingleLiveEvent().value = "dimssLoding"
+            }
         })
     }
 
