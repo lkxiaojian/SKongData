@@ -38,7 +38,9 @@ data class DepartmentDataList(
     @set:Bindable
     var titleBName: String = ""
         get() {
-            return "$tableDisplayName-$tableName"
+//            return "$tableDisplayName-$tableName"
+            return "$tableDisplayName"
+
         }
         set(value) {
             field = value
