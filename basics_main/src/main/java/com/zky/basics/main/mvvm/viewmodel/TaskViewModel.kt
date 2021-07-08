@@ -72,7 +72,7 @@ class TaskViewModel(application: Application, model: MainModel) :
                         mList.clear()
                     }
                     mList.addAll( it.pageList)
-                    itemCount.set("当前共有${mList.size}条数据")
+                    itemCount.set("当前共有${it.totalNum}条数据")
                 }
                 postStopRefreshEvent()
                 postStopLoadMoreEvent()
