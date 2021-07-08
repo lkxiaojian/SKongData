@@ -40,7 +40,6 @@ data class DepartmentDataList(
         get() {
 //            return "$tableDisplayName-$tableName"
             return "$tableDisplayName"
-
         }
         set(value) {
             field = value
