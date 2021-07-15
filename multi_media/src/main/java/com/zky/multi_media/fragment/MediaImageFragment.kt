@@ -72,6 +72,8 @@ class MediaImageFragment :
         mBinding?.recview?.layoutManager = LinearLayoutManager(context)
         mBinding?.recview?.adapter = mediaListAdapter
         mViewModel?.mList?.addAll(MediaJsonToData.getMediaList("image"))
+        mViewModel?.fileType?.set(fileType)
+        mViewModel?.getFileData()
     }
 
     override fun onBindVariableId() = BR.mediaListViewModel
@@ -82,8 +84,8 @@ class MediaImageFragment :
     }
 
     override fun initData() {
-        mViewModel?.fileType?.set(fileType)
-        mViewModel?.getFileData()
+//        mViewModel?.fileType?.set(fileType)
+//        mViewModel?.getFileData()
         mViewModel?.getAppToken()
     }
 
