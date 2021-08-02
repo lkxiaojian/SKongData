@@ -38,7 +38,7 @@
     <color name="color_eeeeee">#EEEEEE</color>
     <color name="color_FF6300">#FF6300</color>
     <color name="color_808080">#808080</color>
-
+    <color name="color_44C88C">#44C88C</color>
     <color name="color_1B82D1">#1B82D1</color>
     <color name="transparent">@android:color/transparent</color>
 

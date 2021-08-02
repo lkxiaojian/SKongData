@@ -36,6 +36,7 @@
                     android:layout_height="24dp"
                     android:layout_marginStart="12dp"
                     android:src="@drawable/back"
+                    android:onClick="@{selectPeopleViewModle.startClick}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -57,6 +58,7 @@
 
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/search_people"
                     android:layout_width="55dp"
                     android:layout_height="30dp"
                     android:layout_marginEnd="12dp"
@@ -64,6 +66,7 @@
                     android:text="搜索"
                     android:textColor="@color/color_4a90e2"
                     android:textSize="16sp"
+                    android:onClick="@{selectPeopleViewModle.startClick}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

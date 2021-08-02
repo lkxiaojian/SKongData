@@ -8,7 +8,7 @@
 
         <variable
             name="data"
-            type="String" />
+            type="com.zky.basics.api.common.entity.chine.SelectPeople" />
     </data>
 
 
@@ -25,6 +25,7 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginStart="12dp"
+            android:checked="@{data.check}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_marginTop="9dp"
-            android:text="李四"
+            android:text="@{data.username}"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintLeft_toRightOf="@id/acb_check"
@@ -47,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="7dp"
-            android:text="123132311234"
+            android:text="@{data.phone}"
             android:textColor="@color/color_FF6300"
             android:textSize="14sp"
             app:layout_constraintRight_toRightOf="parent"
@@ -84,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="7dp"
-            android:text="村级"
+            android:text="@{data.attr_name}"
             android:textColor="@color/color_FF6300"
             android:textSize="14sp"
             android:layout_marginStart="2dp"
@@ -102,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="7dp"
-            android:text="任店镇巩庄村乔庄"
+            android:text="@{data.address}"
             android:textColor="@color/color_FF6300"
             android:textSize="14sp"
             app:layout_constraintRight_toRightOf="parent"

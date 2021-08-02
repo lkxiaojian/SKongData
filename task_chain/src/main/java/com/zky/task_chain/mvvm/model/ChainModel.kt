@@ -5,9 +5,14 @@ import com.zky.basics.api.RetrofitManager
 import com.zky.basics.api.RetrofitManager.Companion.instance
 import com.zky.basics.api.apiservice.CommonService
 import com.zky.basics.api.apiservice.MineService
+import com.zky.basics.api.apiservice.TaskChainService
 import com.zky.basics.api.common.entity.OssToken
+import com.zky.basics.api.common.entity.chine.SelectPeople
+import com.zky.basics.api.common.entity.chine.TaskChineBean
+import com.zky.basics.api.config.API
 import com.zky.basics.api.dto.RespDTO
 import com.zky.basics.api.splash.entity.Userinfo
+import com.zky.basics.common.constant.Constants
 import com.zky.basics.common.mvvm.model.BaseModel
 import okhttp3.MultipartBody
 
@@ -18,40 +23,15 @@ import okhttp3.MultipartBody
  * Detail:
  */
 class ChainModel(application: Application?) : BaseModel(application) {
-    private val mCommonService = instance.commonService
-    private val mineService: MineService = instance.mineService
-    suspend fun updateUserPassword(
-        oprationType: String?,
-        phone: String?,
-        oldPassword: String?,
-        password: String?,
-        smsCode: String?
-    ): Any? = request {
-        mCommonService.updateUserPassword(
-            oprationType,
-            phone,
-            oldPassword,
-            password,
-            smsCode
-        )
+    private val mineService: TaskChainService = instance.taskChainService
 
+
+    suspend fun getTaskPageList(userCode: String?, queryType: String?,status: String?,receiver: String?,type:String?,index:Int): TaskChineBean? = request {
+        mineService.getTaskPageList(userCode,queryType,status,receiver,type,index,API.PAGE_SIZE)
     }
 
-    suspend fun getUser(phone: String?): Userinfo? = request {
-        mCommonService.getUser(phone)
-
-    }
-
-    suspend fun updateUserByCode(
-        userName: String?,
-        headImg: String?,
-        code: String?
-    ): Any? = request {
-        mineService.updateUserByCode(userName ,headImg, code)
-    }
-
-    suspend fun getAppToken(phone: String?, passward: String?): OssToken? = request {
-        mCommonService.getAppToken(phone, passward)
+    suspend fun getUserList(accountLevel: String?, regionLevel: String?,town: String?,userName: String?,type:String?,index:Int): ArrayList<SelectPeople>? = request {
+        mineService.getUserList(accountLevel,regionLevel,town,userName,type,index,API.PAGE_SIZE)
     }
 
 }

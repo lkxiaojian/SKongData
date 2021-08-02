@@ -20,7 +20,14 @@
     <string name="idcard_mf" translatable="false">身份证</string>
     <string name="idcard_xz" translatable="false">0123456789xX</string>
     <string name="create_user" translatable="false">创建者：%s </string>
+    <string name="fb_user" translatable="false">发布人：%s </string>
+    <string name="fb_type" translatable="false">类型：%s </string>
+    <string name="fb_message" translatable="false">内容：%s </string>
+    <string name="fb_cratetime" translatable="false">发布时间：%s </string>
     <string name="emtry" translatable="false">""</string>
     <string name="wj_ycj" translatable="false">已采集</string>
     <string name="wj_wcj" translatable="false">未采集</string>
+
+    <string name="fb_yfk" translatable="false">已反馈</string>
+    <string name="fb_wfk" translatable="false">未反馈</string>
 </resources>

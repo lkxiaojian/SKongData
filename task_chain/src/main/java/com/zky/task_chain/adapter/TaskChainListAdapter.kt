@@ -3,7 +3,7 @@ package com.zky.task_chain.adapter
 import android.content.Context
 
 import androidx.databinding.ObservableArrayList
-import com.zky.basics.api.common.entity.task.TaskItem
+import com.zky.basics.api.common.entity.chine.TaskChineItemBean
 import com.zky.basics.common.adapter.BaseBindAdapter
 
 import com.zky.task_chain.R
@@ -15,11 +15,11 @@ import com.zky.task_chain.databinding.TaskChainListItemBinding
  *author: lk
  *description： TaskChainListAdapter
  */
-class TaskChainListAdapter(context: Context, items: ObservableArrayList<String>?) :
-    BaseBindAdapter<String, TaskChainListItemBinding>(context, items) {
+class TaskChainListAdapter(context: Context, items: ObservableArrayList<TaskChineItemBean>?) :
+    BaseBindAdapter<TaskChineItemBean, TaskChainListItemBinding>(context, items) {
     override fun getLayoutItemId(viewType: Int) = R.layout.task_chain_list_item
 
-    override fun onBindItem(binding: TaskChainListItemBinding?, item: String, position: Int) {
+    override fun onBindItem(binding: TaskChainListItemBinding?, item: TaskChineItemBean, position: Int) {
         binding?.data = item
         binding?.cvClick?.setOnClickListener {
             mItemClickListener?.onItemClick(item, position)

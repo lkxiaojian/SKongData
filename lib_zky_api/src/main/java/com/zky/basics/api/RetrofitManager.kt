@@ -6,6 +6,7 @@ import android.util.Log
 import com.zky.basics.api.apiservice.CommonService
 import com.zky.basics.api.apiservice.MapService
 import com.zky.basics.api.apiservice.MineService
+import com.zky.basics.api.apiservice.TaskChainService
 import com.zky.basics.api.common.entity.task.TaskService
 import com.zky.basics.api.config.API
 import com.zky.basics.api.splash.service.SplashService
@@ -34,6 +35,9 @@ class RetrofitManager  {
         get() = mRetrofit.create(TaskService::class.java)
     val mapService: MapService
         get() = mRetrofit.create(MapService::class.java)
+
+    val taskChainService:TaskChainService
+        get() = mRetrofit.create(TaskChainService::class.java)
 
 
 

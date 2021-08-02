@@ -6,6 +6,7 @@ import com.zky.basics.common.adapter.BaseBindAdapter
 
 import com.zky.basics.common.mvvm.BaseMvvmRefreshFragment
 import com.zky.basics.common.util.ObservableListUtil
+import com.zky.basics.common.util.OptionsPickerBuilder
 import com.zky.task_chain.BR
 import com.zky.task_chain.R
 import com.zky.task_chain.activity.DealMessageActivity
@@ -37,6 +38,7 @@ class TaskChainListFragment(type: String) :
             )
         )
         adapter.setItemClickListener(this)
+        mViewModel?.queryType?.set(fromType)
         mBinding?.recview?.adapter = adapter
         mViewModel?.getData()
     }
@@ -49,11 +51,14 @@ class TaskChainListFragment(type: String) :
     }
 
     override fun initData() {
-
+        val optionsPickerBuilder = OptionsPickerBuilder()
+        var pickerBuilder = context?.let { optionsPickerBuilder.pickerBuilder(it) }
+        mViewModel?.pickerBuilder = pickerBuilder
+        mViewModel?.pickerView = pickerBuilder?.build()
     }
 
     override fun onItemClick(e: Any, position: Int) {
-        mActivity.startActivity(Intent(mActivity,DealMessageActivity::class.java))
+        mActivity.startActivity(Intent(mActivity, DealMessageActivity::class.java))
 
     }
 }

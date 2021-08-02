@@ -41,17 +41,18 @@ class TaskChainFragment : BaseFragment() {
     override fun onBindLayout() = R.layout.task_chain_fragment
     override fun initView(view: View?) {
         try {
-
-
             val viewPage = view?.findViewById<ViewPager2>(R.id.pager_tour_task)
             val tabLayout = view?.findViewById<TabLayout>(R.id.layout_tour)
             val aivAddTaskMessage =
                 view?.findViewById<AppCompatImageView>(R.id.aiv_add_task_message)
             aivAddTaskMessage?.setOnClickListener {
-                mActivity.startActivity(Intent(mActivity, AddDealMessageActivity::class.java))
+                val type = if (viewPage?.currentItem == 0) "send" else "receive"
+                val intent = Intent(mActivity, AddDealMessageActivity::class.java)
+                intent.putExtra("type", type)
+                mActivity.startActivity(intent)
             }
-            mListFragments.add(TaskChainListFragment("1"))
-            mListFragments.add(TaskChainListFragment("2"))
+            mListFragments.add(TaskChainListFragment("send"))
+            mListFragments.add(TaskChainListFragment("receive"))
             val fragmentPager2Adapter = FragmentPager2Adapter(mActivity, mListFragments)
 
             viewPage?.adapter = fragmentPager2Adapter
