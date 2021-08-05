@@ -49,6 +49,8 @@ class TaskChainFragment : BaseFragment() {
                 val type = if (viewPage?.currentItem == 0) "send" else "receive"
                 val intent = Intent(mActivity, AddDealMessageActivity::class.java)
                 intent.putExtra("type", type)
+                intent.putExtra("parentCode", "")
+                intent.putExtra("taskCode", "")
                 mActivity.startActivity(intent)
             }
             mListFragments.add(TaskChainListFragment("send"))

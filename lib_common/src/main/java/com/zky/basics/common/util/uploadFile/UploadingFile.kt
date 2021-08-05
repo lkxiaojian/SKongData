@@ -19,4 +19,5 @@ class UploadingFile {
     var params: HashMap<String, String>? = null
     var tempFilePath: String? = null//临时文件
     var tmpCode:String?=null
+    var parentCode:String?=null
 }

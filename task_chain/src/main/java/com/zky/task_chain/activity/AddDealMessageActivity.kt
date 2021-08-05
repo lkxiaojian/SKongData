@@ -1,12 +1,13 @@
 package com.zky.task_chain.activity
 
+import ARouterPath
 import android.Manifest
 import android.content.Intent
-import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hjq.permissions.OnPermission
 import com.hjq.permissions.XXPermissions
+import com.zky.basics.api.common.entity.LocationPoint
 import com.zky.basics.api.common.entity.chine.SelectPeople
 import com.zky.basics.api.room.bean.MediaBean
 import com.zky.basics.api.splash.entity.Userinfo
@@ -24,7 +25,10 @@ import com.zky.task_chain.databinding.ActivityAddDealMessageBinding
 import com.zky.task_chain.mvvm.factory.TaskChineViewModelFactory
 import com.zky.task_chain.mvvm.viewmodle.AddDealMessageViewModle
 import me.bzcoder.mediapicker.config.MediaPickerEnum
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.util.*
+
 
 class AddDealMessageActivity :
     BaseMvvmActivity<ActivityAddDealMessageBinding, AddDealMessageViewModle>(),
@@ -32,8 +36,8 @@ class AddDealMessageActivity :
     private lateinit var imageViewListAdapter: ImageViewListAdapter
     private lateinit var peopleAdapter: PeopleListedAdapter
     private val userinfo = decodeParcelable<Userinfo>("user")
-    private val observableArrayList = ObservableArrayList<MediaBean>()
-    private val observablePeopleArrayList = ObservableArrayList<SelectPeople>()
+
+
     private var type = ""
 
     override fun onBindViewModel() = AddDealMessageViewModle::class.java
@@ -42,11 +46,18 @@ class AddDealMessageActivity :
 
     override fun initViewObservable() {
         type = intent.getStringExtra("type")
+
+        mViewModel?.parentCode?.set(intent.getStringExtra("parentCode"))
+        mViewModel?.taskCode?.set(intent.getStringExtra("taskCode"))
+
         mViewModel?.getmVoidSingleLiveEvent()?.observe(this, androidx.lifecycle.Observer {
             when (it) {
                 "startSelectPeople" -> {
+                    selects.clear()
+                    mViewModel?.observablePeopleArrayList?.let { it1 -> selects.addAll(it1) }
                     val intent = Intent(this, SelectPeopleActivity::class.java)
-                    intent.putExtra("type",mViewModel?.queryType?.get())
+                    intent.putExtra("type", mViewModel?.queryType?.get())
+                    intent.putExtra("selectType",mViewModel?.zpMessage?.get())
                     startActivity(intent)
                 }
             }
@@ -54,18 +65,18 @@ class AddDealMessageActivity :
         })
 
 
-        observableArrayList.add(instanceOf<MediaBean>())
-        imageViewListAdapter = ImageViewListAdapter(this, observableArrayList)
+        mViewModel?.observableArrayList?.add(instanceOf<MediaBean>())
+        imageViewListAdapter = ImageViewListAdapter(this, mViewModel?.observableArrayList)
         imageViewListAdapter.setItemClickListener(this)
         mBinding?.rvImgave?.layoutManager = GridLayoutManager(this, 3)
         mBinding?.rvImgave?.adapter = imageViewListAdapter
 
-        peopleAdapter= PeopleListedAdapter(this, observablePeopleArrayList)
+        peopleAdapter = PeopleListedAdapter(this, mViewModel?.observablePeopleArrayList)
         peopleAdapter.setItemClickListener(this)
         mBinding?.rvJsr?.layoutManager = GridLayoutManager(this, 2)
         mBinding?.rvJsr?.adapter = peopleAdapter
 
-        observablePeopleArrayList.addOnListChangedCallback(
+        mViewModel?.observablePeopleArrayList?.addOnListChangedCallback(
             ObservableListUtil.getListChangedCallback(
                 peopleAdapter
             )
@@ -73,9 +84,11 @@ class AddDealMessageActivity :
 
         mViewModel?.queryType?.set(type)
         val optionsPickerBuilder = OptionsPickerBuilder()
-        var pickerBuilder = this.let { optionsPickerBuilder.pickerBuilder(it) }
+        val pickerBuilder = this.let { optionsPickerBuilder.pickerBuilder(it) }
         mViewModel?.pickerBuilder = pickerBuilder
         mViewModel?.pickerView = pickerBuilder?.build()
+        mViewModel?.getLevel()
+        mViewModel?.getAppToken()
     }
 
     override fun onBindVariableId() = BR.addDealMessageViewModle
@@ -113,14 +126,15 @@ class AddDealMessageActivity :
             } else {
                 //预览
                 val projectPhoto = arrayListOf<MediaBean>()
-                projectPhoto.addAll(observableArrayList)
-                projectPhoto.removeAt(observableArrayList.size - 1)
+                mViewModel?.observableArrayList?.let { projectPhoto.addAll(it) }
+                mViewModel?.observableArrayList?.size?.minus(1)?.let { projectPhoto.removeAt(it) }
                 ARouter.getInstance().build(ARouterPath.MEDIA_SHOW_IMAGE)
                     .withInt("position", position)
                     .withSerializable("images", projectPhoto).navigation()
             }
-        } else if(e is SelectPeople){
-            observablePeopleArrayList.removeAt(position)
+        } else if (e is SelectPeople) {
+            mViewModel?.observablePeopleArrayList?.removeAt(position)
+            selects.remove(e)
         }
     }
 
@@ -171,7 +185,7 @@ class AddDealMessageActivity :
                 tmpList.add(bean)
             }
 //            observableArrayList.addAll(tmpList)
-            observableArrayList.addAll(posIndex, tmpList)
+            mViewModel?.observableArrayList?.addAll(posIndex, tmpList)
             imageViewListAdapter.notifyDataSetChanged()
 
         }
@@ -179,11 +193,21 @@ class AddDealMessageActivity :
 
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onGetStickyEvent(message: Any?) {
+        if (message != null && message is LocationPoint) {
+            mViewModel?.longitude?.set(message.longitude)
+            mViewModel?.latitude?.set(message.latitude)
+            mViewModel?.locationMessage?.set("${message.longitude} ,${message.latitude}")
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        observablePeopleArrayList.clear()
-        observablePeopleArrayList.addAll(selects)
+        mViewModel?.observablePeopleArrayList?.clear()
+        mViewModel?.observablePeopleArrayList?.addAll(selects)
     }
+
     override fun onDestroy() {
         super.onDestroy()
         selects.clear()

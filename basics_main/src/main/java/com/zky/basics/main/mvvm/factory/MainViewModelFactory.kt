@@ -49,7 +49,10 @@ class MainViewModelFactory private constructor(private val mApplication: Applica
                 DepartmentDataItemViewModel(mApplication, mainModel) as T
             }
 
-
+            modelClass.isAssignableFrom(LocationMapViewModle::class.java) -> {
+                val mainModel = MapModel(mApplication)
+                LocationMapViewModle(mApplication, mainModel) as T
+            }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

@@ -14,9 +14,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cvClick"
-        android:layout_width="wrap_content"
+        android:layout_width="103dp"
         android:layout_height="wrap_content"
-        android:minWidth="103dp"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/shape_e7_3"
@@ -30,11 +29,14 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginStart="5dp"
             android:text="@{data.username}"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:textColor="@color/color_4a4a4a"
             android:textSize="12sp"
             />
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/aiv_del"
             android:layout_width="16dp"
             android:layout_height="16dp"
             app:layout_constraintTop_toTopOf="parent"

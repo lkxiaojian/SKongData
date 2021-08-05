@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+
+    <data>
+
+        <variable
+            name="slViewModel"
+            type="com.zky.basics.main.mvvm.viewmodel.LocationMapViewModle" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.zky.zky_map.activity.SchoolLocationActivity">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginRight="12dp"
+            android:visibility="@{slViewModel.netShow?View.GONE:View.VISIBLE}"
+            android:background="@drawable/white_round_bg_shape"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="20dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/location_yellow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/people_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:textColor="@color/color_4a4a4a"
+                android:textSize="10sp"
+                android:text="@{slViewModel.dingweiMessage}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="SmallSp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/location_get"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="14dp"
+                android:textColor="@color/color_4a90e2"
+                android:textSize="18sp"
+                android:text="@{slViewModel.dingweiIng}"
+                android:onClick="@{slViewModel::startClick}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{slViewModel.netShow?View.VISIBLE:View.GONE}"
+
+            >
+            <com.esri.arcgisruntime.mapping.view.MapView
+                android:id="@+id/mapSchoolView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/school_location"
+                android:layout_width="95dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/white_round_bg_select"
+                android:drawableStart="@drawable/school_loction"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:text="位置"
+                android:textSize="10sp"
+                android:onClick="@{slViewModel::startClick}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlSymmetry,SmallSp" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/location_me"
+                android:layout_width="95dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/white_round_bg_select"
+                android:drawableStart="@drawable/location"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:text="本机位置"
+                android:textSize="10sp"
+                android:onClick="@{slViewModel::startClick}"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlSymmetry,SmallSp" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/location_blue"
+                android:layout_width="95dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/white_round_bg_select"
+                android:drawableStart="@drawable/location_blue"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:text="修改位置"
+                android:textSize="10sp"
+                android:onClick="@{slViewModel::startClick}"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/location_me"
+                tools:ignore="RtlSymmetry,SmallSp" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/location_parent"
+                android:layout_width="120dp"
+                android:layout_height="60dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/top_layout_shape"
+                android:padding="5dp"
+                android:visibility="@{slViewModel.showSelectLocation?View.VISIBLE:View.GONE}"
+                app:layout_constraintBottom_toTopOf="@+id/location_update"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="拖动地图进行微调"
+                    android:textColor="@color/white"
+                    android:textSize="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/okbtn"
+                    android:layout_width="40dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/edit_bg_white"
+                    android:gravity="center"
+                    android:text="确认"
+                    android:textSize="10sp"
+                    android:onClick="@{slViewModel::startClick}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/canbtn"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/canbtn"
+                    android:layout_width="40dp"
+                    android:layout_height="26dp"
+                    android:background="@drawable/edit_bg_white"
+                    android:gravity="center"
+                    android:onClick="@{slViewModel::startClick}"
+                    android:text="取消"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/okbtn"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView"
+                    tools:ignore="SmallSp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/location_update"
+                android:layout_width="20dp"
+                android:layout_height="30dp"
+                android:src="@drawable/location_blue"
+                android:visibility="@{slViewModel.showSelectLocation?View.VISIBLE:View.GONE}"
+                app:layout_constraintBottom_toTopOf="@+id/center"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <View
+                android:id="@+id/center"
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

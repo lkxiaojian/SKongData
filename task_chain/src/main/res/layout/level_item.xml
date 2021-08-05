@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.zky.task_chain.bean.SelectPeopleLevelBean" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cvClick"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_fff_3">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_item"
+            android:layout_width="103dp"
+            android:layout_height="32dp"
+            android:drawableEnd="@drawable/down_fk"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:hint="@{data.value}"
+            android:paddingEnd="6dp"
+            android:textColor="@color/color_9b9b9b"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlSymmetry" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

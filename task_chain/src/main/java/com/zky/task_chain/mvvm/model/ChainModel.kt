@@ -11,6 +11,7 @@ import com.zky.basics.api.common.entity.chine.SelectPeople
 import com.zky.basics.api.common.entity.chine.TaskChineBean
 import com.zky.basics.api.config.API
 import com.zky.basics.api.dto.RespDTO
+import com.zky.basics.api.splash.entity.AccountLevel
 import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.constant.Constants
 import com.zky.basics.common.mvvm.model.BaseModel
@@ -24,14 +25,80 @@ import okhttp3.MultipartBody
  */
 class ChainModel(application: Application?) : BaseModel(application) {
     private val mineService: TaskChainService = instance.taskChainService
+    private val mCommonService: CommonService = instance.commonService
+    private val splashService = instance.splashService
 
 
-    suspend fun getTaskPageList(userCode: String?, queryType: String?,status: String?,receiver: String?,type:String?,index:Int): TaskChineBean? = request {
-        mineService.getTaskPageList(userCode,queryType,status,receiver,type,index,API.PAGE_SIZE)
+    suspend fun getAppToken(phone: String?, passward: String?): OssToken? = request {
+        mCommonService.getAppToken(phone, passward)
     }
 
-    suspend fun getUserList(accountLevel: String?, regionLevel: String?,town: String?,userName: String?,type:String?,index:Int): ArrayList<SelectPeople>? = request {
-        mineService.getUserList(accountLevel,regionLevel,town,userName,type,index,API.PAGE_SIZE)
+    suspend fun getTaskPageList(
+        userCode: String?,
+        queryType: String?,
+        status: String?,
+        receiver: String?,
+        type: String?,
+        index: Int
+    ): TaskChineBean? = request {
+        mineService.getTaskPageList(
+            userCode,
+            queryType,
+            status,
+            receiver,
+            type,
+            index,
+            API.PAGE_SIZE
+        )
     }
 
+    suspend fun getUserList(
+        accountLevel: String?,
+        regionLevel: String?,
+        town: String?,
+        userName: String?,
+        type: String?,
+        index: Int
+    ): ArrayList<SelectPeople>? = request {
+        mineService.getUserList(
+            accountLevel,
+            regionLevel,
+            town,
+            userName,
+            type,
+            index,
+            API.PAGE_SIZE
+        )
+    }
+
+    suspend fun insertTaskLink(
+        parentCode: String?,
+        userCode: String?,
+        userName: String?,
+        type: String?,
+        content: String?,
+        receiverArr: String?,
+        longitude: String?,
+        latitude: String?,
+        address: String?
+    ): Any? = request {
+        mineService.insertTaskLink(
+            parentCode,
+            userCode,
+            userName,
+            type,
+            content,
+            receiverArr,
+            longitude,
+            latitude,
+            address
+        )
+    }
+    suspend fun getAccountLevel(
+        accountLevel: Int?,
+    ): List<AccountLevel>? = request {
+        splashService.getAccountLevel(
+            accountLevel
+        )
+    }
 }

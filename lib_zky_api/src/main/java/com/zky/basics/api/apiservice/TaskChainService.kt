@@ -30,4 +30,20 @@ interface TaskChainService {
         @Query("pageIndex") pageIndex: Int?,
         @Query("pageSize") pageSize: Int?
     ): RespDTO<ArrayList<SelectPeople>>
+
+
+    @POST("tasklink/insertTaskLink.do")
+    suspend fun insertTaskLink(
+        @Query("parentCode") parentCode : String?,
+        @Query("userCode") userCode : String?,
+        @Query("userName") userName: String?,
+        @Query("type") type: String?,
+        @Query("content") content: String?,
+        @Query("receiverArr") receiverArr: String?,
+        @Query("longitude") longitude: String?,
+        @Query("latitude") latitude: String?,
+        @Query("address") address: String?
+    ): RespDTO<Any>
+
+
 }

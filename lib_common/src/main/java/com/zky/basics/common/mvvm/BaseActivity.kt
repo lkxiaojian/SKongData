@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.RelativeLayout
@@ -54,6 +55,7 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
     @RequiresApi(Build.VERSION_CODES.P)
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
+        ARouter.getInstance().inject(this)
         super.onCreate(savedInstanceState)
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -79,7 +81,7 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
         context = this
         initCommonView()
         initContentView()
-        ARouter.getInstance().inject(this)
+
         initView()
         initListener()
         initData()
@@ -199,8 +201,9 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
     open fun onBindToolbarLayout(): Int {
         return R.layout.blue_common_toolbar
     }
-    open fun onBindToolbarRightClick(){
 
+    open fun onBindToolbarRightClick() {
+        Log.e("", "")
     }
 
     abstract fun onBindLayout(): Int
@@ -260,7 +263,8 @@ abstract class BaseActivity : RxAppCompatActivity(), IBaseView {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun <T> onEvent(@Suppress("UNUSED_PARAMETER") event: BaseActivityEvent<T>?) {
+    open fun <T> onEvent(@Suppress("UNUSED_PARAMETER") event: BaseActivityEvent<T>?) {
+        Log.e("", "")
     }
 
 

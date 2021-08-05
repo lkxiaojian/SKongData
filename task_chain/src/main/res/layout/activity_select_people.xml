@@ -35,8 +35,8 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginStart="12dp"
-                    android:src="@drawable/back"
                     android:onClick="@{selectPeopleViewModle.startClick}"
+                    android:src="@drawable/back"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -63,10 +63,10 @@
                     android:layout_height="30dp"
                     android:layout_marginEnd="12dp"
                     android:background="@drawable/shape_fff_3"
+                    android:onClick="@{selectPeopleViewModle.startClick}"
                     android:text="搜索"
                     android:textColor="@color/color_4a90e2"
                     android:textSize="16sp"
-                    android:onClick="@{selectPeopleViewModle.startClick}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -74,64 +74,72 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/atv_jb"
-                android:layout_width="103dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/shape_fff_3"
-                android:drawableRight="@drawable/down_fk"
-                android:drawablePadding="5dp"
-                android:gravity="center"
-                android:hint="级别"
-                android:paddingRight="6dp"
-                android:textColor="@color/color_9b9b9b"
-                android:textSize="12sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_top" />
+<!--            <androidx.appcompat.widget.AppCompatTextView-->
+<!--                android:id="@+id/atv_jb"-->
+<!--                android:layout_width="103dp"-->
+<!--                android:layout_height="32dp"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:background="@drawable/shape_fff_3"-->
+<!--                android:drawableRight="@drawable/down_fk"-->
+<!--                android:drawablePadding="5dp"-->
+<!--                android:gravity="center"-->
+<!--                android:hint="级别"-->
+<!--                android:paddingRight="6dp"-->
+<!--                android:textColor="@color/color_9b9b9b"-->
+<!--                android:textSize="12sp"-->
+<!--                app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/cl_top" />-->
 
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/atv_xz"
-                android:layout_width="103dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/shape_fff_3"
-                android:drawableEnd="@drawable/down_fk"
-                android:drawablePadding="5dp"
-                android:gravity="center"
-                android:hint="乡镇"
-                android:paddingRight="6dp"
-                android:textColor="@color/color_9b9b9b"
-                android:textSize="12sp"
-                app:layout_constraintLeft_toRightOf="@id/atv_jb"
-                app:layout_constraintTop_toBottomOf="@id/cl_top" />
+<!--            <androidx.appcompat.widget.AppCompatTextView-->
+<!--                android:id="@+id/atv_xz"-->
+<!--                android:layout_width="103dp"-->
+<!--                android:layout_height="32dp"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:background="@drawable/shape_fff_3"-->
+<!--                android:drawableEnd="@drawable/down_fk"-->
+<!--                android:drawablePadding="5dp"-->
+<!--                android:gravity="center"-->
+<!--                android:hint="乡镇"-->
+<!--                android:paddingRight="6dp"-->
+<!--                android:textColor="@color/color_9b9b9b"-->
+<!--                android:textSize="12sp"-->
+<!--                app:layout_constraintLeft_toRightOf="@id/atv_jb"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/cl_top" />-->
 
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/atv_cun"
-                android:layout_width="103dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/shape_fff_3"
-                android:drawableEnd="@drawable/down_fk"
-                android:drawablePadding="5dp"
-                android:gravity="center"
-                android:hint="村"
-                android:paddingRight="6dp"
-                android:textColor="@color/color_9b9b9b"
-                android:textSize="12sp"
-                app:layout_constraintLeft_toRightOf="@id/atv_xz"
-                app:layout_constraintTop_toBottomOf="@id/cl_top" />
+<!--            <androidx.appcompat.widget.AppCompatTextView-->
+<!--                android:id="@+id/atv_cun"-->
+<!--                android:layout_width="103dp"-->
+<!--                android:layout_height="32dp"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:background="@drawable/shape_fff_3"-->
+<!--                android:drawableEnd="@drawable/down_fk"-->
+<!--                android:drawablePadding="5dp"-->
+<!--                android:gravity="center"-->
+<!--                android:hint="村"-->
+<!--                android:paddingRight="6dp"-->
+<!--                android:textColor="@color/color_9b9b9b"-->
+<!--                android:textSize="12sp"-->
+<!--                app:layout_constraintLeft_toRightOf="@id/atv_xz"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/cl_top" />-->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/cl_top"
+                />
 
             <com.refresh.lib.DaisyRefreshLayout
                 android:id="@+id/drl_people"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="97dp"
+                android:layout_marginBottom="61dp"
 
                 app:enableLoadMore="@{safeUnbox(selectPeopleViewModle.enableLoadMore)}"
                 app:enableRefresh="@{safeUnbox(selectPeopleViewModle.enableRefresh)}"
@@ -149,6 +157,19 @@
 
             </com.refresh.lib.DaisyRefreshLayout>
 
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/abt_sure"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="完    成"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:onClick="@{selectPeopleViewModle::startClick}"
+                android:layout_marginBottom="21dp"
+                android:background="@drawable/shape_4a90e2_3"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

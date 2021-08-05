@@ -25,7 +25,7 @@ class PeopleListedAdapter(context: Context, items: ObservableArrayList<SelectPeo
 
     override fun onBindItem(binding: PeopleListedItemBinding?, item: SelectPeople, position: Int) {
         binding?.data = item
-        binding?.cvClick?.setOnClickListener {
+        binding?.aivDel?.setOnClickListener {
             mItemClickListener?.onItemClick(item, position)
         }
     }

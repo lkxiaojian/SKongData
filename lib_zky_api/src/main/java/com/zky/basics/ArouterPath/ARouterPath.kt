@@ -19,7 +19,7 @@ object ARouterPath {
     const val LOGIN = "/app/login"
 
     const val ADDTASK = "/app/addTask"
-
+    const val LOCATION = "/app/location"
     /**
      * 我的界面
      */

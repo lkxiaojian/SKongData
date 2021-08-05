@@ -1,13 +1,8 @@
 package com.zky.multi_media.adapter
 
 import android.content.Context
-import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
+
 import androidx.databinding.ObservableArrayList
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.zky.basics.api.room.bean.MediaBean
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.multi_media.R

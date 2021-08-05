@@ -13,7 +13,6 @@ import com.zky.basics.common.mvvm.BaseMvvmActivity
 import com.zky.basics.common.util.spread.decode
 import com.zky.basics.common.util.spread.encode
 import com.zky.basics.main.MainActivity
-import com.zky.basics.main.OneMainActivity
 import com.zky.basics.main.R
 import com.zky.basics.main.databinding.ActivityLoginBinding
 import com.zky.basics.main.mvvm.factory.MainViewModelFactory.Companion.getInstance
