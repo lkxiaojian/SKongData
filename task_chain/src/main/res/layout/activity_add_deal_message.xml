@@ -7,6 +7,8 @@
         <variable
             name="addDealMessageViewModle"
             type="com.zky.task_chain.mvvm.viewmodle.AddDealMessageViewModle" />
+
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,7 +70,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:minHeight="32dp"
-
+                        android:visibility="@{addDealMessageViewModle.showJs?View.VISIBLE:View.GONE}"
                         app:layout_constraintTop_toBottomOf="@id/atv_type">
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -76,7 +78,6 @@
                             style="@style/addDel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
                             android:text="接收人："
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />

@@ -2,6 +2,7 @@ package com.zky.basics.api.apiservice
 
 import com.zky.basics.api.common.entity.chine.SelectPeople
 import com.zky.basics.api.common.entity.chine.TaskChineBean
+import com.zky.basics.api.common.entity.chine.TaskChineItemBean
 import com.zky.basics.api.dto.RespDTO
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -45,5 +46,10 @@ interface TaskChainService {
         @Query("address") address: String?
     ): RespDTO<Any>
 
+    @GET("tasklink/getItemList.do")
+    suspend fun getItemList(
+        @Query("queryType") queryType  : String?,
+        @Query("taskCode") taskCode : String?,
+        @Query("userCode") userCode : String?): RespDTO<ArrayList<TaskChineItemBean>>
 
 }

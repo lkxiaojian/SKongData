@@ -8,7 +8,11 @@
 
         <variable
             name="data"
-            type="String" />
+            type="com.zky.basics.api.common.entity.chine.TaskChineItemBean" />
+        <variable
+            name="show"
+            type="Boolean" />
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,8 +24,9 @@
             android:id="@+id/atv_del"
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:text="某某的处理"
+            android:text="@{@string/user_del(data.userName)}"
             android:gravity="center"
+            android:visibility="@{show?View.VISIBLE:View.GONE}"
             android:textColor="@color/color_1B82D1"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -42,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="发布人：某某"
+                android:text="@{@string/fb_user(data.userName)}"
                 android:textColor="@color/color_4a4a4a"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -54,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="类型：指派"
+                android:text="@{@string/fb_type(data.type)}"
                 android:textColor="@color/color_808080"
                 android:textSize="14sp"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -66,8 +71,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="40dp"
-                android:text="内容：收集张三的照片收集张三的照片收集张三的
-照片收集张三的照片收集张三的照片"
+                android:text="@{@string/fb_message(data.content)}"
+
                 android:textColor="@color/color_808080"
                 android:textSize="14sp"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -80,7 +85,7 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="8dp"
                 android:paddingBottom="8dp"
-                android:text="发布时间：2018-03-09"
+                android:text="@{@string/fb_cratetime(data.createDate)}"
                 android:textColor="@color/color_808080"
                 android:textSize="14sp"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -89,15 +94,16 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="90dp"
                 android:layout_height="33dp"
-                android:background="@color/color_FF6300"
+                android:background="@{data.status==0? @color/color_FF6300:@color/color_44C88C}"
+                android:text="@{data.status==0? @string/fb_wfk:@string/fb_yfk}"
                 android:gravity="center"
-                android:text="未反馈"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/atv_fbsj" />

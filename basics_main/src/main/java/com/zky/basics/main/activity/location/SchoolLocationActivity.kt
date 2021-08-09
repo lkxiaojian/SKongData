@@ -140,8 +140,11 @@ class SchoolLocationActivity :
         val latitude = intent.getStringExtra("latitude")
         if (!longitude.isNullOrEmpty() && !latitude.isNullOrEmpty()) {
             mapCenterPoint = Point(longitude.toDouble(), latitude.toDouble(), wgs)
-            mViewModel?.dingweiMessage?.set("经度：${df.format(mePoint!!.x)}  纬度：${df.format(mePoint!!.y)}")
-            mViewModel?.dingweiIng?.set("已定位")
+            if(mePoint!=null){
+                mViewModel?.dingweiMessage?.set("经度：${df.format(mePoint!!.x)}  纬度：${df.format(mePoint!!.y)}")
+                mViewModel?.dingweiIng?.set("已定位")
+            }
+
             if (net) {
                 initCallout()
             }

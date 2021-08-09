@@ -1,6 +1,8 @@
 package com.zky.task_chain.activity
 
 
+import android.content.Intent
+import androidx.lifecycle.Observer
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
 import com.zky.basics.common.util.ObservableListUtil
@@ -21,7 +23,26 @@ class DealMessageActivity :
     override fun onBindViewModelFactory() = TaskChineViewModelFactory.getInstance(application)
 
     override fun initViewObservable() {
-        val adapter = DealMeassgeListAdapter(this, mViewModel?.mList)
+        mViewModel?.getmVoidSingleLiveEvent()?.observe(this, Observer {
+            when(it){
+                "add"->{
+                    val intent = Intent(this, AddDealMessageActivity::class.java)
+                    intent.putExtra("type", mViewModel?.queryType?.get())
+                    intent.putExtra("parentCode", mViewModel?.parentCode?.get())
+                    intent.putExtra("taskCode",   mViewModel?.taskCode?.get())
+                    startActivity(intent)
+                }
+            }
+        })
+
+        val queryType = intent.getStringExtra("queryType")
+        mViewModel?.queryType?.set(queryType)
+        mViewModel?.showAdd?.set(queryType!="send")
+        mViewModel?.taskCode?.set(intent.getStringExtra("taskCode"))
+        mViewModel?.userCode?.set(intent.getStringExtra("userCode"))
+        mViewModel?.parentCode?.set(intent.getStringExtra("parentCode"))
+
+        val adapter = DealMeassgeListAdapter(this, mViewModel?.mList,queryType)
         mViewModel?.mList?.addOnListChangedCallback(
             ObservableListUtil.getListChangedCallback(
                 adapter

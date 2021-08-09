@@ -9,6 +9,7 @@ import com.zky.basics.api.apiservice.TaskChainService
 import com.zky.basics.api.common.entity.OssToken
 import com.zky.basics.api.common.entity.chine.SelectPeople
 import com.zky.basics.api.common.entity.chine.TaskChineBean
+import com.zky.basics.api.common.entity.chine.TaskChineItemBean
 import com.zky.basics.api.config.API
 import com.zky.basics.api.dto.RespDTO
 import com.zky.basics.api.splash.entity.AccountLevel
@@ -24,7 +25,7 @@ import okhttp3.MultipartBody
  * Detail:
  */
 class ChainModel(application: Application?) : BaseModel(application) {
-    private val mineService: TaskChainService = instance.taskChainService
+    private val taskChainService: TaskChainService = instance.taskChainService
     private val mCommonService: CommonService = instance.commonService
     private val splashService = instance.splashService
 
@@ -41,7 +42,7 @@ class ChainModel(application: Application?) : BaseModel(application) {
         type: String?,
         index: Int
     ): TaskChineBean? = request {
-        mineService.getTaskPageList(
+        taskChainService.getTaskPageList(
             userCode,
             queryType,
             status,
@@ -60,7 +61,7 @@ class ChainModel(application: Application?) : BaseModel(application) {
         type: String?,
         index: Int
     ): ArrayList<SelectPeople>? = request {
-        mineService.getUserList(
+        taskChainService.getUserList(
             accountLevel,
             regionLevel,
             town,
@@ -70,6 +71,11 @@ class ChainModel(application: Application?) : BaseModel(application) {
             API.PAGE_SIZE
         )
     }
+
+    suspend fun getItemList(queryType: String?, taskCode: String?, userCode: String?): ArrayList<TaskChineItemBean>? =
+        request {
+            taskChainService.getItemList(queryType, taskCode, "")
+        }
 
     suspend fun insertTaskLink(
         parentCode: String?,
@@ -82,7 +88,7 @@ class ChainModel(application: Application?) : BaseModel(application) {
         latitude: String?,
         address: String?
     ): Any? = request {
-        mineService.insertTaskLink(
+        taskChainService.insertTaskLink(
             parentCode,
             userCode,
             userName,
@@ -94,6 +100,7 @@ class ChainModel(application: Application?) : BaseModel(application) {
             address
         )
     }
+
     suspend fun getAccountLevel(
         accountLevel: Int?,
     ): List<AccountLevel>? = request {

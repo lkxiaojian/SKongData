@@ -17,7 +17,8 @@ class TaskChineBean(var totalNum: Int, var pageList: ArrayList<TaskChineItemBean
 
 class TaskChineItemBean(
     var code: String?, var parentCode: String?,
-    var userCode: String?, var userName: String?,
+    var userCode: String?,
+    var userName: String?,
     var type: String?, var content: String?,
     var longitude: String?, var latitude: String?,
     var address: String?, var createDate: String?,

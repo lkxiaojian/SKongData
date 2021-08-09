@@ -8,7 +8,6 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener
 import com.bigkoo.pickerview.view.OptionsPickerView
-import com.umeng.vt.diff.Event.commit
 import com.zky.basics.api.common.entity.chine.SelectPeople
 import com.zky.basics.api.config.API
 import com.zky.basics.api.room.bean.MediaBean
@@ -53,6 +52,7 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
     val observablePeopleArrayList = ObservableArrayList<SelectPeople>()
     val observableArrayList = ObservableArrayList<MediaBean>()
     val parentCode = ObservableField<String>()
+    val showJs = ObservableField<Boolean>()
     val taskCode = ObservableField<String>()
     var userinfo: Userinfo? = null
     var level = 0 //0 最高級別 1 中間級別 2 最低界別
@@ -60,6 +60,7 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
     init {
         userinfo = decodeParcelable<Userinfo>("user")
         taskCode.set("")
+        showJs.set(true)
 
     }
 
@@ -120,7 +121,7 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
             return
         }
 
-        if (observablePeopleArrayList.isNullOrEmpty()) {
+        if (observablePeopleArrayList.isNullOrEmpty()&&showJs.get()==true) {
             "${zpMessage.get()} 的人员为空".showToast()
             return
         }
@@ -135,11 +136,14 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
             "位置信息为空".showToast()
             return
         }
+        if(queryType.get()!="send"&&parentCode.get().isNullOrEmpty()){
+            parentCode.set(taskCode.get())
+        }
 
 
         launchUI({
             val insertTaskLink = mModel.insertTaskLink(
-                "",
+                parentCode.get(),
                 userinfo?.code,
                 userinfo?.username,
                 zpMessage.get(),
@@ -153,7 +157,7 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
             if (taskCode.get().isNullOrEmpty()) {
                 taskCode.set(insertTaskLink?.toString())
             }
-            delFileData(view)
+            delFileData(view,insertTaskLink?.toString())
 
         }, object : BaseViewModel.NetError {
             override fun getError(e: Exception) {
@@ -162,9 +166,12 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
         })
     }
 
-    private fun delFileData(view: View) {
+    private fun delFileData(view: View,relationCode:String?) {
 
         if (observableArrayList.isNullOrEmpty()) {
+            return
+        }
+        if(relationCode.isNullOrEmpty()){
             return
         }
 //            val userinfo = decodeParcelable<Userinfo>("user")
@@ -185,7 +192,7 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
                 val filePath =
                     "${API.PROJECT_NAME}/tasklink/${code}/${value.file_type}/${value.file_name}"
                 map["filePath"] = filePath
-                map["relationCode"] = taskCode.get().toString()
+                map["relationCode"] = relationCode
                 map["mediaType"] = value.file_type
                 map["fileName"] = value.file_name
                 map["createTime"] = value.create_data
@@ -308,11 +315,9 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
         pickerView?.setPicker(list)
         pickerView?.show()
         pickerBuilder?.setOnOptionsSelectListener(OnOptionsSelectListener { options1, _, _, _ ->
-            if (options1 == 0) {
-                zpMessage.set("")
-                return@OnOptionsSelectListener
-            }
-            zpMessage.set(list[options1].toString())
+            val toString = list[options1].toString()
+            zpMessage.set(toString)
+            showJs.set(toString!="回复")
         })
     }
 

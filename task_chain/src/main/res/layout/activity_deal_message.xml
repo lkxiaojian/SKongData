@@ -7,6 +7,9 @@
         <variable
             name="dealMessageViewModle"
             type="com.zky.task_chain.mvvm.viewmodle.DealMessageViewModle" />
+
+        <import type="android.view.View" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,6 +20,7 @@
             android:id="@+id/drl_del"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="76dp"
             app:enableLoadMore="@{safeUnbox(dealMessageViewModle.enableLoadMore)}"
             app:enableRefresh="@{safeUnbox(dealMessageViewModle.enableRefresh)}"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,6 +36,21 @@
                 app:linearLayoutManager="@{safeUnbox(dealMessageViewModle.orientation)}" />
 
         </com.refresh.lib.DaisyRefreshLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/abt_add"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/shape_4a90e2_3"
+            android:onClick="@{dealMessageViewModle::startClick}"
+            android:text="新增处理"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:visibility="@{dealMessageViewModle.showAdd? View.VISIBLE:View.GONE }"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

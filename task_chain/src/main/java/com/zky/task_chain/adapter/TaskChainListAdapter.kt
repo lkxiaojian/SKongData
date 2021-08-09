@@ -58,30 +58,6 @@ class TaskChainListAdapter(context: Context, items: ObservableArrayList<TaskChin
         if (e is ObservableArrayList<*>) {
             val observableArrayList = e as ObservableArrayList<ChineMedia>
             observableArrayList.forEach { it ->
-                var bean = instanceOf<MediaBean>()
-                it.fileName?.let {
-                    bean.file_name = it
-                }
-                it.filePath?.let {
-                    bean.file_path = it
-                }
-                bean.code = it.code
-                it.createDate?.let {
-                    bean.create_data = it
-                }
-
-//                var code: String,
-//                var file_type: String,
-//                @Bindable
-//                var file_path: String,
-//                var file_name: String,
-//                var create_data: String,
-//                var isupload: Boolean,
-//                var videoImagePath: String?,
-//                var user_code: String?,
-//                var uploader: String? = "",
-//                var mediaType2:String,
-//                var mediaType3:String,
                 val mediaBean = MediaBean(
                     it.code,
                     "image",

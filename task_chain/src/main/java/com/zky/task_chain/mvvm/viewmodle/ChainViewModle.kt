@@ -43,6 +43,7 @@ class ChainViewModle(application: Application, model: ChainModel) :
 
     override fun refreshData() {
         pageIndex = 1
+        getData()
         postStopLoadMoreEvent()
         postStopRefreshEvent()
     }

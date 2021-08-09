@@ -2,6 +2,7 @@ package com.zky.task_chain.fragment
 
 import android.content.Intent
 import android.view.View
+import com.zky.basics.api.common.entity.chine.TaskChineItemBean
 import com.zky.basics.common.adapter.BaseBindAdapter
 
 import com.zky.basics.common.mvvm.BaseMvvmRefreshFragment
@@ -58,7 +59,13 @@ class TaskChainListFragment(type: String) :
     }
 
     override fun onItemClick(e: Any, position: Int) {
-        mActivity.startActivity(Intent(mActivity, DealMessageActivity::class.java))
-
+        if (e is TaskChineItemBean) {
+            val intent = Intent(mActivity, DealMessageActivity::class.java)
+            intent.putExtra("queryType", fromType)
+            intent.putExtra("taskCode", e.code)
+            intent.putExtra("parentCode", e.parentCode)
+            intent.putExtra("userCode", e.userCode)
+            mActivity.startActivity(intent)
+        }
     }
 }

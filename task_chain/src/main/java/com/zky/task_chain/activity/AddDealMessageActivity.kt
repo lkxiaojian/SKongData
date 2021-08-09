@@ -46,10 +46,8 @@ class AddDealMessageActivity :
 
     override fun initViewObservable() {
         type = intent.getStringExtra("type")
-
         mViewModel?.parentCode?.set(intent.getStringExtra("parentCode"))
         mViewModel?.taskCode?.set(intent.getStringExtra("taskCode"))
-
         mViewModel?.getmVoidSingleLiveEvent()?.observe(this, androidx.lifecycle.Observer {
             when (it) {
                 "startSelectPeople" -> {

@@ -11,7 +11,7 @@
     <string name="app_title_about" translatable="false">某某县时空大数据\n采集与查询系统</string>
 
 
-
+    <string name="user_del" translatable="false">%s的处理 </string>
     <string name="address" translatable="false">地址：%s </string>
     <string name="hzxm" translatable="false">户主名称：%s </string>
     <string name="idcard" translatable="false">身份证号码：%s </string>
