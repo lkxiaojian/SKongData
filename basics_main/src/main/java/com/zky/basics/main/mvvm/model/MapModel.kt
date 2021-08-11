@@ -4,6 +4,7 @@ import android.app.Application
 import com.zky.basics.api.RetrofitManager.Companion.instance
 import com.zky.basics.api.apiservice.MapService
 import com.zky.basics.api.common.entity.AddressListBean
+import com.zky.basics.api.common.entity.GeocoderBean
 import com.zky.basics.common.constant.Constants.itemCode
 import com.zky.basics.common.mvvm.model.BaseModel
 
@@ -28,5 +29,8 @@ class MapModel(application: Application?) : BaseModel(application) {
         mapService.getSpaceDataAll(itemCode)
     }
 
+    suspend fun getGeocoder(url:String): GeocoderBean? = request1 {
+        mapService.getGeocoder(url)
+    }
 
 }

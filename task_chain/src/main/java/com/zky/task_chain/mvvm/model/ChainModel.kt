@@ -13,6 +13,7 @@ import com.zky.basics.api.common.entity.chine.TaskChineItemBean
 import com.zky.basics.api.config.API
 import com.zky.basics.api.dto.RespDTO
 import com.zky.basics.api.splash.entity.AccountLevel
+import com.zky.basics.api.splash.entity.RegionOrSchoolBean
 import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.constant.Constants
 import com.zky.basics.common.mvvm.model.BaseModel
@@ -72,6 +73,14 @@ class ChainModel(application: Application?) : BaseModel(application) {
         )
     }
 
+    suspend fun getUserList(
+        url: String
+    ): ArrayList<SelectPeople>? = request {
+        taskChainService.getUserList(
+            url
+        )
+    }
+
     suspend fun getItemList(queryType: String?, taskCode: String?, userCode: String?): ArrayList<TaskChineItemBean>? =
         request {
             taskChainService.getItemList(queryType, taskCode, "")
@@ -106,6 +115,17 @@ class ChainModel(application: Application?) : BaseModel(application) {
     ): List<AccountLevel>? = request {
         splashService.getAccountLevel(
             accountLevel
+        )
+    }
+
+
+    suspend fun getRegion(
+        regionLevel: Int?,
+        regionCode:String?
+    ): List<RegionOrSchoolBean>? = request {
+        splashService.getRegion(
+            regionLevel,
+            regionCode
         )
     }
 }

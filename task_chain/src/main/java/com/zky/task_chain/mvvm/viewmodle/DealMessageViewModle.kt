@@ -25,6 +25,7 @@ class DealMessageViewModle(application: Application, model: ChainModel) :
     var taskCode = ObservableField<String>()
     var userCode = ObservableField<String>()
     var parentCode = ObservableField<String>()
+    var message = ObservableField<String>()
     var showAdd = ObservableField<Boolean>()
     init {
         showAdd.set(false)

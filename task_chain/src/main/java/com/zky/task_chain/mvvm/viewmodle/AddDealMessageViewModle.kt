@@ -39,7 +39,8 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
     BaseViewModel<ChainModel>(application, model) {
     private val mApplication = application
     var zpList = arrayListOf<Any>("请示", "指派", "对接")
-//
+
+    //
     var queryType = ObservableField<String>()
     var pickerBuilder: OptionsPickerBuilder? = null
     var pickerView: OptionsPickerView<Any>? = null
@@ -56,11 +57,13 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
     val taskCode = ObservableField<String>()
     var userinfo: Userinfo? = null
     var level = 0 //0 最高級別 1 中間級別 2 最低界別
+    var message = ObservableField<String>()
 
     init {
         userinfo = decodeParcelable<Userinfo>("user")
         taskCode.set("")
         showJs.set(true)
+
 
     }
 
@@ -75,7 +78,9 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
             R.id.cl_location -> {
                 ARouter.getInstance().build(ARouterPath.LOCATION)
                     .withString("longitude", longitude.get()?.toString())
-                    .withString("latitude", latitude.get()?.toString()).navigation()
+                    .withString("latitude", latitude.get()?.toString())
+                    .withString("message", message.get())
+                    .navigation()
             }
 
             R.id.abt_commit -> {
@@ -84,23 +89,23 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
         }
     }
 
-     fun getLevel() {
+    fun getLevel() {
         launchUI({
             val accountLevel = mModel.getAccountLevel(null)
             accountLevel?.let { it ->
                 val accountLevel1 = userinfo?.accountLevel
                 accountLevel1?.let { it1 ->
-                     when {
+                    when {
                         it1 >= it[0].attr_idx -> {
-                            zpList = arrayListOf<Any>( "指派", "对接","回复")
+                            zpList = arrayListOf<Any>("指派", "对接", "回复")
                             level = 0
                         }
-                        it1<=it[it.size-1].attr_idx -> {
-                            zpList=arrayListOf<Any>("请示", "对接", "回复")
+                        it1 <= it[it.size - 1].attr_idx -> {
+                            zpList = arrayListOf<Any>("请示", "对接", "回复")
                             level = 2
                         }
                         else -> {
-                            zpList=arrayListOf<Any>("请示", "指派", "对接", "回复")
+                            zpList = arrayListOf<Any>("请示", "指派", "对接", "回复")
                             level = 1
                         }
                     }
@@ -108,7 +113,6 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
                 }
 
             }
-
 
 
         })
@@ -121,7 +125,7 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
             return
         }
 
-        if (observablePeopleArrayList.isNullOrEmpty()&&showJs.get()==true) {
+        if (observablePeopleArrayList.isNullOrEmpty() && showJs.get() == true) {
             "${zpMessage.get()} 的人员为空".showToast()
             return
         }
@@ -136,7 +140,7 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
             "位置信息为空".showToast()
             return
         }
-        if(queryType.get()!="send"&&parentCode.get().isNullOrEmpty()){
+        if (queryType.get() != "send" && parentCode.get().isNullOrEmpty()) {
             parentCode.set(taskCode.get())
         }
 
@@ -151,13 +155,13 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
                 removeLastString,
                 longitude.get()?.toString(),
                 latitude.get()?.toString(),
-                ""
+                message.get()
             )
 
             if (taskCode.get().isNullOrEmpty()) {
                 taskCode.set(insertTaskLink?.toString())
             }
-            delFileData(view,insertTaskLink?.toString())
+            delFileData(view, insertTaskLink?.toString())
 
         }, object : BaseViewModel.NetError {
             override fun getError(e: Exception) {
@@ -166,12 +170,12 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
         })
     }
 
-    private fun delFileData(view: View,relationCode:String?) {
+    private fun delFileData(view: View, relationCode: String?) {
 
         if (observableArrayList.isNullOrEmpty()) {
             return
         }
-        if(relationCode.isNullOrEmpty()){
+        if (relationCode.isNullOrEmpty()) {
             return
         }
 //            val userinfo = decodeParcelable<Userinfo>("user")
@@ -317,7 +321,7 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
         pickerBuilder?.setOnOptionsSelectListener(OnOptionsSelectListener { options1, _, _, _ ->
             val toString = list[options1].toString()
             zpMessage.set(toString)
-            showJs.set(toString!="回复")
+            showJs.set(toString != "回复")
         })
     }
 

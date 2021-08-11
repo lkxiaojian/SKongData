@@ -40,10 +40,10 @@ class LevelListedAdapter(context: Context, items: ObservableArrayList<SelectPeop
                 }
             }
             is CityItemBinding -> {
-//                binding.data = item
-//                binding.atvSelectXl.setOnClickListener {
-//                    mItemClickListener?.onItemClick(item, position)
-//                }
+                binding.data = item
+                binding.cvClick.setOnClickListener {
+                    mItemClickListener?.onItemClick(item, position)
+                }
             }
         }
 

@@ -12,7 +12,9 @@ import retrofit2.http.Query
 
 interface CommonService {
     @GET("login.do")
-    suspend fun login(@Query("phone") phone: String?, @Query("password") pwd: String?): RespDTO<Userinfo>
+    suspend fun login(@Query("phone") phone: String?, @Query("password") pwd: String?,
+                      @Query("devicetoke") devicetoke: String?
+                      ): RespDTO<Userinfo>
 
     //获取最新app信息
     @GET("getAppInfo.do")

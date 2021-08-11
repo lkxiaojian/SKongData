@@ -6,13 +6,14 @@ import com.zky.basics.api.splash.entity.AccountLevel
 import com.zky.basics.api.splash.entity.ImageUrl
 import com.zky.basics.api.splash.entity.RegionOrSchoolBean
 import com.zky.basics.api.splash.entity.Userinfo
+import com.zky.basics.common.BaseApplication.Companion.devicetoke
 import com.zky.basics.common.mvvm.model.BaseModel
 
 class SplashModel(application: Application?) : BaseModel(application) {
     private val mCommonService = instance.commonService
     private val splashService = instance.splashService
     suspend fun login(username: String?, password: String?): Userinfo? = request {
-        mCommonService.login(username, password)
+        mCommonService.login(username, password,devicetoke)
     }
 
     suspend fun captcha(): ImageUrl? = request {

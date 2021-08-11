@@ -62,9 +62,9 @@ open class BaseApplication : MultiDexApplication() {
         val pushAgent = PushAgent.getInstance(this)
 
         pushAgent.register(object : IUmengRegisterCallback{
-            override fun onSuccess(deviceToken: String?) {
+            override fun onSuccess(deviceToken: String) {
                 Log.i("TAG", "注册成功：deviceToken：--> $deviceToken");
-
+                devicetoke=deviceToken
             }
 
             override fun onFailure(p0: String?, p1: String?) {
@@ -117,5 +117,6 @@ open class BaseApplication : MultiDexApplication() {
 //        const val FONT_PATH = "NotoSans.ttf"
 //        const val FONT_PATH = "NotoSansSC-Regular.ttf"
         lateinit var instance: BaseApplication
+        var devicetoke=""
     }
 }

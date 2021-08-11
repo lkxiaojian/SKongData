@@ -30,6 +30,7 @@ class DealMessageActivity :
                     intent.putExtra("type", mViewModel?.queryType?.get())
                     intent.putExtra("parentCode", mViewModel?.parentCode?.get())
                     intent.putExtra("taskCode",   mViewModel?.taskCode?.get())
+                    intent.putExtra("message",   mViewModel?.taskCode?.get())
                     startActivity(intent)
                 }
             }
@@ -41,6 +42,7 @@ class DealMessageActivity :
         mViewModel?.taskCode?.set(intent.getStringExtra("taskCode"))
         mViewModel?.userCode?.set(intent.getStringExtra("userCode"))
         mViewModel?.parentCode?.set(intent.getStringExtra("parentCode"))
+        mViewModel?.message?.set(intent.getStringExtra("message"))
 
         val adapter = DealMeassgeListAdapter(this, mViewModel?.mList,queryType)
         mViewModel?.mList?.addOnListChangedCallback(

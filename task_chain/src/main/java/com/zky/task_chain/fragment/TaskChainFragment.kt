@@ -51,6 +51,7 @@ class TaskChainFragment : BaseFragment() {
                 intent.putExtra("type", type)
                 intent.putExtra("parentCode", "")
                 intent.putExtra("taskCode", "")
+                intent.putExtra("message", "")
                 mActivity.startActivity(intent)
             }
             mListFragments.add(TaskChainListFragment("send"))

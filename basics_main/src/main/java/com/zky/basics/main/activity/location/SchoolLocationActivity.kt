@@ -29,10 +29,7 @@ import com.hjq.permissions.OnPermission
 import com.hjq.permissions.XXPermissions
 import com.zky.basics.api.common.entity.LocationPoint
 import com.zky.basics.common.mvvm.BaseMvvmActivity
-import com.zky.basics.common.util.GpsUtil
-import com.zky.basics.common.util.NetUtil
-import com.zky.basics.common.util.PermissionToSetting
-import com.zky.basics.common.util.ToastUtil
+import com.zky.basics.common.util.*
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.BR
 import com.zky.basics.main.R
@@ -67,7 +64,7 @@ class SchoolLocationActivity :
         if (NetUtil.checkNet()) {
             mViewModel?.netShow?.set(true)
 
-        }else{
+        } else {
             net = false
             mViewModel?.netShow?.set(false)
         }
@@ -97,6 +94,9 @@ class SchoolLocationActivity :
                     }
                     ToastUtil.showToast("定位中，请稍后。。。")
                     dingwei()
+                }
+                "showCall" -> {
+                    initCallout()
                 }
             }
         })
@@ -135,13 +135,24 @@ class SchoolLocationActivity :
 
             dingwei()
         }
+        val optionsPickerBuilder = OptionsPickerBuilder()
+        val pickerBuilder = this.let { optionsPickerBuilder.pickerBuilder(it) }
+        mViewModel?.pickerBuilder = pickerBuilder
+        mViewModel?.pickerView = pickerBuilder?.build()
         val longitude = intent.getStringExtra("longitude")
 
         val latitude = intent.getStringExtra("latitude")
+        val message = intent.getStringExtra("message")
+        mViewModel?.locationMessage = message
         if (!longitude.isNullOrEmpty() && !latitude.isNullOrEmpty()) {
             mapCenterPoint = Point(longitude.toDouble(), latitude.toDouble(), wgs)
-            if(mePoint!=null){
-                mViewModel?.dingweiMessage?.set("经度：${df.format(mePoint!!.x)}  纬度：${df.format(mePoint!!.y)}")
+            if (mePoint != null) {
+
+                mViewModel?.dingweiMessage?.set(
+                    "经度：${df.format(mePoint!!.x)}  纬度：${df.format(
+                        mePoint!!.y
+                    )}"
+                )
                 mViewModel?.dingweiIng?.set("已定位")
             }
 
@@ -156,7 +167,9 @@ class SchoolLocationActivity :
 
     private fun dian() {
         mapCenterPoint = getMapCenterPoint()
-        initCallout()
+        mViewModel?.getGeocoder(mapCenterPoint)
+//        initCallout()
+
     }
 
     private fun getMapCenterPoint(): Point? {
@@ -179,11 +192,14 @@ class SchoolLocationActivity :
             graphic.isVisible = true
             farmerOverlays.graphics.add(graphic)
             val textView = ly.findViewById<TextView>(R.id.tv_calloutInfo)
-            textView.text = "位置"
+            textView.text = mViewModel?.locationMessage
             callout?.setGeoElement(graphic, mapCenterPoint)
             callout?.content = ly
             callout?.style = Callout.Style(this, R.xml.callout)
-//            callout?.show()
+            if (!mViewModel?.locationMessage.isNullOrEmpty()) {
+                callout?.show()
+            }
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -231,7 +247,11 @@ class SchoolLocationActivity :
                             }
                             mePoint = Point(bestLocation.longitude, bestLocation.latitude)
                             mapCenterPoint = mePoint
-                            mViewModel?.dingweiMessage?.set("经度：${df.format(mePoint!!.x)}  纬度：${df.format(mePoint!!.y)}")
+                            mViewModel?.dingweiMessage?.set(
+                                "经度：${df.format(mePoint!!.x)}  纬度：${df.format(
+                                    mePoint!!.y
+                                )}"
+                            )
                             mViewModel?.dingweiIng?.set("已定位")
                         }
 
@@ -252,10 +272,14 @@ class SchoolLocationActivity :
     override fun onBackPressed() {
         super.onBackPressed()
         if (mapCenterPoint != null) {
+            if (mViewModel?.locationMessage.isNullOrEmpty() && net) {
+                return
+            }
             EventBus.getDefault().postSticky(
                 LocationPoint(
                     df.format(mapCenterPoint?.x).toDouble(),
-                    df.format(mapCenterPoint?.y).toDouble()
+                    df.format(mapCenterPoint?.y).toDouble(),
+                    mViewModel?.locationMessage
                 )
             )
 

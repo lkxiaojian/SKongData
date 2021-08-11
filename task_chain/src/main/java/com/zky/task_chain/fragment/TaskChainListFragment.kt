@@ -65,6 +65,8 @@ class TaskChainListFragment(type: String) :
             intent.putExtra("taskCode", e.code)
             intent.putExtra("parentCode", e.parentCode)
             intent.putExtra("userCode", e.userCode)
+            intent.putExtra("message", e.address)
+
             mActivity.startActivity(intent)
         }
     }

@@ -7,6 +7,7 @@ import com.zky.basics.api.dto.RespDTO
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 interface TaskChainService {
     @GET("tasklink/getPageList.do")
@@ -23,8 +24,8 @@ interface TaskChainService {
 
     @GET("tasklink/getUserList.do")
     suspend fun getUserList(
-        @Query("accountLevel") accountLevel : String?,
-        @Query("regionLevel") regionLevel : String?,
+        @Query("accountLevel") accountLevel: String?,
+        @Query("regionLevel") regionLevel: String?,
         @Query("town") town: String?,
         @Query("userName") userName: String?,
         @Query("type") type: String?,
@@ -32,11 +33,15 @@ interface TaskChainService {
         @Query("pageSize") pageSize: Int?
     ): RespDTO<ArrayList<SelectPeople>>
 
+    @GET()
+    suspend fun getUserList(
+        @Url url: String?,
+    ): RespDTO<ArrayList<SelectPeople>>
 
     @POST("tasklink/insertTaskLink.do")
     suspend fun insertTaskLink(
-        @Query("parentCode") parentCode : String?,
-        @Query("userCode") userCode : String?,
+        @Query("parentCode") parentCode: String?,
+        @Query("userCode") userCode: String?,
         @Query("userName") userName: String?,
         @Query("type") type: String?,
         @Query("content") content: String?,
@@ -48,8 +53,9 @@ interface TaskChainService {
 
     @GET("tasklink/getItemList.do")
     suspend fun getItemList(
-        @Query("queryType") queryType  : String?,
-        @Query("taskCode") taskCode : String?,
-        @Query("userCode") userCode : String?): RespDTO<ArrayList<TaskChineItemBean>>
+        @Query("queryType") queryType: String?,
+        @Query("taskCode") taskCode: String?,
+        @Query("userCode") userCode: String?
+    ): RespDTO<ArrayList<TaskChineItemBean>>
 
 }

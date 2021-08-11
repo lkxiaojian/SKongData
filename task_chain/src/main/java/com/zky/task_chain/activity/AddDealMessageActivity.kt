@@ -25,6 +25,7 @@ import com.zky.task_chain.databinding.ActivityAddDealMessageBinding
 import com.zky.task_chain.mvvm.factory.TaskChineViewModelFactory
 import com.zky.task_chain.mvvm.viewmodle.AddDealMessageViewModle
 import me.bzcoder.mediapicker.config.MediaPickerEnum
+import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.*
@@ -48,6 +49,9 @@ class AddDealMessageActivity :
         type = intent.getStringExtra("type")
         mViewModel?.parentCode?.set(intent.getStringExtra("parentCode"))
         mViewModel?.taskCode?.set(intent.getStringExtra("taskCode"))
+
+        mViewModel?.message?.set(intent.getStringExtra("message"))
+
         mViewModel?.getmVoidSingleLiveEvent()?.observe(this, androidx.lifecycle.Observer {
             when (it) {
                 "startSelectPeople" -> {
@@ -55,7 +59,7 @@ class AddDealMessageActivity :
                     mViewModel?.observablePeopleArrayList?.let { it1 -> selects.addAll(it1) }
                     val intent = Intent(this, SelectPeopleActivity::class.java)
                     intent.putExtra("type", mViewModel?.queryType?.get())
-                    intent.putExtra("selectType",mViewModel?.zpMessage?.get())
+                    intent.putExtra("selectType", mViewModel?.zpMessage?.get())
                     startActivity(intent)
                 }
             }
@@ -196,7 +200,14 @@ class AddDealMessageActivity :
         if (message != null && message is LocationPoint) {
             mViewModel?.longitude?.set(message.longitude)
             mViewModel?.latitude?.set(message.latitude)
-            mViewModel?.locationMessage?.set("${message.longitude} ,${message.latitude}")
+            if (message.messagge.isNullOrEmpty()) {
+                mViewModel?.locationMessage?.set("${message.longitude} ,${message.latitude}")
+            } else {
+                mViewModel?.locationMessage?.set(message.messagge)
+            }
+            mViewModel?.message?.set(message.messagge)
+
+            EventBus.getDefault().removeStickyEvent(LocationPoint::class.java)
         }
     }
 

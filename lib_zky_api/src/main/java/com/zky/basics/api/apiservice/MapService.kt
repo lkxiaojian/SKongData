@@ -1,10 +1,12 @@
 package com.zky.basics.api.apiservice
 
 import com.zky.basics.api.common.entity.AddressListBean
+import com.zky.basics.api.common.entity.GeocoderBean
 import com.zky.basics.api.dto.RespDTO
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 /**
  * Created by lk
@@ -27,7 +29,6 @@ interface MapService {
         @Query("itemCode") itemCode: String?
     ): RespDTO<AddressListBean>
 
-
-
-
+    @GET
+    fun getGeocoder(@Url url: String): GeocoderBean
 }

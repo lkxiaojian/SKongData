@@ -5,4 +5,4 @@ package com.zky.basics.api.common.entity
  * @Author:         lk
  * @CreateDate:     2021/8/3 10:55
  */
-data class LocationPoint (var longitude:Double?,var latitude:Double?)
+data class LocationPoint (var longitude:Double?,var latitude:Double?,var messagge:String?)

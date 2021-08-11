@@ -5,9 +5,11 @@ import BangUtli.setCJViewPading
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zky.basics.api.common.entity.chine.SelectPeople
+import com.zky.basics.api.splash.entity.AccountLevel
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.mvvm.BaseMvvmRefreshActivity
 import com.zky.basics.common.util.ObservableListUtil
+import com.zky.basics.common.util.OptionsPickerBuilder
 import com.zky.task_chain.BR
 import com.zky.task_chain.R
 import com.zky.task_chain.adapter.LevelListedAdapter
@@ -27,8 +29,8 @@ class SelectPeopleActivity :
 
     override fun onBindViewModelFactory() = TaskChineViewModelFactory.getInstance(application)
 
-    companion object{
-        var selects= arrayListOf<SelectPeople>()
+    companion object {
+        var selects = arrayListOf<SelectPeople>()
     }
 
     override fun initViewObservable() {
@@ -37,14 +39,14 @@ class SelectPeopleActivity :
             mViewModel?.selectType?.set(intent.getStringExtra("selectType"))
             mViewModel?.setLevelData()
             mViewModel?.getmVoidSingleLiveEvent()?.observe(this, Observer { it ->
-                when(it){
-                    "back"->{
+                when (it) {
+                    "back" -> {
                         finishActivity()
                     }
-                    "sure"->{
+                    "sure" -> {
                         selects.clear()
                         mViewModel?.mList?.forEach {
-                            if(it.check){
+                            if (it.check) {
                                 selects.add(it)
                             }
                         }
@@ -73,9 +75,14 @@ class SelectPeopleActivity :
             )
             val ms = LinearLayoutManager(this)
             ms.orientation = LinearLayoutManager.HORIZONTAL
-            mBinding?.rvLevel?.layoutManager=ms
-            mBinding?.rvLevel?.adapter=levelListedAdapter
+            mBinding?.rvLevel?.layoutManager = ms
+            mBinding?.rvLevel?.adapter = levelListedAdapter
+            levelListedAdapter.setItemClickListener(this)
 
+            val optionsPickerBuilder = OptionsPickerBuilder()
+            val pickerBuilder = this.let { optionsPickerBuilder.pickerBuilder(it) }
+            mViewModel?.pickerBuilder = pickerBuilder
+            mViewModel?.pickerView = pickerBuilder?.build()
         } catch (e: Exception) {
 
         }
@@ -93,15 +100,18 @@ class SelectPeopleActivity :
     }
 
 
-
     override fun onItemClick(e: Any, position: Int) {
-//        var check = mViewModel?.mList?.get(position)?.check
-        if(e is SelectPeople){
+        if (e is SelectPeople) {
             val check = e.check
             e.check = !check
             mViewModel?.mList?.set(position, e)
-        }else if(e is SelectPeopleLevelBean){
-
+        } else if (e is SelectPeopleLevelBean) {
+            if (position == 0) {
+                mViewModel?.getLevel()
+            } else {
+                val accountLevel = e.data as AccountLevel
+                mViewModel?.getRegion(accountLevel.attr_idx,position)
+            }
         }
 
     }

@@ -18,9 +18,9 @@ class MainModel(application: Application?) : BaseModel(application) {
     private val splashService = instance.splashService
     private val taskService = instance.taskService
 
-    suspend fun login(username: String?, password: String?): Userinfo? = request {
-        mCommonService.login(username, password)
-    }
+//    suspend fun login(username: String?, password: String?): Userinfo? = request {
+//        mCommonService.login(username, password)
+//    }
     suspend fun captcha(): ImageUrl? = request {
         splashService.captcha()
     }

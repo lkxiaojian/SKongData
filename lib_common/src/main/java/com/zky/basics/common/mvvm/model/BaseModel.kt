@@ -2,6 +2,7 @@ package com.zky.basics.common.mvvm.model
 
 import android.app.Application
 import com.alibaba.android.arouter.launcher.ARouter
+import com.zky.basics.api.common.entity.GeocoderBean
 import com.zky.basics.api.dto.RespDTO
 import com.zky.basics.api.http.CustomException
 import com.zky.basics.api.http.ExceptionHandler
@@ -12,7 +13,6 @@ import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.RuntimeException
-
 
 
 abstract class BaseModel(protected var mApplication: Application?) : IBaseModel {
@@ -47,37 +47,21 @@ abstract class BaseModel(protected var mApplication: Application?) : IBaseModel 
             }
         } catch (e: Exception) {
             val handleException = ExceptionHandler.handleException(e)
-            if(e is RuntimeException){
+            if (e is RuntimeException) {
                 return null
             }
             handleException.message?.showToast()
             throw  CustomException(handleException.message)
-
-//            when (e) {
-//                is HttpException -> {
-//                    when (e.code()) {
-//                        ExceptionHandler.SYSTEM_ERROR.INTERNAL_SERVER_ERROR -> {
-//                            R.string.server_error.showToast()
-//                            throw  CustomException(e.message)
-//                        }
-//                    }
-//                }
-//                is SocketTimeoutException -> {
-//                    e.message?.showToast()
-//                    throw  CustomException(e.message)
-//                }
-//                is CustomException -> {
-//                    throw  CustomException(e.message)
-//                }
-//                is ConnectException->{
-//                    e.message?.showToast()
-//                    throw  CustomException(e.message)
-//                }
-//            }
-//            return null
         }
     }
 
+    suspend fun <T : Any> request1(call: suspend () -> T): T? {
+        return try {
+            withContext(Dispatchers.IO) { call.invoke() }
+        } catch (e: Exception) {
+            null
+        }
+    }
 
     override fun onCleared() {
         mCompositeDisposable.clear()
