@@ -78,13 +78,12 @@ class LocationMapViewModle(application: Application, model: MapModel) :
 
     fun getGeocoder(mapCenterPoint: Point?) {
         try {
-
+Log.e("tag-->","${mapCenterPoint?.x},${mapCenterPoint?.y}")
 
             launchUI({
                 val url =
-//                    "https://apis.map.qq.com/ws/geocoder/v1/?location=${mapCenterPoint?.x},${mapCenterPoint?.y}" +
-                    "https://apis.map.qq.com/ws/geocoder/v1/?location=39.984154,116.307490" +
-
+                    "https://apis.map.qq.com/ws/geocoder/v1/?location=${mapCenterPoint?.y},${mapCenterPoint?.x}" +
+//                    "https://apis.map.qq.com/ws/geocoder/v1/?location=39.984154,116.307490" +
                             "&key=5KKBZ-SDO6J-KXWFR-FCZZB-GW5ZE-TOBUZ&get_poi=1&poi_options=address_format=short;radius=100"
                 OkHttpUtils.get().url(url).build().execute(object : StringCallback() {
                     override fun onResponse(response: String?, id: Int) {

@@ -13,6 +13,7 @@ import com.zky.task_chain.R
 import com.zky.task_chain.activity.DealMessageActivity
 import com.zky.task_chain.adapter.TaskChainListAdapter
 import com.zky.task_chain.databinding.TaskChainListFragmentBinding
+import com.zky.task_chain.fragment.TaskChainFragment.Companion.needFlush
 import com.zky.task_chain.mvvm.factory.TaskChineViewModelFactory
 import com.zky.task_chain.mvvm.viewmodle.ChainViewModle
 
@@ -69,5 +70,14 @@ class TaskChainListFragment(type: String) :
 
             mActivity.startActivity(intent)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(needFlush){
+            mViewModel?.getData()
+            needFlush=false
+        }
+
     }
 }

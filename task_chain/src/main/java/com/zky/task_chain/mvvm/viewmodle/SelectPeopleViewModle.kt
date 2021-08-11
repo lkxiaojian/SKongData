@@ -165,10 +165,7 @@ class SelectPeopleViewModle(application: Application, model: ChainModel) :
 
                 }
             }
-
-
             val userList = mModel.getUserList(url)
-
             userList?.let { it ->
                 if (index == 1) {
                     mList.clear()

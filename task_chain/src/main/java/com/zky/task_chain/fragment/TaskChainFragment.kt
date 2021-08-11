@@ -34,6 +34,8 @@ class TaskChainFragment : BaseFragment() {
         fun getChainInstance(): Fragment {
             return fragment
         }
+
+        var needFlush=false
     }
 
     private val titles = arrayListOf<String>("已发布任务", "已接受任务")
@@ -121,4 +123,5 @@ class TaskChainFragment : BaseFragment() {
         textView.text = tab.text
         tab.customView = textView
     }
+
 }

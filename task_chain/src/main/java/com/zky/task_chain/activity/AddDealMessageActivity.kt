@@ -22,6 +22,7 @@ import com.zky.task_chain.activity.SelectPeopleActivity.Companion.selects
 import com.zky.task_chain.adapter.ImageViewListAdapter
 import com.zky.task_chain.adapter.PeopleListedAdapter
 import com.zky.task_chain.databinding.ActivityAddDealMessageBinding
+import com.zky.task_chain.fragment.TaskChainFragment.Companion.needFlush
 import com.zky.task_chain.mvvm.factory.TaskChineViewModelFactory
 import com.zky.task_chain.mvvm.viewmodle.AddDealMessageViewModle
 import me.bzcoder.mediapicker.config.MediaPickerEnum
@@ -37,8 +38,6 @@ class AddDealMessageActivity :
     private lateinit var imageViewListAdapter: ImageViewListAdapter
     private lateinit var peopleAdapter: PeopleListedAdapter
     private val userinfo = decodeParcelable<Userinfo>("user")
-
-
     private var type = ""
 
     override fun onBindViewModel() = AddDealMessageViewModle::class.java
@@ -61,6 +60,10 @@ class AddDealMessageActivity :
                     intent.putExtra("type", mViewModel?.queryType?.get())
                     intent.putExtra("selectType", mViewModel?.zpMessage?.get())
                     startActivity(intent)
+                }
+                "finsh"->{
+                    needFlush=true
+                    finishActivity()
                 }
             }
 

@@ -216,7 +216,9 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
         }
 
         if (uploadingList.size == 0) {
+
             ToastUtil.showToast("上传成功")
+            getmVoidSingleLiveEvent().value="finsh"
             return
         }
 
@@ -252,6 +254,7 @@ class AddDealMessageViewModle(application: Application, model: ChainModel) :
                     onShowDialogLoading.dismiss()
                     if (failNum == 0) {
                         ToastUtil.showToast("上传成功")
+                        getmVoidSingleLiveEvent().value="finsh"
                     } else {
                         val showCustomDialog =
                             showCustomDialog(
