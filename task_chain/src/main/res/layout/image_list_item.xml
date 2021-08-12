@@ -19,6 +19,7 @@
         android:layout_margin="9dp">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/aiv_show"
             android:layout_width="91dp"
             android:layout_height="91dp"
             app:imageMediaUrl="@{data.videoImagePath}"

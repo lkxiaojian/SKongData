@@ -15,6 +15,7 @@ import com.zky.basics.api.splash.entity.Userinfo
 import com.zky.basics.common.event.SingleLiveEvent
 import com.zky.basics.common.mvvm.viewmodel.BaseRefreshViewModel
 import com.zky.basics.common.util.spread.decodeParcelable
+import com.zky.basics.common.util.spread.showToast
 import com.zky.task_chain.R
 import com.zky.task_chain.activity.SelectPeopleActivity.Companion.selects
 import com.zky.task_chain.bean.SelectPeopleLevelBean
@@ -127,6 +128,11 @@ class SelectPeopleViewModle(application: Application, model: ChainModel) :
             if (position > 1) {
                 code = showList[position - 1].valueCode
             }
+
+            if (position > 1 && showList[position - 1].valueCode.isEmpty()) {
+                "请选择上级区域".showToast()
+                return@launchUI
+            }
             val region = mModel.getRegion(regionLevel, code)
 
             region?.let { it ->
@@ -159,7 +165,7 @@ class SelectPeopleViewModle(application: Application, model: ChainModel) :
 
             if (!showList.isNullOrEmpty()) {
                 showList?.forEach {
-                    if(!it.attr.isNullOrEmpty()&&!it.value.isNullOrEmpty()){
+                    if (!it.attr.isNullOrEmpty() && !it.value.isNullOrEmpty()) {
                         url += "&${it.attr}=${it.value}"
                     }
 
@@ -199,7 +205,7 @@ class SelectPeopleViewModle(application: Application, model: ChainModel) :
 
             }
             R.id.search_people -> {
-                index=1
+                index = 1
                 getData()
 
             }
@@ -235,8 +241,7 @@ class SelectPeopleViewModle(application: Application, model: ChainModel) :
                     list1.forEach {
                         when (get) {
                             "请示" -> {
-                                if (it.attr_idx > accountLevel1) {
-
+                                if (it.attr_idx >accountLevel1) {
                                     tmpList.add(SelectPeopleLevelBean("city", it.attr_name, it))
                                 }
                             }
@@ -247,7 +252,7 @@ class SelectPeopleViewModle(application: Application, model: ChainModel) :
                                 tmpList.add(SelectPeopleLevelBean("city", it.attr_name, it))
                             }
                             "对接" -> {
-                                if (it.attr_idx >= accountLevel1) {
+                                if (it.attr_idx <= accountLevel1) {
                                     tmpList.add(SelectPeopleLevelBean("city", it.attr_name, it))
                                 }
                             }

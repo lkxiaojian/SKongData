@@ -37,9 +37,9 @@ class TaskChainListAdapter(context: Context, items: ObservableArrayList<TaskChin
         binding?.cvClick?.setOnClickListener {
             mItemClickListener?.onItemClick(item, position)
         }
-        binding?.cvClick?.setOnLongClickListener {
-            mOnItemLongClickListener?.onItemLongClick(item, position)!!
-        }
+//        binding?.cvClick?.setOnLongClickListener {
+//            mOnItemLongClickListener?.onItemLongClick(item, position)!!
+//        }
         val observableArrayList = ObservableArrayList<ChineMedia>()
         item.fileList?.let { observableArrayList.addAll(it) }
         val adapter = MediaImageListAdapter(context, observableArrayList)

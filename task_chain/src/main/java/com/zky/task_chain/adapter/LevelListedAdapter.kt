@@ -36,7 +36,9 @@ class LevelListedAdapter(context: Context, items: ObservableArrayList<SelectPeop
             is LevelItemBinding -> {
                 binding.data = item
                 binding.cvClick.setOnClickListener {
-                    mItemClickListener?.onItemClick(item, position)
+                    if (item.hintText != "个人") {
+                        mItemClickListener?.onItemClick(item, position)
+                    }
                 }
             }
             is CityItemBinding -> {

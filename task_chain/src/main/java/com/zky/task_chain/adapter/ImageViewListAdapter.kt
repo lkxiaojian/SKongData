@@ -23,7 +23,7 @@ class ImageViewListAdapter(context: Context,  items: ObservableArrayList<MediaBe
 
     override fun onBindItem(binding: ImageListItemBinding?, item: MediaBean, position: Int) {
         binding?.data = item
-        binding?.cvClick?.setOnClickListener {
+        binding?.aivShow?.setOnClickListener {
             mItemClickListener?.onItemClick(item, position)
         }
     }
