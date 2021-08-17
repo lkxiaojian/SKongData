@@ -116,6 +116,7 @@
                         app:layout_constraintTop_toBottomOf="@id/cl_jsr" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cledit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
@@ -132,27 +133,42 @@
                             android:gravity="top"
                             android:hint="请输入内容"
                             android:text="@={addDealMessageViewModle.content}"
-                            android:minHeight="100dp"
+                            android:minHeight="102dp"
                             android:padding="13dp"
                             android:textSize="12sp"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_imgave"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            app:layout_constraintTop_toBottomOf="@id/aet_message"
 
-                            />
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/atv_image"
+                        style="@style/addDel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="图片："
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cledit"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_imgave"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="25dp"
+                        app:layout_constraintTop_toBottomOf="@id/atv_image"
+                        />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_location"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="4dp"
                     android:background="@color/white"
                     android:onClick="@{addDealMessageViewModle.startClick}"
                     app:layout_constraintTop_toBottomOf="@id/cl_top">

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="286dp"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <com.zyp.cardview.YcCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:ycStartShadowColor="#4d000000"
+        app:ycCardElevation="3dp"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="提示"
+            android:textColor="#ff000000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_qs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginRight="15dp"
+            android:text="请示:"
+            android:textColor="#ff3388ef"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/atv_tip" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_qs_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="15dp"
+            android:text="低级别用户可对高级别用户进行请示"
+            android:textColor="#ff999999"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/atv_qs" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_dj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginRight="15dp"
+            android:text="对接:"
+            android:textColor="#ff3388ef"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/atv_qs_message" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_dj_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="15dp"
+            android:text="同级别用户之间可进行对接"
+            android:textColor="#ff999999"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/atv_dj" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_zp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginRight="15dp"
+            android:text="指派:"
+            android:textColor="#ff3388ef"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/atv_dj_message" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_zp_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="15dp"
+            android:text="高级别用户可对低级别用户进行指派"
+            android:textColor="#ff999999"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/atv_zp" />
+
+        <View
+            android:id="@+id/v"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="37dp"
+            android:background="#CCCCCC"
+            app:layout_constraintTop_toBottomOf="@+id/atv_zp_message" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:paddingBottom="12dp"
+            android:text="我知道了"
+            android:textColor="#ff3388ef"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/v" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.zyp.cardview.YcCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

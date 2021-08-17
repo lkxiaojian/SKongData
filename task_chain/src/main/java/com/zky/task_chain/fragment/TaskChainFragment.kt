@@ -6,6 +6,7 @@ import android.graphics.Typeface
 import android.os.Build
 import android.util.Log
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -17,6 +18,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.zky.basics.common.adapter.FragmentPager2Adapter
 import com.zky.basics.common.mvvm.BaseFragment
+import com.zky.basics.common.view.TipMessagePop
 import com.zky.task_chain.R
 import com.zky.task_chain.activity.AddDealMessageActivity
 import kotlinx.android.synthetic.main.task_chain_fragment.*
@@ -35,7 +37,7 @@ class TaskChainFragment : BaseFragment() {
             return fragment
         }
 
-        var needFlush=false
+        var needFlush = false
     }
 
     private val titles = arrayListOf<String>("已发布任务", "已接受任务")
@@ -47,6 +49,9 @@ class TaskChainFragment : BaseFragment() {
             val tabLayout = view?.findViewById<TabLayout>(R.id.layout_tour)
             val aivAddTaskMessage =
                 view?.findViewById<AppCompatImageView>(R.id.aiv_add_task_message)
+            val aivTaskTip =
+                view?.findViewById<AppCompatImageView>(R.id.aiv_task_tip)
+
             aivAddTaskMessage?.setOnClickListener {
                 val type = if (viewPage?.currentItem == 0) "send" else "receive"
                 val intent = Intent(mActivity, AddDealMessageActivity::class.java)
@@ -55,6 +60,12 @@ class TaskChainFragment : BaseFragment() {
                 intent.putExtra("taskCode", "")
                 intent.putExtra("message", "")
                 mActivity.startActivity(intent)
+            }
+
+            aivTaskTip?.setOnClickListener {
+                val tipMessagePop = TipMessagePop(view, mActivity)
+                tipMessagePop.showAtLocation(mView,Gravity.CENTER,0,0)
+
             }
             mListFragments.add(TaskChainListFragment("send"))
             mListFragments.add(TaskChainListFragment("receive"))
