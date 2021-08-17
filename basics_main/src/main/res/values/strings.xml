@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">sk</string>
     <string name="title_home" translatable="false">查询与采集</string>
     <string name="title_task" translatable="false">任务链</string>
     <string name="title_my" translatable="false">我的</string>
+    <string name="title_bf" translatable="false">帮扶沙龙</string>
+    <string name="title_gk" translatable="false">数据概况</string>
 </resources>

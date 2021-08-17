@@ -42,5 +42,5 @@ object ARouterPath {
     const val QUESTION_ACTIVITY = "/question/naireActivity"
 
     const val TASK_CHAIN="/task_chain/tasklist"
-
+    const val SUPPORT_SALONS="/support_salons/support_salons"
 }

@@ -53,7 +53,7 @@ dependencies {
 
     if (!isModule.toBoolean()) {
         implementation project(':basics_main')
-//        implementation project(':zky_map')
+        implementation project(':support_salons')
         implementation project(':zky_mine')
         implementation project(':multi_media')
         implementation project(':zky_questionnaire')

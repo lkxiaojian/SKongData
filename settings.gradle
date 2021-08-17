@@ -1,3 +1,4 @@
+include ':support_salons'
 include ':zky_questionnaire'
 include ':multi_media'
 include ':lib_refresh_layout'

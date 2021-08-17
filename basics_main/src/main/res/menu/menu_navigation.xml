@@ -5,12 +5,19 @@
         android:id="@+id/navigation_trip"
         android:icon="@drawable/ic_bottom_trip"
         android:title="@string/title_home"/>
+    <item
+        android:id="@+id/navigation_gk"
+        android:icon="@drawable/gk"
+        android:title="@string/title_gk"/>
 
     <item
         android:id="@+id/navigation_task"
         android:icon="@drawable/rw_task"
         android:title="@string/title_task"/>
-
+    <item
+        android:id="@+id/title_bf"
+        android:icon="@drawable/bf"
+        android:title="@string/title_bf"/>
     <item
         android:id="@+id/navigation_me"
         android:icon="@drawable/ic_bottom_my"

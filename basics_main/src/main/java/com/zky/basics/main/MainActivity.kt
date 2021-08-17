@@ -7,10 +7,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.zky.basics.common.mvvm.BaseActivity
 import com.zky.basics.common.provider.IMineProvider
+import com.zky.basics.common.provider.ISupportProvider
 import com.zky.basics.common.provider.ITaskChainProvider
 import com.zky.basics.common.util.spread.showToast
 import com.zky.basics.main.entity.MainChannel
 import com.zky.basics.main.fragment.CollectFragment
+import com.zky.basics.main.fragment.DataGKFragment
 import kotlinx.android.synthetic.main.commot_activity_main.*
 
 class MainActivity : BaseActivity() {
@@ -21,9 +23,17 @@ class MainActivity : BaseActivity() {
     @JvmField
     @Autowired(name = ARouterPath.MINE_MAIN_FRGMENT)
     var mMineProvider: IMineProvider? = null
+
+    @JvmField
+    @Autowired(name = ARouterPath.SUPPORT_SALONS)
+    var supportProvider: ISupportProvider? = null
+
     private var mFlayFragment: Fragment = CollectFragment()
+    private var dataGKFragment: Fragment = DataGKFragment()
+
     private var mMeFragment: Fragment? = null
     private var mTaskFragment: Fragment? = null
+    private var mSupportFragment: Fragment? = null
     private var mCurrFragment: Fragment? = null
     private var mBackPressed: Long = 0
     override fun onBindLayout() = R.layout.commot_activity_main
@@ -37,13 +47,22 @@ class MainActivity : BaseActivity() {
                     mCurrFragment = mFlayFragment
                     return@setOnNavigationItemSelectedListener true
                 }
+                R.id.navigation_gk -> {
+                    switchContent(mCurrFragment, dataGKFragment, MainChannel.NEWS.name)
+                    mCurrFragment = dataGKFragment
+                    return@setOnNavigationItemSelectedListener true
+                }
 
                 R.id.navigation_task -> {
                     switchContent(mCurrFragment, mTaskFragment, MainChannel.ME.name)
                     mCurrFragment = mTaskFragment
                     return@setOnNavigationItemSelectedListener true
                 }
-
+                R.id.title_bf -> {
+                    switchContent(mCurrFragment, mSupportFragment, MainChannel.NEWS.name)
+                    mCurrFragment = mSupportFragment
+                    return@setOnNavigationItemSelectedListener true
+                }
                 R.id.navigation_me -> {
                     switchContent(mCurrFragment, mMeFragment, MainChannel.ME.name)
                     mCurrFragment = mMeFragment
@@ -54,6 +73,8 @@ class MainActivity : BaseActivity() {
         }
         mMeFragment = mMineProvider?.mainMineFragment
         mTaskFragment = iTaskChainProvider?.taskChainFragment
+
+        mSupportFragment=supportProvider?.supportFragment
         mCurrFragment = mFlayFragment
 
 
