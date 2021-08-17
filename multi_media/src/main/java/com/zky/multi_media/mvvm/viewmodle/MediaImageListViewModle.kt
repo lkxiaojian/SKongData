@@ -62,7 +62,7 @@ class MediaImageListViewModle(application: Application, mediaModel: MediaModel) 
                         bean.uploader = it.userName
                         bean.create_data = it.createDate
                         bean.videoImagePath = it.filePath
-                        bean.mediaType2 = it.mediaType2
+                        bean.mediaType2 = value.titleTmp
                         bean.mediaType3 = it.mediaType3
                         mList[index].files?.add(bean)
                     }
@@ -103,7 +103,7 @@ class MediaImageListViewModle(application: Application, mediaModel: MediaModel) 
                             map["createTime"] = it.create_data
                             map["itemCode"] = itemCode
                             map["code"] = it.code
-                            map["mediaType2"] = it.mediaType2
+                            map["mediaType2"] = value.titleTmp
                             map["mediaType3"] = it.mediaType3
                             userinfo?.username?.let {
                                 map["userName"] = it

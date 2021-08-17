@@ -59,7 +59,7 @@ class MediaVoiceListViewModle(application: Application, mediaModel: MediaModel) 
                         bean.startIng = 1
                         bean.filePathIsNUll = bean.file_path.isEmpty()
                         bean.create_data = it.createDate
-                        bean.mediaType2 = it.mediaType2
+                        bean.mediaType2 = value.titleTmp
                         bean.mediaType3 = it.mediaType3
                         mList[index].files?.add(bean)
                     }
