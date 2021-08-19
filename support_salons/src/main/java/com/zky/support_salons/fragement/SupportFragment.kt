@@ -1,6 +1,7 @@
 package com.zky.support_salons.fragement
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
@@ -12,6 +13,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.zky.basics.common.adapter.FragmentPager2Adapter
 import com.zky.basics.common.mvvm.BaseFragment
 import com.zky.support_salons.R
+import com.zky.support_salons.activity.ScalonsPubActivity
 
 /**
  * @Description:     帮扶沙龙
@@ -27,7 +29,9 @@ class SupportFragment : BaseFragment() {
         val tabLayout = view?.findViewById<TabLayout>(R.id.layout_tour)
         val aivAddTaskMessage =
             view?.findViewById<AppCompatImageView>(R.id.aiv_add_task_message)
-
+        aivAddTaskMessage?.setOnClickListener {
+            startActivity(Intent(mActivity, ScalonsPubActivity::class.java))
+        }
         val fragmentPager2Adapter = FragmentPager2Adapter(mActivity, mListFragments)
         mListFragments.add(OpenPublishFragment("open"))
         mListFragments.add(MySalonsFragment())

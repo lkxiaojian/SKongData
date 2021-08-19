@@ -1,4 +1,4 @@
-package com.zky.task_chain.activity
+package com.zky.support_salons.activity
 
 import ARouterPath
 import android.Manifest
@@ -17,14 +17,11 @@ import com.zky.basics.common.mvvm.BaseMvvmActivity
 import com.zky.basics.common.util.*
 import com.zky.basics.common.util.reflec.instanceOf
 import com.zky.basics.common.util.spread.decodeParcelable
-import com.zky.task_chain.BR
-import com.zky.task_chain.R
-import com.zky.task_chain.activity.SelectPeopleActivity.Companion.selects
-import com.zky.task_chain.adapter.PeopleListedAdapter
-import com.zky.task_chain.databinding.ActivityAddDealMessageBinding
-import com.zky.task_chain.fragment.TaskChainFragment.Companion.needFlush
-import com.zky.task_chain.mvvm.factory.TaskChineViewModelFactory
-import com.zky.task_chain.mvvm.viewmodle.AddDealMessageViewModle
+import com.zky.support_salons.BR
+import com.zky.support_salons.R
+import com.zky.support_salons.databinding.ActivityPubSaclonsBinding
+import com.zky.support_salons.mvvm.factory.SupportSalonsViewModelFactory
+import com.zky.support_salons.mvvm.viewmodle.ScalonsPubViewModle
 import me.bzcoder.mediapicker.config.MediaPickerEnum
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -32,37 +29,22 @@ import org.greenrobot.eventbus.ThreadMode
 import java.util.*
 
 
-class AddDealMessageActivity :
-    BaseMvvmActivity<ActivityAddDealMessageBinding, AddDealMessageViewModle>(),
+class ScalonsPubActivity :
+    BaseMvvmActivity<ActivityPubSaclonsBinding, ScalonsPubViewModle>(),
     BaseBindAdapter.OnItemClickListener<Any> {
     private lateinit var imageViewListAdapter: ImageViewListAdapter
-    private lateinit var peopleAdapter: PeopleListedAdapter
     private val userinfo = decodeParcelable<Userinfo>("user")
     private var type = ""
 
-    override fun onBindViewModel() = AddDealMessageViewModle::class.java
+    override fun onBindViewModel() = ScalonsPubViewModle::class.java
 
-    override fun onBindViewModelFactory() = TaskChineViewModelFactory.getInstance(application)
+    override fun onBindViewModelFactory() = SupportSalonsViewModelFactory.getInstance(application)
 
     override fun initViewObservable() {
-        type = intent.getStringExtra("type")
-        mViewModel?.parentCode?.set(intent.getStringExtra("parentCode"))
-        mViewModel?.taskCode?.set(intent.getStringExtra("taskCode"))
-
-        mViewModel?.message?.set(intent.getStringExtra("message"))
 
         mViewModel?.getmVoidSingleLiveEvent()?.observe(this, androidx.lifecycle.Observer {
             when (it) {
-                "startSelectPeople" -> {
-                    selects.clear()
-                    mViewModel?.observablePeopleArrayList?.let { it1 -> selects.addAll(it1) }
-                    val intent = Intent(this, SelectPeopleActivity::class.java)
-                    intent.putExtra("type", mViewModel?.queryType?.get())
-                    intent.putExtra("selectType", mViewModel?.zpMessage?.get())
-                    startActivity(intent)
-                }
                 "finsh"->{
-                    needFlush=true
                     finishActivity()
                 }
             }
@@ -76,36 +58,25 @@ class AddDealMessageActivity :
         mBinding?.rvImgave?.layoutManager = GridLayoutManager(this, 3)
         mBinding?.rvImgave?.adapter = imageViewListAdapter
 
-        peopleAdapter = PeopleListedAdapter(this, mViewModel?.observablePeopleArrayList)
-        peopleAdapter.setItemClickListener(this)
-        mBinding?.rvJsr?.layoutManager = GridLayoutManager(this, 2)
-        mBinding?.rvJsr?.adapter = peopleAdapter
 
-        mViewModel?.observablePeopleArrayList?.addOnListChangedCallback(
-            ObservableListUtil.getListChangedCallback(
-                peopleAdapter
-            )
-        )
-
-        mViewModel?.queryType?.set(type)
         val optionsPickerBuilder = OptionsPickerBuilder()
         val pickerBuilder = this.let { optionsPickerBuilder.pickerBuilder(it) }
         mViewModel?.pickerBuilder = pickerBuilder
         mViewModel?.pickerView = pickerBuilder?.build()
-        mViewModel?.getLevel()
+
         mViewModel?.getAppToken()
     }
 
-    override fun onBindVariableId() = BR.addDealMessageViewModle
-    override fun onBindLayout() = R.layout.activity_add_deal_message
+    override fun onBindVariableId() = BR.scalonsPubViewModle
+    override fun onBindLayout() = R.layout.activity_pub_saclons
 
-    override val tootBarTitle = "新增处理"
+    override val tootBarTitle = "发表"
     private var posIndex = 0
     override fun onItemClick(e: Any, position: Int) {
         if (e is MediaBean) {
             if (e.videoImagePath.isNullOrEmpty()) {
                 //选择照片
-                XXPermissions.with(this@AddDealMessageActivity).permission(
+                XXPermissions.with(this@ScalonsPubActivity).permission(
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.CAMERA
@@ -120,7 +91,7 @@ class AddDealMessageActivity :
 
                     override fun noPermission(denied: MutableList<String>?, never: Boolean) {
                         PermissionToSetting(
-                            this@AddDealMessageActivity,
+                            this@ScalonsPubActivity,
                             denied!!,
                             never,
                             "获取存储权限失败"
@@ -139,7 +110,6 @@ class AddDealMessageActivity :
             }
         } else if (e is SelectPeople) {
             mViewModel?.observablePeopleArrayList?.removeAt(position)
-            selects.remove(e)
         }
     }
 
@@ -216,12 +186,9 @@ class AddDealMessageActivity :
 
     override fun onResume() {
         super.onResume()
-        mViewModel?.observablePeopleArrayList?.clear()
-        mViewModel?.observablePeopleArrayList?.addAll(selects)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        selects.clear()
     }
 }

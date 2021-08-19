@@ -6,10 +6,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.zky.support_salons.mvvm.model.SupportModel
-import com.zky.support_salons.mvvm.viewmodle.NewsViewModle
-import com.zky.support_salons.mvvm.viewmodle.OpenPublishViewModle
-import com.zky.support_salons.mvvm.viewmodle.RemarkViewModle
-import com.zky.support_salons.mvvm.viewmodle.SupportModelViewModle
+import com.zky.support_salons.mvvm.viewmodle.*
 
 
 class SupportSalonsViewModelFactory private constructor(private val mApplication: Application) :
@@ -32,6 +29,10 @@ class SupportSalonsViewModelFactory private constructor(private val mApplication
             modelClass.isAssignableFrom(NewsViewModle::class.java) -> {
                 val splashModel = SupportModel(mApplication)
                 NewsViewModle(mApplication, splashModel) as T
+            }
+            modelClass.isAssignableFrom(ScalonsPubViewModle::class.java) -> {
+                val splashModel = SupportModel(mApplication)
+                ScalonsPubViewModle(mApplication, splashModel) as T
             }
 
 
