@@ -25,13 +25,12 @@ class SupportFragment : BaseFragment() {
     override fun initView(view: View?) {
         val viewPage = view?.findViewById<ViewPager2>(R.id.pager_tour_task)
         val tabLayout = view?.findViewById<TabLayout>(R.id.layout_tour)
-        tabLayout?.setSelectedTabIndicatorHeight(0)
         val aivAddTaskMessage =
             view?.findViewById<AppCompatImageView>(R.id.aiv_add_task_message)
 
         val fragmentPager2Adapter = FragmentPager2Adapter(mActivity, mListFragments)
-        mListFragments.add(Fragment())
-        mListFragments.add(Fragment())
+        mListFragments.add(OpenPublishFragment("open"))
+        mListFragments.add(MySalonsFragment())
         viewPage?.adapter = fragmentPager2Adapter
         viewPage?.currentItem = 0
         viewPage?.isUserInputEnabled = false

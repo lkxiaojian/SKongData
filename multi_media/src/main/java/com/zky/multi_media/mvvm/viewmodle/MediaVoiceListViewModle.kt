@@ -98,7 +98,7 @@ class MediaVoiceListViewModle(application: Application, mediaModel: MediaModel) 
                             map["createTime"] = it.create_data
                             map["itemCode"] = Constants.itemCode
                             map["code"] = it.code
-                            map["mediaType2"] = it.mediaType2
+                            map["mediaType2"] =value.titleTmp
                             map["mediaType3"] = it.mediaType3
                             userinfo?.username?.let {
                                 map["userName"] = it

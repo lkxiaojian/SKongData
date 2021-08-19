@@ -20,7 +20,6 @@ import com.zky.basics.common.util.uploadFile.OssUploadingFileUtil
 import com.zky.basics.common.util.uploadFile.UploadingFile
 import com.zky.basics.common.util.view.CustomDialog
 import com.zky.multi_media.R
-import com.zky.multi_media.adapter.MediaImageListAdapter
 import com.zky.multi_media.adapter.MediaImageTypeListAdapter
 import com.zky.multi_media.mvvm.model.MediaModel
 import java.util.ArrayList

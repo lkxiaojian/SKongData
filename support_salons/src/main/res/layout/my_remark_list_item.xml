@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="java.lang.String" />
+
+        <variable
+            name="show"
+            type="Boolean" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:paddingBottom="16dp"
+        android:background="@color/white">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/aiv_head"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="5dp"
+            android:text="张三"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toRightOf="@id/aiv_head"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="5dp"
+            android:text="昨天12:34"
+            android:textColor="#ff9b9b9b"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toRightOf="@id/aiv_head"
+            app:layout_constraintTop_toBottomOf="@id/atv_username" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/atv_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="62dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="18dp"
+            android:text="一个没有参加的工作，不知经过的事情。却要
+我们给出个结果。怎么办？再核实吧！"
+            android:textColor="#ff000000"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/aiv_head" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="13dp"
+            android:background="@drawable/shape_f3f3f3_3"
+            android:minHeight="48dp"
+
+            app:layout_constraintTop_toBottomOf="@+id/atv_message">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/aiv_head_f"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="7dp"
+                android:singleLine="true"
+                android:text="一个没有参加的工作，不知经过的事情。却要我们给…"
+                android:textColor="#ff333333"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toRightOf="@+id/aiv_head_f"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="7dp"
+                android:layout_height="11dp"
+                android:layout_marginEnd="21dp"
+                android:src="@drawable/remark_right_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

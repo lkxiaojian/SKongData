@@ -1,4 +1,4 @@
-package com.zky.task_chain.adapter
+package com.zky.support_salons.adapter
 
 import android.content.Context
 
@@ -11,40 +11,39 @@ import com.zky.basics.api.room.bean.MediaBean
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.adapter.MediaImageListAdapter
 import com.zky.basics.common.util.ObservableListUtil
-
-import com.zky.task_chain.R
-import com.zky.task_chain.databinding.DealMessageListItemBinding
+import com.zky.support_salons.R
+import com.zky.support_salons.databinding.OpenPublishListItemBinding
 
 
 /**
  *create_time : 21-3-3 下午2:14
  *author: lk
- *description： TaskChainListAdapter
+ *description： OpenPublishListAdapter
  */
-class DealMeassgeListAdapter(context: Context, items: ObservableArrayList<TaskChineItemBean>?, type:String) :
-    BaseBindAdapter<TaskChineItemBean, DealMessageListItemBinding>(context, items),
+class OpenPublishListAdapter(context: Context, items: ObservableArrayList<String>?) :
+    BaseBindAdapter<String, OpenPublishListItemBinding>(context, items),
     BaseBindAdapter.OnItemClickListener<Any> {
-    private  var queryType=type
-    override fun getLayoutItemId(viewType: Int) = R.layout.deal_message_list_item
 
-    override fun onBindItem(binding: DealMessageListItemBinding?, item: TaskChineItemBean, position: Int) {
+    override fun getLayoutItemId(viewType: Int) = R.layout.open_publish_list_item
+
+    override fun onBindItem(binding: OpenPublishListItemBinding?, item: String, position: Int) {
         binding?.data = item
-        binding?.show=queryType=="send"
-        binding?.cvClick?.setOnClickListener {
-            mItemClickListener?.onItemClick(item, position)
-        }
-
-        val observableArrayList = ObservableArrayList<ChineMedia>()
-        item.fileList?.let { observableArrayList.addAll(it) }
-        val adapter = MediaImageListAdapter(context, observableArrayList)
-        adapter.setItemClickListener(this)
-        binding?.rvImage?.layoutManager = GridLayoutManager(context, 3)
-        binding?.rvImage?.adapter = adapter
-        observableArrayList.addOnListChangedCallback(
-            ObservableListUtil.getListChangedCallback(
-                adapter
-            )
-        )
+//        binding?.show=queryType=="send"
+//        binding?.cvClick?.setOnClickListener {
+//            mItemClickListener?.onItemClick(item, position)
+//        }
+//
+//        val observableArrayList = ObservableArrayList<ChineMedia>()
+//        item.fileList?.let { observableArrayList.addAll(it) }
+//        val adapter = MediaImageListAdapter(context, observableArrayList)
+//        adapter.setItemClickListener(this)
+//        binding?.rvImage?.layoutManager = GridLayoutManager(context, 3)
+//        binding?.rvImage?.adapter = adapter
+//        observableArrayList.addOnListChangedCallback(
+//            ObservableListUtil.getListChangedCallback(
+//                adapter
+//            )
+//        )
     }
 
     override fun onItemClick(e: Any, position: Int) {

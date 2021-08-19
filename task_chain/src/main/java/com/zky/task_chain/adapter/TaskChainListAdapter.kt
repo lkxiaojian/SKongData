@@ -1,7 +1,6 @@
 package com.zky.task_chain.adapter
 
 import android.content.Context
-import androidx.databinding.Bindable
 
 import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.GridLayoutManager
@@ -10,12 +9,11 @@ import com.zky.basics.api.common.entity.chine.ChineMedia
 import com.zky.basics.api.common.entity.chine.TaskChineItemBean
 import com.zky.basics.api.room.bean.MediaBean
 import com.zky.basics.common.adapter.BaseBindAdapter
+import com.zky.basics.common.adapter.MediaImageListAdapter
 import com.zky.basics.common.util.ObservableListUtil
-import com.zky.basics.common.util.reflec.instanceOf
 
 import com.zky.task_chain.R
 import com.zky.task_chain.databinding.TaskChainListItemBinding
-import java.io.Serializable
 
 
 /**
@@ -67,7 +65,7 @@ class TaskChainListAdapter(context: Context, items: ObservableArrayList<TaskChin
                     true,
                     it.filePath,
                     "",
-                    "",
+                    it.userName,
                     "",
                     ""
                 )

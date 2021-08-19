@@ -6,6 +6,9 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.zky.support_salons.mvvm.model.SupportModel
+import com.zky.support_salons.mvvm.viewmodle.NewsViewModle
+import com.zky.support_salons.mvvm.viewmodle.OpenPublishViewModle
+import com.zky.support_salons.mvvm.viewmodle.RemarkViewModle
 import com.zky.support_salons.mvvm.viewmodle.SupportModelViewModle
 
 
@@ -13,12 +16,29 @@ class SupportSalonsViewModelFactory private constructor(private val mApplication
     ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(SupportModelViewModle::class.java)) {
-            val splashModel = SupportModel(mApplication)
-            return SupportModelViewModle(mApplication, splashModel) as T
+        return when {
+            modelClass.isAssignableFrom(SupportModelViewModle::class.java) -> {
+                val splashModel = SupportModel(mApplication)
+                SupportModelViewModle(mApplication, splashModel) as T
+            }
+            modelClass.isAssignableFrom(OpenPublishViewModle::class.java) -> {
+                val splashModel = SupportModel(mApplication)
+                OpenPublishViewModle(mApplication, splashModel) as T
+            }
+            modelClass.isAssignableFrom(RemarkViewModle::class.java) -> {
+                val splashModel = SupportModel(mApplication)
+                RemarkViewModle(mApplication, splashModel) as T
+            }
+            modelClass.isAssignableFrom(NewsViewModle::class.java) -> {
+                val splashModel = SupportModel(mApplication)
+                NewsViewModle(mApplication, splashModel) as T
+            }
+
+
+            else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
 
-        throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
+
     }
 
     companion object {

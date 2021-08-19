@@ -26,13 +26,13 @@ abstract class BaseMvvmRefreshFragment<T, V : ViewDataBinding?, VM : BaseRefresh
 
     private fun initBaseViewRefreshObservable() {
         mViewModel?.uCRefresh()?.autoRefresLiveEvent
-            ?.observe(this, { autoLoadData() })
+            ?.observe(this, Observer{ autoLoadData() })
         mViewModel?.uCRefresh()?.stopRefresLiveEvent
-            ?.observe(this, {
+            ?.observe(this, Observer{
                 stopRefresh()
             })
         mViewModel?.uCRefresh()?.stopLoadMoreLiveEvent
-            ?.observe(this, { stopLoadMore() })
+            ?.observe(this, Observer{ stopLoadMore() })
     }
 
     abstract fun refreshLayout(): DaisyRefreshLayout?

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+
+    <data>
+
+        <variable
+            name="remarkViewModle"
+            type="com.zky.support_salons.mvvm.viewmodle.RemarkViewModle" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_f5f5f5">
+
+
+        <com.refresh.lib.DaisyRefreshLayout
+            android:id="@+id/drl_q"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="103dp"
+            android:layout_marginTop="10dp"
+            app:enableLoadMore="@{safeUnbox(remarkViewModle.enableLoadMore)}"
+            app:enableRefresh="@{safeUnbox(remarkViewModle.enableRefresh)}"
+            app:onAutoRefreshCommand="@{remarkViewModle.onAutoRefreshCommand}"
+            app:onLoadMoreCommand="@{remarkViewModle.onLoadMoreCommand}"
+            app:onRefreshCommand="@{remarkViewModle.onRefreshCommand}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_f5f5f5"
+                app:linearLayoutManager="@{safeUnbox(remarkViewModle.orientation)}" />
+
+        </com.refresh.lib.DaisyRefreshLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -21,7 +21,8 @@ class TaskChineItemBean(
     var userName: String?,
     var type: String?, var content: String?,
     var longitude: String?, var latitude: String?,
-    var address: String?, var createDate: String?,
+    var address: String?,
+    var createDate: String?,
     var status: Int,
     var fileList: List<ChineMedia>?
 )
@@ -33,10 +34,12 @@ class ChineMedia(
     var fileType: String?,
     var fileName: String,
     var filePath:String,
-    var createDate:String
+    var createDate:String,
+    var userName:String?
 
 ):Parcelable{
     constructor(parcel: Parcel) : this(
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -55,6 +58,7 @@ class ChineMedia(
         parcel.writeString(fileName)
         parcel.writeString(filePath)
         parcel.writeString(createDate)
+        parcel.writeString(userName)
     }
 
     override fun describeContents(): Int {
