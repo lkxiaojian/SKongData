@@ -1,11 +1,9 @@
 package com.zky.basics.main.fragment
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import android.view.View
-import android.webkit.WebChromeClient
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import com.zky.basics.api.RetrofitManager
 import com.zky.basics.api.config.API
 import com.zky.basics.common.mvvm.BaseFragment
@@ -26,6 +24,7 @@ class DataGKFragment : BaseFragment() {
         val url =
             "${API.WEB_URL_HOST}index.html?token=${RetrofitManager.TOKEN}#/singleChartPage"
         webView?.let {
+
             val settings = it.settings
             // 设置WebView支持JavaScript
             settings.javaScriptEnabled = true
@@ -36,8 +35,8 @@ class DataGKFragment : BaseFragment() {
             settings.builtInZoomControls = false //显示缩放按钮
             settings.blockNetworkImage = true // 把图片加载放在最后来加载渲染
             settings.allowFileAccess = false
-//            settings.saveFormData = false
-//            settings.domStorageEnabled = true
+            settings.saveFormData = false
+            settings.domStorageEnabled = true
             settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.NARROW_COLUMNS
             settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
             //设置不让其跳转浏览器
@@ -45,7 +44,39 @@ class DataGKFragment : BaseFragment() {
                 override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                     return false
                 }
+
+                override fun onReceivedError(
+                    view: WebView?,
+                    request: WebResourceRequest?,
+                    error: WebResourceError?
+                ) {
+                    super.onReceivedError(view, request, error)
+                    showInitLoadView(false)
+                }
+
+                override fun onPageFinished(view: WebView?, url: String?) {
+                    super.onPageFinished(view, url)
+                    showInitLoadView(false)
+                }
+
+                override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                    super.onPageStarted(view, url, favicon)
+                    showInitLoadView(true)
+                }
             }
+
+//            it.webChromeClient=object : WebChromeClient() {
+//                override fun onProgressChanged(view: WebView?, newProgress: Int) {
+//                    super.onProgressChanged(view, newProgress)
+//                    if(newProgress==100){
+//                        showTransLoadingView(false)
+//                    }
+//                }
+//
+//
+//            }
+
+
             it.webChromeClient = WebChromeClient()
             it.loadUrl(url)
         }
