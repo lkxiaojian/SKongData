@@ -29,9 +29,9 @@ class OpenPublishListAdapter(context: Context, items: ObservableArrayList<String
     override fun onBindItem(binding: OpenPublishListItemBinding?, item: String, position: Int) {
         binding?.data = item
 //        binding?.show=queryType=="send"
-//        binding?.cvClick?.setOnClickListener {
-//            mItemClickListener?.onItemClick(item, position)
-//        }
+        binding?.cvClick?.setOnClickListener {
+            mItemClickListener?.onItemClick(item, position)
+        }
 //
 //        val observableArrayList = ObservableArrayList<ChineMedia>()
 //        item.fileList?.let { observableArrayList.addAll(it) }

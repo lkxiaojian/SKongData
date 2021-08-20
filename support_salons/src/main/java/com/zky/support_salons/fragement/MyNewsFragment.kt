@@ -1,11 +1,13 @@
 package com.zky.support_salons.fragement
 
+import android.content.Intent
 import android.view.View
 import com.zky.basics.common.adapter.BaseBindAdapter
 import com.zky.basics.common.mvvm.BaseMvvmRefreshFragment
 import com.zky.basics.common.util.ObservableListUtil
 import com.zky.support_salons.BR
 import com.zky.support_salons.R
+import com.zky.support_salons.activity.ScalonsDetailsActivity
 import com.zky.support_salons.adapter.MyNewsListAdapter
 import com.zky.support_salons.databinding.MyNewsFragmentBinding
 import com.zky.support_salons.mvvm.factory.SupportSalonsViewModelFactory
@@ -49,6 +51,6 @@ class MyNewsFragment :
     }
 
     override fun onItemClick(e: Any, position: Int) {
-
+        startActivity(Intent(mActivity, ScalonsDetailsActivity::class.java))
     }
 }

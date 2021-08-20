@@ -19,6 +19,9 @@ class MyNewsListAdapter(context: Context, items: ObservableArrayList<String>?) :
 
     override fun onBindItem(binding: MyNewListItemBinding?, item: String, position: Int) {
         binding?.data = item
+        binding?.cvClick?.setOnClickListener {
+            mItemClickListener?.onItemClick(item, position)
+        }
     }
 
 

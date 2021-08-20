@@ -1,28 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
 
     <data>
 
         <variable
-            name="data"
-            type="java.lang.String" />
-
-        <variable
-            name="show"
-            type="Boolean" />
-
-        <import type="android.view.View" />
+            name="supportModelViewModle"
+            type="com.zky.support_salons.mvvm.viewmodle.SupportModelViewModle" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cvClick"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:background="@color/white"
-        >
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/aiv_head"
@@ -96,17 +88,17 @@
             app:layout_constraintTop_toBottomOf="@id/rv_image" />
 
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/atv_del"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="62dp"
-            android:layout_marginTop="15dp"
-            android:text="删除"
-            android:textColor="@color/color_9b9b9b"
-            android:textSize="12sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/atv_address" />
+<!--        <androidx.appcompat.widget.AppCompatTextView-->
+<!--            android:id="@+id/atv_del"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="62dp"-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            android:text="删除"-->
+<!--            android:textColor="@color/color_9b9b9b"-->
+<!--            android:textSize="12sp"-->
+<!--            app:layout_constraintLeft_toLeftOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/atv_address" />-->
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/aiv_news"
@@ -137,73 +129,48 @@
             app:layout_constraintTop_toBottomOf="@+id/aiv_care" />
 
 
-
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/aiv_care_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="18dp"
             android:text="张博、老炮儿、大伟等16人觉得很赞"
             android:textColor="#ff4a90e2"
             android:textSize="12sp"
-            android:layout_marginTop="4dp"
             app:layout_constraintLeft_toRightOf="@+id/aiv_care1"
             app:layout_constraintTop_toBottomOf="@+id/v" />
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/aiv_care1"
             android:layout_width="16dp"
             android:layout_height="14dp"
             android:layout_marginStart="55dp"
+            android:layout_marginTop="6dp"
             android:src="@drawable/cared"
-            android:layout_marginTop="6dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/v"/>
+            app:layout_constraintTop_toBottomOf="@+id/v" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/atv_pl_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="18dp"
-            android:text="2条评论"
-            android:textColor="#ff4a90e2"
-            android:textSize="12sp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintLeft_toRightOf="@+id/aiv_pl_num"
-            app:layout_constraintTop_toBottomOf="@+id/aiv_care_name" />
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/aiv_pl_num"
-            android:layout_width="16dp"
-            android:layout_height="14dp"
-            android:layout_marginStart="55dp"
-            android:src="@drawable/message"
-            android:layout_marginTop="6dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/aiv_care_name"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/atv_fh1"
+        <com.refresh.lib.DaisyRefreshLayout
+            android:id="@+id/drl_q"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/aiv_pl_num"
-            android:layout_marginStart="65dp"
-            android:layout_marginEnd="18dp"
-            android:text="大伟回复张博：我觉得也是呢"
-            android:textColor="#ff4a90e2"
-            android:textSize="12sp"
-            />
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/atv_fh2"
+            app:enableLoadMore="@{safeUnbox(supportModelViewModle.enableLoadMore)}"
+            app:enableRefresh="@{safeUnbox(supportModelViewModle.enableRefresh)}"
+            app:layout_constraintTop_toBottomOf="@+id/aiv_care1"
+            app:onAutoRefreshCommand="@{supportModelViewModle.onAutoRefreshCommand}"
+            app:onLoadMoreCommand="@{supportModelViewModle.onLoadMoreCommand}"
+            app:onRefreshCommand="@{supportModelViewModle.onRefreshCommand}">
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/atv_fh1"
-            android:layout_marginStart="65dp"
-            android:layout_marginEnd="18dp"
-            android:text="大伟回复张博：我觉得也是呢"
-            android:textColor="#ff4a90e2"
-            android:textSize="12sp"
-            />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_f5f5f5"
+                app:linearLayoutManager="@{safeUnbox(supportModelViewModle.orientation)}" />
+
+        </com.refresh.lib.DaisyRefreshLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

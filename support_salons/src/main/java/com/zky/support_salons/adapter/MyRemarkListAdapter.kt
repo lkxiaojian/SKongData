@@ -19,7 +19,7 @@ import com.zky.support_salons.databinding.OpenPublishListItemBinding
 /**
  *create_time : 21-3-3 下午2:14
  *author: lk
- *description： OpenPublishListAdapter
+ *description： MyRemarkListAdapter
  */
 class MyRemarkListAdapter(context: Context, items: ObservableArrayList<String>?) :
     BaseBindAdapter<String, MyRemarkListItemBinding>(context, items) {
@@ -28,6 +28,9 @@ class MyRemarkListAdapter(context: Context, items: ObservableArrayList<String>?)
 
     override fun onBindItem(binding: MyRemarkListItemBinding?, item: String, position: Int) {
         binding?.data = item
+        binding?.cvClick?.setOnClickListener {
+            mItemClickListener?.onItemClick(item, position)
+        }
     }
 
 

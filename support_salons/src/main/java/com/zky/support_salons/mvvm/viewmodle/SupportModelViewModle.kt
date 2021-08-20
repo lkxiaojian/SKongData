@@ -17,16 +17,18 @@ import com.zky.support_salons.mvvm.model.SupportModel
  * Detail:
  */
 class SupportModelViewModle(application: Application, model: SupportModel) :
-    BaseRefreshViewModel<TaskChineItemBean, SupportModel>(application, model) {
+    BaseRefreshViewModel<String, SupportModel>(application, model) {
     private var mVoidSingleLiveEvent: SingleLiveEvent<String>? = null
 
-    var queryType = ObservableField<String>()
-    var taskCode = ObservableField<String>()
-    var userCode = ObservableField<String>()
+
     var showAdd = ObservableField<Boolean>()
+
     init {
         showAdd.set(false)
+        enableLoadMore.set(false)
+        enableRefresh.set(false)
     }
+
     override fun refreshData() {
         getData()
         postStopLoadMoreEvent()
@@ -39,19 +41,12 @@ class SupportModelViewModle(application: Application, model: SupportModel) :
     }
 
     fun getData() {
-        launchUI({
-            mList.clear()
-            val itemList = mModel.getItemList(queryType.get(), taskCode.get(), userCode.get())
-            itemList?.let {
-                mList.addAll(it)
-            }
-
-        })
-
+        mList.add("")
+        mList.add("")
     }
 
-    fun startClick(view:View){
-        when(view.id){
+    fun startClick(view: View) {
+        when (view.id) {
 
 
         }
