@@ -65,16 +65,16 @@ class DataGKFragment : BaseFragment() {
                 }
             }
 
-//            it.webChromeClient=object : WebChromeClient() {
-//                override fun onProgressChanged(view: WebView?, newProgress: Int) {
-//                    super.onProgressChanged(view, newProgress)
-//                    if(newProgress==100){
-//                        showTransLoadingView(false)
-//                    }
-//                }
-//
-//
-//            }
+            it.webChromeClient=object : WebChromeClient() {
+                override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                    super.onProgressChanged(view, newProgress)
+                    if(newProgress==100){
+                        showTransLoadingView(false)
+                    }
+                }
+
+
+            }
 
 
             it.webChromeClient = WebChromeClient()
