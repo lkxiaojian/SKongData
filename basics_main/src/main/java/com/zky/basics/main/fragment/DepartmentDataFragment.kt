@@ -31,7 +31,7 @@ class DepartmentDataFragment(dataCode: String) :
     override fun onBindViewModelFactory() = MainViewModelFactory.getInstance(mActivity.application)
 private lateinit var adapter:DepartemntDataAdapter
     override fun initViewObservable() {
-        mViewModel?.getmVoidSingleLiveEvent()?.observe(this, {
+        mViewModel?.getmVoidSingleLiveEvent()?.observe(this, Observer{
             if(it=="notify"){
                 adapter.notifyDataSetChanged()
             }
